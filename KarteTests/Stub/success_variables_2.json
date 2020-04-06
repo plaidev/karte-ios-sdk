@@ -1,0 +1,120 @@
+{
+  "success": 1,
+  "status": 200,
+  "response": {
+    "status": 200,
+    "messages": [
+      {
+        "action": {
+          "theme_color": "",
+          "embed_method": "replace",
+          "is_recommended": false,
+          "modularization_style": "simple-css-modules",
+          "widget_version": "v2",
+          "response_timestamp": "2019-11-24T02:05:12.616Z",
+          "created": "2018-08-16T05:22:17.851Z",
+          "campaign_id": "5b750a095db3aa091ed1f590",
+          "template_version": "1.0",
+          "open": false,
+          "title": "",
+          "click": false,
+          "should_reshow_on_scroll": false,
+          "animation": "",
+          "default_value_deliver": false,
+          "domain_id": "__default__",
+          "template_engine_type": "nunjucks",
+          "widget_display_policy": "exclusive",
+          "plugin_type": "remote_config",
+          "required_modules": [],
+          "libs": [],
+          "is_active": true,
+          "send_event": true,
+          "delay_time": 1,
+          "is_template": false,
+          "thumbnail_container": "",
+          "delivery_state": "no",
+          "hide_timing_type": "",
+          "auto_generate_text_mail_from_html": true,
+          "custom_css": "",
+          "delivery_scroll_percentage": 0,
+          "pages": [
+            {
+              "_id": "5b6aa5b9b300dc026e7b9a31",
+              "position": "middle center",
+              "component": "",
+              "custom_styles": {},
+              "embed": "",
+              "state_name": "",
+              "embed_method": "",
+              "name": "通常時"
+            }
+          ],
+          "template_locale": "ja",
+          "view_time": 16,
+          "embed": "",
+          "_id": "5b750a095db3aa091ed1f593",
+          "view_type": "widget",
+          "content": {
+            "script": "(function()%20%7B%0Avar%20styles%20%3D%20%7B%22karte-g%22%3A%22_karte-g__14kU_%22%7D%3B%0Awidget.setOptions(%7BcssExports%3A%20styles%7D)%3B%0A%0A%7D).apply(this)%3B",
+            "style": "",
+            "less": "",
+            "title": "",
+            "html": "",
+            "text": "",
+            "inlined_html": "",
+            "source_script": "",
+            "options": {},
+            "inlined_variables": [
+              {
+                "value": "変数3b",
+                "data_type": "text",
+                "name": "var3"
+              },
+              {
+                "value": "変数4",
+                "data_type": "text",
+                "name": "var4"
+              }
+            ]
+          },
+          "is_external": false,
+          "template_layout_type": "",
+          "version": 1,
+          "require_plugin": "",
+          "read": false,
+          "device_type": "all",
+          "should_hide_on_scroll": false,
+          "hide_scroll_percentage": 0,
+          "vals": {
+            "var3": "変数3b",
+            "var4": "変数4"
+          },
+          "components": [],
+          "default_preview_url": "",
+          "delivery_timing_type": "",
+          "is_unread": true,
+          "android_soft_input_control": true,
+          "shorten_id": "14kU"
+        },
+        "campaign": {
+          "coexist_policy": "always",
+          "is_session": false,
+          "_id": "5b750a095db3aa091ed1f590",
+          "service_action_type": "remote_config",
+          "display_frequency": "any"
+        }
+      }
+    ],
+    "options": {
+      "style": "",
+      "csync_urls": [],
+      "session_id": "vis-9CE9999B-8173-4C41-A317-9F475561D314_1",
+      "is_admin": false,
+      "user_id": "vis-9CE9999B-8173-4C41-A317-9F475561D314",
+      "fr_time": 0,
+      "response_timestamp": "2019-11-24T02:05:12.616Z",
+      "fr_pv": 0
+    },
+    "events": []
+  }
+}

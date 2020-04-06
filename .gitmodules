@@ -1,0 +1,3 @@
+[submodule "KarteCrashReporting/PLCrashReporter"]
+	path = KarteCrashReporting/PLCrashReporter
+	url = https://github.com/plaidev/PLCrashReporter.git

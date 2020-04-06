@@ -1,0 +1,213 @@
+# iOS CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/ios-migrating-from-1-2/ for more details
+#
+version: 2.1
+
+executors:
+  build:
+    resource_class: medium
+    macos:
+      xcode: "11.4.0"
+    shell: /bin/bash --login -eo pipefail
+    working_directory: /Users/distiller/project
+    environment:
+      FL_OUTPUT_DIR: output
+
+  classic:
+    machine:
+      image: circleci/classic:201808-01
+
+commands:
+  git_clone:
+    steps:
+      - checkout
+      - run: 
+          name: Checkout git submodules
+          command: |
+            git submodule sync
+            git submodule update --init
+
+  setup_gems:
+    steps:
+      - restore_cache:
+          name: Restoring gems cache
+          key: v1-gems-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Bundle install
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+          environment:
+            BUNDLE_JOBS: 4
+            BUNDLE_RETRY: 3
+      - save_cache:
+          name: Saving gems cache
+          key: v1-gems-{{ checksum "Gemfile.lock" }}
+          paths: vendor/bundle
+  
+  setup_pods:
+    steps:
+      - restore_cache:
+          name: Restoring pod cache
+          key: v1-pod-{{ checksum "Podfile.lock" }}
+      - run:
+          name: Pod install
+          command: pod install --verbose
+      - save_cache:
+          name: Saving pod cache
+          key: v1-pod-{{ checksum "Podfile.lock" }}
+          paths: Pods
+
+  launch_simulator:
+    parameters:
+      device:
+        description: Simulator device name
+        type: string
+        default: "iPhone_11"
+      os:
+        description: Simulator os version
+        type: string
+        default: "13_4"
+    steps:
+      - run:
+          name: Launch simulator
+          command: |
+            DEVICE=`echo << parameters.device >> | sed 's/_/ /g'`
+            OS=`echo << parameters.os >> | sed 's/_/-/g'`
+            UDID=$(xcrun simctl list -j | jq ".devices.\"com.apple.CoreSimulator.SimRuntime.iOS-${OS}\"[] | select(.name == \"${DEVICE}\") | .udid" | sed s/\"//g)
+            xcrun simctl boot $UDID
+jobs:
+  build:
+    executor:
+      name: build
+    steps:
+      - git_clone
+      - run:
+          name: Build frameworks
+          command: |
+            xcodebuild -workspace Karte.xcworkspace \
+                       -scheme Build \
+                       -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.4' \
+                       -derivedDataPath DerivedData
+      - persist_to_workspace:
+          root: DerivedData
+          paths:
+            - "**/*"
+  test:
+    parameters:
+      device:
+        description: Simulator device name
+        type: string
+        default: "iPhone_11"
+      os:
+        description: Simulator os version
+        type: string
+        default: "13_4"
+    executor:
+      name: build
+    steps:
+      - git_clone
+      - launch_simulator:
+          device: << parameters.device >>
+          os: << parameters.os >>
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Setup Derived directory
+          command: |
+            mkdir DerivedData
+            cp -r /tmp/workspace DerivedData
+      - setup_pods
+      - run:
+          name: Podspec lint
+          command: pod spec lint *.podspec --quick
+      - run:
+          name: Run tests
+          command: |
+            DEVICE=`echo << parameters.device >> | sed 's/_/ /g'`
+            OS=`echo << parameters.os >> | sed 's/_/\./g'`
+            xcodebuild test -workspace Karte.xcworkspace \
+                            -scheme KarteTests \
+                            -destination "platform=iOS Simulator,name=${DEVICE},OS=${OS}" \
+                            -derivedDataPath DerivedData \
+                            -resultBundlePath "output/KarteTests_<< parameters.device >>_<< parameters.os >>.xcresult"
+      - run:
+          name: Archive test result
+          command: zip -r "KarteTests_<< parameters.device >>_<< parameters.os >>.zip" "KarteTests_<< parameters.device >>_<< parameters.os >>.xcresult"
+          working_directory: /Users/distiller/project/output
+          when: always
+      - store_artifacts:
+          path: output/KarteTests_<< parameters.device >>_<< parameters.os >>.zip"
+
+  docs:
+    executor:
+      name: build
+    steps:
+      - git_clone
+      - setup_gems
+      - run:
+          name: Generate reference
+          command: bundle exec jazzy --min-acl public -c -o docs --author 'PLAID, inc.' --author_url 'https://karte.io' --module KarteInAppMessaging --xcodebuild-arguments -workspace,Karte.xcworkspace,-scheme,KarteInAppMessaging
+
+  sync_repository:
+    executor:
+      name: classic
+    steps:
+      - checkout
+      - run:
+          name: Sync repository
+          command: bash ./scripts/sync_repository.sh
+
+  generate_docs:
+    executor:
+      name: build
+    steps:
+      - git_clone
+      - setup_gems
+      - run:
+          name: Generate docs
+          command: |
+            if [ $EXEC_ENV = 'public' ]; then
+              git config --global user.name "${GITHUB_USER_NAME}"
+              git config --global user.email "${GITHUB_USER_EMAIL}"
+              ruby ./generate_docs.rb
+            fi
+          working_directory: /Users/distiller/project/scripts
+
+  publish:
+    executor:
+      name: build
+    steps:
+      - git_clone
+      - setup_pods
+      - run:
+          name: Publish
+          command: bash ./scripts/publish.sh
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - test:
+          device: "iPhone_11"
+          os: "13_4"
+          requires:
+            - build
+      # - generate_docs:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      - sync_repository:
+          filters:
+            branches:
+              only:
+                - master
+      - publish:
+          requires:
+            - test
+            - sync_repository
+          filters:
+            branches:
+              only:
+                - master

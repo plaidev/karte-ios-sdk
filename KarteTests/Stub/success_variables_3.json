@@ -1,0 +1,36 @@
+{
+  "success": 1,
+  "status": 200,
+  "response": {
+    "status": 200,
+    "messages": [
+      {
+        "action": {
+          "shorten_id": "__5e7dab7215bd5200119c9658",
+          "type": "control",
+          "is_unread_cg": true,
+          "response_timestamp": "2020-03-27T14:25:37.151Z"
+        },
+        "campaign": {
+          "coexist_policy": "always",
+          "is_session": false,
+          "_id": "5e7dab7215bd5200119c9658",
+          "native_app_display_limit_mode": false,
+          "service_action_type": "remote_config",
+          "display_frequency": "any"
+        }
+      }
+    ],
+    "options": {
+      "style": "",
+      "csync_urls": [],
+      "session_id": "vis-9CE9999B-8173-4C41-A317-9F475561D314_1",
+      "is_admin": false,
+      "user_id": "vis-9CE9999B-8173-4C41-A317-9F475561D314",
+      "fr_time": 0,
+      "response_timestamp": "2019-11-24T02:05:12.616Z",
+      "fr_pv": 0
+    },
+    "events": []
+  }
+}

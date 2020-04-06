@@ -1,0 +1,33 @@
+PODS:
+  - Mockingjay (3.0.0-alpha.1):
+    - Mockingjay/Core (= 3.0.0-alpha.1)
+    - Mockingjay/XCTest (= 3.0.0-alpha.1)
+  - Mockingjay/Core (3.0.0-alpha.1):
+    - URITemplate (~> 3.0)
+  - Mockingjay/XCTest (3.0.0-alpha.1):
+    - Mockingjay/Core
+  - Nimble (8.0.4)
+  - Quick (2.2.0)
+  - URITemplate (3.0.0)
+
+DEPENDENCIES:
+  - Mockingjay (= 3.0.0-alpha.1)
+  - Nimble
+  - Quick
+
+SPEC REPOS:
+  trunk:
+    - Mockingjay
+    - Nimble
+    - Quick
+    - URITemplate
+
+SPEC CHECKSUMS:
+  Mockingjay: 0f7c5aa49c7f1b95621cee3c79b557141f5a225c
+  Nimble: 18d5360282923225d62b09d781f63abc1a0111fc
+  Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
+  URITemplate: 58e0d47f967006c5d59888af5356c4a8ed3b197d
+
+PODFILE CHECKSUM: 5a0d817e9e6b5c6a1eb018597eb370d7f57d1c03
+
+COCOAPODS: 1.9.0

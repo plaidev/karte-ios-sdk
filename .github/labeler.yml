@@ -1,0 +1,20 @@
+# Pull Requestの変更に対応するラベルの定義
+# https://github.com/actions/labeler
+'Module:Core':
+  - KarteCore/**
+'Module:CrashReport':
+  - KarteCrashReporting/**
+'Module:IAM':
+  - KarteInAppMessaging/**
+'Module:Notification':
+  - KarteRemoteNotification/**
+'Module:Variables':
+  - KarteVariables/**
+'Module:VT':
+  - KarteVisualTracking/**
+'Module:Detectors':
+  - KarteDetectors/**
+'Module:Utilities':
+  - KarteUtilities/**
+'Test':
+  - KarteTests/**

@@ -1,0 +1,38 @@
+{
+  "success": 1,
+  "status": 200,
+  "response": {
+    "status": 200,
+    "messages": [],
+    "options": {},
+    "events": [],
+    "auto_track_definition": {
+      "status": "modified",
+      "last_modified": 1555039737865,
+      "definitions": [
+        {
+          "event_name": "view",
+          "triggers": [
+            {
+              "fields": {
+                "foo": "bar"
+              },
+              "condition": {
+                "$and": [
+                  {
+                    "view": {
+                      "$eq": "UIButton"
+                    },
+                    "target_text": {
+                      "$eq": "購入"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

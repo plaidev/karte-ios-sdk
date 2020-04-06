@@ -1,0 +1,10 @@
+{
+  "success": 1,
+  "status": 200,
+  "response": {
+    "status": 200,
+    "messages": [],
+    "options": {},
+    "events": []
+  }
+}
