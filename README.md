@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/plaidev/karte-ios-dev/tree/develop.svg?style=shield&circle-token=2d77dd3ed586a471aa58ca8047d82e574390428a)](https://circleci.com/gh/plaidev/karte-ios-dev/tree/develop)
 [![License](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/plaidev/karte-ios-sdk/blob/master/LICENSE)
 
-KARTE is a real-time customer analytics & action tool.
+KARTE is a real-time user analytics & action tool.
 This repository holds the source code for the iOS version of KARTE SDK.
 
 ## Getting Started
