@@ -138,25 +138,6 @@ jobs:
       - store_artifacts:
           path: output/KarteTests_<< parameters.device >>_<< parameters.os >>.zip"
 
-  docs:
-    executor:
-      name: build
-    steps:
-      - git_clone
-      - setup_gems
-      - run:
-          name: Generate reference
-          command: bundle exec jazzy --min-acl public -c -o docs --author 'PLAID, inc.' --author_url 'https://karte.io' --module KarteInAppMessaging --xcodebuild-arguments -workspace,Karte.xcworkspace,-scheme,KarteInAppMessaging
-
-  sync_repository:
-    executor:
-      name: classic
-    steps:
-      - checkout
-      - run:
-          name: Sync repository
-          command: bash ./scripts/sync_repository.sh
-
   generate_docs:
     executor:
       name: build
@@ -166,7 +147,7 @@ jobs:
       - run:
           name: Generate docs
           command: |
-            if [ $EXEC_ENV = 'public' ]; then
+            if [ $EXEC_ENV = 'private' ]; then
               git config --global user.name "${GITHUB_USER_NAME}"
               git config --global user.email "${GITHUB_USER_EMAIL}"
               ruby ./generate_docs.rb
@@ -178,6 +159,7 @@ jobs:
       name: build
     steps:
       - git_clone
+      - setup_gems
       - setup_pods
       - run:
           name: Publish
@@ -188,25 +170,21 @@ workflows:
   build_and_deploy:
     jobs:
       - build
+      - generate_docs:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
       - test:
           device: "iPhone_11"
           os: "13_4"
           requires:
             - build
-      # - generate_docs:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      - sync_repository:
-          filters:
-            branches:
-              only:
-                - master
       - publish:
           requires:
             - test
-            - sync_repository
           filters:
             branches:
               only:
