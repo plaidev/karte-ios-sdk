@@ -45,9 +45,12 @@ class SetupSpec: QuickSpec {
                         
                         module.wait()
                     }
-                    
-                    it("X-KARTE-App-Key is `dummy_app_key`") {
+                    it("Request Header contains `X-KARTE-App-Key: dummy_app_key`") {
                         expect(request.allHTTPHeaderFields!["X-KARTE-App-Key"]!).to(equal(APP_KEY))
+                    }
+                    
+                    it("Request Header contains `Content-Encoding: gzip`") {
+                        expect(request.allHTTPHeaderFields!["Content-Encoding"]!).to(equal("gzip"))
                     }
                     
                     it("Request URL is `https://api.karte.io/v0/native/track`") {

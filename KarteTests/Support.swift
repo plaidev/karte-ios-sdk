@@ -27,6 +27,10 @@ extension URLRequest {
         guard let data = httpBodyStream?.readfully() else {
             return nil
         }
+        if data.isGzipped, let gunzipped = try? data.gunzipped() {
+            return try? createJSONDecoder().decode(TrackBodyParameters.self, from: gunzipped)
+        }
+
         return try? createJSONDecoder().decode(TrackBodyParameters.self, from: data)
     }
     
