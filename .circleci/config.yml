@@ -162,8 +162,31 @@ jobs:
       - setup_gems
       - setup_pods
       - run:
+          name: Add CocoaPods master repo
+          command: |
+            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
+            pod install
+      - run:
           name: Publish
           command: bash ./scripts/publish.sh
+
+  publish_pods:
+    executor:
+      name: build
+    steps:
+      - git_clone
+      - setup_gems
+      - setup_pods
+      - run:
+          name: Add CocoaPods master repo
+          command: |
+            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
+            pod install
+      - run:
+          name: Publish Pods
+          command: bash ./scripts/publish.sh
+          environment:
+            PODSPEC_ONLY: 1
 
 workflows:
   version: 2

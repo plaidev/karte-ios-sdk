@@ -66,6 +66,9 @@ function publish() {
 
   echo ${SORTED_PODSPECS[@]}
 
+  # Synchronize repository.
+  sync_repository
+
   # Set tag.
   for PODSPEC in ${SORTED_PODSPECS[@]}; do
     local TARGET=`echo $PODSPEC | sed -e "s/.podspec//"`
@@ -80,12 +83,15 @@ function publish() {
     fi
   done
 
-  # Synchronize repository.
-  sync_repository
-
   # Register cocoapods.
-  for PODSPEC in ${SORTED_PODSPECS[@]}; do
-    pod trunk push $PODSPEC
+  publish_pods ${SORTED_PODSPECS[@]}
+}
+
+function publish_pods() {
+  local PUBLISH_PODSPECS=($@)
+  for PODSPEC in ${PUBLISH_PODSPECS[@]}; do
+    pod repo update
+    pod trunk push $PODSPEC $PODSPEC_OPTS
   done
 }
 
@@ -105,10 +111,20 @@ if [[ $EXEC_ENV == public ]]; then
   exit 0
 fi
 
-git config --global user.name "${GITHUB_USER_NAME}"
-git config --global user.email "${GITHUB_USER_EMAIL}"
+if [ -z $PODSPEC_ONLY ]; then
+  git config --global user.name "${GITHUB_USER_NAME}"
+  git config --global user.email "${GITHUB_USER_EMAIL}"
 
-set_remote_repository
+  set_remote_repository
 
-DIFF_TARGETS=(`git diff --name-only origin/develop | grep podspec`)
-publish ${DIFF_TARGETS[@]}
+  DIFF_TARGETS=(`git diff --name-only origin/develop | grep podspec`)
+  publish ${DIFF_TARGETS[@]}
+else
+  if [ -z "$PODSPECS" ]; then
+    echo '$PODSPECS is not defined.' 1>&2
+    echo 'ex) PODSPECS="KarteCore.podspec KarteInAppMessaging.podspec"' 1>&2
+    exit 1
+  fi
+  publish_pods ${PODSPECS}
+fi
+
