@@ -18,35 +18,74 @@
 # Functions (Sub command functions)
 ##################################################
 
-function set_tag() {
-  local TAG=$1
+function set_remote_repository() {
   EXIST_REMOTE_REPO=`git remote | grep sync_repo | echo $?`
   if [[ $EXIST_REMOTE_REPO == 0 ]]; then
     git remote add sync_repo ${GITHUB_REMOTE_ADDRESS}
   fi
+}
+
+function set_tag() {
+  local TAG=$1
   git tag $TAG
+  git push origin $TAG  
   git push sync_repo $TAG
 }
 
+function has_tag() {
+  local TAG=$1
+  REMOTE_TAGS=(`git tag`)
+  for REMOTE_TAG in ${REMOTE_TAGS[@]}; do
+    if [[ $REMOTE_TAG == $TAG ]]; then
+      return 1
+    fi
+  done
+  return 0
+}
+
+function sync_repository() {
+  git push -f sync_repo master
+}
+
 function publish() {
-  local TARGETS_PODSPECS=$@
-  if [ -z $TARGETS_PODSPECS ]; then
+  local TARGET_PODSPECS=($@)
+  if [ ${#TARGET_PODSPECS[*]} -eq 0 ]; then
     echo "Podspec is not updated"
     exit 1
   fi
 
-  for PODSPEC in $TARGETS_PODSPECS; do
+  local PODSPECS=("KarteDetectors.podspec" "KarteUtilities.podspec" "KarteCore.podspec" "KarteInAppMessaging.podspec" "KarteRemoteNotification.podspec" "KarteVariables.podspec" "KarteVisualTracking.podspec" "KarteCrashReporting.podspec")
+  local SORTED_PODSPECS=()
+  for PODSPEC in ${PODSPECS[@]}; do
+    for TARGET_PODSPEC in ${TARGET_PODSPECS[@]}; do
+      if [[ $PODSPEC == $TARGET_PODSPEC ]]; then
+        SORTED_PODSPECS+=($PODSPEC)
+      fi
+    done
+  done
+
+  echo ${SORTED_PODSPECS[@]}
+
+  # Set tag.
+  for PODSPEC in ${SORTED_PODSPECS[@]}; do
     local TARGET=`echo $PODSPEC | sed -e "s/.podspec//"`
     TAG_VERSION=`ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t $TARGET`
 
-    git tag --contains $TAG_VERSION > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
+    has_tag $TAG_VERSION
+    if [ $? -eq 1 ]; then
       echo "This tag is already exist: $TAG_VERSION"
       exit 1
     else
       set_tag $TAG_VERSION
-      # pod trunk push $PODSPEC --allow-warnings
     fi
+  done
+
+  # Synchronize repository.
+  sync_repository
+
+  # Register cocoapods.
+  for PODSPEC in ${SORTED_PODSPECS[@]}; do
+    pod trunk push $PODSPEC
   done
 }
 
@@ -69,6 +108,7 @@ fi
 git config --global user.name "${GITHUB_USER_NAME}"
 git config --global user.email "${GITHUB_USER_EMAIL}"
 
-DIFF_TARGETS=(`git diff --name-only origin/develop | grep podspec`)
+set_remote_repository
 
-publish $DIFF_TARGETS
+DIFF_TARGETS=(`git diff --name-only origin/develop | grep podspec`)
+publish ${DIFF_TARGETS[@]}
