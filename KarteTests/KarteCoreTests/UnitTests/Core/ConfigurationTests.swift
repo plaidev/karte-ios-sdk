@@ -33,6 +33,10 @@ class ConfigurationSpec: QuickSpec {
                     expect(configuration.baseURL.absoluteString).to(equal("https://api.karte.io"))
                 }
                 
+                it("overlayBaseURL is `https://cf-native.karte.io`") {
+                    expect(configuration.overlayBaseURL.absoluteString).to(equal("https://cf-native.karte.io"))
+                }
+                
                 it("isDryRun is false") {
                     expect(configuration.isDryRun).to(beFalse())
                 }
@@ -58,6 +62,7 @@ class ConfigurationSpec: QuickSpec {
                     idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
                     configuration = KarteCore.Configuration { (configuration) in
                         configuration.baseURL = URL(string: "https://example.com")!
+                        configuration.overlayBaseURL = URL(string: "https://example.com")!
                         configuration.isDryRun = true
                         configuration.isOptOut = true
                         configuration.isSendInitializationEventEnabled = false
@@ -67,6 +72,10 @@ class ConfigurationSpec: QuickSpec {
                 
                 it("baseURL is `https://example.com`") {
                     expect(configuration.baseURL.absoluteString).to(equal("https://example.com"))
+                }
+                
+                it("overlayBaseURL is `https://example.com`") {
+                    expect(configuration.overlayBaseURL.absoluteString).to(equal("https://example.com"))
                 }
                 
                 it("isDryRun is true") {

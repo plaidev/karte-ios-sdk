@@ -45,6 +45,6 @@ internal struct IAMProcessConfiguration {
             URLQueryItem(name: "_k_vid", value: app.visitorId),
             URLQueryItem(name: "_k_app_prof", value: appInfoString)
         ]
-        return components?.url(relativeTo: app.configuration.baseURL)
+        return components?.url(relativeTo: app.configuration.overlayBaseURL)
     }
 }
