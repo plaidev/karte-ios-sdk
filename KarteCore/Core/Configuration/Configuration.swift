@@ -31,6 +31,12 @@ public class Configuration: NSObject, NSCopying {
     public var baseURL = URL(string: "https://api.karte.io")!
     // swiftlint:disable:previous force_unwrapping
 
+    /// overlayベースURLの取得・設定を行います。
+    ///
+    /// **SDK内部で利用するプロパティであり、通常のSDK利用でこちらのプロパティを利用することはありません。**
+    public var overlayBaseURL = URL(string: "https://cf-native.karte.io")!
+    // swiftlint:disable:previous force_unwrapping
+
     /// ドライランの利用有無の取得・設定を行います。<br>
     /// ドライランを有効にした場合、`Tracker.track(...)` 等のメソッドを呼び出してもイベントの送信が行われなくなります。
     ///
