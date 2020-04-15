@@ -108,6 +108,10 @@ public struct TrackRequest: Request {
         var urlRequest = urlRequest
         urlRequest.timeoutInterval = 10.0
 
+        if urlRequest.httpBody?.isGzipped ?? false {
+            urlRequest.addValue("gzip", forHTTPHeaderField: "Content-Encoding")
+        }
+
         urlRequest = try KarteApp.shared.modules.reduce(urlRequest) { urlRequest, module -> URLRequest in
             if case let .track(module) = module {
                 return try module.intercept(urlRequest: urlRequest)
