@@ -20,12 +20,6 @@ internal protocol PubSubApplication {
     var state: UIApplication.State { get }
 }
 
-extension PubSubApplication {
-    var state: UIApplication.State {
-        UIApplication.shared.applicationState
-    }
-}
-
 internal protocol UsesPubSubApplication {
     var application: PubSubApplication { get }
 }

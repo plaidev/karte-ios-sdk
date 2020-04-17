@@ -14,7 +14,49 @@
 //  limitations under the License.
 //
 
-import Foundation
+import UIKit
 
-internal struct DefaultPubSubApplication: PubSubApplication {
+internal class DefaultPubSubApplication: PubSubApplication {
+    private var _state: UIApplication.State
+
+    var state: UIApplication.State {
+        _state
+    }
+
+    init() {
+        self._state = UIApplication.shared.applicationState
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(observe(notification:)),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(observe(notification:)),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(observe(notification:)),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(observe(notification:)),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+
+    @objc
+    private func observe(notification: Notification) {
+        self._state = UIApplication.shared.applicationState
+    }
+
+    deinit {
+    }
 }
