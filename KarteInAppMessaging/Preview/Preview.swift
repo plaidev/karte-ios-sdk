@@ -83,6 +83,7 @@ extension Preview: DeepLinkModule {
             return false
         }
 
+        KarteApp.optOutTemporarily()
         InAppMessaging.shared.preview(url: url)
         return true
     }
