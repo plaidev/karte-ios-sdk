@@ -154,11 +154,7 @@ internal class RemoteNotificationProxy: NSObject {
             return
         }
 
-        guard let delegate = AnyObjectHelper.propertyValue(from: userNotificationCenter, propertyName: "delegate", cls: nil) else {
-            return
-        }
-
-        if AnyObjectHelper.conforms(to: "UNUserNotificationCenterDelegate", object: delegate) {
+        if let delegate = AnyObjectHelper.propertyValue(from: userNotificationCenter, propertyName: "delegate", cls: nil) {
             swizzleUserNotificationCenterDelegate(delegate)
         }
 
@@ -171,9 +167,6 @@ internal class RemoteNotificationProxy: NSObject {
         }
 
         guard let userNotificationCenterDelegate = NSProtocolFromString("UNUserNotificationCenterDelegate") else {
-            return
-        }
-        guard delegate.conforms(to: userNotificationCenterDelegate) else {
             return
         }
 
