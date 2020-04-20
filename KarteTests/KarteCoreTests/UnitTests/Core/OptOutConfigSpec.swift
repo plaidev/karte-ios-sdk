@@ -24,35 +24,89 @@ class OptOutConfigSpec: QuickSpec {
         describe("a optout config") {
             var configuration: KarteCore.Configuration!
             
-            beforeEach {
-                UserDefaults.standard.removeObject(forKey: .optout)
-                configuration = Configuration { (config) in
-                    config.isOptOut = true
+            context("Configuration.isOptOut is true") {
+                beforeEach {
+                    UserDefaults.standard.removeObject(forKey: .optout)
+                    configuration = Configuration { (config) in
+                        config.isOptOut = true
+                    }
+                }
+                
+                context("when not set optout") {
+                    it("isOptOut is true") {
+                        let service = OptOutService(configuration: configuration)
+                        expect(service.isOptOut).to(beTrue())
+                    }
+                }
+                
+                context("when set optout") {
+                    it("isOptOut is true") {
+                        let service = OptOutService(configuration: configuration)
+                        service.optOut()
+                        
+                        expect(service.isOptOut).to(beTrue())
+                    }
+                }
+                
+                context("when set optouttemporarily") {
+                    it("isOptOut is true") {
+                        let service = OptOutService(configuration: configuration)
+                        service.optOutTemporarily()
+                        
+                        expect(service.isOptOut).to(beTrue())
+                    }
+                }
+
+                context("when set optin") {
+                    it("isOptOut is false") {
+                        let service = OptOutService(configuration: configuration)
+                        service.optIn()
+                        
+                        expect(service.isOptOut).to(beFalse())
+                    }
                 }
             }
             
-            context("when not set optout") {
-                it("isOptOut is true") {
-                    let service = OptOutService(configuration: configuration)
-                    expect(service.isOptOut).to(beTrue())
+            context("Configuration.isOptOut is false") {
+                beforeEach {
+                    UserDefaults.standard.removeObject(forKey: .optout)
+                    configuration = Configuration { (config) in
+                        config.isOptOut = false
+                    }
                 }
-            }
-            
-            context("when set optout") {
-                it("isOptOut is true") {
-                    let service = OptOutService(configuration: configuration)
-                    service.optOut()
-                    
-                    expect(service.isOptOut).to(beTrue())
+                
+                context("when not set optout") {
+                    it("isOptOut is false") {
+                        let service = OptOutService(configuration: configuration)
+                        expect(service.isOptOut).to(beFalse())
+                    }
                 }
-            }
-            
-            context("when set optin") {
-                it("isOptOut is false") {
-                    let service = OptOutService(configuration: configuration)
-                    service.optIn()
-                    
-                    expect(service.isOptOut).to(beFalse())
+                
+                context("when set optout") {
+                    it("isOptOut is true") {
+                        let service = OptOutService(configuration: configuration)
+                        service.optOut()
+                        
+                        expect(service.isOptOut).to(beTrue())
+                    }
+                }
+                
+                context("when set optouttemporarily") {
+                    it("isOptOut is true") {
+                        let service = OptOutService(configuration: configuration)
+                        service.optOutTemporarily()
+                        
+                        expect(service.isOptOut).to(beTrue())
+                    }
+                }
+
+                context("when set optin") {
+                    it("isOptOut is false") {
+                        let service = OptOutService(configuration: configuration)
+                        service.optIn()
+                        
+                        expect(service.isOptOut).to(beFalse())
+                    }
                 }
             }
         }

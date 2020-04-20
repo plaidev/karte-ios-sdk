@@ -24,11 +24,16 @@ internal class OptOutService {
     var configuration: Configuration
 
     var isOptOut: Bool {
+        if isOptOutTemporarily {
+            return true
+        }
         if settings.hasSettings {
             return settings.isEnabled
         }
         return configuration.isOptOut
     }
+
+    private var isOptOutTemporarily = false
 
     init(configuration: Configuration) {
         self.configuration = configuration
@@ -53,6 +58,10 @@ internal class OptOutService {
                 module.unsubscribe()
             }
         }
+    }
+
+    func optOutTemporarily() {
+        isOptOutTemporarily = true
     }
 
     deinit {

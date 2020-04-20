@@ -95,6 +95,10 @@ internal class CoreService {
         optOutService.optOut()
     }
 
+    func optOutTemporarily() {
+        optOutService.optOutTemporarily()
+    }
+
     func renewVisitorId() {
         visitorIdService.renew()
     }

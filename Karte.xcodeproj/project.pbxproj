@@ -545,7 +545,6 @@
 		0C49FE6B23C82563004B6F2C /* KarteCrashReporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteCrashReporting.m; sourceTree = "<group>"; };
 		0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashEventConverter.swift; sourceTree = "<group>"; };
 		0C49FE7423C84E88004B6F2C /* KarteUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteUtilities.m; sourceTree = "<group>"; };
-		0C49FF0823D064C9004B6F2C /* KarteDetectors.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KarteDetectors.framework; sourceTree = "<group>"; };
 		0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KarteApp+RemoteNotification.swift"; sourceTree = "<group>"; };
 		0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessConfiguration.swift; sourceTree = "<group>"; };
 		0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -1049,7 +1048,6 @@
 		0C49FF0723D064C9004B6F2C /* KarteDetectors */ = {
 			isa = PBXGroup;
 			children = (
-				0C49FF0823D064C9004B6F2C /* KarteDetectors.framework */,
 			);
 			path = KarteDetectors;
 			sourceTree = "<group>";
@@ -3473,7 +3471,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Nimble\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Quick\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/URITemplate\"",
-					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-armv7_arm64",
 					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-i386_x86_64-simulator",
 				);
 				INFOPLIST_FILE = KarteTests/Info.plist;
@@ -3504,7 +3501,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Nimble\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Quick\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/URITemplate\"",
-					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-armv7_arm64",
 					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-i386_x86_64-simulator",
 				);
 				INFOPLIST_FILE = KarteTests/Info.plist;

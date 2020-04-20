@@ -129,6 +129,14 @@ public extension KarteApp {
         shared.optOut()
     }
 
+    /// 一時的（アプリの次回起動時まで）にオプトアウトします。
+    ///
+    /// なお初期化が行われていない状態で呼び出した場合はオプトアウトは行われません。
+    @objc
+    class func optOutTemporarily() {
+        shared.optOutTemporarily()
+    }
+
     /// ビジターIDを再生成します。
     ///
     /// ビジターIDの再生成は、現在のユーザーとは異なるユーザーとして計測したい場合などに行います。<br>
@@ -271,6 +279,10 @@ extension KarteApp {
 
     func optOut() {
         coreService?.optOut()
+    }
+
+    func optOutTemporarily() {
+        coreService?.optOutTemporarily()
     }
 
     func renewVisitorId() {
