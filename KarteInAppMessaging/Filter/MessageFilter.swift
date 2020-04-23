@@ -40,12 +40,24 @@ internal struct MessageFilter {
         self.rules = rules
     }
 
-    func filter(_ messages: [TrackResponse.Response.Message]) -> [TrackResponse.Response.Message] {
+    func filter(_ messages: [TrackResponse.Response.Message], exclude: ((TrackResponse.Response.Message, String) -> Void)? = nil) -> [TrackResponse.Response.Message] {
         let messages = rules.reduce(messages) { messages, rule -> [TrackResponse.Response.Message] in
             messages.filter { message -> Bool in
-                rule.filter(message)
+                switch rule.filter(message) {
+                case .include:
+                    return true
+
+                case .exclude(let reason):
+                    exclude?(message, reason)
+                    return false
+                }
             }
         }
         return messages
     }
+}
+
+internal enum MessageFilterResult {
+    case include
+    case exclude(String)
 }
