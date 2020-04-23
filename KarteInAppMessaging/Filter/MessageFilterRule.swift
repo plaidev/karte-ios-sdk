@@ -18,5 +18,5 @@ import Foundation
 import KarteCore
 
 internal protocol MessageFilterRule {
-    func filter(_ message: TrackResponse.Response.Message) -> Bool
+    func filter(_ message: TrackResponse.Response.Message) -> MessageFilterResult
 }

@@ -26,14 +26,19 @@ internal struct MessagePvIdFilterRule: MessageFilterRule {
         self.app = app
     }
 
-    func filter(_ message: TrackResponse.Response.Message) -> Bool {
+    func filter(_ message: TrackResponse.Response.Message) -> MessageFilterResult {
         guard let isEnabled = message.campaign.bool(forKey: "native_app_display_limit_mode"), let pvService = app?.pvService, isEnabled else {
-            return true
+            return .include
         }
         if pvService.pvId(forSceneId: request.sceneId) == request.pvId {
-            return true
+            return .include
         }
+
         let match = pvService.originalPvId(forSceneId: request.sceneId) == request.pvId
-        return match
+        if match {
+            return .include
+        } else {
+            return .exclude("The display is suppressed by native_app_display_limit_mode.")
+        }
     }
 }

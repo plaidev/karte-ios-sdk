@@ -95,6 +95,8 @@ public extension EventName {
     static let messageClose              = EventName("message_close")
     /// message_click イベント
     static let messageClick              = EventName("message_click")
+    /// _message_suppressed イベント
+    static let messageSuppressed         = EventName("_message_suppressed")
     /// mass_push_click イベント
     static let massPushClick             = EventName("mass_push_click")
     /// plugin_native_app_identify イベント
