@@ -79,6 +79,7 @@ internal class DefaultPubSubDispatcher: PubSubDispatcher {
 
 extension Resolver {
     static func registerPubSubDispatcher() {
-        register { DefaultPubSubApplication() as PubSubApplication }
+        let application = DefaultPubSubApplication()
+        register { application as PubSubApplication }
     }
 }

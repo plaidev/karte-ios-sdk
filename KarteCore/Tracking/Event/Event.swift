@@ -184,6 +184,8 @@ public extension Event {
         case close
         /// `message_click` イベント
         case click
+        /// `_message_suppressed` イベント
+        case suppressed
 
         var eventName: EventName {
             switch self {
@@ -198,6 +200,9 @@ public extension Event {
 
             case .click:
                 return .messageClick
+
+            case .suppressed:
+                return .messageSuppressed
             }
         }
 
@@ -214,6 +219,9 @@ public extension Event {
 
             case .messageClick:
                 self = .click
+
+            case .messageSuppressed:
+                self = .suppressed
 
             default:
                 throw NSError(domain: "io.karte.core", code: 0, userInfo: nil)

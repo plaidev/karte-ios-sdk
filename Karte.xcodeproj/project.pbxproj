@@ -327,9 +327,11 @@
 		0CF7ED3223E7BF6400DF5903 /* TrackingTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF7ED3123E7BF6400DF5903 /* TrackingTask.swift */; };
 		0CFB1F5A2436380800BC8757 /* KarteDetectors.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */; };
 		0CFB1F5C2436487B00BC8757 /* KarteDetectors.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */; };
 		68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
 		6869269C2417375600E94916 /* BackgroundTaskSupporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6869269B2417375600E94916 /* BackgroundTaskSupporter.swift */; };
+		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -543,7 +545,6 @@
 		0C49FE6B23C82563004B6F2C /* KarteCrashReporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteCrashReporting.m; sourceTree = "<group>"; };
 		0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashEventConverter.swift; sourceTree = "<group>"; };
 		0C49FE7423C84E88004B6F2C /* KarteUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteUtilities.m; sourceTree = "<group>"; };
-		0C49FF0823D064C9004B6F2C /* KarteDetectors.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KarteDetectors.framework; sourceTree = "<group>"; };
 		0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KarteApp+RemoteNotification.swift"; sourceTree = "<group>"; };
 		0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessConfiguration.swift; sourceTree = "<group>"; };
 		0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -789,9 +790,11 @@
 		0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = KarteDetectors.xcframework; path = KarteDetectors/KarteDetectors.xcframework; sourceTree = "<group>"; };
 		2A57DE35F7357D0077E4FCF1 /* Pods-Karte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.release.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.release.xcconfig"; sourceTree = "<group>"; };
 		2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBodyParametersSpec.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
 		6869269B2417375600E94916 /* BackgroundTaskSupporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskSupporter.swift; sourceTree = "<group>"; };
+		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
 		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
 		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BFF77FFF3DF47D9011A20C08 /* Pods-Karte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.debug.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.debug.xcconfig"; sourceTree = "<group>"; };
@@ -890,6 +893,7 @@
 		0C060EA32384D7C8006AF974 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				68C0835A243DE1F9001CFF93 /* GzipSwift */,
 				0C060EA42384D7C8006AF974 /* APIKit */,
 				0C060EBF2384D7C8006AF974 /* TinySQLite */,
 				0C060EC62384D7C8006AF974 /* Reachability */,
@@ -1044,7 +1048,6 @@
 		0C49FF0723D064C9004B6F2C /* KarteDetectors */ = {
 			isa = PBXGroup;
 			children = (
-				0C49FF0823D064C9004B6F2C /* KarteDetectors.framework */,
 			);
 			path = KarteDetectors;
 			sourceTree = "<group>";
@@ -1929,6 +1932,7 @@
 		0CE7933323865D5000F0D932 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
+				680C29B22446B95900FB1363 /* Client */,
 				0CE792F8238653AD00F0D932 /* Event */,
 				0CE792F6238653AD00F0D932 /* Filter */,
 			);
@@ -1951,6 +1955,30 @@
 				0CA52D6D2388CB8000A575BC /* IntegrationTests */,
 			);
 			path = KarteVariablesTests;
+			sourceTree = "<group>";
+		};
+		680C29B22446B95900FB1363 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				680C29B32446B96B00FB1363 /* BodyParameters */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		680C29B32446B96B00FB1363 /* BodyParameters */ = {
+			isa = PBXGroup;
+			children = (
+				680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */,
+			);
+			path = BodyParameters;
+			sourceTree = "<group>";
+		};
+		68C0835A243DE1F9001CFF93 /* GzipSwift */ = {
+			isa = PBXGroup;
+			children = (
+				68C0835B243DE20F001CFF93 /* Data+Gzip.swift */,
+			);
+			path = GzipSwift;
 			sourceTree = "<group>";
 		};
 		707708FD2279E9E9AA8EDDF6 /* Pods */ = {
@@ -2419,6 +2447,7 @@
 				0C060EF02384D7C8006AF974 /* FormURLEncodedBodyParameters.swift in Sources */,
 				0C060EF72384D7C8006AF974 /* SQLiteValue.swift in Sources */,
 				0C83926A2406C5C10014C2BF /* FileSource.swift in Sources */,
+				68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */,
 				0C83926F2406C5F90014C2BF /* JSONRepository.swift in Sources */,
 				0C060EFA2384D7C8006AF974 /* DatabaseConnection.swift in Sources */,
 				0C060EF82384D7C8006AF974 /* TinyError.swift in Sources */,
@@ -2696,6 +2725,7 @@
 				0C839308240822A40014C2BF /* OpenEventSpec.swift in Sources */,
 				0C8392F52407CCFA0014C2BF /* OptOutConfigSpec.swift in Sources */,
 				0CE79326238653AD00F0D932 /* Support.swift in Sources */,
+				680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */,
 				0C8392F02407BF370014C2BF /* VisitorIdGeneratorMock.swift in Sources */,
 				0C8393112408319F0014C2BF /* IdentifySpec.swift in Sources */,
 				0C839313240837D40014C2BF /* VariableSpec.swift in Sources */,
@@ -2855,7 +2885,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteUtilities;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2886,7 +2916,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteUtilities;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3112,7 +3142,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3149,7 +3179,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3184,7 +3214,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3219,7 +3249,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3371,7 +3401,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3402,7 +3432,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3441,7 +3471,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Nimble\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Quick\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/URITemplate\"",
-					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-armv7_arm64",
 					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-i386_x86_64-simulator",
 				);
 				INFOPLIST_FILE = KarteTests/Info.plist;
@@ -3472,7 +3501,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Nimble\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Quick\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/URITemplate\"",
-					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-armv7_arm64",
 					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-i386_x86_64-simulator",
 				);
 				INFOPLIST_FILE = KarteTests/Info.plist;

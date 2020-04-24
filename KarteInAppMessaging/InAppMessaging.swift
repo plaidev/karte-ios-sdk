@@ -277,6 +277,21 @@ extension InAppMessaging {
             WKWebsiteDataStore.default().removeData(ofTypes: dataTypes, for: records) {}
         }
     }
+
+    private func trackMessageSuppressed(message: TrackResponse.Response.Message, reason: String) {
+        guard let campaignId = message.action.string(forKey: "campaign_id") else {
+            return
+        }
+        guard let shortenId = message.action.string(forKey: "shorten_id") else {
+            return
+        }
+        let values = [
+            "reason": reason
+        ]
+
+        let event = Event(.message(type: .suppressed, campaignId: campaignId, shortenId: shortenId, values: values))
+        Tracker.track(event: event)
+    }
 }
 
 extension InAppMessaging: Library {
@@ -316,7 +331,7 @@ extension InAppMessaging: ActionModule, UserModule {
         let filter = MessageFilter.Builder()
             .add(MessagePvIdFilterRule(request: request, app: app))
             .build()
-        response.messages = filter.filter(response.messages)
+        response.messages = filter.filter(response.messages, exclude: trackMessageSuppressed)
 
         if pool.canCreateProcess(sceneId: request.sceneId) {
             guard let window = WindowDetector.retrieveRelatedWindows(from: request.sceneId.identifier).first, let app = app else {
