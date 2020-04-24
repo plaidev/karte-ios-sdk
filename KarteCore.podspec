@@ -31,6 +31,6 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'CORE_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteUtilities', '~> 2.0'
+  s.dependency 'KarteUtilities', '~> 2.1'
   s.dependency 'KarteDetectors', '~> 2.0'
 end
