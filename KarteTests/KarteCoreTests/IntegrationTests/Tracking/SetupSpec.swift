@@ -81,6 +81,7 @@ class SetupSpec: QuickSpec {
                             }
                             let configuration = Configuration { (configuration) in
                                 configuration.baseURL = URL(string: "https://t.karte.io")!
+                                configuration.overlayBaseURL = URL(string: "https://api.karte.io")!
                             }
                             KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                             
@@ -89,6 +90,9 @@ class SetupSpec: QuickSpec {
                         
                         it("Request URL is `https://t.karte.io/v0/native/track`") {
                             expect(request.url?.absoluteString).to(equal("https://t.karte.io/v0/native/track"))
+                        }
+                        it("Overlay Base URL is `https://api.karte.io`") {
+                            expect(KarteApp.shared.configuration.overlayBaseURL.absoluteString).to(equal("https://api.karte.io"))
                         }
                     }
                     
