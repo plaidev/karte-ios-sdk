@@ -290,6 +290,7 @@
 		0CC648BD238CD4DC009EB5DF /* StubResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC648BC238CD4DC009EB5DF /* StubResource.swift */; };
 		0CC648C6238D5559009EB5DF /* success_vt_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648C4238D5559009EB5DF /* success_vt_1.json */; };
 		0CC648C7238D5559009EB5DF /* success_vt_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648C5238D5559009EB5DF /* success_vt_2.json */; };
+		0CDA605824656A3F00DC4706 /* KarteDetectors.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */; };
 		0CDBAC2D239B8FF400CEB853 /* PubSubRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC2C239B8FF400CEB853 /* PubSubRepository.swift */; };
 		0CDBAC5F239C92DC00CEB853 /* SQLiteColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */; };
 		0CDBAC63239C93F800CEB853 /* SQLiteTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */; };
@@ -857,6 +858,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CDA605824656A3F00DC4706 /* KarteDetectors.xcframework in Frameworks */,
 				68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

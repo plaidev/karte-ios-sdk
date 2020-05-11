@@ -67,6 +67,32 @@ public struct SystemInfo: Codable {
 
     init() {
     }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.os = try container.decode(String.self, forKey: .os)
+        self.osVersion = try container.decode(String.self, forKey: .osVersion)
+        self.device = try container.decode(String.self, forKey: .device)
+        self.model = try container.decode(String.self, forKey: .model)
+        self.bundleId = try container.decodeIfPresent(String.self, forKey: .bundleId)
+        self.idfv = try container.decodeIfPresent(String.self, forKey: .idfv)
+        self.idfa = try container.decodeIfPresent(String.self, forKey: .idfa)
+        self.language = try container.decodeIfPresent(String.self, forKey: .language)
+        self.screen = try container.decode(Screen.self, forKey: .screen)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(os, forKey: .os)
+        try container.encode(osVersion, forKey: .osVersion)
+        try container.encode(device, forKey: .device)
+        try container.encode(model, forKey: .model)
+        try container.encodeIfPresent(bundleId, forKey: .bundleId)
+        try container.encodeIfPresent(idfv, forKey: .idfv)
+        try container.encodeIfPresent(idfa, forKey: .idfa)
+        try container.encodeIfPresent(language, forKey: .language)
+        try container.encode(screen, forKey: .screen)
+    }
 }
 
 extension Resolver {
