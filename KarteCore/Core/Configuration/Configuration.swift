@@ -86,6 +86,7 @@ public class Configuration: NSObject, NSCopying {
     public func copy(with zone: NSZone? = nil) -> Any {
         let configuration = Configuration()
         configuration.baseURL = baseURL
+        configuration.overlayBaseURL = overlayBaseURL
         configuration.isDryRun = isDryRun
         configuration.isOptOut = isOptOut
         configuration.isSendInitializationEventEnabled = isSendInitializationEventEnabled

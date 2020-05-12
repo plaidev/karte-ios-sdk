@@ -48,6 +48,24 @@ public struct AppInfo: Codable {
 
     init() {
     }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.versionName = try container.decodeIfPresent(String.self, forKey: .versionName)
+        self.versionCode = try container.decodeIfPresent(String.self, forKey: .versionCode)
+        self.karteSdkVersion = try container.decodeIfPresent(String.self, forKey: .karteSdkVersion)
+        self.moduleInfo = try container.decode([String: String].self, forKey: .moduleInfo)
+        self.systemInfo = try container.decode(SystemInfo.self, forKey: .systemInfo)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(versionName, forKey: .versionName)
+        try container.encodeIfPresent(versionCode, forKey: .versionCode)
+        try container.encodeIfPresent(karteSdkVersion, forKey: .karteSdkVersion)
+        try container.encode(moduleInfo, forKey: .moduleInfo)
+        try container.encode(systemInfo, forKey: .systemInfo)
+    }
 }
 
 extension Resolver {
