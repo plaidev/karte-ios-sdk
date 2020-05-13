@@ -18,6 +18,18 @@ import UIKit
 
 extension UIViewController {
     class func krt_vt_swizzleViewControllerMethods() {
+        exchangeInstanceMethod(
+            from: #selector(viewDidAppear(_:)),
+            to: #selector(krt_vt_viewDidAppear(_:))
+        )
+        exchangeInstanceMethod(
+            from: #selector(present(_:animated:completion:)),
+            to: #selector(krt_vt_presentViewController(_:animated:completion:))
+        )
+        exchangeInstanceMethod(
+            from: #selector(dismiss(animated:completion:)),
+            to: #selector(krt_vt_dismissViewController(animated:completion:))
+        )
     }
 
     @objc
