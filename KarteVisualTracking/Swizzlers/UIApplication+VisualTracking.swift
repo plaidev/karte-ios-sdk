@@ -14,15 +14,18 @@
 //  limitations under the License.
 //
 
+import KarteUtilities
 import UIKit
 
 extension UIApplication {
     class func krt_vt_swizzleApplicationMethods() {
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(sendAction(_:to:from:for:)),
             to: #selector(krt_vt_sendAction(_:to:from:for:))
         )
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(sendEvent(_:)),
             to: #selector(krt_vt_sendEvent(_:))
         )
