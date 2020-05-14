@@ -39,10 +39,6 @@ public enum ReachabilityError: Error {
 @available(*, unavailable, renamed: "Notification.Name.reachabilityChanged")
 public let ReachabilityChangedNotification = NSNotification.Name("io.karte.utilities.ReachabilityChangedNotification")
 
-public extension Notification.Name {
-    static let reachabilityChanged = Notification.Name("io.karte.utilities.reachabilityChanged")
-}
-
 public class Reachability {
 
     public typealias NetworkReachable = (Reachability) -> ()
@@ -272,7 +268,6 @@ fileprivate extension Reachability {
         let notify = { [weak self] in
             guard let self = self else { return }
             self.connection != .unavailable ? self.whenReachable?(self) : self.whenUnreachable?(self)
-            self.notificationCenter.post(name: .reachabilityChanged, object: self)
         }
 
         // notify on the configured `notificationQueue`, or the caller's (i.e. `reachabilitySerialQueue`)

@@ -35,9 +35,9 @@ internal struct TrackBodyParameters: BodyParameters, Codable {
     func buildEntity() throws -> RequestBodyEntity {
         let data = try createJSONEncoder().encode(self)
         do {
-            if !data.isGzipped {
-                let gzipped = try data.gzipped()
-                return .data(gzipped)
+            if !isGzipped(data) {
+                let gzippedData = try gzipped(data)
+                return .data(gzippedData)
             }
             return .data(data)
         } catch {

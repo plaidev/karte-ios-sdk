@@ -15,6 +15,7 @@
 //
 
 import Foundation
+import ObjectiveC
 
 /// JSONEncoder を返します。
 /// なお dateEncodingStrategy = .secondsSince1970 が設定済みです。
@@ -30,4 +31,67 @@ public func createJSONDecoder() -> JSONDecoder {
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .secondsSince1970
     return decoder
+}
+
+/// RFC2396に適合するURLに変換します。
+/// なお変換できない場合は、nil を返します。
+/// - Parameter urlString: 変換するURL文字列
+/// - Returns: `URL` を返します。
+public func conformToRFC2396(urlString: String) -> URL? {
+    if let url = URL(string: urlString) {
+        return url
+    }
+
+    var characterSets = CharacterSet.urlHostAllowed
+    characterSets.formUnion(CharacterSet.urlPathAllowed)
+    characterSets.formUnion(CharacterSet.urlQueryAllowed)
+    characterSets.formUnion(CharacterSet.urlFragmentAllowed)
+    characterSets.formUnion(CharacterSet.urlPasswordAllowed)
+    characterSets.formUnion(CharacterSet.urlUserAllowed)
+    characterSets.formUnion(CharacterSet(charactersIn: "%"))
+    characterSets.formUnion(CharacterSet(charactersIn: "#"))
+
+    guard let encodedUrlString = urlString.addingPercentEncoding(withAllowedCharacters: characterSets) else {
+        return nil
+    }
+
+    guard let url = URL(string: encodedUrlString), url.scheme != nil else {
+        return nil
+    }
+
+    return url
+}
+
+/// Whether the receiver is compressed in gzip format.
+/// - Parameter data: Check target.
+/// - Returns: If it is Gzip-compressed, it returns true.
+public func isGzipped(_ data: Data) -> Bool {
+    data.isGzipped
+}
+
+/// Create a new `Data` instance by compressing the receiver using zlib.
+/// Throws an error if compression failed.
+///
+/// - Parameters:
+///   - data: Compression target.
+///   - level: Compression level.
+/// - Returns: Gzip-compressed `Data` instance.
+/// - Throws: `GzipError`
+public func gzipped(_ data: Data, level: CompressionLevel = .defaultCompression) throws -> Data {
+    try data.gzipped(level: level)
+}
+
+/// メソッドのセレクタに対応する実装を交換します。
+/// - Parameters:
+///   - cls: 交換対象のクラス
+///   - from: 交換元のセレクタ
+///   - to: 交換先のセレクタ
+public func exchangeInstanceMethod(cls: AnyClass?, from: Selector, to: Selector) {
+    // swiftlint:disable:previous identifier_name
+    let fromMethod = class_getInstanceMethod(cls, from)
+    let toMethod = class_getInstanceMethod(cls, to)
+
+    if let fromMethod = fromMethod, let toMethod = toMethod {
+        method_exchangeImplementations(fromMethod, toMethod)
+    }
 }

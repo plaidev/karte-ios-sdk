@@ -108,7 +108,7 @@ public struct TrackRequest: Request {
         var urlRequest = urlRequest
         urlRequest.timeoutInterval = 10.0
 
-        if urlRequest.httpBody?.isGzipped ?? false {
+        if urlRequest.httpBody.map({ isGzipped($0) }) ?? false {
             urlRequest.addValue("gzip", forHTTPHeaderField: "Content-Encoding")
         }
 

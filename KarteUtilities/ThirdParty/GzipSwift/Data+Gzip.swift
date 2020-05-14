@@ -144,7 +144,7 @@ public struct GzipError: Swift.Error {
 extension Data {
     
     /// Whether the receiver is compressed in gzip format.
-    public var isGzipped: Bool {
+    var isGzipped: Bool {
         
         return self.starts(with: [0x1f, 0x8b])  // check magic number
     }
@@ -156,7 +156,7 @@ extension Data {
     /// - Parameter level: Compression level.
     /// - Returns: Gzip-compressed `Data` instance.
     /// - Throws: `GzipError`
-    public func gzipped(level: CompressionLevel = .defaultCompression) throws -> Data {
+    func gzipped(level: CompressionLevel = .defaultCompression) throws -> Data {
         
         guard !self.isEmpty else {
             return Data()
@@ -218,7 +218,7 @@ extension Data {
     ///
     /// - Returns: Gzip-decompressed `Data` instance.
     /// - Throws: `GzipError`
-    public func gunzipped() throws -> Data {
+    func gunzipped() throws -> Data {
         
         guard !self.isEmpty else {
             return Data()

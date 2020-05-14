@@ -14,15 +14,18 @@
 //  limitations under the License.
 //
 
+import KarteUtilities
 import UIKit
 
 extension UIViewController {
     class func krt_swizzleTransitionMethods() {
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(present(_:animated:completion:)),
             to: #selector(krt_presentViewController(_:animated:completion:))
         )
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(dismiss(animated:completion:)),
             to: #selector(krt_dismissViewController(animated:completion:))
         )

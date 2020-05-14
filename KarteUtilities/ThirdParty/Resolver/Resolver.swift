@@ -533,29 +533,6 @@ public final class ResolverScopeUnique: ResolverScope {
 
 }
 
-#if os(iOS)
-/// Storyboard Automatic Resolution Protocol
-public protocol StoryboardResolving: Resolving {
-    func resolveViewController()
-}
-
-/// Storyboard Automatic Resolution Trigger
-public extension UIViewController {
-    // swiftlint:disable unused_setter_value
-    @objc dynamic var resolving: Bool {
-        get {
-            return true
-        }
-        set {
-            if let vc = self as? StoryboardResolving {
-                vc.resolveViewController()
-            }
-        }
-    }
-    // swiftlint:enable unused_setter_value
-}
-#endif
-
 // Swift Property Wrappers
 
 #if swift(>=5.1)
