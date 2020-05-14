@@ -14,6 +14,7 @@
 //  limitations under the License.
 //
 
+import KarteUtilities
 import UIKit
 
 extension UIGestureRecognizer {
@@ -32,6 +33,7 @@ extension UIGestureRecognizer {
 
     class func krt_vt_swizzleGestureRecognizerMethods() {
         exchangeInstanceMethod(
+            cls: self,
             from: NSSelectorFromString("setState:"),
             to: #selector(krt_vt_setState(_:))
         )

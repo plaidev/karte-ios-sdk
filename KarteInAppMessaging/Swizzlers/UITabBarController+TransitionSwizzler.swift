@@ -14,15 +14,18 @@
 //  limitations under the License.
 //
 
+import KarteUtilities
 import UIKit
 
 extension UITabBarController {
     class func krt_swizzleTabBarTransitionMethods() {
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(setter: selectedIndex),
             to: #selector(krt_setSelectedIndex(_:))
         )
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(setter: selectedViewController),
             to: #selector(krt_setSelectedViewController(_:))
         )

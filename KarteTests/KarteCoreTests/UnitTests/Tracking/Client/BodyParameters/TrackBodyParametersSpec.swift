@@ -16,7 +16,7 @@
 
 import Quick
 import Nimble
-import KarteUtilities
+@testable import KarteUtilities
 @testable import KarteCore
 
 func getBodyParameters() -> TrackBodyParameters {

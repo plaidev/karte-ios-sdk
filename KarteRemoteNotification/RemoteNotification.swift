@@ -15,6 +15,7 @@
 //
 
 import KarteCore
+import KarteUtilities
 import UIKit
 
 /// リモート通知メッセージのパースおよびメッセージ中に含まれるディープリンクのハンドリングを行うためのクラスです。
@@ -48,7 +49,7 @@ public class RemoteNotification: NSObject {
             Logger.warn(tag: .notification, message: "Deeplink URL is nil.")
             return nil
         }
-        guard let url = URL.conformToRFC2396(urlString: urlString) else {
+        guard let url = conformToRFC2396(urlString: urlString) else {
             Logger.warn(tag: .notification, message: "Failed to parse URL. \(urlString)")
             return nil
         }

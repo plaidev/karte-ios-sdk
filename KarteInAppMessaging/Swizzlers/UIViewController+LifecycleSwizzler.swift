@@ -14,11 +14,13 @@
 //  limitations under the License.
 //
 
+import KarteUtilities
 import UIKit
 
 extension UIViewController {
     class func krt_swizzleLifecycleMethods() {
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(viewDidAppear(_:)),
             to: #selector(krt_viewDidAppear(_:))
         )

@@ -95,7 +95,7 @@ extension JsMessage {
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let urlString = try container.decode(String.self, forKey: .url)
-            self.url = URL.conformToRFC2396(urlString: urlString)
+            self.url = conformToRFC2396(urlString: urlString)
             self.target = try container.decode(String.self, forKey: .target)
         }
     }

@@ -41,7 +41,6 @@
 		0C060E5B2383D116006AF974 /* CrashReport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C060E592383D116006AF974 /* CrashReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C060E5C2383D116006AF974 /* CrashReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C060E5A2383D116006AF974 /* CrashReport.m */; };
 		0C060E9C2384D76C006AF974 /* KarteUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C060E9A2384D76C006AF974 /* KarteUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0C060EDE2384D7C8006AF974 /* NSObject+RuntimeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C060EA12384D7C8006AF974 /* NSObject+RuntimeSupport.swift */; };
 		0C060EDF2384D7C8006AF974 /* Swizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C060EA22384D7C8006AF974 /* Swizzler.swift */; };
 		0C060EE02384D7C8006AF974 /* StringDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C060EA62384D7C8006AF974 /* StringDataParser.swift */; };
 		0C060EE12384D7C8006AF974 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C060EA72384D7C8006AF974 /* DataParser.swift */; };
@@ -74,7 +73,6 @@
 		0C060F022384D7C8006AF974 /* ExponentialBackoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C060ECF2384D7C8006AF974 /* ExponentialBackoff.swift */; };
 		0C060F032384D7C8006AF974 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C060ED22384D7C8006AF974 /* UserDefaultsKey.swift */; };
 		0C060F042384D7C8006AF974 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C060ED32384D7C8006AF974 /* UserDefaults.swift */; };
-		0C060F082384D7C8006AF974 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C060ED92384D7C8006AF974 /* URL+Extension.swift */; };
 		0C1257512418942800034DFF /* Tracker+RemoteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1257502418942800034DFF /* Tracker+RemoteNotification.swift */; };
 		0C2B3C6323823275008A2708 /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B3C6223823275008A2708 /* Condition.swift */; };
 		0C2B3C702382684D008A2708 /* KarteCrashReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C2B3C6E2382684D008A2708 /* KarteCrashReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -490,7 +488,6 @@
 		0C060E982384D76C006AF974 /* KarteUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C060E9A2384D76C006AF974 /* KarteUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KarteUtilities.h; sourceTree = "<group>"; };
 		0C060E9B2384D76C006AF974 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0C060EA12384D7C8006AF974 /* NSObject+RuntimeSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+RuntimeSupport.swift"; sourceTree = "<group>"; };
 		0C060EA22384D7C8006AF974 /* Swizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swizzler.swift; sourceTree = "<group>"; };
 		0C060EA62384D7C8006AF974 /* StringDataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringDataParser.swift; sourceTree = "<group>"; };
 		0C060EA72384D7C8006AF974 /* DataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
@@ -523,7 +520,6 @@
 		0C060ECF2384D7C8006AF974 /* ExponentialBackoff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExponentialBackoff.swift; sourceTree = "<group>"; };
 		0C060ED22384D7C8006AF974 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		0C060ED32384D7C8006AF974 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
-		0C060ED92384D7C8006AF974 /* URL+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		0C1257502418942800034DFF /* Tracker+RemoteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tracker+RemoteNotification.swift"; sourceTree = "<group>"; };
 		0C2B3C6223823275008A2708 /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
 		0C2B3C6C2382684C008A2708 /* KarteCrashReporting.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteCrashReporting.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -871,7 +867,6 @@
 			children = (
 				0C8392672406C5920014C2BF /* Repository */,
 				0C060ED02384D7C8006AF974 /* DataSource */,
-				0C060ED82384D7C8006AF974 /* Extension */,
 				0C060EA02384D7C8006AF974 /* Runtime */,
 				0C060EA32384D7C8006AF974 /* ThirdParty */,
 				0C060ECF2384D7C8006AF974 /* ExponentialBackoff.swift */,
@@ -886,7 +881,6 @@
 		0C060EA02384D7C8006AF974 /* Runtime */ = {
 			isa = PBXGroup;
 			children = (
-				0C060EA12384D7C8006AF974 /* NSObject+RuntimeSupport.swift */,
 				0C060EA22384D7C8006AF974 /* Swizzler.swift */,
 			);
 			path = Runtime;
@@ -1011,14 +1005,6 @@
 				0C060ED32384D7C8006AF974 /* UserDefaults.swift */,
 			);
 			path = UserDefaults;
-			sourceTree = "<group>";
-		};
-		0C060ED82384D7C8006AF974 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				0C060ED92384D7C8006AF974 /* URL+Extension.swift */,
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		0C2B3C6D2382684C008A2708 /* KarteCrashReporting */ = {
@@ -2440,7 +2426,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C060EDE2384D7C8006AF974 /* NSObject+RuntimeSupport.swift in Sources */,
 				0C060EDF2384D7C8006AF974 /* Swizzler.swift in Sources */,
 				0C060EED2384D7C8006AF974 /* Data+InputStream.swift in Sources */,
 				0C8392632406C4A30014C2BF /* Resolver.swift in Sources */,
@@ -2474,7 +2459,6 @@
 				0C060EE82384D7C8006AF974 /* URLEncodedSerialization.swift in Sources */,
 				0C060EE32384D7C8006AF974 /* FormURLEncodedDataParser.swift in Sources */,
 				0C060EE42384D7C8006AF974 /* JSONDataParser.swift in Sources */,
-				0C060F082384D7C8006AF974 /* URL+Extension.swift in Sources */,
 				0C060EEA2384D7C8006AF974 /* HTTPMethod.swift in Sources */,
 				0C060EF52384D7C8006AF974 /* DatabaseQueue.swift in Sources */,
 				0CDBAC5F239C92DC00CEB853 /* SQLiteColumnType.swift in Sources */,
@@ -2887,7 +2871,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteUtilities;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2918,7 +2902,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteUtilities;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3144,7 +3128,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3181,7 +3165,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3216,7 +3200,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3251,7 +3235,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3281,7 +3265,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVariables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3312,7 +3296,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVariables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3342,7 +3326,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3373,7 +3357,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3403,7 +3387,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3434,7 +3418,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

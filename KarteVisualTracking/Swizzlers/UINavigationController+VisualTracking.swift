@@ -14,27 +14,33 @@
 //  limitations under the License.
 //
 
+import KarteUtilities
 import UIKit
 
 extension UINavigationController {
     class func krt_vt_swizzleNavigationControllerMethods() {
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(setViewControllers(_:animated:)),
             to: #selector(krt_vt_setViewControllers(_:animated:))
         )
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(pushViewController(_:animated:)),
             to: #selector(krt_vt_pushViewController(_:animated:))
         )
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(popViewController(animated:)),
             to: #selector(krt_vt_popViewController(animated:))
         )
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(popToViewController(_:animated:)),
             to: #selector(krt_vt_popToViewController(_:animated:))
         )
         exchangeInstanceMethod(
+            cls: self,
             from: #selector(popToRootViewController(animated:)),
             to: #selector(krt_vt_popToRootViewController(animated:))
         )

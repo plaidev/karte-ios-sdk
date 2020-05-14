@@ -90,8 +90,7 @@ function publish() {
 function publish_pods() {
   local PUBLISH_PODSPECS=($@)
   for PODSPEC in ${PUBLISH_PODSPECS[@]}; do
-    pod repo update
-    pod trunk push $PODSPEC $PODSPEC_OPTS
+    bundle exec pod trunk push $PODSPEC $PODSPEC_OPTS --synchronous
   done
 }
 
