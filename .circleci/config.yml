@@ -51,7 +51,7 @@ commands:
           key: v1-pod-{{ checksum "Podfile.lock" }}
       - run:
           name: Pod install
-          command: pod install --verbose
+          command: bundle exec pod install --verbose
       - save_cache:
           name: Saving pod cache
           key: v1-pod-{{ checksum "Podfile.lock" }}
@@ -116,10 +116,11 @@ jobs:
           command: |
             mkdir DerivedData
             cp -r /tmp/workspace DerivedData
+      - setup_gems
       - setup_pods
       - run:
           name: Podspec lint
-          command: pod spec lint *.podspec --quick
+          command: bundle exec pod spec lint *.podspec --quick
       - run:
           name: Run tests
           command: |
@@ -162,11 +163,6 @@ jobs:
       - setup_gems
       - setup_pods
       - run:
-          name: Add CocoaPods master repo
-          command: |
-            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-            pod install
-      - run:
           name: Publish
           command: bash ./scripts/publish.sh
 
@@ -177,11 +173,6 @@ jobs:
       - git_clone
       - setup_gems
       - setup_pods
-      - run:
-          name: Add CocoaPods master repo
-          command: |
-            curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
-            pod install
       - run:
           name: Publish Pods
           command: bash ./scripts/publish.sh
