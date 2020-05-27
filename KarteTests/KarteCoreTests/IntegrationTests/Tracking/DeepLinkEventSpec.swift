@@ -34,22 +34,22 @@ class DeepLinkEventSpec: QuickSpec {
         
         describe("a deep link event") {
             context("always") {
-                var url: URL!
+                var result: Bool!
                 var event: Event!
                 
                 beforeEachWithMetadata { (metadata) in
-                    url = URL(string: "app://karte.com")!
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .nativeFindMyself) { (_, _, e) in
+                    let url = URL(string: "app://karte.com")!
+                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .deepLinkAppOpen) { (_, _, e) in
                         event = e
                     }
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                    result = KarteApp.shared.application(UIApplication.shared, open: url)
 
                     module.wait()
                 }
                 
                 it("return false") {
-                    let result = KarteApp.shared.application(UIApplication.shared, open: url)
                     expect(result).to(beFalse())
                 }
 
