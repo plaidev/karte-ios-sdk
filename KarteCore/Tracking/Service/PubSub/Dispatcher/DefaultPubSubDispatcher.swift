@@ -37,39 +37,50 @@ internal class DefaultPubSubDispatcher: PubSubDispatcher {
     }
 
     func dispatch(_ message: PubSubMessage) {
-        let applicationState = self.application.state
-
-        queue.atomic.enqueue(message) {
-            _run()
+        queue.atomic.enqueue(message) { [weak self] in
+            self?.execute()
         }
+    }
 
-        func _run() {
-            queue.atomic.manipulator.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                guard let deliverer = _call() else {
-                    return
-                }
+    private func execute() {
+        queue.atomic.manipulator.asyncAfter(deadline: .now() + .milliseconds(500)) { [weak self] in
+            guard let self = self, let deliverer = self.callForStandbyDeliverer() else {
+                return
+            }
 
-                let messages = _dequeue()
-                if !messages.isEmpty {
-                    deliverer.deliver(messages, completion: _run)
-                }
+            let messages = self.dequeue()
+            if !messages.isEmpty {
+                deliverer.deliver(messages, completion: self.done)
+            } else if !self.queue.isEmpty {
+                self.waitAndSee()
             }
         }
+    }
 
-        func _call() -> PubSubDeliverer? {
-            guard !deliverer.isUnderDelivery else {
-                return nil
-            }
-            return deliverer
+    private func callForStandbyDeliverer() -> PubSubDeliverer? {
+        guard !deliverer.isUnderDelivery else {
+            return nil
         }
+        return deliverer
+    }
 
-        func _dequeue() -> [PubSubMessage] {
-            queue.dequeueLimit(10) { message -> Bool in
-                if message.isReadyOnBackground {
-                    return true
-                }
-                return applicationState != .background
+    private func dequeue() -> [PubSubMessage] {
+        let applicationState = application.state
+        return queue.dequeueLimit(10) { message -> Bool in
+            if message.isReadyOnBackground {
+                return true
             }
+            return applicationState != .background
+        }
+    }
+
+    private func done() {
+        execute()
+    }
+
+    private func waitAndSee() {
+        DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1)) { [weak self] in
+            self?.execute()
         }
     }
 
