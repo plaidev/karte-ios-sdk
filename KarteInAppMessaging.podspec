@@ -33,5 +33,4 @@ Pod::Spec.new do |s|
 
   s.dependency 'KarteCore', '~> 2.1'
   s.dependency 'KarteUtilities', '~> 3.0'
-  s.dependency 'KarteDetectors', '~> 2.0'
 end

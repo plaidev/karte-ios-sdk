@@ -15,7 +15,6 @@
 //
 
 import KarteCore
-import KarteDetectors
 import UIKit
 
 internal class IAMProcessPool {
