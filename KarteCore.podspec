@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteCore'
-  s.version                 = '2.2.1'
+  s.version                 = '2.2.2'
   s.summary                 = 'KARTE Core SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -32,5 +32,4 @@ Pod::Spec.new do |s|
   }
 
   s.dependency 'KarteUtilities', '~> 3.0'
-  s.dependency 'KarteDetectors', '~> 2.0'
 end

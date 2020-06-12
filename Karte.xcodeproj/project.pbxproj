@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -78,7 +78,6 @@
 		0C2B3C702382684D008A2708 /* KarteCrashReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C2B3C6E2382684D008A2708 /* KarteCrashReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C2B3C75238269CD008A2708 /* CrashReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B3C74238269CD008A2708 /* CrashReporting.swift */; };
 		0C2B3C77238269E2008A2708 /* CrashReportingLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B3C76238269E2008A2708 /* CrashReportingLoader.m */; };
-		0C38A07C243AD19A00186E02 /* KarteDetectors.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */; };
 		0C3BA7212412412D005816A5 /* JSONConvertibleConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3BA7202412412D005816A5 /* JSONConvertibleConverter.swift */; };
 		0C4945C123B9E35900804700 /* PreviewLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4945C023B9E35900804700 /* PreviewLoader.m */; };
 		0C4945C323B9E36700804700 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4945C223B9E36700804700 /* Preview.swift */; };
@@ -95,6 +94,11 @@
 		0C49FE7323C83F28004B6F2C /* CrashEventConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */; };
 		0C49FE7523C84E88004B6F2C /* KarteUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE7423C84E88004B6F2C /* KarteUtilities.m */; };
 		0C49FEBD23CDC2F5004B6F2C /* KarteCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C72FF8323838E0500C95607 /* KarteCrashReporter.framework */; };
+		0C4B51AE249213FC0075A67D /* WindowSceneDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51AD249213FC0075A67D /* WindowSceneDetector.swift */; };
+		0C4B51B0249216F20075A67D /* WindowDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51AF249216F20075A67D /* WindowDetector.swift */; };
+		0C4B51B42492173B0075A67D /* ClassLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B12492173B0075A67D /* ClassLoader.swift */; };
+		0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */; };
+		0C4B51B62492173B0075A67D /* OpacityDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B32492173B0075A67D /* OpacityDetector.swift */; };
 		0C57796E23DA7E8200054C82 /* KarteApp+RemoteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */; };
 		0C6A5193241B990B00BA0F5E /* IAMProcessConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */; };
 		0C8392622406C4A30014C2BF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0C8392602406C4A30014C2BF /* LICENSE */; };
@@ -288,7 +292,6 @@
 		0CC648BD238CD4DC009EB5DF /* StubResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC648BC238CD4DC009EB5DF /* StubResource.swift */; };
 		0CC648C6238D5559009EB5DF /* success_vt_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648C4238D5559009EB5DF /* success_vt_1.json */; };
 		0CC648C7238D5559009EB5DF /* success_vt_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648C5238D5559009EB5DF /* success_vt_2.json */; };
-		0CDA605824656A3F00DC4706 /* KarteDetectors.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */; };
 		0CDBAC2D239B8FF400CEB853 /* PubSubRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC2C239B8FF400CEB853 /* PubSubRepository.swift */; };
 		0CDBAC5F239C92DC00CEB853 /* SQLiteColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */; };
 		0CDBAC63239C93F800CEB853 /* SQLiteTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */; };
@@ -324,8 +327,6 @@
 		0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE79308238653AD00F0D932 /* SpecConfiguration.swift */; };
 		0CF44AFB242E451000CA7F3A /* success_variables_3.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CF44AFA242E451000CA7F3A /* success_variables_3.json */; };
 		0CF7ED3223E7BF6400DF5903 /* TrackingTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF7ED3123E7BF6400DF5903 /* TrackingTask.swift */; };
-		0CFB1F5A2436380800BC8757 /* KarteDetectors.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */; };
-		0CFB1F5C2436487B00BC8757 /* KarteDetectors.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		36404EB5247D5E8400F35ECB /* DeepLinkEventLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB3247D5E8300F35ECB /* DeepLinkEventLoader.m */; };
 		36404EB6247D5E8400F35ECB /* DeepLinkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */; };
 		36404EB8247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */; };
@@ -480,7 +481,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0CFB1F5C2436487B00BC8757 /* KarteDetectors.xcframework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,6 +546,11 @@
 		0C49FE6B23C82563004B6F2C /* KarteCrashReporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteCrashReporting.m; sourceTree = "<group>"; };
 		0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashEventConverter.swift; sourceTree = "<group>"; };
 		0C49FE7423C84E88004B6F2C /* KarteUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteUtilities.m; sourceTree = "<group>"; };
+		0C4B51AD249213FC0075A67D /* WindowSceneDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowSceneDetector.swift; sourceTree = "<group>"; };
+		0C4B51AF249216F20075A67D /* WindowDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowDetector.swift; sourceTree = "<group>"; };
+		0C4B51B12492173B0075A67D /* ClassLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassLoader.swift; sourceTree = "<group>"; };
+		0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteViewDetector.swift; sourceTree = "<group>"; };
+		0C4B51B32492173B0075A67D /* OpacityDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpacityDetector.swift; sourceTree = "<group>"; };
 		0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KarteApp+RemoteNotification.swift"; sourceTree = "<group>"; };
 		0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessConfiguration.swift; sourceTree = "<group>"; };
 		0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -788,7 +793,6 @@
 		0CE793362386764600F0D932 /* FindMyselfSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyselfSpec.swift; sourceTree = "<group>"; };
 		0CF44AFA242E451000CA7F3A /* success_variables_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_variables_3.json; sourceTree = "<group>"; };
 		0CF7ED3123E7BF6400DF5903 /* TrackingTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingTask.swift; sourceTree = "<group>"; };
-		0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = KarteDetectors.xcframework; path = KarteDetectors/KarteDetectors.xcframework; sourceTree = "<group>"; };
 		2A57DE35F7357D0077E4FCF1 /* Pods-Karte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.release.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.release.xcconfig"; sourceTree = "<group>"; };
 		2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36404EB3247D5E8300F35ECB /* DeepLinkEventLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepLinkEventLoader.m; sourceTree = "<group>"; };
@@ -825,7 +829,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C38A07C243AD19A00186E02 /* KarteDetectors.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,7 +836,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CFB1F5A2436380800BC8757 /* KarteDetectors.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -862,7 +864,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CDA605824656A3F00DC4706 /* KarteDetectors.xcframework in Frameworks */,
 				68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1041,11 +1042,14 @@
 			path = Preview;
 			sourceTree = "<group>";
 		};
-		0C49FF0723D064C9004B6F2C /* KarteDetectors */ = {
+		0C4B51AC24920B260075A67D /* Detectors */ = {
 			isa = PBXGroup;
 			children = (
+				0C4B51B12492173B0075A67D /* ClassLoader.swift */,
+				0C4B51B32492173B0075A67D /* OpacityDetector.swift */,
+				0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */,
 			);
-			path = KarteDetectors;
+			path = Detectors;
 			sourceTree = "<group>";
 		};
 		0C6FE20C22F3F41C00F2FD28 = {
@@ -1058,7 +1062,6 @@
 				0C8974582379050600098CD8 /* KarteVisualTracking */,
 				0C2B3C6D2382684C008A2708 /* KarteCrashReporting */,
 				0C060E992384D76C006AF974 /* KarteUtilities */,
-				0C49FF0723D064C9004B6F2C /* KarteDetectors */,
 				0CE792E423862C9C00F0D932 /* KarteTests */,
 				0C6FE21722F3F41C00F2FD28 /* Products */,
 				0C6FE2D222F826CA00F2FD28 /* Frameworks */,
@@ -1084,7 +1087,6 @@
 		0C6FE2D222F826CA00F2FD28 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0CFB1F58243637E200BC8757 /* KarteDetectors.xcframework */,
 				0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */,
 				2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */,
 			);
@@ -1238,6 +1240,8 @@
 			isa = PBXGroup;
 			children = (
 				0C8392BE2406C7470014C2BF /* SceneId.swift */,
+				0C4B51AF249216F20075A67D /* WindowDetector.swift */,
+				0C4B51AD249213FC0075A67D /* WindowSceneDetector.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -1276,6 +1280,7 @@
 		0C89743E237904EA00098CD8 /* KarteInAppMessaging */ = {
 			isa = PBXGroup;
 			children = (
+				0C4B51AC24920B260075A67D /* Detectors */,
 				0C4945BF23B9E2EB00804700 /* Preview */,
 				0C8975FB237AE27D00098CD8 /* Filter */,
 				0C897606237AE27D00098CD8 /* JavaScript */,
@@ -2563,6 +2568,7 @@
 				0CE339B323F39C9300E2EB98 /* IDFADelegate.swift in Sources */,
 				0C8392912406C6AA0014C2BF /* VersionMigration.swift in Sources */,
 				0C8392BF2406C7470014C2BF /* SceneId.swift in Sources */,
+				0C4B51B0249216F20075A67D /* WindowDetector.swift in Sources */,
 				0CBE62C4239B52F900BDD6CF /* PubSubMessage.swift in Sources */,
 				0C8392AE2406C7010014C2BF /* Dictionary+Extension.swift in Sources */,
 				0C8974D22379094A00098CD8 /* EmptyEventNameFilterRule.swift in Sources */,
@@ -2599,6 +2605,7 @@
 				0CBE62AC239A596300BDD6CF /* ReachabilityService.swift in Sources */,
 				36404EB5247D5E8400F35ECB /* DeepLinkEventLoader.m in Sources */,
 				0CBE62B6239A5AA800BDD6CF /* PubSubSubscriber.swift in Sources */,
+				0C4B51AE249213FC0075A67D /* WindowSceneDetector.swift in Sources */,
 				0C8392B32406C7010014C2BF /* ModuleBase.swift in Sources */,
 				0C8392B22406C7010014C2BF /* ModuleContainer.swift in Sources */,
 				0C8392932406C6AA0014C2BF /* VersionService.swift in Sources */,
@@ -2622,6 +2629,7 @@
 				0C89761C237AE27D00098CD8 /* InAppMessaging.swift in Sources */,
 				0C89761D237AE27D00098CD8 /* IAMProcess.swift in Sources */,
 				0C4945C123B9E35900804700 /* PreviewLoader.m in Sources */,
+				0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */,
 				0C897614237AE27D00098CD8 /* IAMState.swift in Sources */,
 				0C897621237AE27D00098CD8 /* JsMessageName.swift in Sources */,
 				0C89761F237AE27D00098CD8 /* WidgetsState.swift in Sources */,
@@ -2630,10 +2638,12 @@
 				0C897620237AE27D00098CD8 /* JsMessageError.swift in Sources */,
 				0C4945C323B9E36700804700 /* Preview.swift in Sources */,
 				0C49FE6423C6FB1F004B6F2C /* KarteInAppMessaging.m in Sources */,
+				0C4B51B42492173B0075A67D /* ClassLoader.swift in Sources */,
 				0C89761E237AE27D00098CD8 /* IAMWebView.swift in Sources */,
 				0C897613237AE27D00098CD8 /* IAMViewController.swift in Sources */,
 				0C89760D237AE27D00098CD8 /* UITabBarController+TransitionSwizzler.swift in Sources */,
 				0C89760F237AE27D00098CD8 /* UIViewController+TransitionSwizzler.swift in Sources */,
+				0C4B51B62492173B0075A67D /* OpacityDetector.swift in Sources */,
 				0C4945C523B9EA2F00804700 /* PreviewURL.swift in Sources */,
 				0C897611237AE27D00098CD8 /* IAMWindow.swift in Sources */,
 				0C89762F237AFB6600098CD8 /* IAMProxy.swift in Sources */,
@@ -3137,10 +3147,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/KarteDetectors/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"CORE_VERSION=$(MARKETING_VERSION)",
@@ -3152,7 +3159,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3174,10 +3181,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/KarteDetectors/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"CORE_VERSION=$(MARKETING_VERSION)",
@@ -3189,7 +3193,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3209,10 +3213,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/KarteDetectors/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"IN_APP_MESSAGING_VERSION=$(MARKETING_VERSION)",
@@ -3244,10 +3245,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/KarteDetectors/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"IN_APP_MESSAGING_VERSION=$(MARKETING_VERSION)",
@@ -3481,7 +3479,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Nimble\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Quick\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/URITemplate\"",
-					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-i386_x86_64-simulator",
 				);
 				INFOPLIST_FILE = KarteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -3511,7 +3508,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Nimble\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Quick\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/URITemplate\"",
-					"$(PROJECT_DIR)/KarteDetectors/KarteDetectors.xcframework/ios-i386_x86_64-simulator",
 				);
 				INFOPLIST_FILE = KarteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
