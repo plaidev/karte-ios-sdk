@@ -327,6 +327,10 @@
 		0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE79308238653AD00F0D932 /* SpecConfiguration.swift */; };
 		0CF44AFB242E451000CA7F3A /* success_variables_3.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CF44AFA242E451000CA7F3A /* success_variables_3.json */; };
 		0CF7ED3223E7BF6400DF5903 /* TrackingTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF7ED3123E7BF6400DF5903 /* TrackingTask.swift */; };
+		36404EB5247D5E8400F35ECB /* DeepLinkEventLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB3247D5E8300F35ECB /* DeepLinkEventLoader.m */; };
+		36404EB6247D5E8400F35ECB /* DeepLinkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */; };
+		36404EB8247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */; };
+		36404EBA247D5EB400F35ECB /* DeepLinkEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */; };
 		680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */; };
 		68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
@@ -791,6 +795,10 @@
 		0CF7ED3123E7BF6400DF5903 /* TrackingTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingTask.swift; sourceTree = "<group>"; };
 		2A57DE35F7357D0077E4FCF1 /* Pods-Karte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.release.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.release.xcconfig"; sourceTree = "<group>"; };
 		2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		36404EB3247D5E8300F35ECB /* DeepLinkEventLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepLinkEventLoader.m; sourceTree = "<group>"; };
+		36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEvent.swift; sourceTree = "<group>"; };
+		36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkAppOpenEventSpec.swift; sourceTree = "<group>"; };
+		36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEventSpec.swift; sourceTree = "<group>"; };
 		680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBodyParametersSpec.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
@@ -1413,6 +1421,7 @@
 				0CE339AF23F39C9300E2EB98 /* AppKey */,
 				0CE3396523F39C9200E2EB98 /* Configuration */,
 				0C8392E12407842D0014C2BF /* FindMyself */,
+				36404EB2247D5E8300F35ECB /* DeepLinkEvent */,
 				0C83927B2406C6AA0014C2BF /* OptOut */,
 				0C8392702406C6AA0014C2BF /* Pv */,
 				0C8392BD2406C7470014C2BF /* Scene */,
@@ -1849,6 +1858,7 @@
 				0CE79304238653AD00F0D932 /* IdentifyEventSpec.swift */,
 				0CE79305238653AD00F0D932 /* OpenEventSpec.swift */,
 				0CE79306238653AD00F0D932 /* RenewVisitorIdEventSpec.swift */,
+				36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */,
 			);
 			path = Event;
 			sourceTree = "<group>";
@@ -1872,6 +1882,7 @@
 				0C7BC6F423B21DDF0062C461 /* TrackDelegateSpec.swift */,
 				0CE79310238653AD00F0D932 /* ViewSpec.swift */,
 				0CE793362386764600F0D932 /* FindMyselfSpec.swift */,
+				36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -1948,6 +1959,15 @@
 				0CA52D6D2388CB8000A575BC /* IntegrationTests */,
 			);
 			path = KarteVariablesTests;
+			sourceTree = "<group>";
+		};
+		36404EB2247D5E8300F35ECB /* DeepLinkEvent */ = {
+			isa = PBXGroup;
+			children = (
+				36404EB3247D5E8300F35ECB /* DeepLinkEventLoader.m */,
+				36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */,
+			);
+			path = DeepLinkEvent;
 			sourceTree = "<group>";
 		};
 		680C29B22446B95900FB1363 /* Client */ = {
@@ -2573,6 +2593,7 @@
 				0C8392862406C6AA0014C2BF /* PvIdBucket.swift in Sources */,
 				0C83928A2406C6AA0014C2BF /* VisitorIdService.swift in Sources */,
 				0CE33A0423F4008500E2EB98 /* UserSync.swift in Sources */,
+				36404EB6247D5E8400F35ECB /* DeepLinkEvent.swift in Sources */,
 				0C8392B62406C7010014C2BF /* DeepLinkModule.swift in Sources */,
 				0CBE62A7239A58CA00BDD6CF /* TrackingService.swift in Sources */,
 				0C8392B82406C7010014C2BF /* NotificationModule.swift in Sources */,
@@ -2582,6 +2603,7 @@
 				0C8392C82406CF560014C2BF /* DefaultPubSub.swift in Sources */,
 				0CBE62BA239B3CF900BDD6CF /* PubSubPublisher.swift in Sources */,
 				0CBE62AC239A596300BDD6CF /* ReachabilityService.swift in Sources */,
+				36404EB5247D5E8400F35ECB /* DeepLinkEventLoader.m in Sources */,
 				0CBE62B6239A5AA800BDD6CF /* PubSubSubscriber.swift in Sources */,
 				0C4B51AE249213FC0075A67D /* WindowSceneDetector.swift in Sources */,
 				0C8392B32406C7010014C2BF /* ModuleBase.swift in Sources */,
@@ -2740,6 +2762,7 @@
 				0C839301240822A40014C2BF /* InstallEventSpec.swift in Sources */,
 				0CDBACC923A37F0400CEB853 /* GlobalMocks.swift in Sources */,
 				0C83930B240824110014C2BF /* FindMyselfSpec.swift in Sources */,
+				36404EBA247D5EB400F35ECB /* DeepLinkEventSpec.swift in Sources */,
 				0C8392FB240810920014C2BF /* UserSyncParameterSpec.swift in Sources */,
 				0CDBACCF23A8719300CEB853 /* Assertions.swift in Sources */,
 				0C83930D240829310014C2BF /* TrackDelegateSpec.swift in Sources */,
@@ -2751,6 +2774,7 @@
 				0C83930A240823F50014C2BF /* EventFilterSpec.swift in Sources */,
 				0C83930E240829380014C2BF /* TrackSpec.swift in Sources */,
 				0C8392FE240822A40014C2BF /* UpdateEventSpec.swift in Sources */,
+				36404EB8247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift in Sources */,
 				0C839318240838050014C2BF /* ComparisonOperatorSpec.swift in Sources */,
 				0C839304240822A40014C2BF /* FetchVariablesEventSpec.swift in Sources */,
 				0C83931D240838320014C2BF /* TracerTests.swift in Sources */,

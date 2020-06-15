@@ -98,6 +98,16 @@ class EventFieldNameSpec: QuickSpec {
                         expect(EventFieldName.title.rawValue).to(equal("title"))
                     }
                 }
+                context("when the event field name is previousVersionName") {
+                    it("is `prev_version_name`") {
+                        expect(EventFieldName.previousVersionName.rawValue).to(equal("prev_version_name"))
+                    }
+                }
+                context("when the event field name is url") {
+                    it("is `url`") {
+                        expect(EventFieldName.url.rawValue).to(equal("url"))
+                    }
+                }
                 context("when the event field name is localEventDate") {
                     it("is `_local_event_date`") {
                         expect(EventFieldName.localEventDate.rawValue).to(equal("_local_event_date"))

@@ -295,7 +295,6 @@ extension KarteApp {
             if case let .deeplink(module) = module {
                 if module.handle(app: app, open: url) {
                     handled = true
-                    break
                 }
             }
         }
