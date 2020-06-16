@@ -15,7 +15,6 @@
 //
 
 import Foundation
-import KarteDetectors
 import KarteUtilities
 
 public struct AppInfo: Codable {
@@ -87,7 +86,6 @@ extension Resolver {
             }
             modules["core"] = KRTCoreCurrentLibraryVersion()
             modules["utilities"] = KRTUtilitiesCurrentLibraryVersion()
-            modules["detectors"] = KRTDetectorsCurrentLibraryVersion()
             return modules
         }
         register(SystemInfo.self, name: "app_info.system_info") {

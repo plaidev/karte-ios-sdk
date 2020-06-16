@@ -54,7 +54,7 @@ function publish() {
     exit 1
   fi
 
-  local PODSPECS=("KarteDetectors.podspec" "KarteUtilities.podspec" "KarteCore.podspec" "KarteInAppMessaging.podspec" "KarteRemoteNotification.podspec" "KarteVariables.podspec" "KarteVisualTracking.podspec" "KarteCrashReporting.podspec")
+  local PODSPECS=("KarteUtilities.podspec" "KarteCore.podspec" "KarteInAppMessaging.podspec" "KarteRemoteNotification.podspec" "KarteVariables.podspec" "KarteVisualTracking.podspec" "KarteCrashReporting.podspec")
   local SORTED_PODSPECS=()
   for PODSPEC in ${PODSPECS[@]}; do
     for TARGET_PODSPEC in ${TARGET_PODSPECS[@]}; do

@@ -207,12 +207,10 @@ extension IAMWebView {
         self.isHidden = true
         window.addSubview(self)
 
-        if #available(iOS 9.0, *) {
-            window.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
-            window.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
-            window.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
-            window.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
-        }
+        window.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        window.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+        window.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+        window.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
 
         return true
     }

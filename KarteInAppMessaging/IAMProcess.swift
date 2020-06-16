@@ -16,7 +16,6 @@
 
 import Foundation
 import KarteCore
-import KarteDetectors
 import KarteUtilities
 import WebKit
 

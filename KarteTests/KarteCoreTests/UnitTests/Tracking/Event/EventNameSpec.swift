@@ -96,6 +96,11 @@ class EventNameSpec: QuickSpec {
                         expect(EventName.nativeAppRenewVisitorId.rawValue).to(equal("native_app_renew_visitor_id"))
                     }
                 }
+                context("when the event name is deepLinkAppOpen") {
+                    it("is `deep_link_app_open`") {
+                        expect(EventName.deepLinkAppOpen.rawValue).to(equal("deep_link_app_open"))
+                    }
+                }
                 context("when the event name is messageReady") {
                     it("is `_message_ready`") {
                         expect(EventName.messageReady.rawValue).to(equal("_message_ready"))
