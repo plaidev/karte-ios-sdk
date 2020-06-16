@@ -90,8 +90,92 @@ function publish() {
 function publish_pods() {
   local PUBLISH_PODSPECS=($@)
   for PODSPEC in ${PUBLISH_PODSPECS[@]}; do
+    POD_NAME=${PODSPEC%.*}
+    POD_VERSION=`ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t $POD_NAME`
+
     bundle exec pod trunk push $PODSPEC $PODSPEC_OPTS --synchronous
+
+    SLACK_MESSAGE=`get_slack_message $? $POD_NAME ${POD_VERSION##*-}`
+    curl -i -H "Content-type: application/json" -s -S -X POST -d "${SLACK_MESSAGE}" "${SLACK_WEBHOOK_URL}"
   done
+}
+
+function get_slack_message() {
+  local RESULT=$1
+  local NAME=$2
+  local VERSION=$3
+
+  local STATUS="Success"
+  local COLOR="#007a5a"
+  if [ $RESULT -ne 0 ]; then
+    STATUS="Failure"
+    COLOR="#de4e2b"
+  fi
+  cat <<EOF
+{
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "The result of registering a Pod to CocoaPods.\nhttps://cocoapods.org/pods/${NAME}"
+      }
+    },
+  ],
+  "attachments": [
+    {
+      "color": "${COLOR}",
+      "blocks": [
+        {
+          "type": "section",
+          "fields": [
+            {
+              "type": "mrkdwn",
+              "text": "*Status*"
+            },
+            {
+              "type": "plain_text",
+              "text": " "
+            },
+            {
+              "type": "plain_text",
+              "text": "${STATUS}",
+              "emoji": true
+            },
+            {
+              "type": "plain_text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "fields": [
+            {
+              "type": "mrkdwn",
+              "text": "*Module*"
+            },
+            {
+              "type": "mrkdwn",
+              "text": "*Version*"
+            },
+            {
+              "type": "plain_text",
+              "text": "${NAME}",
+              "emoji": true
+            },
+            {
+              "type": "plain_text",
+              "text": "${VERSION}",
+              "emoji": true
+            }
+          ]
+        },
+      ]
+    }
+  ]
+}
+EOF
 }
 
 ##################################################
