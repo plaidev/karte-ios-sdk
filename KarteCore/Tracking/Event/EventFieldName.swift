@@ -65,6 +65,7 @@ public extension EventFieldName {
 
 extension EventFieldName {
     static let previousVersionName = EventFieldName("prev_version_name")
+    static let url = EventFieldName("url")
     static let localEventDate = EventFieldName("_local_event_date")
     static let retry = EventFieldName("_retry")
 }

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteInAppMessaging'
-  s.version                 = '2.1.1'
+  s.version                 = '2.2.0'
   s.summary                 = 'KARTE In-app messaging SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -31,7 +31,6 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'IN_APP_MESSAGING_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteCore', '~> 2.1'
+  s.dependency 'KarteCore', '~> 2.3'
   s.dependency 'KarteUtilities', '~> 3.0'
-  s.dependency 'KarteDetectors', '~> 2.0'
 end

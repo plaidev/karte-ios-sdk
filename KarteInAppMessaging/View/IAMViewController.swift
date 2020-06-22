@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import KarteDetectors
+import KarteCore
 import UIKit
 import WebKit
 
@@ -74,12 +74,10 @@ internal class IAMViewController: UIViewController {
         view.isOpaque = false
         view.addSubview(webView)
 
-        if #available(iOS 9.0, *) {
-            view.topAnchor.constraint(equalTo: webView.topAnchor, constant: 0).isActive = true
-            view.leftAnchor.constraint(equalTo: webView.leftAnchor, constant: 0).isActive = true
-            view.bottomAnchor.constraint(equalTo: webView.bottomAnchor, constant: 0).isActive = true
-            view.rightAnchor.constraint(equalTo: webView.rightAnchor, constant: 0).isActive = true
-        }
+        view.topAnchor.constraint(equalTo: webView.topAnchor, constant: 0).isActive = true
+        view.leftAnchor.constraint(equalTo: webView.leftAnchor, constant: 0).isActive = true
+        view.bottomAnchor.constraint(equalTo: webView.bottomAnchor, constant: 0).isActive = true
+        view.rightAnchor.constraint(equalTo: webView.rightAnchor, constant: 0).isActive = true
     }
 
     deinit {

@@ -87,6 +87,8 @@ public extension EventName {
     static let nativeAppRenewVisitorId   = EventName("native_app_renew_visitor_id")
     /// native_find_myself イベント
     static let nativeFindMyself          = EventName("native_find_myself")
+    /// deep_link_app_open イベント
+    static let deepLinkAppOpen           = EventName("deep_link_app_open")
     /// _message_ready イベント
     static let messageReady              = EventName("_message_ready")
     /// message_open イベント

@@ -89,6 +89,8 @@ public extension Event {
         case install
         /// `native_app_update` イベント
         case update(version: String?)
+        /// `deep_link_app_open` イベント
+        case deepLinkAppOpen(url: String)
         /// `message_xxxxx` イベント
         case message(type: MessageType, campaignId: String, shortenId: String, values: [String: JSONConvertible])
         /// `native_app_renew_visitor_id` イベント
@@ -135,6 +137,10 @@ public extension Event {
             case let .update(version: version):
                 name = .nativeAppUpdate
                 vals = [field(.previousVersionName): version].compactMapValues { $0 }
+
+            case let .deepLinkAppOpen(url: url):
+                name = .deepLinkAppOpen
+                vals = [field(.url): url].compactMapValues { $0 }
 
             case let .message(type: type, campaignId: campaignId, shortenId: shortenId, values: values):
                 let other: [String: JSONConvertible] = [

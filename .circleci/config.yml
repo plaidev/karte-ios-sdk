@@ -4,6 +4,9 @@
 #
 version: 2.1
 
+orbs:
+  slack: circleci/slack@3.4.2
+
 executors:
   build:
     resource_class: medium
@@ -92,6 +95,9 @@ jobs:
           root: DerivedData
           paths:
             - "**/*"
+      - slack/status:
+          fail_only: true
+          
   test:
     parameters:
       device:
@@ -138,6 +144,8 @@ jobs:
           when: always
       - store_artifacts:
           path: output/KarteTests_<< parameters.device >>_<< parameters.os >>.zip"
+      - slack/status:
+          fail_only: true
 
   generate_docs:
     executor:
@@ -154,6 +162,8 @@ jobs:
               ruby ./generate_docs.rb
             fi
           working_directory: /Users/distiller/project/scripts
+      - slack/status:
+          fail_only: true
 
   publish:
     executor:
@@ -165,6 +175,8 @@ jobs:
       - run:
           name: Publish
           command: bash ./scripts/publish.sh
+      - slack/status:
+          fail_only: true
 
   publish_pods:
     executor:
@@ -178,6 +190,8 @@ jobs:
           command: bash ./scripts/publish.sh
           environment:
             PODSPEC_ONLY: 1
+      - slack/status:
+          fail_only: true
 
 workflows:
   version: 2
