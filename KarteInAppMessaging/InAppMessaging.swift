@@ -327,7 +327,10 @@ extension InAppMessaging: ActionModule, UserModule {
     public func receive(response: TrackResponse.Response, request: TrackRequest) {
         var response = response
 
+        let process = pool.retrieveProcess(sceneId: request.sceneId)
+        let isSuppressedInProcess = process?.isSuppressed ?? false
         let filter = MessageFilter.Builder()
+            .add(MessageSuppressionFilterRule(isSuppressed: isSuppressedInProcess || isSuppressed))
             .add(MessagePvIdFilterRule(request: request, app: app))
             .build()
         response.messages = filter.filter(response.messages, exclude: trackMessageSuppressed)
@@ -342,7 +345,7 @@ extension InAppMessaging: ActionModule, UserModule {
             pool.storeProcess(process)
         }
 
-        if let process = pool.retrieveProcess(sceneId: request.sceneId) {
+        if let process = process {
             process.handle(response: response)
         }
     }

@@ -100,6 +100,7 @@
 		0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */; };
 		0C4B51B62492173B0075A67D /* OpacityDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B32492173B0075A67D /* OpacityDetector.swift */; };
 		0C57796E23DA7E8200054C82 /* KarteApp+RemoteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */; };
+		0C5A7D2E24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A7D2D24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift */; };
 		0C6A5193241B990B00BA0F5E /* IAMProcessConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */; };
 		0C8392622406C4A30014C2BF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0C8392602406C4A30014C2BF /* LICENSE */; };
 		0C8392632406C4A30014C2BF /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8392612406C4A30014C2BF /* Resolver.swift */; };
@@ -552,6 +553,7 @@
 		0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteViewDetector.swift; sourceTree = "<group>"; };
 		0C4B51B32492173B0075A67D /* OpacityDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpacityDetector.swift; sourceTree = "<group>"; };
 		0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KarteApp+RemoteNotification.swift"; sourceTree = "<group>"; };
+		0C5A7D2D24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSuppressionFilterRule.swift; sourceTree = "<group>"; };
 		0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessConfiguration.swift; sourceTree = "<group>"; };
 		0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0C72FF8323838E0500C95607 /* KarteCrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KarteCrashReporter.framework; path = PLCrashReporter/KarteCrashReporter.framework; sourceTree = "<group>"; };
@@ -1474,6 +1476,7 @@
 			isa = PBXGroup;
 			children = (
 				0C8975FE237AE27D00098CD8 /* MessagePvIdFilterRule.swift */,
+				0C5A7D2D24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift */,
 			);
 			path = Rules;
 			sourceTree = "<group>";
@@ -2629,6 +2632,7 @@
 				0C89761C237AE27D00098CD8 /* InAppMessaging.swift in Sources */,
 				0C89761D237AE27D00098CD8 /* IAMProcess.swift in Sources */,
 				0C4945C123B9E35900804700 /* PreviewLoader.m in Sources */,
+				0C5A7D2E24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift in Sources */,
 				0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */,
 				0C897614237AE27D00098CD8 /* IAMState.swift in Sources */,
 				0C897621237AE27D00098CD8 /* JsMessageName.swift in Sources */,
