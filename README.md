@@ -13,7 +13,7 @@ Please see the detailed instructions in our docs to add [KARTE iOS SDK](https://
 The developer guide is located at
 - [Developer Portal - KARTE iOS SDK](https://developers.karte.io/docs/ios-sdk-v2)
 
-The API references are located at 
+The API references are located at
 - [KarteCore](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteCore/index.html)
 - [KarteInAppMessaging](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteInAppMessaging/index.html)
 - [KarteRemoteNotification](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteRemoteNotification/index.html)
@@ -22,12 +22,16 @@ The API references are located at
 - [KarteCrashReporting](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteCrashReporting/index.html)
 
 ## Getting Help
-- **Got a question?** 
-  If you have questions, ask in the [KARTE forum](https://forum.karte.io/).
 - **Have a bug to report?**
   [Open a GitHub issue](https://github.com/plaidev/karte-ios-sdk/issues/new). If possible, include the OS version, SDK version and full logs.
 - **Have a feature request?**
   [Open a GitHub issue](https://github.com/plaidev/karte-ios-sdk/issues/new). Tell us what the feature should do and why you want the feature.
+
+## Contributing
+
+Please follow our guidelines.
+ - [Contribution Guideline](https://github.com/plaidev/karte-ios-sdk/blob/master/CONTRIBUTING.md)
+ - [Code of Conduct](https://github.com/plaidev/karte-ios-sdk/blob/master/CONTRIBUTING.md)
 
 ## License
 KARTE iOS SDK is published under the Apache 2.0 License.

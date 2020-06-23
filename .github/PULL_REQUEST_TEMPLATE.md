@@ -1,6 +1,8 @@
-1. 目的
+# Summary
    - related issue number
-2. 方針
-3. 実装
-4. テスト
-5. 相談
+
+# Implementation
+
+# Test plan
+
+# Other Information
