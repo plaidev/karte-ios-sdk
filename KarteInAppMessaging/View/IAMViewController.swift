@@ -100,7 +100,7 @@ extension IAMViewController {
             let style = viewController.modalPresentationStyle
             switch style {
             case .formSheet, .pageSheet, .overCurrentContext, .overFullScreen, .popover:
-                break
+                return behindViewController
 
             default:
                 behindViewController = viewController
