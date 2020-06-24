@@ -14,9 +14,9 @@
 //  limitations under the License.
 //
 
-import Foundation
 import KarteCore
 import KarteUtilities
+import UIKit
 
 internal class PairingClient {
     var app: KarteApp
@@ -24,7 +24,7 @@ internal class PairingClient {
     var timer: SafeTimer
     var isPairing = false
 
-    private var bgTaskSupporter = BackgroundTaskSupporter()
+    private var backgroundTask = BackgroundTask()
 
     init(app: KarteApp, account: Account) {
         self.app = app
@@ -37,6 +37,7 @@ internal class PairingClient {
 
         let timer = SafeTimer(timeInterval: .seconds(5), queue: queue)
         self.timer = timer
+        self.backgroundTask.delegate = self
     }
 
     func startPairing() {
@@ -68,7 +69,11 @@ internal class PairingClient {
 
         isPairing = true
 
-        bgTaskSupporter.observeLifecycle()
+        backgroundTask.observeLifecycle()
+
+        DispatchQueue.main.async {
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
 
         timer.eventHandler = { [weak self] in
             self?.heartbeat()
@@ -84,7 +89,11 @@ internal class PairingClient {
         timer.suspend()
         isPairing = false
 
-        bgTaskSupporter.unobserveLifecycle()
+        backgroundTask.unobserveLifecycle()
+
+        DispatchQueue.main.async {
+            UIApplication.shared.isIdleTimerDisabled = false
+        }
     }
 
     private func heartbeat() {
@@ -102,5 +111,19 @@ internal class PairingClient {
     }
 
     deinit {
+    }
+}
+
+extension PairingClient: BackgroundTaskDelegate {
+    func backgroundTaskShouldStart(_ backgroundTask: BackgroundTask) -> Bool {
+        true
+    }
+
+    func backgroundTaskWillStart(_ backgroundTask: BackgroundTask) {
+        Logger.debug(tag: .visualTracking, message: "Start pairing in the background.")
+    }
+
+    func backgroundTaskDidFinish(_ backgroundTask: BackgroundTask) {
+        Logger.debug(tag: .visualTracking, message: "Ends the pairing in the background.")
     }
 }
