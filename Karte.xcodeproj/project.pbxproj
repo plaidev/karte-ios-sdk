@@ -293,6 +293,7 @@
 		0CC648BD238CD4DC009EB5DF /* StubResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC648BC238CD4DC009EB5DF /* StubResource.swift */; };
 		0CC648C6238D5559009EB5DF /* success_vt_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648C4238D5559009EB5DF /* success_vt_1.json */; };
 		0CC648C7238D5559009EB5DF /* success_vt_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648C5238D5559009EB5DF /* success_vt_2.json */; };
+		0CCFA7AB24A342C200E0F184 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7AA24A342C200E0F184 /* BackgroundTask.swift */; };
 		0CDBAC2D239B8FF400CEB853 /* PubSubRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC2C239B8FF400CEB853 /* PubSubRepository.swift */; };
 		0CDBAC5F239C92DC00CEB853 /* SQLiteColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */; };
 		0CDBAC63239C93F800CEB853 /* SQLiteTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */; };
@@ -335,7 +336,6 @@
 		680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */; };
 		68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
-		6869269C2417375600E94916 /* BackgroundTaskSupporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6869269B2417375600E94916 /* BackgroundTaskSupporter.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
 /* End PBXBuildFile section */
 
@@ -735,6 +735,7 @@
 		0CC648C2238D07B5009EB5DF /* ActionAppropriateViewDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAppropriateViewDetector.swift; sourceTree = "<group>"; };
 		0CC648C4238D5559009EB5DF /* success_vt_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_vt_1.json; sourceTree = "<group>"; };
 		0CC648C5238D5559009EB5DF /* success_vt_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_vt_2.json; sourceTree = "<group>"; };
+		0CCFA7AA24A342C200E0F184 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
 		0CDBAC2C239B8FF400CEB853 /* PubSubRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubRepository.swift; sourceTree = "<group>"; };
 		0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteColumnType.swift; sourceTree = "<group>"; };
 		0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTable.swift; sourceTree = "<group>"; };
@@ -804,7 +805,6 @@
 		680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBodyParametersSpec.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
-		6869269B2417375600E94916 /* BackgroundTaskSupporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskSupporter.swift; sourceTree = "<group>"; };
 		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
 		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
 		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -881,6 +881,7 @@
 				0C060EA02384D7C8006AF974 /* Runtime */,
 				0C060EA32384D7C8006AF974 /* ThirdParty */,
 				0C060ECF2384D7C8006AF974 /* ExponentialBackoff.swift */,
+				0CCFA7AA24A342C200E0F184 /* BackgroundTask.swift */,
 				0CDBACCC23A795B600CEB853 /* Functions.swift */,
 				0C060E9A2384D76C006AF974 /* KarteUtilities.h */,
 				0C49FE7423C84E88004B6F2C /* KarteUtilities.m */,
@@ -1531,7 +1532,6 @@
 				0C8976F523801A3300098CD8 /* PairingRequestBodyParameters.swift */,
 				0C8976F923801F1E00098CD8 /* PairingHeartbeatRequest.swift */,
 				0C8976FB2380206000098CD8 /* PairingHeartbeatRequestBodyParameters.swift */,
-				6869269B2417375600E94916 /* BackgroundTaskSupporter.swift */,
 				684F02052417640900AF4AC0 /* SafeTimer.swift */,
 			);
 			path = Pairing;
@@ -2497,6 +2497,7 @@
 				0C060EF42384D7C8006AF974 /* RequestError.swift in Sources */,
 				0C060EE72384D7C8006AF974 /* URLSessionAdapter.swift in Sources */,
 				0CDBAC71239D26F500CEB853 /* SQLiteTableCache.swift in Sources */,
+				0CCFA7AB24A342C200E0F184 /* BackgroundTask.swift in Sources */,
 				0C060EF12384D7C8006AF974 /* Request.swift in Sources */,
 				0C060EEF2384D7C8006AF974 /* ProtobufBodyParameters.swift in Sources */,
 				0C060EE62384D7C8006AF974 /* SessionAdapter.swift in Sources */,
@@ -2683,7 +2684,6 @@
 				0C8976CD237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift in Sources */,
 				0C8976D2237EE7F500098CD8 /* Action.swift in Sources */,
 				0C8976CC237EE78D00098CD8 /* UIApplication+VisualTracking.swift in Sources */,
-				6869269C2417375600E94916 /* BackgroundTaskSupporter.swift in Sources */,
 				0C8976E8237FE4D200098CD8 /* Definition.swift in Sources */,
 				0C8976F4238016E700098CD8 /* PairingRequest.swift in Sources */,
 				0C8976FA23801F1E00098CD8 /* PairingHeartbeatRequest.swift in Sources */,

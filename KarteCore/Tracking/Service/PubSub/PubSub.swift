@@ -29,6 +29,7 @@ internal enum PubSubResult {
 
 internal protocol PubSub: UsesPubSubRegistrar, UsesPubSubSorter, UsesPubSubDeliverer, PubSubDelivererDelegate {
     var isSuspend: Bool { get set }
+    var count: Int { get }
 
     var publishers: [PubSubPublisherId: PubSubPublisher] { get set }
     var subscribers: [PubSubTopic: PubSubSubscriber] { get set }
@@ -42,6 +43,10 @@ internal protocol PubSub: UsesPubSubRegistrar, UsesPubSubSorter, UsesPubSubDeliv
 }
 
 extension PubSub {
+    var count: Int {
+        registrar.count
+    }
+
     func regist(publisher: PubSubPublisher) {
         if publishers[publisher.id] != nil {
             Logger.warn(tag: .track, message: "Publisher is already registered. \(publisher.id)")
