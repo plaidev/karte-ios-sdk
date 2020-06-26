@@ -15,21 +15,28 @@
 //
 
 import KarteCore
-import KarteUtilities
-import ObjectiveC
 import UIKit
 
 internal class FCMTokenRegistrar {
-    static let shared = FCMTokenRegistrar()
+    static let shared = FCMTokenRegistrar(DefaultNotificationSettingsProvider())
 
+    private var notificationSettingsProvider: NotificationSettingsProvider
     private var token: String?
     private var subscribe = false
 
-    init() {
+    init(_ notificationSettingsProvider: NotificationSettingsProvider) {
+        self.notificationSettingsProvider = notificationSettingsProvider
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didBecomeActiveNotification(_:)),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
 
     func registerFCMToken() {
-        registerFCMToken(fcmToken)
+        registerFCMToken(notificationSettingsProvider.fcmToken)
     }
 
     func registerFCMToken(_ token: String?) {
@@ -37,15 +44,16 @@ internal class FCMTokenRegistrar {
             return
         }
 
-        guard isChanged(token: token) else {
-            return
+        notificationSettingsProvider.checkAvailability { [weak self] subscribe in
+            guard let self = self, self.isChanged(token: token, subscribe: subscribe) else {
+                return
+            }
+
+            Tracker.track(event: Event(.pluginNativeAppIdentify(subscribe: subscribe, fcmToken: token)))
+
+            self.subscribe = subscribe
+            self.token = token
         }
-
-        let subscribe = isNotificationAvailable
-        Tracker.track(event: Event(.pluginNativeAppIdentify(subscribe: subscribe, fcmToken: token)))
-
-        self.subscribe = subscribe
-        self.token = token
     }
 
     func unregisterFCMToken(visitorId: String? = nil) {
@@ -57,36 +65,28 @@ internal class FCMTokenRegistrar {
     }
 
     deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
 }
 
 extension FCMTokenRegistrar {
-    private var isNotificationAvailable: Bool {
-        let types = UIApplication.shared.currentUserNotificationSettings?.types ?? []
-        return types.intersection([.alert, .badge, .sound]).rawValue > 0
-    }
-
-    private var fcmToken: String? {
-        guard let messagingClass = NSClassFromString("FIRMessaging") else {
-            return nil
-        }
-        guard let messaging = AnyObjectHelper.propertyValue(from: messagingClass, propertyName: "messaging", cls: messagingClass) else {
-            return nil
-        }
-        guard let token = AnyObjectHelper.propertyValue(from: messaging, propertyName: "FCMToken", cls: NSString.self) as? String else {
-            return nil
-        }
-        return token
-    }
-
-    private func isChanged(token: String) -> Bool {
+    private func isChanged(token: String, subscribe: Bool) -> Bool {
         guard self.token == token else {
             return true
         }
-        guard self.subscribe == self.isNotificationAvailable else {
+        guard self.subscribe == subscribe else {
             return true
         }
         return false
+    }
+
+    @objc
+    private func didBecomeActiveNotification(_ notification: Notification) {
+        registerFCMToken()
     }
 }
 

@@ -294,6 +294,9 @@
 		0CC648C6238D5559009EB5DF /* success_vt_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648C4238D5559009EB5DF /* success_vt_1.json */; };
 		0CC648C7238D5559009EB5DF /* success_vt_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648C5238D5559009EB5DF /* success_vt_2.json */; };
 		0CCFA7AB24A342C200E0F184 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7AA24A342C200E0F184 /* BackgroundTask.swift */; };
+		0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */; };
+		0CCFA7B924A5871200E0F184 /* NotificationSettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7B824A5871200E0F184 /* NotificationSettingsProvider.swift */; };
+		0CCFA7BB24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7BA24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift */; };
 		0CDBAC2D239B8FF400CEB853 /* PubSubRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC2C239B8FF400CEB853 /* PubSubRepository.swift */; };
 		0CDBAC5F239C92DC00CEB853 /* SQLiteColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */; };
 		0CDBAC63239C93F800CEB853 /* SQLiteTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */; };
@@ -736,6 +739,9 @@
 		0CC648C4238D5559009EB5DF /* success_vt_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_vt_1.json; sourceTree = "<group>"; };
 		0CC648C5238D5559009EB5DF /* success_vt_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_vt_2.json; sourceTree = "<group>"; };
 		0CCFA7AA24A342C200E0F184 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
+		0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMTokenRegistrarSpec.swift; sourceTree = "<group>"; };
+		0CCFA7B824A5871200E0F184 /* NotificationSettingsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsProvider.swift; sourceTree = "<group>"; };
+		0CCFA7BA24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsProviderMock.swift; sourceTree = "<group>"; };
 		0CDBAC2C239B8FF400CEB853 /* PubSubRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubRepository.swift; sourceTree = "<group>"; };
 		0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteColumnType.swift; sourceTree = "<group>"; };
 		0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTable.swift; sourceTree = "<group>"; };
@@ -1502,6 +1508,7 @@
 				0C897692237BBA9300098CD8 /* RemoteNotificationKey.swift */,
 				0C897695237BBA9300098CD8 /* FCMTokenRegistrar.swift */,
 				0C897696237BBA9300098CD8 /* Measurement.swift */,
+				0CCFA7B824A5871200E0F184 /* NotificationSettingsProvider.swift */,
 				0C897694237BBA9300098CD8 /* RemoteNotificationProxy.swift */,
 				0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */,
 				0C1257502418942800034DFF /* Tracker+RemoteNotification.swift */,
@@ -1583,6 +1590,7 @@
 			isa = PBXGroup;
 			children = (
 				0CA52D6C2387E20B00A575BC /* UnitTests */,
+				0CCFA7B324A5810500E0F184 /* IntegrationTests */,
 			);
 			path = KarteRemoteNotification;
 			sourceTree = "<group>";
@@ -1691,6 +1699,14 @@
 			path = IntegrationTests;
 			sourceTree = "<group>";
 		};
+		0CCFA7B324A5810500E0F184 /* IntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */,
+			);
+			path = IntegrationTests;
+			sourceTree = "<group>";
+		};
 		0CDBAC50239C922300CEB853 /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -1789,6 +1805,7 @@
 				0C83931E240838BD0014C2BF /* PubSubApplicationMock.swift */,
 				0C8392EF2407BF370014C2BF /* VisitorIdGeneratorMock.swift */,
 				0C8392F62407CE100014C2BF /* VersionRetrieverMock.swift */,
+				0CCFA7BA24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -2722,6 +2739,7 @@
 				0C897698237BBA9300098CD8 /* RemoteNotification.swift in Sources */,
 				0C897699237BBA9300098CD8 /* RemoteNotificationProxy.swift in Sources */,
 				0C897697237BBA9300098CD8 /* RemoteNotificationKey.swift in Sources */,
+				0CCFA7B924A5871200E0F184 /* NotificationSettingsProvider.swift in Sources */,
 				0C8FF84B2418A963007BF7B1 /* TrackerObjectiveC+RemoteNotification.swift in Sources */,
 				0C89769D237BBB0D00098CD8 /* RemoteNotificationLoader.m in Sources */,
 				0C49FE6623C82444004B6F2C /* KarteRemoteNotification.m in Sources */,
@@ -2750,6 +2768,7 @@
 				680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */,
 				0C8392F02407BF370014C2BF /* VisitorIdGeneratorMock.swift in Sources */,
 				0C8393112408319F0014C2BF /* IdentifySpec.swift in Sources */,
+				0CCFA7BB24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift in Sources */,
 				0C839313240837D40014C2BF /* VariableSpec.swift in Sources */,
 				0C83931B240838320014C2BF /* DefinitionLoadSpec.swift in Sources */,
 				0C8392F82407CEC50014C2BF /* VersionServiceSpec.swift in Sources */,
@@ -2757,6 +2776,7 @@
 				0C8392F32407CCD20014C2BF /* DictionaryExtensionTests.swift in Sources */,
 				0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */,
 				0CC648B8238CCFC3009EB5DF /* StubBuilder.swift in Sources */,
+				0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */,
 				0C839316240838050014C2BF /* ActionAppropriateViewDetector.swift in Sources */,
 				0C8392FF240822A40014C2BF /* BackgroundEventSpec.swift in Sources */,
 				0C83930F2408294D0014C2BF /* TrackCommonSpec.swift in Sources */,
