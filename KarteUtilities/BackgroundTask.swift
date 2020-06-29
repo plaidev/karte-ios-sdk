@@ -17,14 +17,50 @@
 import Foundation
 import UIKit
 
-internal class BackgroundTaskSupporter {
+public protocol BackgroundTaskDelegate: AnyObject {
+    func backgroundTaskShouldStart(_ backgroundTask: BackgroundTask) -> Bool
+    func backgroundTaskWillStart(_ backgroundTask: BackgroundTask)
+    func backgroundTaskDidFinish(_ backgroundTask: BackgroundTask)
+}
+
+/// バックグラウンドタスクの状態を管理するためのクラスです。
+public class BackgroundTask {
     private var backgroundTaskID = UIBackgroundTaskIdentifier.invalid
 
-    func observeLifecycle() {
-        DispatchQueue.main.async {
-            UIApplication.shared.isIdleTimerDisabled = true
+    /// `BackgroundTaskDelegate` インスタンスを保持します。
+    public weak var delegate: BackgroundTaskDelegate?
+
+    /// イニシャライザ
+    public init() {
+    }
+
+    /// バックグラウンドタスクを開始します。
+    public func start() {
+        guard backgroundTaskID == .invalid else {
+            return
         }
 
+        delegate?.backgroundTaskWillStart(self)
+
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask {
+            self.finish()
+        }
+    }
+
+    /// バックグラウンドタスクを終了します。
+    public func finish() {
+        guard backgroundTaskID != .invalid else {
+            return
+        }
+
+        UIApplication.shared.endBackgroundTask(backgroundTaskID)
+        backgroundTaskID = .invalid
+
+        delegate?.backgroundTaskDidFinish(self)
+    }
+
+    /// アプリケーションのライフサイクルイベントの発生を監視します。
+    public func observeLifecycle() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didBecomeActiveNotification(_:)),
@@ -39,11 +75,8 @@ internal class BackgroundTaskSupporter {
         )
     }
 
-    func unobserveLifecycle() {
-        DispatchQueue.main.async {
-            UIApplication.shared.isIdleTimerDisabled = false
-        }
-
+    /// アプリケーションのライフサイクルイベントの監視を終了します。
+    public func unobserveLifecycle() {
         NotificationCenter.default.removeObserver(
             self,
             name: UIApplication.didBecomeActiveNotification,
@@ -58,16 +91,15 @@ internal class BackgroundTaskSupporter {
 
     @objc
     private func didBecomeActiveNotification(_ notification: Notification) {
-        UIApplication.shared.endBackgroundTask(backgroundTaskID)
-        backgroundTaskID = .invalid
+        finish()
     }
 
     @objc
     private func willResignActiveNotification(_ notification: Notification) {
-        backgroundTaskID = UIApplication.shared.beginBackgroundTask {
-            UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
-            self.backgroundTaskID = .invalid
+        guard delegate?.backgroundTaskShouldStart(self) ?? true else {
+            return
         }
+        start()
     }
 
     deinit {

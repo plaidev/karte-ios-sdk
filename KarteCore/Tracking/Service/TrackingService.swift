@@ -26,6 +26,7 @@ internal class TrackingService {
     var lifecycleObserver: ApplicationLifecycleObserver
     var publisher: PubSubPublisher
     var pubsub: PubSub
+    var backgroundTask: BackgroundTask
 
     weak var delegate: TrackerDelegate?
 
@@ -35,11 +36,14 @@ internal class TrackingService {
         self.lifecycleObserver = ApplicationLifecycleObserver()
         self.publisher = DefaultPubSubPublisher()
         self.pubsub = DefaultPubSub()
+        self.backgroundTask = BackgroundTask()
 
         publisher.delegate = self
         pubsub.regist(publisher: publisher)
         pubsub.regist(subscriber: DefaultPubSubSubscriber(app: app), topic: .default)
         pubsub.regist(subscriber: RetryPubSubSubscriber(app: app), topic: .retry)
+
+        backgroundTask.delegate = self
 
         reachabilityService.whenReachable = { [weak self] in
             Logger.info(tag: .track, message: "Communication is possible.")
@@ -49,9 +53,8 @@ internal class TrackingService {
             Logger.info(tag: .track, message: "Communication is impossible.")
             self?.pubsub.isSuspend = true
         }
-        reachabilityService.startNotifier()
 
-        lifecycleObserver.start()
+        observe()
     }
 
     func trackInitialEvents() {
@@ -90,8 +93,7 @@ internal class TrackingService {
     }
 
     deinit {
-        reachabilityService.stopNotifier()
-        lifecycleObserver.stop()
+        unobserve()
     }
 }
 
@@ -159,6 +161,36 @@ internal extension TrackingService {
     func teardown() {
         pubsub.teardown()
     }
+
+    func observe() {
+        reachabilityService.startNotifier()
+        lifecycleObserver.start()
+        backgroundTask.observeLifecycle()
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(pubsubQueueDidEmptyNotification(_:)),
+            name: .pubsubQueueDidEmptyNotification,
+            object: nil
+        )
+    }
+
+    func unobserve() {
+        reachabilityService.stopNotifier()
+        lifecycleObserver.stop()
+        backgroundTask.unobserveLifecycle()
+
+        NotificationCenter.default.removeObserver(
+            self,
+            name: .pubsubQueueDidEmptyNotification,
+            object: nil
+        )
+    }
+
+    @objc
+    func pubsubQueueDidEmptyNotification(_ notification: Notification) {
+        backgroundTask.finish()
+    }
 }
 
 extension TrackingService: PubSubPublisherDelegate {
@@ -171,6 +203,21 @@ extension TrackingService: PubSubPublisherDelegate {
         } else {
             task.reject()
         }
+    }
+}
+
+extension TrackingService: BackgroundTaskDelegate {
+    func backgroundTaskShouldStart(_ backgroundTask: BackgroundTask) -> Bool {
+        // swiftlint:disable:next empty_count
+        pubsub.count > 0
+    }
+
+    func backgroundTaskWillStart(_ backgroundTask: BackgroundTask) {
+        Logger.debug(tag: .track, message: "Start sending events in the background because there are unsent events.")
+    }
+
+    func backgroundTaskDidFinish(_ backgroundTask: BackgroundTask) {
+        Logger.debug(tag: .track, message: "Ends the sending of unsent events.")
     }
 }
 

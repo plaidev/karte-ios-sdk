@@ -298,11 +298,6 @@ extension IAMProcess {
 
 extension IAMProcess: IAMWebViewDelegate {
     func showInAppMessagingWebView(_ webView: IAMWebView) -> Bool {
-        if InAppMessaging.shared.isSuppressed || isSuppressed {
-            Logger.verbose(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because currently suppressed.")
-            return false
-        }
-
         if let superview = webView.superview, superview.isKind(of: IAMWindow.self) {
             Logger.verbose(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because already presented.")
             return true
