@@ -22,6 +22,7 @@ function set_remote_repository() {
   EXIST_REMOTE_REPO=`git remote | grep sync_repo | echo $?`
   if [[ $EXIST_REMOTE_REPO == 0 ]]; then
     git remote add sync_repo ${GITHUB_REMOTE_ADDRESS}
+    git fetch sync_repo
   fi
 }
 
@@ -200,7 +201,7 @@ if [ -z $PODSPEC_ONLY ]; then
 
   set_remote_repository
 
-  DIFF_TARGETS=(`git diff --name-only origin/develop | grep podspec`)
+  DIFF_TARGETS=(`git diff --name-only sync_repo/master | grep podspec`)
   publish ${DIFF_TARGETS[@]}
 else
   if [ -z "$PODSPECS" ]; then
