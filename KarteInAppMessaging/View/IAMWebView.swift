@@ -100,6 +100,11 @@ internal class IAMWebView: WKWebView {
         }
     }
 
+    func handleChangePv() {
+        evaluateJavaScript("tracker.handleChangePv()", completionHandler: nil)
+        Logger.verbose(tag: .inAppMessaging, message: "Evaluate handleChangePv()")
+    }
+
     func changeJavaScript(state: JsState?) {
         guard let state = state else {
             Logger.debug(tag: .inAppMessaging, message: "Js state is unknown.")
@@ -166,7 +171,8 @@ internal class IAMWebView: WKWebView {
     }
 
     func reset(mode: ResetMode) {
-        evaluateJavaScript("tracker.resetPageState()", completionHandler: nil)
+        let forceClose = mode == .hard
+        evaluateJavaScript("tracker.resetPageState(\(forceClose))", completionHandler: nil)
         switch mode {
         case .soft:
             break

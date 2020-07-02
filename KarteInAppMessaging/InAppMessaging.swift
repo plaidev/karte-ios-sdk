@@ -352,7 +352,8 @@ extension InAppMessaging: ActionModule, UserModule {
 
     public func reset(sceneId: SceneId) {
         if let process = pool.retrieveProcess(sceneId: sceneId) {
-            process.dismiss()
+            process.handleChangePv()
+            process.dismiss(mode: .soft)
         }
     }
 
