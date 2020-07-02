@@ -38,6 +38,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0C01DB4024AC447E007F7DC1 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */; };
 		0C060E5B2383D116006AF974 /* CrashReport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C060E592383D116006AF974 /* CrashReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C060E5C2383D116006AF974 /* CrashReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C060E5A2383D116006AF974 /* CrashReport.m */; };
 		0C060E9C2384D76C006AF974 /* KarteUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C060E9A2384D76C006AF974 /* KarteUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,7 +94,6 @@
 		0C49FE6C23C82563004B6F2C /* KarteCrashReporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE6B23C82563004B6F2C /* KarteCrashReporting.m */; };
 		0C49FE7323C83F28004B6F2C /* CrashEventConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */; };
 		0C49FE7523C84E88004B6F2C /* KarteUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE7423C84E88004B6F2C /* KarteUtilities.m */; };
-		0C49FEBD23CDC2F5004B6F2C /* KarteCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C72FF8323838E0500C95607 /* KarteCrashReporter.framework */; };
 		0C4B51AE249213FC0075A67D /* WindowSceneDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51AD249213FC0075A67D /* WindowSceneDetector.swift */; };
 		0C4B51B0249216F20075A67D /* WindowDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51AF249216F20075A67D /* WindowDetector.swift */; };
 		0C4B51B42492173B0075A67D /* ClassLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B12492173B0075A67D /* ClassLoader.swift */; };
@@ -491,6 +491,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		0C060E592383D116006AF974 /* CrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReport.h; sourceTree = "<group>"; };
 		0C060E5A2383D116006AF974 /* CrashReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrashReport.m; sourceTree = "<group>"; };
 		0C060E982384D76C006AF974 /* KarteUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -559,7 +560,6 @@
 		0C5A7D2D24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSuppressionFilterRule.swift; sourceTree = "<group>"; };
 		0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessConfiguration.swift; sourceTree = "<group>"; };
 		0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		0C72FF8323838E0500C95607 /* KarteCrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KarteCrashReporter.framework; path = PLCrashReporter/KarteCrashReporter.framework; sourceTree = "<group>"; };
 		0C7BC6F423B21DDF0062C461 /* TrackDelegateSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDelegateSpec.swift; sourceTree = "<group>"; };
 		0C8392592406C45C0014C2BF /* SystemInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemInfo.swift; sourceTree = "<group>"; };
 		0C83925A2406C45C0014C2BF /* AppInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
@@ -829,7 +829,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C49FEBD23CDC2F5004B6F2C /* KarteCrashReporter.framework in Frameworks */,
+				0C01DB4024AC447E007F7DC1 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1028,7 +1028,7 @@
 		0C2B3C6D2382684C008A2708 /* KarteCrashReporting */ = {
 			isa = PBXGroup;
 			children = (
-				0C72FF8323838E0500C95607 /* KarteCrashReporter.framework */,
+				0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */,
 				0C2B3C74238269CD008A2708 /* CrashReporting.swift */,
 				0C2B3C76238269E2008A2708 /* CrashReportingLoader.m */,
 				0C060E592383D116006AF974 /* CrashReport.h */,
@@ -2994,7 +2994,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3029,7 +3029,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

@@ -98,19 +98,21 @@
         }
     }
 
-    if (codeType == nil) {
-        switch (crashReport.systemInfo.architecture) {
-            case PLCrashReportArchitectureARMv6:
-            case PLCrashReportArchitectureARMv7:
-                codeType = @"ARM";
+    if (codeType == nil && crashReport.systemInfo.processorInfo.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
+        switch (crashReport.systemInfo.processorInfo.type) {
+            case CPU_TYPE_ARM:
                 lp64 = NO;
                 break;
-            case PLCrashReportArchitectureX86_32:
-                codeType = @"X86";
+
+            case CPU_TYPE_ARM64:
+                lp64 = YES;
+                break;
+
+            case CPU_TYPE_X86:
                 lp64 = NO;
                 break;
-            case PLCrashReportArchitectureX86_64:
-                codeType = @"X86-64";
+
+            case CPU_TYPE_X86_64:
                 lp64 = YES;
                 break;
 
@@ -123,34 +125,57 @@
     return lp64;
 }
 
-- (NSString *)formatStackFrame:(KRTPLCrashReportStackFrameInfo *)stackFrameInfo frameIndex:(NSUInteger)frameIndex crashReport:(KRTPLCrashReport *)crashReport lp64:(BOOL)lp64
+- (NSString *)formatStackFrame:(KRTPLCrashReportStackFrameInfo *)frameInfo frameIndex:(NSUInteger)frameIndex crashReport:(KRTPLCrashReport *)report lp64:(BOOL)lp64
 {
+    /* Base image address containing instrumention pointer, offset of the IP from that base
+     * address, and the associated image name */
     uint64_t baseAddress = 0x0;
     uint64_t pcOffset = 0x0;
-    NSString *binaryImageName = @"\?\?\?";
+    NSString *imageName = @"\?\?\?";
     NSString *symbolString = nil;
 
-    KRTPLCrashReportBinaryImageInfo *binaryImageInfo = [crashReport imageForAddress:stackFrameInfo.instructionPointer];
-    if (binaryImageInfo != nil) {
-        binaryImageName = [binaryImageInfo.imageName lastPathComponent];
-        baseAddress = binaryImageInfo.imageBaseAddress;
-        pcOffset = stackFrameInfo.instructionPointer - binaryImageInfo.imageBaseAddress;
+    PLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress:frameInfo.instructionPointer];
+    if (imageInfo != nil) {
+        imageName = [imageInfo.imageName lastPathComponent];
+        baseAddress = imageInfo.imageBaseAddress;
+        pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
     }
 
-    if (stackFrameInfo.symbolInfo != nil) {
-        NSString *symbolName = stackFrameInfo.symbolInfo.symbolName;
+    /* If symbol info is available, the format used in Apple's reports is Sym + OffsetFromSym. Otherwise,
+     * the format used is imageBaseAddress + offsetToIP */
+    if (frameInfo.symbolInfo != nil) {
+        NSString *symbolName = frameInfo.symbolInfo.symbolName;
 
-        if ([symbolName rangeOfString:@"_"].location == 0 && symbolName.length > 1) {
-            symbolName = [symbolName substringFromIndex:1];
+        /* Apple strips the _ symbol prefix in their reports. */
+        if ([symbolName rangeOfString: @"_"].location == 0 && [symbolName length] > 1) {
+            switch (report.systemInfo.operatingSystem) {
+                case PLCrashReportOperatingSystemMacOSX:
+                case PLCrashReportOperatingSystemiPhoneOS:
+                case PLCrashReportOperatingSystemAppleTVOS:
+                case PLCrashReportOperatingSystemiPhoneSimulator:
+                    symbolName = [symbolName substringFromIndex: 1];
+                    break;
+
+                default:
+                    break;
+            }
         }
-
-        uint64_t symbolOffset = stackFrameInfo.instructionPointer - stackFrameInfo.symbolInfo.startAddress;
-        symbolString = [NSString stringWithFormat:@"%@ + %" PRId64, symbolName, symbolOffset];
+        
+        
+        uint64_t symOffset = frameInfo.instructionPointer - frameInfo.symbolInfo.startAddress;
+        symbolString = [NSString stringWithFormat: @"%@ + %" PRId64, symbolName, symOffset];
     } else {
-        symbolString = [NSString stringWithFormat:@"0x%" PRIx64 " + %" PRId64, baseAddress, pcOffset];
+        symbolString = [NSString stringWithFormat: @"0x%" PRIx64 " + %" PRId64, baseAddress, pcOffset];
     }
 
-    return [NSString stringWithFormat:@"%-4ld%-35S 0x%0*" PRIx64 " %@\n", (long)frameIndex, (const uint16_t *)[binaryImageName cStringUsingEncoding:NSUTF16StringEncoding], lp64 ? 16 : 8, stackFrameInfo.instructionPointer, symbolString];
+    /* Note that width specifiers are ignored for %@, but work for C strings.
+     * UTF-8 is not correctly handled with %s (it depends on the system encoding), but
+     * UTF-16 is supported via %S, so we use it here */
+    return [NSString stringWithFormat: @"%-4ld%-35S 0x%0*" PRIx64 " %@\n",
+            (long) frameIndex,
+            (const uint16_t *)[imageName cStringUsingEncoding: NSUTF16StringEncoding],
+            lp64 ? 16 : 8, frameInfo.instructionPointer,
+            symbolString];
 }
 
 @end
