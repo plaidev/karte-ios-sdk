@@ -118,6 +118,13 @@ jobs:
                             -derivedDataPath DerivedData \
                             -resultBundlePath "output/KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
       - run:
+          name: Codecov
+          command: |
+            bundle exec slather
+            DEVICE=`echo ${BUILD_TARGET_DEVICE} | sed 's/_/ /g'`
+            OS=`echo ${BUILD_TARGET_OS} | sed 's/_/\./g'`
+            bash <(curl -s https://codecov.io/bash) -f ./cobertura.xml -X coveragepy -X gcov -X xcode -build_directory "output/KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
+      - run:
           name: Archive test result
           command: zip -r "KarteTests-results.zip" "KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
           working_directory: /Users/distiller/project/output
