@@ -14,9 +14,9 @@
 //  limitations under the License.
 //
 
+import CrashReporter
 import Foundation
 import KarteCore
-import KarteCrashReporter
 
 /// CrashReportingモジュールクラスです。
 @objc(KRTCrashReporting)
