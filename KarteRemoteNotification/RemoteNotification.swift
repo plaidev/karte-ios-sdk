@@ -114,6 +114,7 @@ extension RemoteNotification: Library {
     public static func configure(app: KarteApp) {
         app.register(module: .user(FCMTokenRegistrar.shared))
         app.register(module: .notification(FCMTokenRegistrar.shared))
+        app.register(module: .deeplink(NotificationCommandHandler.shared))
 
         if RemoteNotificationProxy.shared.canSwizzleMethods {
             RemoteNotificationProxy.shared.swizzleMethods()
@@ -123,6 +124,7 @@ extension RemoteNotification: Library {
     public static func unconfigure(app: KarteApp) {
         app.unregister(module: .user(FCMTokenRegistrar.shared))
         app.unregister(module: .notification(FCMTokenRegistrar.shared))
+        app.unregister(module: .deeplink(NotificationCommandHandler.shared))
 
         if RemoteNotificationProxy.shared.canSwizzleMethods {
             RemoteNotificationProxy.shared.unswizzleMethods()
