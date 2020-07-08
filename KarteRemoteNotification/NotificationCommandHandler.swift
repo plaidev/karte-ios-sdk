@@ -14,20 +14,26 @@
 //  limitations under the License.
 //
 
-@import Foundation;
-@import CrashReporter;
+import KarteCore
+import UIKit
 
-NS_ASSUME_NONNULL_BEGIN
+internal class NotificationCommandHandler {
+    static let shared = NotificationCommandHandler()
 
-@interface KRTCrashReport : NSObject
-@property(nonatomic, readonly, nullable) NSString *type;
-@property(nonatomic, readonly, nullable) NSString *code;
-@property(nonatomic, readonly, nullable) NSString *name;
-@property(nonatomic, readonly, nullable) NSString *reason;
-@property(nonatomic, readonly, nullable) NSString *symbols;
-@property(nonatomic, readonly, nullable) NSDate *timestamp;
+    init() {
+    }
 
-- (instancetype)initWithCrashReport:(KRTPLCrashReport *)crashReport;
-@end
+    deinit {
+    }
+}
 
-NS_ASSUME_NONNULL_END
+extension NotificationCommandHandler: DeepLinkModule {
+    public var name: String {
+        String(describing: type(of: self))
+    }
+
+    public func handle(app: UIApplication, open url: URL) -> Bool {
+        let cmd = RegisterPushCommand()
+        return cmd.run(url: url)
+    }
+}

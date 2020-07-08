@@ -14,20 +14,18 @@
 //  limitations under the License.
 //
 
-@import Foundation;
-@import CrashReporter;
+import UIKit
 
-NS_ASSUME_NONNULL_BEGIN
+internal struct OpenSettingsCommand: Command {
+    func validate(_ url: URL) -> Bool {
+        url.host == "open-settings"
+    }
 
-@interface KRTCrashReport : NSObject
-@property(nonatomic, readonly, nullable) NSString *type;
-@property(nonatomic, readonly, nullable) NSString *code;
-@property(nonatomic, readonly, nullable) NSString *name;
-@property(nonatomic, readonly, nullable) NSString *reason;
-@property(nonatomic, readonly, nullable) NSString *symbols;
-@property(nonatomic, readonly, nullable) NSDate *timestamp;
-
-- (instancetype)initWithCrashReport:(KRTPLCrashReport *)crashReport;
-@end
-
-NS_ASSUME_NONNULL_END
+    func execute() {
+        if #available(iOS 10.0, *) {
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
+}

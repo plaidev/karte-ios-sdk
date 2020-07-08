@@ -38,6 +38,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0C01DB4024AC447E007F7DC1 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */; };
 		0C060E5B2383D116006AF974 /* CrashReport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C060E592383D116006AF974 /* CrashReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C060E5C2383D116006AF974 /* CrashReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C060E5A2383D116006AF974 /* CrashReport.m */; };
 		0C060E9C2384D76C006AF974 /* KarteUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C060E9A2384D76C006AF974 /* KarteUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,7 +94,6 @@
 		0C49FE6C23C82563004B6F2C /* KarteCrashReporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE6B23C82563004B6F2C /* KarteCrashReporting.m */; };
 		0C49FE7323C83F28004B6F2C /* CrashEventConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */; };
 		0C49FE7523C84E88004B6F2C /* KarteUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE7423C84E88004B6F2C /* KarteUtilities.m */; };
-		0C49FEBD23CDC2F5004B6F2C /* KarteCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C72FF8323838E0500C95607 /* KarteCrashReporter.framework */; };
 		0C4B51AE249213FC0075A67D /* WindowSceneDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51AD249213FC0075A67D /* WindowSceneDetector.swift */; };
 		0C4B51B0249216F20075A67D /* WindowDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51AF249216F20075A67D /* WindowDetector.swift */; };
 		0C4B51B42492173B0075A67D /* ClassLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B12492173B0075A67D /* ClassLoader.swift */; };
@@ -337,6 +337,16 @@
 		36404EB8247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */; };
 		36404EBA247D5EB400F35ECB /* DeepLinkEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */; };
 		680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */; };
+		680DB3C1247FC98400AE6800 /* RegisterPushCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680DB3BC247F2B7700AE6800 /* RegisterPushCommand.swift */; };
+		680DB3C52480F67B00AE6800 /* RegisterPushCommandSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680DB3C42480F67B00AE6800 /* RegisterPushCommandSpec.swift */; };
+		680DB3C82480F74E00AE6800 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680DB3C72480F74E00AE6800 /* Command.swift */; };
+		681E838D248246B700A95083 /* RequestReviewCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E838C248246B700A95083 /* RequestReviewCommand.swift */; };
+		681E838F2482510200A95083 /* CommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E838E2482510200A95083 /* CommandHandler.swift */; };
+		681E8391248252EE00A95083 /* CommandHandlerLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 681E8390248252EE00A95083 /* CommandHandlerLoader.m */; };
+		681E83952482A90E00A95083 /* OpenSettingsCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E83942482A90E00A95083 /* OpenSettingsCommand.swift */; };
+		681E83992483B54800A95083 /* RequestReviewCommandSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E83982483B54800A95083 /* RequestReviewCommandSpec.swift */; };
+		681E839B2483B5C800A95083 /* OpenSettingsCommandSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E839A2483B5C800A95083 /* OpenSettingsCommandSpec.swift */; };
+		681F0EA724975F9B0080C15A /* NotificationCommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */; };
 		68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
@@ -491,6 +501,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		0C060E592383D116006AF974 /* CrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReport.h; sourceTree = "<group>"; };
 		0C060E5A2383D116006AF974 /* CrashReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrashReport.m; sourceTree = "<group>"; };
 		0C060E982384D76C006AF974 /* KarteUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -559,7 +570,6 @@
 		0C5A7D2D24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSuppressionFilterRule.swift; sourceTree = "<group>"; };
 		0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessConfiguration.swift; sourceTree = "<group>"; };
 		0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		0C72FF8323838E0500C95607 /* KarteCrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KarteCrashReporter.framework; path = PLCrashReporter/KarteCrashReporter.framework; sourceTree = "<group>"; };
 		0C7BC6F423B21DDF0062C461 /* TrackDelegateSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDelegateSpec.swift; sourceTree = "<group>"; };
 		0C8392592406C45C0014C2BF /* SystemInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemInfo.swift; sourceTree = "<group>"; };
 		0C83925A2406C45C0014C2BF /* AppInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
@@ -809,6 +819,16 @@
 		36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkAppOpenEventSpec.swift; sourceTree = "<group>"; };
 		36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEventSpec.swift; sourceTree = "<group>"; };
 		680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBodyParametersSpec.swift; sourceTree = "<group>"; };
+		680DB3BC247F2B7700AE6800 /* RegisterPushCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterPushCommand.swift; sourceTree = "<group>"; };
+		680DB3C42480F67B00AE6800 /* RegisterPushCommandSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPushCommandSpec.swift; path = UnitTests/RegisterPushCommandSpec.swift; sourceTree = SOURCE_ROOT; };
+		680DB3C72480F74E00AE6800 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		681E838C248246B700A95083 /* RequestReviewCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestReviewCommand.swift; sourceTree = "<group>"; };
+		681E838E2482510200A95083 /* CommandHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandHandler.swift; sourceTree = "<group>"; };
+		681E8390248252EE00A95083 /* CommandHandlerLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommandHandlerLoader.m; sourceTree = "<group>"; };
+		681E83942482A90E00A95083 /* OpenSettingsCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSettingsCommand.swift; sourceTree = "<group>"; };
+		681E83982483B54800A95083 /* RequestReviewCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestReviewCommandSpec.swift; sourceTree = "<group>"; };
+		681E839A2483B5C800A95083 /* OpenSettingsCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSettingsCommandSpec.swift; sourceTree = "<group>"; };
+		681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCommandHandler.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
 		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
@@ -829,7 +849,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C49FEBD23CDC2F5004B6F2C /* KarteCrashReporter.framework in Frameworks */,
+				0C01DB4024AC447E007F7DC1 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1028,7 +1048,7 @@
 		0C2B3C6D2382684C008A2708 /* KarteCrashReporting */ = {
 			isa = PBXGroup;
 			children = (
-				0C72FF8323838E0500C95607 /* KarteCrashReporter.framework */,
+				0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */,
 				0C2B3C74238269CD008A2708 /* CrashReporting.swift */,
 				0C2B3C76238269E2008A2708 /* CrashReportingLoader.m */,
 				0C060E592383D116006AF974 /* CrashReport.h */,
@@ -1437,6 +1457,7 @@
 				0CE33A0223F4005B00E2EB98 /* UserSync */,
 				0C83927E2406C6AA0014C2BF /* Version */,
 				0C8392762406C6AA0014C2BF /* VisitorId */,
+				680DB3C62480F73D00AE6800 /* Command */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1503,6 +1524,8 @@
 		0C89768B237BBA5300098CD8 /* KarteRemoteNotification */ = {
 			isa = PBXGroup;
 			children = (
+				681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */,
+				680DB3BC247F2B7700AE6800 /* RegisterPushCommand.swift */,
 				0C897693237BBA9300098CD8 /* RemoteNotification.swift */,
 				0C89769C237BBB0D00098CD8 /* RemoteNotificationLoader.m */,
 				0C897692237BBA9300098CD8 /* RemoteNotificationKey.swift */,
@@ -1598,6 +1621,7 @@
 		0CA52D6C2387E20B00A575BC /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				680DB3C42480F67B00AE6800 /* RegisterPushCommandSpec.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -1839,6 +1863,7 @@
 			isa = PBXGroup;
 			children = (
 				0CDBACAF23A27E8F00CEB853 /* Mock */,
+				680DB3BE247F2B9000AE6800 /* KarteInAppMessaging */,
 				0CE7932F23865CA200F0D932 /* KarteCoreTests */,
 				0CA52D572387B96D00A575BC /* KarteRemoteNotification */,
 				0CE7933B2386913B00F0D932 /* KarteVariablesTests */,
@@ -1949,6 +1974,8 @@
 				0CA52D682387CC4D00A575BC /* VersionServiceSpec.swift */,
 				0CA52D6A2387D3A300A575BC /* VisitorIdServiceSpec.swift */,
 				0CE33A0523F40C2200E2EB98 /* UserSyncParameterSpec.swift */,
+				681E83982483B54800A95083 /* RequestReviewCommandSpec.swift */,
+				681E839A2483B5C800A95083 /* OpenSettingsCommandSpec.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -2004,6 +2031,25 @@
 				680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */,
 			);
 			path = BodyParameters;
+			sourceTree = "<group>";
+		};
+		680DB3BE247F2B9000AE6800 /* KarteInAppMessaging */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = KarteInAppMessaging;
+			sourceTree = "<group>";
+		};
+		680DB3C62480F73D00AE6800 /* Command */ = {
+			isa = PBXGroup;
+			children = (
+				681E83942482A90E00A95083 /* OpenSettingsCommand.swift */,
+				680DB3C72480F74E00AE6800 /* Command.swift */,
+				681E838C248246B700A95083 /* RequestReviewCommand.swift */,
+				681E838E2482510200A95083 /* CommandHandler.swift */,
+				681E8390248252EE00A95083 /* CommandHandlerLoader.m */,
+			);
+			path = Command;
 			sourceTree = "<group>";
 		};
 		68C0835A243DE1F9001CFF93 /* GzipSwift */ = {
@@ -2594,20 +2640,25 @@
 				0C8392AE2406C7010014C2BF /* Dictionary+Extension.swift in Sources */,
 				0C8974D22379094A00098CD8 /* EmptyEventNameFilterRule.swift in Sources */,
 				0C8392922406C6AA0014C2BF /* Version.swift in Sources */,
+				681E838F2482510200A95083 /* CommandHandler.swift in Sources */,
 				0CBE62B4239A5A6D00BDD6CF /* PubSubDeliverer.swift in Sources */,
 				0C8392BC2406C7010014C2BF /* Migration.swift in Sources */,
 				0C8392892406C6AA0014C2BF /* VisitorIdGenerator.swift in Sources */,
+				681E83952482A90E00A95083 /* OpenSettingsCommand.swift in Sources */,
 				0C8392DC2406E0540014C2BF /* DefaultPubSubApplication.swift in Sources */,
 				0C8392662406C5510014C2BF /* Screen.swift in Sources */,
 				0C8974D32379094A00098CD8 /* NonAsciiEventNameFilterRule.swift in Sources */,
+				681E8391248252EE00A95083 /* CommandHandlerLoader.m in Sources */,
 				0C8974D12379094A00098CD8 /* InitializationEventFilterRule.swift in Sources */,
 				0CB10A1023B216F20086D603 /* TrackerDelegate.swift in Sources */,
 				0C8392AF2406C7010014C2BF /* Logger.swift in Sources */,
 				0C8392B52406C7010014C2BF /* ActionModule.swift in Sources */,
 				0C8974D42379094A00098CD8 /* EventFilter.swift in Sources */,
+				680DB3C82480F74E00AE6800 /* Command.swift in Sources */,
 				0C49FE4823C5C4FA004B6F2C /* KarteCore.m in Sources */,
 				0CDBACA123A1F28100CEB853 /* TrackRequestConverter.swift in Sources */,
 				0C8974ED2379094A00098CD8 /* TrackResponse.swift in Sources */,
+				681E838D248246B700A95083 /* RequestReviewCommand.swift in Sources */,
 				0CBE6288239902BF00BDD6CF /* KarteApp.swift in Sources */,
 				0CE3392923EFF9BC00E2EB98 /* TrackerObjectiveC.swift in Sources */,
 				0C83928D2406C6AA0014C2BF /* OptOutService.swift in Sources */,
@@ -2734,9 +2785,11 @@
 			files = (
 				0C57796E23DA7E8200054C82 /* KarteApp+RemoteNotification.swift in Sources */,
 				0C1257512418942800034DFF /* Tracker+RemoteNotification.swift in Sources */,
+				681F0EA724975F9B0080C15A /* NotificationCommandHandler.swift in Sources */,
 				0C89769A237BBA9300098CD8 /* FCMTokenRegistrar.swift in Sources */,
 				0C89769B237BBA9300098CD8 /* Measurement.swift in Sources */,
 				0C897698237BBA9300098CD8 /* RemoteNotification.swift in Sources */,
+				680DB3C1247FC98400AE6800 /* RegisterPushCommand.swift in Sources */,
 				0C897699237BBA9300098CD8 /* RemoteNotificationProxy.swift in Sources */,
 				0C897697237BBA9300098CD8 /* RemoteNotificationKey.swift in Sources */,
 				0CCFA7B924A5871200E0F184 /* NotificationSettingsProvider.swift in Sources */,
@@ -2778,6 +2831,7 @@
 				0CC648B8238CCFC3009EB5DF /* StubBuilder.swift in Sources */,
 				0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */,
 				0C839316240838050014C2BF /* ActionAppropriateViewDetector.swift in Sources */,
+				680DB3C52480F67B00AE6800 /* RegisterPushCommandSpec.swift in Sources */,
 				0C8392FF240822A40014C2BF /* BackgroundEventSpec.swift in Sources */,
 				0C83930F2408294D0014C2BF /* TrackCommonSpec.swift in Sources */,
 				0C839314240837E70014C2BF /* VariablesSpec.swift in Sources */,
@@ -2793,6 +2847,7 @@
 				0CC648BD238CD4DC009EB5DF /* StubResource.swift in Sources */,
 				0C83931F240838BD0014C2BF /* PubSubApplicationMock.swift in Sources */,
 				0C839319240838050014C2BF /* AccountSpec.swift in Sources */,
+				681E83992483B54800A95083 /* RequestReviewCommandSpec.swift in Sources */,
 				0C839307240822A40014C2BF /* IdentifyEventSpec.swift in Sources */,
 				0C8392FC240822920014C2BF /* ForegroundEventSpec.swift in Sources */,
 				0C83930A240823F50014C2BF /* EventFilterSpec.swift in Sources */,
@@ -2801,6 +2856,7 @@
 				36404EB8247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift in Sources */,
 				0C839318240838050014C2BF /* ComparisonOperatorSpec.swift in Sources */,
 				0C839304240822A40014C2BF /* FetchVariablesEventSpec.swift in Sources */,
+				681E839B2483B5C800A95083 /* OpenSettingsCommandSpec.swift in Sources */,
 				0C83931D240838320014C2BF /* TracerTests.swift in Sources */,
 				0C8392F42407CCE60014C2BF /* ConfigurationTests.swift in Sources */,
 				0C839310240831630014C2BF /* SetupSpec.swift in Sources */,
@@ -2994,7 +3050,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3029,7 +3085,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3183,7 +3239,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3217,7 +3273,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3249,7 +3305,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3281,7 +3337,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3433,7 +3489,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3464,7 +3520,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

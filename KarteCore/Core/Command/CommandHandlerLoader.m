@@ -14,20 +14,18 @@
 //  limitations under the License.
 //
 
-@import Foundation;
-@import CrashReporter;
+#import <Foundation/Foundation.h>
+#import <KarteCore/KarteCore-Swift.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@interface KRTCommandHandlerLoader : NSObject
 
-@interface KRTCrashReport : NSObject
-@property(nonatomic, readonly, nullable) NSString *type;
-@property(nonatomic, readonly, nullable) NSString *code;
-@property(nonatomic, readonly, nullable) NSString *name;
-@property(nonatomic, readonly, nullable) NSString *reason;
-@property(nonatomic, readonly, nullable) NSString *symbols;
-@property(nonatomic, readonly, nullable) NSDate *timestamp;
-
-- (instancetype)initWithCrashReport:(KRTPLCrashReport *)crashReport;
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation KRTCommandHandlerLoader
+
++ (void)load
+{
+    [KRTCommandHandler _krt_load];
+}
+
+@end

@@ -1,0 +1,13 @@
+coverage_service: cobertura_xml
+xcodeproj: Karte.xcodeproj
+workspace: Karte.xcworkspace
+scheme: KarteTests
+build_directory: DerivedData
+binary_basename:
+  - KarteCore
+  - KarteInAppMessaging
+  - KarteRemoteNotification
+  - KarteVisualTracking
+  - KarteVariables
+  - KarteCrashReporting
+  - KarteUtilities
