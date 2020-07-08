@@ -24,20 +24,20 @@ internal class IAMProxy: NSObject {
     private let applicationSupportedInterfaceOrientationsForWindowSelector = #selector(UIApplicationDelegate.application(_:supportedInterfaceOrientationsFor:))
 
     private let label = "in_app_messaging"
-    private var isSwizzled = false
+    private var didSwizzleMethods = false
 
     func swizzleMethods() {
-        if isSwizzled {
+        if didSwizzleMethods {
             return
         }
 
         swizzleAppDelegateMethods()
-        isSwizzled = true
+        didSwizzleMethods = true
     }
 
     func unswizzleMethods() {
         Swizzler.shared.unswizzle(label: label)
-        isSwizzled = false
+        didSwizzleMethods = false
     }
 
     private func swizzleAppDelegateMethods() {
