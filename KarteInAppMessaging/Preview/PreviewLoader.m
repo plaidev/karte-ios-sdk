@@ -15,7 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if __has_include("KarteInAppMessaging-Swift.h")
+#import "KarteInAppMessaging-Swift.h"
+#else
 #import <KarteInAppMessaging/KarteInAppMessaging-Swift.h>
+#endif
 
 @interface KRTPreviewLoader : NSObject
 
