@@ -15,7 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if __has_include("KarteCrashReporting-Swift.h")
+#import "KarteCrashReporting-Swift.h"
+#else
 #import <KarteCrashReporting/KarteCrashReporting-Swift.h>
+#endif
 
 @interface KRTCrashReportingLoader : NSObject
 
