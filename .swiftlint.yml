@@ -125,6 +125,7 @@ included:
 
 excluded:
   - KarteUtilities/ThirdParty
+  - KarteCrashReporting/PLCrashReporter
 
 identifier_name:
   excluded:

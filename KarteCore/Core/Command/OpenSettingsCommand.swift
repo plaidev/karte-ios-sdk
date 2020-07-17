@@ -14,23 +14,18 @@
 //  limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+import UIKit
 
-#if __has_include("KarteVariables-Swift.h")
-#import "KarteVariables-Swift.h"
-#else
-#import <KarteVariables/KarteVariables-Swift.h>
-#endif
+internal struct OpenSettingsCommand: Command {
+    func validate(_ url: URL) -> Bool {
+        url.host == "open-settings"
+    }
 
-@interface KRTVariablesLoader : NSObject
-
-@end
-
-@implementation KRTVariablesLoader
-
-+ (void)load
-{
-    [KRTVariables _krt_load];
+    func execute() {
+        if #available(iOS 10.0, *) {
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
 }
-
-@end

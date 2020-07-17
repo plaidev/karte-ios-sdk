@@ -15,7 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if __has_include("KarteCore-Swift.h")
+#import "KarteCore-Swift.h"
+#else
 #import <KarteCore/KarteCore-Swift.h>
+#endif
 
 @interface KRTFindMyselfLoader : NSObject
 

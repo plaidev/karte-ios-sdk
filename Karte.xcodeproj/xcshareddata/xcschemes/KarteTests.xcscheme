@@ -26,7 +26,60 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0C89742F2379040700098CD8"
+            BuildableName = "KarteCore.framework"
+            BlueprintName = "KarteCore"
+            ReferencedContainer = "container:Karte.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0C2B3C6B2382684C008A2708"
+            BuildableName = "KarteCrashReporting.framework"
+            BlueprintName = "KarteCrashReporting"
+            ReferencedContainer = "container:Karte.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0C89743C237904EA00098CD8"
+            BuildableName = "KarteInAppMessaging.framework"
+            BlueprintName = "KarteInAppMessaging"
+            ReferencedContainer = "container:Karte.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0C897689237BBA5300098CD8"
+            BuildableName = "KarteRemoteNotification.framework"
+            BlueprintName = "KarteRemoteNotification"
+            ReferencedContainer = "container:Karte.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0C060E972384D76C006AF974"
+            BuildableName = "KarteUtilities.framework"
+            BlueprintName = "KarteUtilities"
+            ReferencedContainer = "container:Karte.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0C897449237904F700098CD8"
+            BuildableName = "KarteVariables.framework"
+            BlueprintName = "KarteVariables"
+            ReferencedContainer = "container:Karte.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0C8974562379050600098CD8"
+            BuildableName = "KarteVisualTracking.framework"
+            BlueprintName = "KarteVisualTracking"
+            ReferencedContainer = "container:Karte.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">

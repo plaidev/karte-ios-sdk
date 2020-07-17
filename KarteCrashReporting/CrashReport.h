@@ -14,8 +14,8 @@
 //  limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import <KarteCrashReporter/CrashReporter.h>
+@import Foundation;
+@import CrashReporter;
 
 NS_ASSUME_NONNULL_BEGIN
 

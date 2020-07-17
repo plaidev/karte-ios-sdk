@@ -14,23 +14,26 @@
 //  limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+import KarteCore
+import UIKit
 
-#if __has_include("KarteVariables-Swift.h")
-#import "KarteVariables-Swift.h"
-#else
-#import <KarteVariables/KarteVariables-Swift.h>
-#endif
+internal class NotificationCommandHandler {
+    static let shared = NotificationCommandHandler()
 
-@interface KRTVariablesLoader : NSObject
+    init() {
+    }
 
-@end
-
-@implementation KRTVariablesLoader
-
-+ (void)load
-{
-    [KRTVariables _krt_load];
+    deinit {
+    }
 }
 
-@end
+extension NotificationCommandHandler: DeepLinkModule {
+    public var name: String {
+        String(describing: type(of: self))
+    }
+
+    public func handle(app: UIApplication, open url: URL) -> Bool {
+        let cmd = RegisterPushCommand()
+        return cmd.run(url: url)
+    }
+}

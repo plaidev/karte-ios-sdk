@@ -16,21 +16,21 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include("KarteVariables-Swift.h")
-#import "KarteVariables-Swift.h"
+#if __has_include("KarteCore-Swift.h")
+#import "KarteCore-Swift.h"
 #else
-#import <KarteVariables/KarteVariables-Swift.h>
+#import <KarteCore/KarteCore-Swift.h>
 #endif
 
-@interface KRTVariablesLoader : NSObject
+@interface KRTCommandHandlerLoader : NSObject
 
 @end
 
-@implementation KRTVariablesLoader
+@implementation KRTCommandHandlerLoader
 
 + (void)load
 {
-    [KRTVariables _krt_load];
+    [KRTCommandHandler _krt_load];
 }
 
 @end

@@ -133,7 +133,7 @@ extension IAMProcess {
     private func setupWebView() {
         if let url = configuration.generateOverlayURL() {
             let configuration = WKWebViewConfiguration()
-            configuration.processPool = IAMProcess.processPool
+            configuration.processPool = InAppMessaging.shared.processPool ?? IAMProcess.processPool
             configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
 
             let userContentController = WKUserContentController()

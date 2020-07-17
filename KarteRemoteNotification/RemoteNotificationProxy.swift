@@ -33,7 +33,7 @@ internal class RemoteNotificationProxy: NSObject {
     private let label = "remote_notification"
 
     private var interceptorId: String?
-    private var isSwizzled = false
+    private var didSwizzleMethods = false
     private weak var currentUserNotificationCenterDelegate: AnyObject?
 
     // KVO object
@@ -48,14 +48,14 @@ internal class RemoteNotificationProxy: NSObject {
     }
 
     func swizzleMethods() {
-        if !canSwizzleMethods || isSwizzled {
+        if !canSwizzleMethods || didSwizzleMethods {
             return
         }
 
         swizzleAppDelegateMethods()
         swizzleUserNotificationCenterDelegateMethods()
 
-        isSwizzled = true
+        didSwizzleMethods = true
     }
 
     func unswizzleMethods() {
@@ -63,7 +63,7 @@ internal class RemoteNotificationProxy: NSObject {
         unregisterAppDelegateInterceptorIfNeeded()
 
         Swizzler.shared.unswizzle(label: label)
-        isSwizzled = false
+        didSwizzleMethods = false
     }
 
     private func swizzleAppDelegateMethods() {

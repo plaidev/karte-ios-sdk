@@ -14,23 +14,16 @@
 //  limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+import StoreKit
 
-#if __has_include("KarteVariables-Swift.h")
-#import "KarteVariables-Swift.h"
-#else
-#import <KarteVariables/KarteVariables-Swift.h>
-#endif
+internal struct RequestReviewCommand: Command {
+    func validate(_ url: URL) -> Bool {
+        url.host == "request-review"
+    }
 
-@interface KRTVariablesLoader : NSObject
-
-@end
-
-@implementation KRTVariablesLoader
-
-+ (void)load
-{
-    [KRTVariables _krt_load];
+    func execute() {
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+        }
+    }
 }
-
-@end

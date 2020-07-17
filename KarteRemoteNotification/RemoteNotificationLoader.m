@@ -15,7 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if __has_include("KarteRemoteNotification-Swift.h")
+#import "KarteRemoteNotification-Swift.h"
+#else
 #import <KarteRemoteNotification/KarteRemoteNotification-Swift.h>
+#endif
 
 @interface KRTRemoteNotificationLoader: NSObject
 
