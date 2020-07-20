@@ -56,6 +56,10 @@ internal class IAMProcess: NSObject {
         webView?.handle(response: response)
     }
 
+    func handleChangePv() {
+        webView?.handleChangePv()
+    }
+
     func activate() {
         if webView == nil {
             setupWebView()
@@ -82,8 +86,8 @@ internal class IAMProcess: NSObject {
         webView?.reload(url: url)
     }
 
-    func dismiss() {
-        webView?.reset(mode: .hard)
+    func dismiss(mode: IAMWebView.ResetMode = .hard) {
+        webView?.reset(mode: mode)
     }
 
     deinit {
@@ -159,7 +163,7 @@ extension IAMProcess {
     private func resetIfNeeded(viewController: UIViewController, in window: UIWindow?) {
         if shouldReset(from: viewController, in: window) {
             Logger.verbose(tag: .inAppMessaging, message: "Will hide in-app messaging.")
-            webView?.reset(mode: .hard)
+            webView?.reset(mode: .soft)
             configuration.app.pvService?.renewPvId(forSceneId: sceneId)
         }
     }
