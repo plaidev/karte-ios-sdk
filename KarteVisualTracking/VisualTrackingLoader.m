@@ -15,7 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if __has_include("KarteVisualTracking-Swift.h")
+#import "KarteVisualTracking-Swift.h"
+#else
 #import <KarteVisualTracking/KarteVisualTracking-Swift.h>
+#endif
 
 @interface KRTVisualTrackingLoader : NSObject
 

@@ -15,7 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if __has_include("KarteVariables-Swift.h")
+#import "KarteVariables-Swift.h"
+#else
 #import <KarteVariables/KarteVariables-Swift.h>
+#endif
 
 @interface KRTVariablesLoader : NSObject
 

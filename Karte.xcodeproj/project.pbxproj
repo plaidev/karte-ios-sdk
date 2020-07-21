@@ -349,6 +349,7 @@
 		681F0EA724975F9B0080C15A /* NotificationCommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */; };
 		68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
+		68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
 /* End PBXBuildFile section */
 
@@ -831,6 +832,7 @@
 		681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCommandHandler.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
+		68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessSpec.swift; sourceTree = "<group>"; };
 		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
 		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
 		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2036,6 +2038,7 @@
 		680DB3BE247F2B9000AE6800 /* KarteInAppMessaging */ = {
 			isa = PBXGroup;
 			children = (
+				68BBBCD324BB50D1009A1CE0 /* UnitTests */,
 			);
 			path = KarteInAppMessaging;
 			sourceTree = "<group>";
@@ -2050,6 +2053,14 @@
 				681E8390248252EE00A95083 /* CommandHandlerLoader.m */,
 			);
 			path = Command;
+			sourceTree = "<group>";
+		};
+		68BBBCD324BB50D1009A1CE0 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */,
+			);
+			path = UnitTests;
 			sourceTree = "<group>";
 		};
 		68C0835A243DE1F9001CFF93 /* GzipSwift */ = {
@@ -2817,6 +2828,7 @@
 				0C8392F92407F4380014C2BF /* VisitorIdServiceSpec.swift in Sources */,
 				0C839308240822A40014C2BF /* OpenEventSpec.swift in Sources */,
 				0C8392F52407CCFA0014C2BF /* OptOutConfigSpec.swift in Sources */,
+				68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */,
 				0CE79326238653AD00F0D932 /* Support.swift in Sources */,
 				680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */,
 				0C8392F02407BF370014C2BF /* VisitorIdGeneratorMock.swift in Sources */,
@@ -3050,7 +3062,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3085,7 +3097,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3239,7 +3251,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3273,7 +3285,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3305,7 +3317,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3337,7 +3349,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3367,7 +3379,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVariables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3398,7 +3410,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVariables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3428,7 +3440,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3459,7 +3471,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3489,7 +3501,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3520,7 +3532,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
