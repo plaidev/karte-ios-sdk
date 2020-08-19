@@ -15,24 +15,19 @@
 //
 
 import Foundation
-import Quick
-import Mockingjay
 
-struct StubBuilder {
-    let url: URL
-    
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
+internal class UserBundleRule: CommandBundleRule {
+    var visitorId: String?
+
+    func evaluate(bundle: CommandBundle, command: TrackingCommand) -> Bool {
+        defer {
+            self.visitorId = command.visitorId
+        }
+
+        let result = !bundle.isEmpty && command.visitorId != visitorId
+        return result
     }
-    
-    init(test: XCTestCase, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: test)))!
-    }
-    
-    func build() -> (URLRequest) -> Response {
-        let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
-            return jsonData(data)(request)
-        }        
+
+    deinit {
     }
 }

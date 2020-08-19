@@ -27,27 +27,37 @@ class StubActionModule {
 
     var request: URLRequest?
 
-    init(_ spec: QuickSpec, metadata: ExampleMetadata?, builder: @escaping Builder, eventNames: [EventName], receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
+    init(_ spec: QuickSpec, metadata: ExampleMetadata?, stub: Stub?, eventNames: [EventName], receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
         let metadataLabel = metadata?.example.name ?? "unknown"
         let eventNamesLabel = eventNames.map({ $0.rawValue }).joined(separator: ", ")
         
         self.exp = spec.expectation(description: "Wait for finish => \(metadataLabel) \(eventNamesLabel)")
         self.spec = spec
+        self.stub = stub
         self.eventNames = eventNames
         self.receiver = receiver
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(observeTrackingAgentHasNoCommandsNotification(_:)),
+            name: TrackingAgent.trackingAgentHasNoCommandsNotification,
+            object: nil
+        )
+        
+        KarteApp.shared.register(module: .action(self))
+    }
+    
+    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, stub: Stub?, eventName: EventName, receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
+        self.init(spec, metadata: metadata, stub: stub, eventNames: [eventName], receiver: receiver)
+    }
+    
+    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, builder: @escaping Builder, eventNames: [EventName], receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
+        self.init(spec, metadata: metadata, stub: nil, eventNames: eventNames, receiver: receiver)
         
         self.stub = spec.stub(uri("/v0/native/track"), { [weak self] (request) -> (Response) in
             self?.request = request
             return builder(request)
         })
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(observePubSubQueueDidEmptyNotification(_:)),
-            name: .pubsubQueueDidEmptyNotification,
-            object: nil
-        )
-        KarteApp.shared.register(module: .action(self))
     }
 
     convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, builder: @escaping Builder, eventName: EventName, receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
@@ -65,24 +75,21 @@ class StubActionModule {
         spec.wait(for: [self.exp], timeout: timeout)
     }
     
-    private func finish() {
+    func finish() {
         spec.removeStub(stub!)
         KarteApp.shared.unregister(module: .action(self))
         
         NotificationCenter.default.removeObserver(
-            self,
-            name: .pubsubQueueDidEmptyNotification,
+            self, name: TrackingAgent.trackingAgentHasNoCommandsNotification,
             object: nil
         )
         
         exp.fulfill()
     }
     
-    @objc private func observePubSubQueueDidEmptyNotification(_ notification: Notification) {
-        kCommonQueue.async {
-            DispatchQueue.main.async {
-                self.finish()
-            }
+    @objc private func observeTrackingAgentHasNoCommandsNotification(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.finish()
         }
     }
 }

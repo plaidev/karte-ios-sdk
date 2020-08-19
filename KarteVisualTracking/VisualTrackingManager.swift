@@ -46,6 +46,7 @@ internal class VisualTrackingManager {
     func unconfigure(app: KarteApp) {
         tracer?.stopPairing()
 
+        receivers.removeAll()
         tracer = nil
         tracker = nil
     }

@@ -62,6 +62,23 @@ func decodeResponseBodyData(_ data: Data) -> TrackBodyParameters? {
     return try? createJSONDecoder().decode(TrackBodyParameters.self, from: data)
 }
 
+func buildCommand(event: Event = Event(eventName: EventName("test")), visitorId: String = "dummy-vis-id", pvId: PvId = PvId("dummy-pv-id"), sceneId: SceneId = SceneId("dummy-scene-id")) -> TrackingCommand {
+    let task = TrackingTask(
+        event: event,
+        visitorId: visitorId,
+        view: nil
+    )
+    
+    let scene = TrackingCommand.Scene(
+        pvId: pvId,
+        originalPvId: PvId("dummy-original-pv-id"),
+        sceneId: sceneId
+    )
+    
+    let command = TrackingCommand(task: task, scene: scene)
+    return command
+}
+
 extension InputStream {
     func readfully() -> Data {
         var result = Data()

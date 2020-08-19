@@ -17,13 +17,15 @@
 import XCTest
 import Mockingjay
 import Nimble
+import KarteUtilities
 @testable import KarteCore
 @testable import KarteVisualTracking
 
 class TracerTests: XCTestCase {
     let idfa = IDFA()
-    
+
     override func setUp() {
+        Resolver.registerMockServices()
         KarteApp.shared.teardown()
     }
 
@@ -33,15 +35,15 @@ class TracerTests: XCTestCase {
 
     func testPairingAndTrace() {
         let exp = expectation(description: "Wait for pairing and trace tests")
-        
+
         func buildContent() -> (URLRequest) -> Response {
             let data = "OK".data(using: .utf8)!
             return http(200, headers: nil, download: .content(data))
         }
-        
+
         let pairingStub = stub(uri("/v0/native/auto-track/pairing-start")) { (request) -> (Response) in
             let body = request.pairingRequestBodyParameters()!
-            
+
             expect(request.allHTTPHeaderFields?["X-KARTE-App-Key"]).to(equal(APP_KEY))
             expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-Account-Id"]).to(equal("dummy_account_id"))
             expect(body.os).to(equal("iOS"))
@@ -57,10 +59,10 @@ class TracerTests: XCTestCase {
             expect(body.appInfo.systemInfo.language).to(equal("ja-JP"))
             expect(body.appInfo.systemInfo.idfv).to(equal("dummy_idfv"))
             expect(body.appInfo.systemInfo.idfa).to(equal("dummy_idfa"))
-            
+
             return buildContent()(request)
         }
-        
+
         var pass = false
         let heartbeatStub = stub(uri("/v0/native/auto-track/pairing-heartbeat")) { (request) -> (Response) in
             let body = request.pairingHeartbeatRequestBodyParameters()!
@@ -68,36 +70,36 @@ class TracerTests: XCTestCase {
                 return buildContent()(request)
             }
             pass = true
-            
+
             expect(request.allHTTPHeaderFields?["X-KARTE-App-Key"]).to(equal(APP_KEY))
             expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-Account-Id"]).to(equal("dummy_account_id"))
             expect(body.os).to(equal("iOS"))
             expect(body.visitorId).to(equal("dummy_visitor_id"))
-            
+
             DispatchQueue.main.async {
                 let action = Action("dummy", view: UIButton(), viewController: nil, targetText: "購入")
                 VisualTrackingManager.shared.dispatch(action: action)
             }
-            
+
             return buildContent()(request)
         }
-        
+
         let traceStub = stub(uri("/v0/native/auto-track/trace")) { (request) -> (Response) in
-            
+
             expect(request.allHTTPHeaderFields?["X-KARTE-App-Key"]).to(equal(APP_KEY))
             expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-Account-Id"]).to(equal("dummy_account_id"))
 
             exp.fulfill()
-            
+
             return buildContent()(request)
         }
-        
+
         let configuration = Configuration { (configuration) in
             configuration.isSendInitializationEventEnabled = false
             configuration.idfaDelegate = idfa
         }
         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-        
+
         let res = KarteApp.shared.application(UIApplication.shared, open: URL(string: "app://_krtp/dummy_account_id")!)
         expect(res).to(beTrue())
 
