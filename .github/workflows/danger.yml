@@ -10,7 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup swiftlint
-        run: brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/bbf6c86ae53bd2accf8fd00995903b98c140085b/Formula/swiftlint.rb
+        run: |
+          brew unlink swiftlint
+          brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/bbf6c86ae53bd2accf8fd00995903b98c140085b/Formula/swiftlint.rb
       - name: Setup danger
         run: gem install danger danger-swiftlint
         env:
