@@ -57,7 +57,7 @@ class CommandBundlerProxySpec: QuickSpec {
                     spy = CommandBundlerProxySpy()
                     
                     let proxy = StateCommandBundlerProxy(bundler: spy)
-                    proxy.addCommand(buildCommand())
+                    proxy.addCommand(buildCommand(event: Event(.open)))
                     proxy.addCommand(buildCommand())
                 }
                 
@@ -74,7 +74,7 @@ class CommandBundlerProxySpec: QuickSpec {
                     spy = CommandBundlerProxySpy()
                     
                     let proxy = StateCommandBundlerProxy(bundler: spy)
-                    proxy.addCommand(buildCommand())
+                    proxy.addCommand(buildCommand(event: Event(.open)))
                     proxy.addCommand(buildCommand())
                 }
                 
@@ -91,16 +91,16 @@ class CommandBundlerProxySpec: QuickSpec {
                     spy = CommandBundlerProxySpy()
                     
                     let proxy = StateCommandBundlerProxy(bundler: spy)
-                    proxy.addCommand(buildCommand())
+                    proxy.addCommand(buildCommand(event: Event(.open)))
                     proxy.addCommand(buildCommand())
                 }
                 
                 it("commands count is 0") {
-                    expect(spy.commands.count).to(equal(0))
+                    expect(spy.commands.count).to(equal(1))
                 }
             }
             
-            context("when inactive to active") {
+            context("when background to active") {
                 var spy: CommandBundlerProxySpy!
                 
                 beforeEach {
@@ -108,8 +108,8 @@ class CommandBundlerProxySpec: QuickSpec {
                     spy = CommandBundlerProxySpy()
                     
                     let proxy = StateCommandBundlerProxy(bundler: spy)
-                    proxy.addCommand(buildCommand())
-                    proxy.addCommand(buildCommand())
+                    proxy.addCommand(buildCommand(event: Event(.open)))
+                    proxy.addCommand(buildCommand(event: Event(.install)))
                     
                     let exp = self.expectation(description: "Wait for finish.")
                     

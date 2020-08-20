@@ -38,7 +38,7 @@ internal struct TrackingCommandRecord {
 
     static func from(command: TrackingCommand, processId: String) -> TrackingCommandRecord? {
         guard let data = try? createJSONEncoder().encode(command) else {
-            Logger.error(tag: .track, message: "TODO")
+            Logger.error(tag: .track, message: "Failed to encode JSON.")
             return nil
         }
         let record = TrackingCommandRecord(
@@ -88,7 +88,7 @@ internal struct TrackingCommandRecord {
             let command = try createJSONDecoder().decode(TrackingCommand.self, from: data)
             return command
         } catch {
-            Logger.error(tag: .track, message: "TODO")
+            Logger.error(tag: .track, message: "Failed to decode JSON: \(error.localizedDescription)")
             return nil
         }
     }

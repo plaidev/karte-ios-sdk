@@ -52,9 +52,8 @@ internal class StateCommandBundlerProxy: CommandBundlerProxy {
     }
 
     func addCommand(_ command: TrackingCommand) {
-        guard state != .background else {
-            commands.append(command)
-            return
+        guard state != .background || command.properties.isReadyOnBackground else {
+            return commands.append(command)
         }
         bundler?.addCommand(command)
     }

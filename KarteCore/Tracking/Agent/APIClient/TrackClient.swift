@@ -82,20 +82,10 @@ internal class TrackClient {
     }
 
     func addObserver(_ observer: TrackClientObserver) {
-        if isContainsObserver(observer) {
+        if containsObserver(observer) {
             return
         }
         observers.append(observer)
-    }
-
-    func removeObserver(_ observer: TrackClientObserver) {
-        guard isContainsObserver(observer) else {
-            return
-        }
-        let identifier = ObjectIdentifier(observer)
-        observers.removeAll { observer0 -> Bool in
-            ObjectIdentifier(observer0) == identifier
-        }
     }
 
     func teardown() {
@@ -169,7 +159,7 @@ private extension TrackClient {
         }
     }
 
-    func isContainsObserver(_ observer: TrackClientObserver) -> Bool {
+    func containsObserver(_ observer: TrackClientObserver) -> Bool {
         observers.map { observer -> ObjectIdentifier in
             ObjectIdentifier(observer)
         }.contains(ObjectIdentifier(observer))
