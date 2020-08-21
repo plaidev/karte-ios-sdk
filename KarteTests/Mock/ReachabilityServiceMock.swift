@@ -15,24 +15,26 @@
 //
 
 import Foundation
-import Quick
-import Mockingjay
+@testable import KarteCore
 
-struct StubBuilder {
-    let url: URL
+class ReachabilityServiceMock: ReachabilityService {
+    var whenReachable: Reachable?
     
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
+    var whenUnreachable: Unrachable?
+    
+    func startNotifier() {
+        // NOP
     }
     
-    init(test: XCTestCase, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: test)))!
+    func stopNotifier() {
+        // NOP
     }
     
-    func build() -> (URLRequest) -> Response {
-        let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
-            return jsonData(data)(request)
-        }        
+    func notify(_ isReachable: Bool) {
+        if isReachable {
+            whenReachable?()
+        } else {
+            whenUnreachable?()
+        }
     }
 }

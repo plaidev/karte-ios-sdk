@@ -38,6 +38,12 @@ import UIKit
 /// iPad OS の Split View / Slide Over に対応するために、イニシャライザに `UIView` を引数として取るものがあります。<br>
 /// Split View / Slide Over を有効がアプリケーションでは、`UIView` を引数として取るイニシャライザを利用することで適切なシーンにアプリ内メッセージを表示することが可能です。
 public class Tracker: NSObject {
+    static weak var delegate: TrackerDelegate? {
+        didSet {
+            KarteApp.shared.trackingClient?.delegate = delegate
+        }
+    }
+
     private var visitorId: String
     private var view: UIView?
 
@@ -61,7 +67,7 @@ public class Tracker: NSObject {
     ///
     /// - Parameter delegate: 委譲先インスタンス
     public static func setDelegate(_ delegate: TrackerDelegate?) {
-        KarteApp.shared.trackerDelegate = delegate
+        self.delegate = delegate
     }
 
     /// イベントの送信を行います。
@@ -159,7 +165,7 @@ public extension Tracker {
     @discardableResult
     func track(event: Event) -> TrackingTask {
         let task = TrackingTask(event: event, visitorId: visitorId, view: view)
-        KarteApp.shared.trackingService?.track(task: task)
+        KarteApp.shared.trackingClient?.track(task: task)
         return task
     }
 }

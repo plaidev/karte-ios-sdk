@@ -15,24 +15,18 @@
 //
 
 import Foundation
-import Quick
-import Mockingjay
+import KarteUtilities
 
-struct StubBuilder {
-    let url: URL
-    
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
+internal protocol TrackClientSession {
+    @discardableResult
+    func send(_ request: TrackRequest, callbackQueue: CallbackQueue?, handler: @escaping (Result<TrackRequest.Response, SessionTaskError>) -> Void) -> SessionTask?
+}
+
+internal class DefaultTrackClientSession: TrackClientSession {
+    func send(_ request: TrackRequest, callbackQueue: CallbackQueue?, handler: @escaping (Result<TrackRequest.Response, SessionTaskError>) -> Void) -> SessionTask? {
+        Session.send(request, callbackQueue: callbackQueue, handler: handler)
     }
-    
-    init(test: XCTestCase, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: test)))!
-    }
-    
-    func build() -> (URLRequest) -> Response {
-        let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
-            return jsonData(data)(request)
-        }        
+
+    deinit {
     }
 }

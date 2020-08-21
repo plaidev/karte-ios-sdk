@@ -109,7 +109,7 @@ extension Resolver {
             bucket.set(pvId, forKey: SceneId(view: nil))
             return bucket
         }
-        resolver.register { PubSubApplicationMock() as PubSubApplication }
+        resolver.register { CommandBundlerApplicationStateProviderMock() as CommandBundlerApplicationStateProvider }
         
         Resolver.root = Resolver.mock
     }

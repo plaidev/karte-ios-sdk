@@ -15,24 +15,13 @@
 //
 
 import Foundation
-import Quick
-import Mockingjay
 
-struct StubBuilder {
-    let url: URL
-    
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
-    }
-    
-    init(test: XCTestCase, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: test)))!
-    }
-    
-    func build() -> (URLRequest) -> Response {
-        let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
-            return jsonData(data)(request)
-        }        
-    }
+internal typealias BundleCompletionBlock = (Bool) -> Void
+
+internal protocol CommandBundleRule {
+    func evaluate(bundle: CommandBundle, command: TrackingCommand) -> Bool
+}
+
+internal protocol AsyncCommandBundleRule: CommandBundleRule {
+    func schedule(bundle: CommandBundle, command: TrackingCommand, completion: @escaping BundleCompletionBlock)
 }
