@@ -42,16 +42,20 @@ public struct Logger {
         }
     }
 
-    enum Mode {
-        case production
-        case development
+    struct Log {
+        let level: LogLevel
+        let tag: Tag
+        let message: String
+        let file: String
+        let function: String
+        let line: Int
     }
 
     private static var shared = Logger()
 
     var level: LogLevel = .error
-    var mode: Mode = .production
     var isEnabled: Bool = true
+    let appenders: [LogAppender] = [ConsoleLogAppender(), FileLogAppender()]
 
     private init() {
     }
@@ -135,16 +139,9 @@ extension Logger {
 
     private func log(_ level: LogLevel, tag: Tag, message: String, file: String, function: String, line: Int) {
         // swiftlint:disable:previous function_parameter_count
-        if self.level < level || !isEnabled {
-            return
-        }
-
-        switch mode {
-        case .production:
-            print("\(tag.version) - \(level.identifier)/KARTE [\(tag.rawValue)] \(message)")
-
-        case .development:
-            print("\(tag.version) - \(level.identifier)/KARTE \(file):\(line) \(function) [\(tag.rawValue)] \(message)")
+        let log = Log(level: level, tag: tag, message: message, file: file, function: function, line: line)
+        appenders.forEach {
+            $0.append(log)
         }
     }
 }
