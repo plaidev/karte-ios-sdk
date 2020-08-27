@@ -100,7 +100,7 @@ class CommandBundlerProxySpec: QuickSpec {
                 }
             }
             
-            context("when background to active") {
+            context("when background to inactive to active") {
                 var spy: CommandBundlerProxySpy!
                 
                 beforeEach {
@@ -112,19 +112,28 @@ class CommandBundlerProxySpec: QuickSpec {
                     proxy.addCommand(buildCommand(event: Event(.install)))
                     
                     let exp = self.expectation(description: "Wait for finish.")
+                    exp.assertForOverFulfill = false
+                    exp.expectedFulfillmentCount = 2
                     
                     DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(200)) {
-                        provider.state = .active
+                        provider.state = .inactive
                         proxy.addCommand(buildCommand())
                         
                         exp.fulfill()
                     }
                     
+                    DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(400)) {
+                        provider.state = .active
+                        proxy.addCommand(buildCommand())
+                        
+                        exp.fulfill()
+                    }
+
                     self.wait(for: [exp], timeout: 2)
                 }
                 
-                it("commands count is 3") {
-                    expect(spy.commands.count).to(equal(3))
+                it("commands count is 4") {
+                    expect(spy.commands.count).to(equal(4))
                 }
             }
         }

@@ -70,7 +70,8 @@ extension StateCommandBundlerProxy: CommandBundlerApplicationStateProviderDelega
             return
         }
 
-        for command in commands {
+        while !commands.isEmpty {
+            let command = commands.removeFirst()
             bundler?.addCommand(command)
         }
     }

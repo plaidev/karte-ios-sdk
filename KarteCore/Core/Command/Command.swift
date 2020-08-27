@@ -47,9 +47,9 @@ public extension Command {
     func validateKarteScheme(_ targetScheme: String?) -> Bool {
         // 36はkrt-{apikey}の文字数
         guard let targetScheme = targetScheme,
-              targetScheme.hasPrefix("krt-"),
-              targetScheme.count == 36 else {
-            return false
+            targetScheme.hasPrefix("krt-"),
+            targetScheme.count == 36 else {
+                return false
         }
         return true
     }
