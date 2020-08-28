@@ -136,5 +136,10 @@ identifier_name:
     - _krt_load()
 
 line_length:
-  - 200 # warning
+  - 250 # warning
   - 300 # error
+
+type_name:
+  min_length: 3
+  max_length: 50
+

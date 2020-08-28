@@ -15,24 +15,12 @@
 //
 
 import Foundation
-import Quick
-import Mockingjay
+import KarteUtilities
 
-struct StubBuilder {
-    let url: URL
-    
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
-    }
-    
-    init(test: XCTestCase, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: test)))!
-    }
-    
-    func build() -> (URLRequest) -> Response {
-        let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
-            return jsonData(data)(request)
-        }        
+internal struct TrackingCommandTable: SQLiteTable {
+    var schema: SQLiteTableSchema
+
+    init(_ schema: SQLiteTableSchema) {
+        self.schema = schema
     }
 }

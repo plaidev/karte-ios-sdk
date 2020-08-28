@@ -32,7 +32,7 @@ The API references are located at
 
 Please follow our guidelines.
  - [Contribution Guideline](https://github.com/plaidev/karte-ios-sdk/blob/master/CONTRIBUTING.md)
- - [Code of Conduct](https://github.com/plaidev/karte-ios-sdk/blob/master/CONTRIBUTING.md)
+ - [Code of Conduct](https://github.com/plaidev/karte-ios-sdk/blob/master/CODE_OF_CONDUCT.md)
 
 ## License
 KARTE iOS SDK is published under the Apache 2.0 License.

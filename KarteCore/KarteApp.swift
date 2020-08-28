@@ -33,13 +33,7 @@ public class KarteApp: NSObject {
     private var moduleContainer = ModuleContainer()
     private var coreService: CoreService?
 
-    var trackingService: TrackingService?
-
-    weak var trackerDelegate: TrackerDelegate? {
-        didSet {
-            trackingService?.delegate = trackerDelegate
-        }
-    }
+    var trackingClient: TrackingClient?
 
     deinit {
     }
@@ -253,9 +247,9 @@ extension KarteApp {
         }
 
         self.coreService = service
-        self.trackingService = TrackingService(app: self, core: service)
-        self.trackingService?.delegate = trackerDelegate
-        self.trackingService?.trackInitialEvents()
+        self.trackingClient = TrackingClient(app: self, core: service)
+        self.trackingClient?.delegate = Tracker.delegate
+        self.trackingClient?.trackInitialEvents()
 
         Logger.info(tag: .core, message: "KARTE SDK initialize. appKey=\(appKey)")
 
@@ -266,8 +260,12 @@ extension KarteApp {
     }
 
     func teardown() {
-        self.trackingService?.teardown()
-        self.trackingService = nil
+        KarteApp.libraries.forEach { library in
+            library.unconfigure(app: self)
+        }
+
+        self.trackingClient?.teardown()
+        self.trackingClient = nil
         self.coreService?.teardown()
         self.coreService = nil
         Resolver.cached.reset()
@@ -315,7 +313,8 @@ extension Resolver: ResolverRegistering {
         registerVersionService()
         registerPvService()
         registerOptOutService()
-        registerTrackingService()
-        registerPubSubDispatcher()
+        registerTrackClientSession()
+        registerReachabilityService()
+        registerApplicationStateProvider()
     }
 }

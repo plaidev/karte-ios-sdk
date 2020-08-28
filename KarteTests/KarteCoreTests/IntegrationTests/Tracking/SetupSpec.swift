@@ -105,7 +105,7 @@ class SetupSpec: QuickSpec {
                         }
                         
                         it("tracker is nil") {
-                            expect(KarteApp.shared.trackingService).to(beNil())
+                            expect(KarteApp.shared.trackingClient).to(beNil())
                         }
                     }
                     

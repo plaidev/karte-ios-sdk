@@ -14,25 +14,23 @@
 //  limitations under the License.
 //
 
-import Foundation
-import Quick
-import Mockingjay
+import UIKit
+@testable import KarteCore
 
-struct StubBuilder {
-    let url: URL
-    
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
+class CommandBundlerApplicationStateProviderMock: CommandBundlerApplicationStateProvider {
+    var state: UIApplication.State {
+        didSet {
+            self.delegate?.commandBundlerApplicationStateProvider(self, didChangeApplicationState: state)
+        }
     }
     
-    init(test: XCTestCase, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: test)))!
+    weak var delegate: CommandBundlerApplicationStateProviderDelegate? {
+        didSet {
+            self.delegate?.commandBundlerApplicationStateProvider(self, didChangeApplicationState: state)
+        }
     }
     
-    func build() -> (URLRequest) -> Response {
-        let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
-            return jsonData(data)(request)
-        }        
+    init(state: UIApplication.State = .active) {
+        self.state = state
     }
 }

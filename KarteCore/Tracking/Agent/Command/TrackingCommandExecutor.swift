@@ -15,24 +15,16 @@
 //
 
 import Foundation
-import Quick
-import Mockingjay
 
-struct StubBuilder {
-    let url: URL
-    
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
-    }
-    
-    init(test: XCTestCase, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: test)))!
-    }
-    
-    func build() -> (URLRequest) -> Response {
-        let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
-            return jsonData(data)(request)
-        }        
-    }
+internal protocol TrackingCommandExecutorDelegate: AnyObject {
+    func trackingCommandExecutor(_ executor: TrackingCommandExecutor, didCompleteCommand command: TrackingCommand)
+    func trackingCommandExecutor(_ executor: TrackingCommandExecutor, didFailCommand command: TrackingCommand)
+    func trackingCommandExecutorDidExecuteCommands(_ executor: TrackingCommandExecutor)
+}
+
+internal protocol TrackingCommandExecutor {
+    var delegate: TrackingCommandExecutorDelegate? { get set }
+    var repository: TrackingCommandRepository { get }
+
+    func addCommand(_ command: TrackingCommand)
 }
