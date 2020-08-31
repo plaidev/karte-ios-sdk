@@ -50,7 +50,7 @@ internal struct TrackingCommand: Codable {
     var visitorId: String
     var date: Date
 
-    weak var task: TrackingTask?
+    var task: TrackingTask?
     var isRetry = false
     var exponentialBackoff = ExponentialBackoff(interval: 0.5, randomFactor: 0, multiplier: 4, maxCount: 6)
 
