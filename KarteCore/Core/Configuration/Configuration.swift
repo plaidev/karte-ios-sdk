@@ -21,7 +21,7 @@ import Foundation
 @objcMembers
 public class Configuration: NSObject, NSCopying {
     /// デフォルト値で初期化された設定インスタンスを返します。
-    public static var defaultConfiguration: Configuration {
+    public class var defaultConfiguration: Configuration {
         Configuration()
     }
 

@@ -128,6 +128,25 @@ class SetupSpec: QuickSpec {
                         }
                     }
                     
+                    context("when mode is ingest") {
+                        var request: URLRequest!
+                        beforeEachWithMetadata { (metadata) in
+                            let module = StubActionModule(self, metadata: metadata, path: "/v0/native/ingest", builder: builder, eventName: .nativeAppOpen) { (r, _, _) in
+                                request = r
+                            }
+                            let configuration = ExperimentalConfiguration { (configuration) in
+                                configuration.operationMode = .ingest
+                            }
+                            KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                            
+                            module.wait()
+                        }
+                        
+                        it("Request URL is `https://api.karte.io/v0/native/ingest`") {
+                            expect(request.url?.absoluteString).to(equal("https://api.karte.io/v0/native/ingest"))
+                        }
+                    }
+                    
                     context("when set idfa delegate") {
                         var body: TrackBodyParameters!
                         var idfa: IDFA!

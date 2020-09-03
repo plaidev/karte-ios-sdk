@@ -51,17 +51,17 @@ class StubActionModule {
         self.init(spec, metadata: metadata, stub: stub, eventNames: [eventName], receiver: receiver)
     }
     
-    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, builder: @escaping Builder, eventNames: [EventName], receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
+    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, path: String = "/v0/native/track", builder: @escaping Builder, eventNames: [EventName], receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
         self.init(spec, metadata: metadata, stub: nil, eventNames: eventNames, receiver: receiver)
         
-        self.stub = spec.stub(uri("/v0/native/track"), { [weak self] (request) -> (Response) in
+        self.stub = spec.stub(uri(path), { [weak self] (request) -> (Response) in
             self?.request = request
             return builder(request)
         })
     }
 
-    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, builder: @escaping Builder, eventName: EventName, receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
-        self.init(spec, metadata: metadata, builder: builder, eventNames: [eventName], receiver: receiver)
+    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, path: String = "/v0/native/track", builder: @escaping Builder, eventName: EventName, receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
+        self.init(spec, metadata: metadata, path: path, builder: builder, eventNames: [eventName], receiver: receiver)
     }
     
     func wait(timeout: TimeInterval = 10) {
