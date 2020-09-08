@@ -96,7 +96,7 @@ internal class IAMWebView: WKWebView {
             let script = "tracker.handleResponseData('\(value)')"
             evaluateJavaScript(script, completionHandler: nil)
 
-            Logger.verbose(tag: .inAppMessaging, message: "Evaluate script: \(script)")
+            Logger.verbose(tag: .inAppMessaging, message: "Evaluate tracker.handleResponseData(), messages: \(response.descriptionMessages)")
         }
     }
 
@@ -386,5 +386,11 @@ extension IAMWebView {
     enum ResetMode {
         case soft
         case hard
+    }
+}
+
+private extension TrackResponse.Response {
+    var descriptionMessages: String {
+        messages.map { ["action": ["_id": $0.action.string(forKey: "_id") ?? "", "shorten_id": $0.action.string(forKey: "shorten_id") ?? ""], "campaign": ["_id": $0.campaign.string(forKey: "_id") ?? ""] ] }.description
     }
 }
