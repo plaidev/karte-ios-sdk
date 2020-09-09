@@ -305,6 +305,7 @@
 		0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */; };
 		0CCFA7B924A5871200E0F184 /* NotificationSettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7B824A5871200E0F184 /* NotificationSettingsProvider.swift */; };
 		0CCFA7BB24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7BA24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift */; };
+		0CD4847A2508716F007F52E1 /* MeasurementSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD484792508716F007F52E1 /* MeasurementSpec.swift */; };
 		0CDBAC5F239C92DC00CEB853 /* SQLiteColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */; };
 		0CDBAC63239C93F800CEB853 /* SQLiteTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */; };
 		0CDBAC67239CB8E400CEB853 /* SQLiteTableSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC66239CB8E400CEB853 /* SQLiteTableSchema.swift */; };
@@ -767,6 +768,7 @@
 		0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMTokenRegistrarSpec.swift; sourceTree = "<group>"; };
 		0CCFA7B824A5871200E0F184 /* NotificationSettingsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsProvider.swift; sourceTree = "<group>"; };
 		0CCFA7BA24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsProviderMock.swift; sourceTree = "<group>"; };
+		0CD484792508716F007F52E1 /* MeasurementSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementSpec.swift; sourceTree = "<group>"; };
 		0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteColumnType.swift; sourceTree = "<group>"; };
 		0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTable.swift; sourceTree = "<group>"; };
 		0CDBAC66239CB8E400CEB853 /* SQLiteTableSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTableSchema.swift; sourceTree = "<group>"; };
@@ -1795,6 +1797,7 @@
 			isa = PBXGroup;
 			children = (
 				0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */,
+				0CD484792508716F007F52E1 /* MeasurementSpec.swift */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -2841,6 +2844,7 @@
 				0C83931A240838050014C2BF /* InspectorSpec.swift in Sources */,
 				0C839312240831B30014C2BF /* LifecycleEventSpec.swift in Sources */,
 				0CE79311238653AD00F0D932 /* StubActionModule.swift in Sources */,
+				0CD4847A2508716F007F52E1 /* MeasurementSpec.swift in Sources */,
 				0C83931C240838320014C2BF /* DefinitionMatchSpec.swift in Sources */,
 				0C839309240822A40014C2BF /* RenewVisitorIdEventSpec.swift in Sources */,
 				0C839317240838050014C2BF /* LogicalOperatorSpec.swift in Sources */,
@@ -3527,7 +3531,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3558,7 +3562,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

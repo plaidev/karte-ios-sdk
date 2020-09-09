@@ -24,6 +24,8 @@ private var userNotificationObserverContext: UInt8 = 0
 internal class RemoteNotificationProxy: NSObject {
     static let shared = RemoteNotificationProxy()
 
+    var isEnabled = true
+
     // swiftlint:disable identifier_name
     private let applicationDidReceiveRemoteNotificationFetchCompletionHandlerSelector = #selector(UIApplicationDelegate.application(_:didReceiveRemoteNotification:fetchCompletionHandler:))
     private let applicationDidReceiveRemoteNotificationSelector = #selector(UIApplicationDelegate.application(_:didReceiveRemoteNotification:))
@@ -42,6 +44,10 @@ internal class RemoteNotificationProxy: NSObject {
     var canSwizzleMethods: Bool {
         guard NSClassFromString("FIRMessaging") != nil else {
             Logger.debug(tag: .notification, message: "Firebase messaging framework is not linked.")
+            return false
+        }
+        guard isEnabled else {
+            Logger.info(tag: .notification, message: "Auto measurement is disabled.")
             return false
         }
         return true
@@ -189,7 +195,7 @@ internal class RemoteNotificationProxy: NSObject {
     }
 
     private func unswizzleUserNotificationCenterDelegate(_ delegate: AnyObject) {
-        guard !AnyObjectHelper.equals(currentUserNotificationCenterDelegate, delegate) else {
+        guard AnyObjectHelper.equals(currentUserNotificationCenterDelegate, delegate) else {
             return
         }
 
