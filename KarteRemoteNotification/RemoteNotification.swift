@@ -21,6 +21,20 @@ import UIKit
 /// リモート通知メッセージのパースおよびメッセージ中に含まれるディープリンクのハンドリングを行うためのクラスです。
 @objc(KRTRemoteNotification)
 public class RemoteNotification: NSObject {
+    /// 通知のクリック計測を自動で行うかどうかを表すフラグを返します。<br>
+    /// フラグを `false` にした場合は、自動でのクリック計測が行われません。<br>
+    /// デフォルトは `true` です。
+    ///
+    /// **本フラグの設定は `KarteApp.setup(appKey:)` を呼び出す前に行う必要があります。**
+    @objc public class var isEnabledAutoMeasurement: Bool {
+        get {
+            RemoteNotificationProxy.shared.isEnabled
+        }
+        set {
+            RemoteNotificationProxy.shared.isEnabled = newValue
+        }
+    }
+
     private var userInfo: [AnyHashable: Any]
 
     /// 通知メッセージ中に含まれる `URL` を返します。
@@ -92,6 +106,15 @@ public class RemoteNotification: NSObject {
             UIApplication.shared.openURL(url)
         }
         return true
+    }
+
+    /// 通知のクリック計測を行います。<br>
+    /// 通常は自動でクリック計測が行われるため本メソッドを呼び出す必要はありませんが、
+    /// `isEnabledAutoMeasurement` が `false` の場合は自動での計測が行われないため、
+    /// 本メソッドを呼び出す必要があります。
+    @objc
+    public func track() {
+        Measurement.measure(userInfo: userInfo)
     }
 
     deinit {
