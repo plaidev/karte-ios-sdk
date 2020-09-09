@@ -74,53 +74,56 @@ class TrackClientTests: XCTestCase {
             self.session.flush()
         }
         
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(2)) {
+        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(3)) {
             expect(self.session.tasks.count).to(equal(1))
             expect(TrackClient.shared.tasks.count).to(equal(2))
             expect(TrackClient.shared.state).to(equal(.running))
             self.reachabilityService.notify(false)
         }
         
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(3)) {
+        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(5)) {
             expect(self.session.tasks.count).to(equal(1))
             expect(TrackClient.shared.tasks.count).to(equal(2))
             expect(TrackClient.shared.state).to(equal(.running))
             self.session.flush()
         }
 
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(4)) {
+        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(7)) {
             expect(self.session.tasks.count).to(equal(0))
             expect(TrackClient.shared.tasks.count).to(equal(1))
             expect(TrackClient.shared.state).to(equal(.running))
             self.reachabilityService.notify(true)
         }
         
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(5)) {
+        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(9)) {
             expect(self.session.tasks.count).to(equal(1))
             expect(TrackClient.shared.tasks.count).to(equal(1))
             expect(TrackClient.shared.state).to(equal(.running))
             self.session.flush()
         }
         
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(6)) {
+        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(11)) {
             expect(self.session.tasks.count).to(equal(1))
             expect(TrackClient.shared.tasks.count).to(equal(1))
             expect(TrackClient.shared.state).to(equal(.running))
             self.session.flush()
         }
 
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(7)) {
+        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(13)) {
             expect(self.session.tasks.count).to(equal(0))
             expect(TrackClient.shared.tasks.count).to(equal(0))
             expect(TrackClient.shared.state).to(equal(.waiting))
         }
 
-        self.exp = expectation(forNotification: TrackingAgent.trackingAgentHasNoCommandsNotification, object: nil) { (_) -> Bool in
-            self.exp.fulfill()
+        self.exp = expectation(forNotification: TrackingAgent.trackingAgentHasNoCommandsNotification, object: nil) { [weak self] (_) -> Bool in
+            guard let self = self else {
+                return true
+            }
             self.removeStub(self.stub)
+            self.exp.fulfill()
             return true
         }
         
-        wait(for: [exp], timeout: 10)
+        wait(for: [exp], timeout: 20)
     }
 }

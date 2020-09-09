@@ -37,6 +37,10 @@ class ConfigurationSpec: QuickSpec {
                     expect(configuration.overlayBaseURL.absoluteString).to(equal("https://cf-native.karte.io"))
                 }
                 
+                it("logCollectionURL is `https://us-central1-production-debug-log-collector.cloudfunctions.net/nativeAppLogUrl`") {
+                    expect(configuration.logCollectionURL.absoluteString).to(equal("https://us-central1-production-debug-log-collector.cloudfunctions.net/nativeAppLogUrl"))
+                }
+                
                 it("isDryRun is false") {
                     expect(configuration.isDryRun).to(beFalse())
                 }
@@ -63,6 +67,7 @@ class ConfigurationSpec: QuickSpec {
                     configuration = KarteCore.Configuration { (configuration) in
                         configuration.baseURL = URL(string: "https://example.com")!
                         configuration.overlayBaseURL = URL(string: "https://example.com")!
+                        configuration.logCollectionURL = URL(string: "https://example.com")!
                         configuration.isDryRun = true
                         configuration.isOptOut = true
                         configuration.isSendInitializationEventEnabled = false
@@ -76,6 +81,10 @@ class ConfigurationSpec: QuickSpec {
                 
                 it("overlayBaseURL is `https://example.com`") {
                     expect(configuration.overlayBaseURL.absoluteString).to(equal("https://example.com"))
+                }
+                
+                it("logCollectionURL is `https://example.com`") {
+                    expect(configuration.logCollectionURL.absoluteString).to(equal("https://example.com"))
                 }
                 
                 it("isDryRun is true") {

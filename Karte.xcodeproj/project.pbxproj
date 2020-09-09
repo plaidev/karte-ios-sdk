@@ -305,6 +305,7 @@
 		0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */; };
 		0CCFA7B924A5871200E0F184 /* NotificationSettingsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7B824A5871200E0F184 /* NotificationSettingsProvider.swift */; };
 		0CCFA7BB24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCFA7BA24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift */; };
+		0CD4847A2508716F007F52E1 /* MeasurementSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD484792508716F007F52E1 /* MeasurementSpec.swift */; };
 		0CDBAC5F239C92DC00CEB853 /* SQLiteColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */; };
 		0CDBAC63239C93F800CEB853 /* SQLiteTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */; };
 		0CDBAC67239CB8E400CEB853 /* SQLiteTableSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBAC66239CB8E400CEB853 /* SQLiteTableSchema.swift */; };
@@ -336,6 +337,14 @@
 		36404EB6247D5E8400F35ECB /* DeepLinkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */; };
 		36404EB8247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */; };
 		36404EBA247D5EB400F35ECB /* DeepLinkEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */; };
+		36F3BC7124F4A928002D4382 /* GetLogUploadURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */; };
+		36F3BC7324F4BE71002D4382 /* UploadLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */; };
+		36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */; };
+		36F3BC7824F8DAC1002D4382 /* LogAppender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7724F8DAC1002D4382 /* LogAppender.swift */; };
+		36F3BC7A24F8DAEC002D4382 /* ConsoleLogAppender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7924F8DAEC002D4382 /* ConsoleLogAppender.swift */; };
+		36F3BC7C24F8DAFB002D4382 /* FileLogAppender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7B24F8DAFB002D4382 /* FileLogAppender.swift */; };
+		36F3BC7E24F8DE39002D4382 /* LogLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7D24F8DE39002D4382 /* LogLayout.swift */; };
+		36F3BC8024F8E101002D4382 /* LogFileCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7F24F8E101002D4382 /* LogFileCollector.swift */; };
 		680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */; };
 		680DB3C1247FC98400AE6800 /* RegisterPushCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680DB3BC247F2B7700AE6800 /* RegisterPushCommand.swift */; };
 		680DB3C82480F74E00AE6800 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680DB3C72480F74E00AE6800 /* Command.swift */; };
@@ -759,6 +768,7 @@
 		0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMTokenRegistrarSpec.swift; sourceTree = "<group>"; };
 		0CCFA7B824A5871200E0F184 /* NotificationSettingsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsProvider.swift; sourceTree = "<group>"; };
 		0CCFA7BA24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsProviderMock.swift; sourceTree = "<group>"; };
+		0CD484792508716F007F52E1 /* MeasurementSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementSpec.swift; sourceTree = "<group>"; };
 		0CDBAC5E239C92DC00CEB853 /* SQLiteColumnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteColumnType.swift; sourceTree = "<group>"; };
 		0CDBAC62239C93F800CEB853 /* SQLiteTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTable.swift; sourceTree = "<group>"; };
 		0CDBAC66239CB8E400CEB853 /* SQLiteTableSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTableSchema.swift; sourceTree = "<group>"; };
@@ -817,6 +827,14 @@
 		36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEvent.swift; sourceTree = "<group>"; };
 		36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkAppOpenEventSpec.swift; sourceTree = "<group>"; };
 		36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEventSpec.swift; sourceTree = "<group>"; };
+		36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLogUploadURLRequest.swift; sourceTree = "<group>"; };
+		36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLogRequest.swift; sourceTree = "<group>"; };
+		36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppenderSpec.swift; sourceTree = "<group>"; };
+		36F3BC7724F8DAC1002D4382 /* LogAppender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogAppender.swift; sourceTree = "<group>"; };
+		36F3BC7924F8DAEC002D4382 /* ConsoleLogAppender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogAppender.swift; sourceTree = "<group>"; };
+		36F3BC7B24F8DAFB002D4382 /* FileLogAppender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppender.swift; sourceTree = "<group>"; };
+		36F3BC7D24F8DE39002D4382 /* LogLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLayout.swift; sourceTree = "<group>"; };
+		36F3BC7F24F8E101002D4382 /* LogFileCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFileCollector.swift; sourceTree = "<group>"; };
 		680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBodyParametersSpec.swift; sourceTree = "<group>"; };
 		680DB3BC247F2B7700AE6800 /* RegisterPushCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterPushCommand.swift; sourceTree = "<group>"; };
 		680DB3C72480F74E00AE6800 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
@@ -1373,8 +1391,13 @@
 		0C83929A2406C7010014C2BF /* Logger */ = {
 			isa = PBXGroup;
 			children = (
+				36F3BC6D24F4A760002D4382 /* Collection */,
 				0C83929B2406C7010014C2BF /* Logger.swift */,
 				0C83929C2406C7010014C2BF /* LogLevel.swift */,
+				36F3BC7724F8DAC1002D4382 /* LogAppender.swift */,
+				36F3BC7924F8DAEC002D4382 /* ConsoleLogAppender.swift */,
+				36F3BC7B24F8DAFB002D4382 /* FileLogAppender.swift */,
+				36F3BC7D24F8DE39002D4382 /* LogLayout.swift */,
 			);
 			path = Logger;
 			sourceTree = "<group>";
@@ -1774,6 +1797,7 @@
 			isa = PBXGroup;
 			children = (
 				0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */,
+				0CD484792508716F007F52E1 /* MeasurementSpec.swift */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -1933,6 +1957,7 @@
 		0CE7933023865CAF00F0D932 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				36F3BC7424F786F4002D4382 /* Common */,
 				0CE7933223865D4A00F0D932 /* Core */,
 				0CE7933323865D5000F0D932 /* Tracking */,
 			);
@@ -1996,6 +2021,24 @@
 				36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */,
 			);
 			path = DeepLinkEvent;
+			sourceTree = "<group>";
+		};
+		36F3BC6D24F4A760002D4382 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				36F3BC7F24F8E101002D4382 /* LogFileCollector.swift */,
+				36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */,
+				36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */,
+			);
+			path = Collection;
+			sourceTree = "<group>";
+		};
+		36F3BC7424F786F4002D4382 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		680C29B22446B95900FB1363 /* Client */ = {
@@ -2593,15 +2636,19 @@
 				0C83928F2406C6AA0014C2BF /* InstallationStatus.swift in Sources */,
 				0C69D3FC24EB9D9D00D75893 /* TrackClientState.swift in Sources */,
 				0C8392B72406C7010014C2BF /* Module.swift in Sources */,
+				36F3BC7124F4A928002D4382 /* GetLogUploadURLRequest.swift in Sources */,
 				0C0822D824E67B2E0038EBDA /* CommandBundleRule.swift in Sources */,
 				0C69D40224EB9D9D00D75893 /* TrackBodyParameters.swift in Sources */,
 				0C8392B42406C7010014C2BF /* UserModule.swift in Sources */,
 				0C8392B92406C7010014C2BF /* Library.swift in Sources */,
 				0CE339B423F39C9300E2EB98 /* Configuration.swift in Sources */,
 				0C69D3FE24EB9D9D00D75893 /* ReachabilityService.swift in Sources */,
+				36F3BC7E24F8DE39002D4382 /* LogLayout.swift in Sources */,
 				0C8392842406C6AA0014C2BF /* PvIdGenerator.swift in Sources */,
+				36F3BC8024F8E101002D4382 /* LogFileCollector.swift in Sources */,
 				0C69D41524EB9DC600D75893 /* TrackingTask.swift in Sources */,
 				0CE339EC23F39C9300E2EB98 /* AppKey.swift in Sources */,
+				36F3BC7824F8DAC1002D4382 /* LogAppender.swift in Sources */,
 				0C8392652406C54E0014C2BF /* SystemInfo.swift in Sources */,
 				0C8392BB2406C7010014C2BF /* JSONConvertible.swift in Sources */,
 				0C8392B02406C7010014C2BF /* LogLevel.swift in Sources */,
@@ -2622,6 +2669,7 @@
 				0C0822DB24E67B3D0038EBDA /* TrackingCommand.swift in Sources */,
 				0C69D41024EB9DB200D75893 /* EmptyEventNameFilterRule.swift in Sources */,
 				0C4B51B0249216F20075A67D /* WindowDetector.swift in Sources */,
+				36F3BC7A24F8DAEC002D4382 /* ConsoleLogAppender.swift in Sources */,
 				0C8392AE2406C7010014C2BF /* Dictionary+Extension.swift in Sources */,
 				0C8392922406C6AA0014C2BF /* Version.swift in Sources */,
 				681E838F2482510200A95083 /* CommandHandler.swift in Sources */,
@@ -2631,6 +2679,7 @@
 				0C69D40D24EB9DB200D75893 /* TrackingClient.swift in Sources */,
 				681E83952482A90E00A95083 /* OpenSettingsCommand.swift in Sources */,
 				0C8392662406C5510014C2BF /* Screen.swift in Sources */,
+				36F3BC7324F4BE71002D4382 /* UploadLogRequest.swift in Sources */,
 				0C0822DC24E67B3D0038EBDA /* TrackingCommandExecutor.swift in Sources */,
 				681E8391248252EE00A95083 /* CommandHandlerLoader.m in Sources */,
 				0CB10A1023B216F20086D603 /* TrackerDelegate.swift in Sources */,
@@ -2665,6 +2714,7 @@
 				0C8392932406C6AA0014C2BF /* VersionService.swift in Sources */,
 				0C69D41124EB9DB200D75893 /* NonAsciiEventNameFilterRule.swift in Sources */,
 				0C8392E42407842D0014C2BF /* FindMyself.swift in Sources */,
+				36F3BC7C24F8DAFB002D4382 /* FileLogAppender.swift in Sources */,
 				0C8392C12406C7750014C2BF /* CoreService.swift in Sources */,
 				0C8392E52407842D0014C2BF /* FindMyselfLoader.m in Sources */,
 				0C0822E924E6816A0038EBDA /* TrackingCommandRecord.swift in Sources */,
@@ -2794,6 +2844,7 @@
 				0C83931A240838050014C2BF /* InspectorSpec.swift in Sources */,
 				0C839312240831B30014C2BF /* LifecycleEventSpec.swift in Sources */,
 				0CE79311238653AD00F0D932 /* StubActionModule.swift in Sources */,
+				0CD4847A2508716F007F52E1 /* MeasurementSpec.swift in Sources */,
 				0C83931C240838320014C2BF /* DefinitionMatchSpec.swift in Sources */,
 				0C839309240822A40014C2BF /* RenewVisitorIdEventSpec.swift in Sources */,
 				0C839317240838050014C2BF /* LogicalOperatorSpec.swift in Sources */,
@@ -2816,6 +2867,7 @@
 				0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */,
 				0CC648B8238CCFC3009EB5DF /* StubBuilder.swift in Sources */,
 				0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */,
+				36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */,
 				0C839316240838050014C2BF /* ActionAppropriateViewDetectorSpec.swift in Sources */,
 				0CFD001F24ED08E800598C8C /* ReachabilityServiceMock.swift in Sources */,
 				0C69D3E724EB859900D75893 /* CommandBundlerSpec.swift in Sources */,
@@ -3229,7 +3281,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.7.1;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3263,7 +3315,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.7.1;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3295,7 +3347,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3327,7 +3379,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3479,7 +3531,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3510,7 +3562,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
