@@ -116,16 +116,17 @@ extension OpacityDetector {
     }
 
     private func detectAtPoint(_ point: CGPoint, view: UIView) -> Bool {
-        var bitmap: UInt8 = 0
+        var bitmap = [UInt8](repeating: 0, count: 4)
+        let bimapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue).union(.byteOrder32Little)
 
         let ctx = CGContext(
             data: &bitmap,
             width: 1,
             height: 1,
             bitsPerComponent: 8,
-            bytesPerRow: 1,
-            space: CGColorSpaceCreateDeviceGray(),
-            bitmapInfo: CGImageAlphaInfo.alphaOnly.rawValue
+            bytesPerRow: 4,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: bimapInfo.rawValue
         )
 
         guard let context = ctx else {
@@ -138,7 +139,7 @@ extension OpacityDetector {
         view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
         UIGraphicsPopContext()
 
-        return bitmap > 0
+        return bitmap[0] > 0
     }
 }
 
