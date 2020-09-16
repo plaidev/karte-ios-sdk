@@ -135,6 +135,9 @@ extension IAMProcess {
             let configuration = WKWebViewConfiguration()
             configuration.processPool = InAppMessaging.shared.processPool ?? IAMProcess.processPool
             configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+            if #available(iOS 14.0, *) {
+                configuration.limitsNavigationsToAppBoundDomains = true
+            }
 
             let userContentController = WKUserContentController()
             for name in JsMessageName.allCases {

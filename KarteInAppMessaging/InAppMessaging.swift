@@ -140,6 +140,8 @@ public class InAppMessaging: NSObject {
         UITabBarController.krt_swizzleTabBarTransitionMethods()
         UIViewController.krt_swizzleTransitionMethods()
         UIViewController.krt_swizzleLifecycleMethods()
+
+        checkInfoPlist()
     }
 
     func unconfigure(app: KarteApp) {
@@ -166,7 +168,6 @@ public class InAppMessaging: NSObject {
     }
 }
 
-// MARK: - Notification
 extension InAppMessaging {
     private func observeNotifications() {
         NotificationCenter.default.addObserver(
@@ -300,6 +301,18 @@ extension InAppMessaging {
 
         let event = Event(.message(type: .suppressed, campaignId: campaignId, shortenId: shortenId, values: values))
         Tracker.track(event: event)
+    }
+
+    private func checkInfoPlist() {
+        guard let domains = Bundle.main.object(forInfoDictionaryKey: "WKAppBoundDomains") as? [String] else {
+            return
+        }
+
+        guard !domains.contains("karte.io") else {
+            return
+        }
+
+        Logger.warn(tag: .inAppMessaging, message: "If you want to enable App-Bound Domains, you must include 'karte.io' in your Info.plist.")
     }
 }
 
