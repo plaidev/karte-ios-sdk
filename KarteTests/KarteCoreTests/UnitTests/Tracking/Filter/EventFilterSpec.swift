@@ -31,13 +31,17 @@ class EventFilterSpec: QuickSpec {
             context("when event name is empty") {
                 it("throw error") {
                     let event = Event(eventName: EventName(""))
-                    expect { try filter.filter(event) }.to(throwError())
+                    expect(expression: {
+                        try filter.filter(event)
+                    }).to(throwError())
                 }
             }
             
             context("when event name is nativeAppOpen") {
                 it("not throw error") {
-                    expect { try filter.filter(Event(.open)) }.toNot(throwError())
+                    expect(expression: {
+                        try filter.filter(Event(.open))
+                    }).toNot(throwError())
                 }
             }
         }
@@ -52,14 +56,18 @@ class EventFilterSpec: QuickSpec {
             context("when event name contains non ascii character") {
                 it("not throw error") {
                     let event = Event(eventName: EventName("イベント"))
-                    expect { try filter.filter(event) }.toNot(throwError())
+                    expect(expression: {
+                        try filter.filter(event)
+                    }).toNot(throwError())
                 }
             }
             
             context("when event name not contains non ascii character") {
                 it("not throw error") {
                     let event = Event(eventName: EventName("event"))
-                    expect { try filter.filter(event) }.toNot(throwError())
+                    expect(expression: {
+                        try filter.filter(event)
+                    }).toNot(throwError())
                 }
             }
         }
@@ -73,14 +81,18 @@ class EventFilterSpec: QuickSpec {
             
             context("when event is initialization event") {
                 it("throw error") {
-                    expect { try filter.filter(Event(.open)) }.to(throwError())
+                    expect(expression: {
+                        try filter.filter(Event(.open))
+                    }).to(throwError())
                 }
             }
             
             context("when event is not initialization event") {
                 it("not throw error") {
                     let event = Event(eventName: EventName("event"))
-                    expect { try filter.filter(event) }.toNot(throwError())
+                    expect(expression: {
+                        try filter.filter(event)
+                    }).toNot(throwError())
                 }
             }
         }
