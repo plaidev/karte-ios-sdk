@@ -26,9 +26,7 @@ fi
 
 if !(type swiftlint); then
   echo 'swiftlint command is not installed.'
-  # swiftlint 0.39.1 from https://github.com/Homebrew/homebrew-core/commit/bbf6c86ae53bd2accf8fd00995903b98c140085b
-  brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/bbf6c86ae53bd2accf8fd00995903b98c140085b/Formula/swiftlint.rb
-  brew pin swiftlint
+  brew install swiftlint
 
 fi
 

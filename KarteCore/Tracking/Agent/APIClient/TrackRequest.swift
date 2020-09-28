@@ -44,7 +44,10 @@ public struct TrackRequest: Request {
     }
 
     public var path: String {
-        "/v0/native/track"
+        if let experimentalConfiguration = configuration as? ExperimentalConfiguration {
+            return experimentalConfiguration.operationMode.trackEndpointPath
+        }
+        return OperationMode.default.trackEndpointPath
     }
 
     public var method: HTTPMethod {
