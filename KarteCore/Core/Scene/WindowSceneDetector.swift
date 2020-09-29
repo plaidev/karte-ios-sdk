@@ -28,9 +28,12 @@ public struct WindowSceneDetector {
     public static func retrievePersistentIdentifiers() -> [String]? {
         // swiftlint:disable:previous discouraged_optional_collection
         if #available(iOS 13.0, *) {
-            return UIApplication.shared.connectedScenes.map { scene -> String in
-                scene.session.persistentIdentifier
+            if UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes)) {
+                return UIApplication.shared.connectedScenes.map { scene -> String in
+                    scene.session.persistentIdentifier
+                }
             }
+            return nil
         } else {
             return nil
         }
@@ -49,9 +52,10 @@ public struct WindowSceneDetector {
                 return identifier
             } else if let window = view as? UIWindow, let identifier = window.windowScene?.session.persistentIdentifier {
                 return identifier
-            } else {
+            } else if UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes)) {
                 return UIApplication.shared.connectedScenes.first?.session.persistentIdentifier
             }
+            return nil
         } else {
             return nil
         }
@@ -65,9 +69,12 @@ public struct WindowSceneDetector {
         func matcher(_ scene: UIScene) -> Bool {
             scene.session.persistentIdentifier == persistentIdentifier
         }
-        if let scene = UIApplication.shared.connectedScenes.first(where: matcher) as? UIWindowScene {
-            return scene
+        if UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes)) {
+            if let scene = UIApplication.shared.connectedScenes.first(where: matcher) as? UIWindowScene {
+                return scene
+            }
         }
+
         return nil
     }
 }
