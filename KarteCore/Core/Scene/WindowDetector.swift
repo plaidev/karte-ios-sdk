@@ -44,8 +44,10 @@ public struct WindowDetector {
         if #available(iOS 13.0, *) {
             if let scene = WindowSceneDetector.retrieveWindowScene(from: persistentIdentifier) {
                 return scene.windows
-            } else if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                return scene.windows
+            } else if UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes)) {
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                    return scene.windows
+                }
             }
         }
         return UIApplication.shared.windows
