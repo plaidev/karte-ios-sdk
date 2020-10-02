@@ -54,8 +54,15 @@ public struct SystemInfo: Codable {
     public var idfv: String?
 
     /// 広告識別子を返します。
-    @OptionalCodableInjected(name: "system_info.idfa")
-    public var idfa: String?
+    public var idfa: String? {
+        guard let idfaDelegate = KarteApp.shared.configuration.idfaDelegate else {
+            return nil
+        }
+        guard idfaDelegate.isAdvertisingTrackingEnabled else {
+            return nil
+        }
+        return idfaDelegate.advertisingIdentifierString
+    }
 
     /// 言語設定を返します。
     @OptionalCodableInjected(name: "system_info.language")
@@ -76,7 +83,6 @@ public struct SystemInfo: Codable {
         self.model = try container.decode(String.self, forKey: .model)
         self.bundleId = try container.decodeIfPresent(String.self, forKey: .bundleId)
         self.idfv = try container.decodeIfPresent(String.self, forKey: .idfv)
-        self.idfa = try container.decodeIfPresent(String.self, forKey: .idfa)
         self.language = try container.decodeIfPresent(String.self, forKey: .language)
         self.screen = try container.decode(Screen.self, forKey: .screen)
     }
@@ -123,15 +129,6 @@ extension Resolver {
         }
         register(String.self, name: "system_info.idfv") {
             UIDevice.current.identifierForVendor?.uuidString
-        }
-        register(String.self, name: "system_info.idfa") {
-            guard let idfaDelegate = KarteApp.shared.configuration.idfaDelegate else {
-                return nil
-            }
-            guard idfaDelegate.isAdvertisingTrackingEnabled else {
-                return nil
-            }
-            return idfaDelegate.advertisingIdentifierString
         }
         register(String.self, name: "system_info.language") {
             Locale.preferredLanguages.first

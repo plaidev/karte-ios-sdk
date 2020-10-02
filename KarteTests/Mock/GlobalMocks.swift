@@ -66,15 +66,6 @@ extension Resolver {
         resolver.register(String.self, name: "system_info.idfv") {
             "dummy_idfv"
         }
-        resolver.register(String.self, name: "system_info.idfa") {
-            guard let idfaDelegate = KarteApp.shared.configuration.idfaDelegate else {
-                return nil
-            }
-            guard idfaDelegate.isAdvertisingTrackingEnabled else {
-                return nil
-            }
-            return idfaDelegate.advertisingIdentifierString
-        }
         resolver.register(String.self, name: "system_info.language") {
             "ja-JP"
         }
