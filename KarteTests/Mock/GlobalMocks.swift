@@ -102,6 +102,8 @@ extension Resolver {
         }
         resolver.register { CommandBundlerApplicationStateProviderMock() as CommandBundlerApplicationStateProvider }
         
+        resolver.register { SelectorDetectorMock() as SelectorDetector }
+        
         Resolver.root = Resolver.mock
     }
 }
