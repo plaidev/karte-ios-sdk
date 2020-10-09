@@ -316,5 +316,6 @@ extension Resolver: ResolverRegistering {
         registerTrackClientSession()
         registerReachabilityService()
         registerApplicationStateProvider()
+        registerSelectorDetector()
     }
 }
