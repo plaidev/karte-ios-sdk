@@ -359,6 +359,8 @@
 		681E839B2483B5C800A95083 /* OpenSettingsCommandSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E839A2483B5C800A95083 /* OpenSettingsCommandSpec.swift */; };
 		681F0EA724975F9B0080C15A /* NotificationCommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */; };
 		68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */; };
+		683762F9252F201D00E690CE /* SelectorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683762F8252F201D00E690CE /* SelectorDetector.swift */; };
+		6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
 		68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
@@ -851,6 +853,8 @@
 		681E83982483B54800A95083 /* RequestReviewCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestReviewCommandSpec.swift; sourceTree = "<group>"; };
 		681E839A2483B5C800A95083 /* OpenSettingsCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSettingsCommandSpec.swift; sourceTree = "<group>"; };
 		681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCommandHandler.swift; sourceTree = "<group>"; };
+		683762F8252F201D00E690CE /* SelectorDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorDetector.swift; sourceTree = "<group>"; };
+		6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorDetectorMock.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
 		68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessSpec.swift; sourceTree = "<group>"; };
@@ -1587,6 +1591,7 @@
 		0C8974A12379094A00098CD8 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				683762F8252F201D00E690CE /* SelectorDetector.swift */,
 				0C8392C02406C7750014C2BF /* CoreService.swift */,
 				0C8392582406C4260014C2BF /* AppInfo */,
 				0CE339AF23F39C9300E2EB98 /* AppKey */,
@@ -1839,6 +1844,7 @@
 				0CCFA7BA24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift */,
 				0CFD001824ECF53100598C8C /* TrackClientSessionMock.swift */,
 				0CFD001E24ED08E800598C8C /* ReachabilityServiceMock.swift */,
+				6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -2685,6 +2691,7 @@
 				681E838F2482510200A95083 /* CommandHandler.swift in Sources */,
 				0C0822CB24E6329D0038EBDA /* CommandBundle.swift in Sources */,
 				0C8392BC2406C7010014C2BF /* Migration.swift in Sources */,
+				683762F9252F201D00E690CE /* SelectorDetector.swift in Sources */,
 				0C8392892406C6AA0014C2BF /* VisitorIdGenerator.swift in Sources */,
 				0C69D40D24EB9DB200D75893 /* TrackingClient.swift in Sources */,
 				681E83952482A90E00A95083 /* OpenSettingsCommand.swift in Sources */,
@@ -2854,6 +2861,7 @@
 				0CFD001124EBD2DC00598C8C /* TrackCallbackSpec.swift in Sources */,
 				0C83931A240838050014C2BF /* InspectorSpec.swift in Sources */,
 				0C839312240831B30014C2BF /* LifecycleEventSpec.swift in Sources */,
+				6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */,
 				0CE79311238653AD00F0D932 /* StubActionModule.swift in Sources */,
 				0CD4847A2508716F007F52E1 /* MeasurementSpec.swift in Sources */,
 				0C83931C240838320014C2BF /* DefinitionMatchSpec.swift in Sources */,
@@ -3293,7 +3301,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.10.0;
+				MARKETING_VERSION = 2.11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3327,7 +3335,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.10.0;
+				MARKETING_VERSION = 2.11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

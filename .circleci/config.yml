@@ -35,7 +35,7 @@ commands:
     steps:
       - restore_cache:
           name: Restoring gems cache
-          key: v1-gems-{{ checksum "Gemfile.lock" }}
+          key: v2-gems-{{ checksum "Gemfile.lock" }}
       - run:
           name: Bundle install
           command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
@@ -44,7 +44,7 @@ commands:
             BUNDLE_RETRY: 3
       - save_cache:
           name: Saving gems cache
-          key: v1-gems-{{ checksum "Gemfile.lock" }}
+          key: v2-gems-{{ checksum "Gemfile.lock" }}
           paths: vendor/bundle
   
   setup_pods:
