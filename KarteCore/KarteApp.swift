@@ -83,7 +83,28 @@ public extension KarteApp {
     ///   - configuration: 設定
     @objc
     class func setup(appKey: String, configuration: Configuration = Configuration.defaultConfiguration) {
-        shared.setup(appKey: AppKey(appKey), configuration: configuration)
+        configuration._appKey = AppKey(appKey)
+        shared.setup(configuration: configuration)
+    }
+
+    /// SDKの初期化を行います。
+    ///
+    /// 初期化オプションが未指定の場合は、プロジェクト直下の  Karte-Info.plist をロードして初期化が行われます。<br>
+    /// 初期化オプションのデフォルト値については `Configuration.default` を参照してください。
+    ///
+    /// なお初期化後に初期化オプションを変更した場合、その変更はSDKには反映されません。
+    ///
+    /// また既に初期化されている状態で呼び出した場合は何もしません。
+    ///
+    /// - Parameters:
+    ///   - configuration: 設定
+    @objc
+    class func setup(configuration: Configuration? = Resolver.optional(Configuration.self, name: "configuration")) {
+        guard let configuration = configuration else {
+            Logger.warn(tag: .core, message: "configuration is nil, invalid options has passed or could not find a valid plist in your project.")
+            return
+        }
+        shared.setup(configuration: configuration)
     }
 
     /// ログレベルを設定します。
@@ -201,7 +222,7 @@ public extension KarteApp {
     ///
     /// 初期化が行われていない場合は空文字列を返します。
     var appKey: String {
-        coreService?.appKey.value ?? ""
+        coreService?.configuration._appKey.value ?? ""
     }
 
     /// ビジターIDを返します。
@@ -240,8 +261,8 @@ public extension KarteApp {
 }
 
 extension KarteApp {
-    func setup(appKey: AppKey, configuration: Configuration) {
-        let service = CoreService(appKey: appKey, configuration: configuration)
+    func setup(configuration: Configuration) {
+        let service = CoreService(configuration: configuration)
         guard service.isEnabled else {
             return
         }
@@ -317,5 +338,6 @@ extension Resolver: ResolverRegistering {
         registerReachabilityService()
         registerApplicationStateProvider()
         registerSelectorDetector()
+        registerConfiguration()
     }
 }

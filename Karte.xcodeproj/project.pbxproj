@@ -364,6 +364,7 @@
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
 		68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
+		68E62712254036AA005148FC /* Karte-mock-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68E62711254036AA005148FC /* Karte-mock-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -859,6 +860,7 @@
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
 		68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessSpec.swift; sourceTree = "<group>"; };
 		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
+		68E62711254036AA005148FC /* Karte-mock-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Karte-mock-Info.plist"; sourceTree = "<group>"; };
 		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
 		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BFF77FFF3DF47D9011A20C08 /* Pods-Karte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.debug.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1768,6 +1770,7 @@
 		0CC648AE238A153F009EB5DF /* Stub */ = {
 			isa = PBXGroup;
 			children = (
+				68E62711254036AA005148FC /* Karte-mock-Info.plist */,
 				0CE792EC238653AD00F0D932 /* StubActionModule.swift */,
 				0CC648B7238CCFC3009EB5DF /* StubBuilder.swift */,
 				0CC648BC238CD4DC009EB5DF /* StubResource.swift */,
@@ -2479,6 +2482,7 @@
 				0CF44AFB242E451000CA7F3A /* success_variables_3.json in Resources */,
 				0CC648BB238CD4AA009EB5DF /* success_empty.json in Resources */,
 				0CC648C6238D5559009EB5DF /* success_vt_1.json in Resources */,
+				68E62712254036AA005148FC /* Karte-mock-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
