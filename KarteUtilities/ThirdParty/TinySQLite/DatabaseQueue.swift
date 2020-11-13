@@ -49,12 +49,10 @@ open class DatabaseQueue {
             /* Open the database and execute the block. Pass on any errors thrown */
             try self.database.open()
             
-            /* Close the database when leaving this scope */
-            defer {
-                try! self.database.close()
-            }
-            
             try block(self.database)
+            
+            /* Close the database when leaving this scope */
+            try self.database.close()
         }
     }
 }
