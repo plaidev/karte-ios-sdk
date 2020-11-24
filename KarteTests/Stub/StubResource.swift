@@ -43,4 +43,5 @@ extension StubResource {
     static var variables3 = StubResource("success_variables_3.json")
     static var vt1 = StubResource("success_vt_1.json")
     static var vt2 = StubResource("success_vt_2.json")
+    static var vt_definitions = StubResource("success_vt_definitions.json")
 }
