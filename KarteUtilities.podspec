@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteUtilities'
-  s.version                 = '3.2.0'
+  s.version                 = '3.3.0'
   s.summary                 = 'KARTE Utilities SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -23,10 +23,24 @@ Pod::Spec.new do |s|
   s.ios.deployment_target   = '9.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Utilities-#{s.version}" }
-  s.source_files            = 'KarteUtilities/**/*.{swift,h,m}'
+  s.default_subspec  = 'standard'
   
   s.requires_arc            = true
   s.pod_target_xcconfig     = {
     'GCC_PREPROCESSOR_DEFINITIONS' => 'UTILITIES_VERSION=' + s.version.to_s
   }
+  
+  s.subspec 'standard' do |ss|
+    ss.source_files = 'KarteUtilities/**/*.{swift,h,m}'
+    ss.library = 'sqlite3'
+  end
+
+  s.subspec 'sqlite-standalone' do |ss|
+    ss.source_files = 'KarteUtilities/**/*.{swift,h,m}'
+    ss.xcconfig = {
+      'OTHER_SWIFT_FLAGS' => '$(inherited) -DKARTE_SQLITE_STANDALONE',
+      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) KARTE_SQLITE_STANDALONE=1'
+    }
+    ss.dependency 'sqlite3'
+  end
 end
