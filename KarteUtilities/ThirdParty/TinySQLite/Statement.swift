@@ -5,7 +5,11 @@
 //  Created by Øyvind Grimnes on 25/12/15.
 //
 
+#if KARTE_SQLITE_STANDALONE
+import sqlite3
+#else
 import SQLite3
+#endif
 
 public enum Datatype: String {
     case Text       = "TEXT"
