@@ -7,7 +7,11 @@
 //
 
 import Foundation
+#if KARTE_SQLITE_STANDALONE
+import sqlite3
+#else
 import SQLite3
+#endif
 
 
 internal struct ResultHandler {
