@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -38,7 +38,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0C01DB4024AC447E007F7DC1 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */; };
 		0C060E5B2383D116006AF974 /* CrashReport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C060E592383D116006AF974 /* CrashReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C060E5C2383D116006AF974 /* CrashReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C060E5A2383D116006AF974 /* CrashReport.m */; };
 		0C060E9C2384D76C006AF974 /* KarteUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C060E9A2384D76C006AF974 /* KarteUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -362,6 +361,7 @@
 		683762F9252F201D00E690CE /* SelectorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683762F8252F201D00E690CE /* SelectorDetector.swift */; };
 		6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
+		68751C272583692D00C6306A /* CrashReporter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68751C0E258368FF00C6306A /* CrashReporter.xcframework */; };
 		68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
 /* End PBXBuildFile section */
@@ -515,7 +515,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		0C060E592383D116006AF974 /* CrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReport.h; sourceTree = "<group>"; };
 		0C060E5A2383D116006AF974 /* CrashReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrashReport.m; sourceTree = "<group>"; };
 		0C060E982384D76C006AF974 /* KarteUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -857,6 +856,7 @@
 		6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorDetectorMock.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
+		68751C0E258368FF00C6306A /* CrashReporter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CrashReporter.xcframework; path = KarteCrashReporting/PLCrashReporter/CrashReporter.xcframework; sourceTree = "<group>"; };
 		68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessSpec.swift; sourceTree = "<group>"; };
 		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
 		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -876,7 +876,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C01DB4024AC447E007F7DC1 /* CrashReporter.framework in Frameworks */,
+				68751C272583692D00C6306A /* CrashReporter.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1150,7 +1150,6 @@
 		0C2B3C6D2382684C008A2708 /* KarteCrashReporting */ = {
 			isa = PBXGroup;
 			children = (
-				0C01DB3F24AC447E007F7DC1 /* CrashReporter.framework */,
 				0C2B3C74238269CD008A2708 /* CrashReporting.swift */,
 				0C2B3C76238269E2008A2708 /* CrashReportingLoader.m */,
 				0C060E592383D116006AF974 /* CrashReport.h */,
@@ -1299,6 +1298,7 @@
 		0C6FE2D222F826CA00F2FD28 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				68751C0E258368FF00C6306A /* CrashReporter.xcframework */,
 				0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */,
 				2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */,
 			);
@@ -3112,7 +3112,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3147,7 +3147,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
