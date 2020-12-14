@@ -16,6 +16,7 @@
 
 import Foundation
 import KarteCore
+import KarteUtilities
 
 internal class ActionTracker {
     var definitions: AutoTrackDefinition?
@@ -43,6 +44,30 @@ internal class ActionTracker {
             return
         }
 
+        refreshDefinitions(definitions: definitions)
+    }
+
+    func refreshDefinitions(_ completionHandler: (() -> Void)? = nil) {
+        let req = DefinitionsRequest(app: self.app, definitionsLastModified: definitionsLastModified)
+        Session.send(req) { [weak self] result in
+            defer {
+                completionHandler?()
+            }
+            switch result {
+            case .success(let response):
+                guard let definitions = response.response else {
+                    Logger.verbose(tag: .visualTracking, message: "VT definition is empty.")
+                    return
+                }
+                self?.refreshDefinitions(definitions: definitions)
+
+            case .failure(let error):
+                Logger.error(tag: .visualTracking, message: "Failed to get definitions \(error)")
+            }
+        }
+    }
+
+    private func refreshDefinitions(definitions: AutoTrackDefinition) {
         if definitions.status == .modified && self.definitions?.lastModified != definitions.lastModified {
             Logger.info(tag: .visualTracking, message: "Update VT definition.")
             self.definitions = definitions

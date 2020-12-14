@@ -41,6 +41,18 @@ internal class VisualTrackingManager {
         UIGestureRecognizer.krt_vt_swizzleGestureRecognizerMethods()
         UINavigationController.krt_vt_swizzleNavigationControllerMethods()
         UIViewController.krt_vt_swizzleViewControllerMethods()
+
+        var token: NSObjectProtocol?
+        token = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {[weak self] in
+                if let config = self?.tracker?.app.configuration as? ExperimentalConfiguration, config.operationMode == OperationMode.ingest {
+                    self?.tracker?.refreshDefinitions()
+                }
+            }
+            if let token = token {
+                NotificationCenter.default.removeObserver(token)
+            }
+        }
     }
 
     func unconfigure(app: KarteApp) {

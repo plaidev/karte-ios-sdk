@@ -333,10 +333,13 @@
 		0CFD001924ECF53100598C8C /* TrackClientSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001824ECF53100598C8C /* TrackClientSessionMock.swift */; };
 		0CFD001D24ECF8BB00598C8C /* TrackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001C24ECF8BB00598C8C /* TrackClientTests.swift */; };
 		0CFD001F24ED08E800598C8C /* ReachabilityServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001E24ED08E800598C8C /* ReachabilityServiceMock.swift */; };
+		363F25F12582A1EB007E6E4B /* DefinitionsRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363F25F02582A1EB007E6E4B /* DefinitionsRequestSpec.swift */; };
+		363F26172582B028007E6E4B /* success_vt_definitions.json in Resources */ = {isa = PBXBuildFile; fileRef = 363F260D2582AE60007E6E4B /* success_vt_definitions.json */; };
 		36404EB5247D5E8400F35ECB /* DeepLinkEventLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB3247D5E8300F35ECB /* DeepLinkEventLoader.m */; };
 		36404EB6247D5E8400F35ECB /* DeepLinkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */; };
 		36404EB8247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */; };
 		36404EBA247D5EB400F35ECB /* DeepLinkEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */; };
+		369C2FE0256B9E6D00ED5948 /* DefinitionsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369C2FDF256B9E6D00ED5948 /* DefinitionsRequest.swift */; };
 		36F3BC7124F4A928002D4382 /* GetLogUploadURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */; };
 		36F3BC7324F4BE71002D4382 /* UploadLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */; };
 		36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */; };
@@ -829,10 +832,13 @@
 		0CFD001E24ED08E800598C8C /* ReachabilityServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityServiceMock.swift; sourceTree = "<group>"; };
 		2A57DE35F7357D0077E4FCF1 /* Pods-Karte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.release.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.release.xcconfig"; sourceTree = "<group>"; };
 		2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		363F25F02582A1EB007E6E4B /* DefinitionsRequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionsRequestSpec.swift; sourceTree = "<group>"; };
+		363F260D2582AE60007E6E4B /* success_vt_definitions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_vt_definitions.json; sourceTree = "<group>"; };
 		36404EB3247D5E8300F35ECB /* DeepLinkEventLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepLinkEventLoader.m; sourceTree = "<group>"; };
 		36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEvent.swift; sourceTree = "<group>"; };
 		36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkAppOpenEventSpec.swift; sourceTree = "<group>"; };
 		36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEventSpec.swift; sourceTree = "<group>"; };
+		369C2FDF256B9E6D00ED5948 /* DefinitionsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionsRequest.swift; sourceTree = "<group>"; };
 		36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLogUploadURLRequest.swift; sourceTree = "<group>"; };
 		36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLogRequest.swift; sourceTree = "<group>"; };
 		36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppenderSpec.swift; sourceTree = "<group>"; };
@@ -1738,6 +1744,7 @@
 				0C2B3C6223823275008A2708 /* Condition.swift */,
 				0C8976EB237FECFF00098CD8 /* LogicalOperator.swift */,
 				0C8976EF237FFD5200098CD8 /* ComparisonOperator.swift */,
+				369C2FDF256B9E6D00ED5948 /* DefinitionsRequest.swift */,
 			);
 			path = Definition;
 			sourceTree = "<group>";
@@ -1780,6 +1787,7 @@
 				0CF44AFA242E451000CA7F3A /* success_variables_3.json */,
 				0CC648C4238D5559009EB5DF /* success_vt_1.json */,
 				0CC648C5238D5559009EB5DF /* success_vt_2.json */,
+				363F260D2582AE60007E6E4B /* success_vt_definitions.json */,
 			);
 			path = Stub;
 			sourceTree = "<group>";
@@ -1803,6 +1811,7 @@
 				0CA6D437238E14D800583E5C /* DefinitionLoadSpec.swift */,
 				0CA6D435238E13D300583E5C /* DefinitionMatchSpec.swift */,
 				0CA6D441238EC5AD00583E5C /* TracerTests.swift */,
+				363F25F02582A1EB007E6E4B /* DefinitionsRequestSpec.swift */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -2480,6 +2489,7 @@
 				0CC648B0238A15BD009EB5DF /* success_variables_1.json in Resources */,
 				0CC648C7238D5559009EB5DF /* success_vt_2.json in Resources */,
 				0CF44AFB242E451000CA7F3A /* success_variables_3.json in Resources */,
+				363F26172582B028007E6E4B /* success_vt_definitions.json in Resources */,
 				0CC648BB238CD4AA009EB5DF /* success_empty.json in Resources */,
 				0CC648C6238D5559009EB5DF /* success_vt_1.json in Resources */,
 				68E62712254036AA005148FC /* Karte-mock-Info.plist in Resources */,
@@ -2822,6 +2832,7 @@
 				0C8976C5237EDD4D00098CD8 /* Account.swift in Sources */,
 				0C8976F823801DC200098CD8 /* PairingClient.swift in Sources */,
 				0C8976CB237EE78D00098CD8 /* UIViewController+VisualTracking.swift in Sources */,
+				369C2FE0256B9E6D00ED5948 /* DefinitionsRequest.swift in Sources */,
 				0C8976CE237EE78D00098CD8 /* UINavigationController+VisualTracking.swift in Sources */,
 				0C8976EC237FECFF00098CD8 /* LogicalOperator.swift in Sources */,
 				0C2B3C6323823275008A2708 /* Condition.swift in Sources */,
@@ -2892,6 +2903,7 @@
 				0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */,
 				36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */,
 				0C839316240838050014C2BF /* ActionAppropriateViewDetectorSpec.swift in Sources */,
+				363F25F12582A1EB007E6E4B /* DefinitionsRequestSpec.swift in Sources */,
 				6807B2AB251D80C900CDAB43 /* ExperimentalConfigurationTests.swift in Sources */,
 				0CFD001F24ED08E800598C8C /* ReachabilityServiceMock.swift in Sources */,
 				0C69D3E724EB859900D75893 /* CommandBundlerSpec.swift in Sources */,
@@ -3494,7 +3506,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3525,7 +3537,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
