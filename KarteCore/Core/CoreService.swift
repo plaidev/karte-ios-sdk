@@ -18,8 +18,6 @@ import Foundation
 import KarteUtilities
 
 internal class CoreService {
-    var appKey: AppKey
-
     lazy var appInfo: AppInfo = {
         AppInfo()
     }()
@@ -48,8 +46,10 @@ internal class CoreService {
     }
 
     var isEnabled: Bool {
-        guard appKey.isValid else {
-            Logger.warn(tag: .core, message: "Invalid APP_KEY is set.")
+        guard configuration._appKey.isValid else {
+            let errorMessage = "Invalid APP_KEY is set: \(configuration._appKey.value)"
+            assertionFailure(errorMessage)
+            Logger.error(tag: .core, message: errorMessage)
             return false
         }
 
@@ -90,8 +90,7 @@ internal class CoreService {
         Resolver.resolve(SelectorDetector.self).detect()
     }
 
-    init(appKey: AppKey, configuration: Configuration) {
-        self.appKey = appKey
+    init(configuration: Configuration) {
         self._configuration = configuration.copy() as! Configuration
         // swiftlint:disable:previous force_cast
     }

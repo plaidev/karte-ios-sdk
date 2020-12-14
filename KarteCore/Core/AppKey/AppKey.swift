@@ -16,7 +16,7 @@
 
 import Foundation
 
-internal struct AppKey {
+internal struct AppKey: Codable {
     var value: String
 
     var isValid: Bool {
@@ -25,5 +25,16 @@ internal struct AppKey {
 
     init(_ value: String) {
         self.value = value
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let appkey = try container.decode(String.self)
+        self.value = appkey
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(value)
     }
 }

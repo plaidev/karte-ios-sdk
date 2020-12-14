@@ -20,6 +20,12 @@ import Foundation
 @objc(KRTExperimentalConfiguration)
 @objcMembers
 public class ExperimentalConfiguration: Configuration {
+    /// プロジェクト直下の  Karte-Info.plist をロードしてデフォルト値で初期化された設定インスタンスを返します。
+    /// Karte-Info.plist が存在しない場合は nil が返ります。
+    override public class var `default`: ExperimentalConfiguration? {
+        super.default as? ExperimentalConfiguration
+    }
+
     /// デフォルト値で初期化された設定インスタンスを返します。
     override public class var defaultConfiguration: ExperimentalConfiguration {
         ExperimentalConfiguration()
@@ -37,10 +43,29 @@ public class ExperimentalConfiguration: Configuration {
 
     /// SDK設定インスタンスを初期化します。
     ///
+    /// - Parameter appKey: アプリケーションキー
+    override public init(appKey: String) {
+        super.init(appKey: appKey)
+    }
+
+    /// SDK設定インスタンスを初期化します。
+    ///
     /// - Parameter configurator: 初期化ブロック
     public convenience init(configurator: (ExperimentalConfiguration) -> Void) {
         self.init()
         configurator(self)
+    }
+
+    /// SDK設定インスタンスを初期化します。
+    ///
+    /// **SDK内部で利用する初期化関数であるため、通常のSDK利用においてこちらの関数を利用する必要はありません。**
+    /// - Parameter decoder: デコーダー
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    override public class func from(plistPath: String) -> ExperimentalConfiguration? {
+        super.from(plistPath: plistPath) as? ExperimentalConfiguration
     }
 
     /// SDK設定インスタンスを初期化します。
@@ -55,6 +80,7 @@ public class ExperimentalConfiguration: Configuration {
     /// - Parameter zone: NSZone
     override public func copy(with zone: NSZone? = nil) -> Any {
         let configuration = ExperimentalConfiguration()
+        configuration._appKey = _appKey
         configuration.baseURL = baseURL
         configuration.overlayBaseURL = overlayBaseURL
         configuration.isDryRun = isDryRun
