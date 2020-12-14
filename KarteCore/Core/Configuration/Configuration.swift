@@ -15,14 +15,47 @@
 //
 
 import Foundation
+import KarteUtilities
 
 /// SDKの設定を保持するクラスです。
 @objc(KRTConfiguration)
 @objcMembers
-public class Configuration: NSObject, NSCopying {
+public class Configuration: NSObject, NSCopying, Codable {
+    enum CodingKeys: String, CodingKey {
+        case _appKey = "karte_app_key"
+        // swiftlint:disable:previous identifier_name
+    }
+
+    /// プロジェクト直下の  Karte-Info.plist をロードしてデフォルト値で初期化された設定インスタンスを返します。
+    /// Karte-Info.plist が存在しない場合は nil が返ります。
+    public class var `default`: Configuration? {
+        guard let path = Resolver.optional(String.self, name: "configuration.path") else {
+            let errorMessage = "Karte-Info.plist not found in project root"
+            assertionFailure(errorMessage)
+            Logger.error(tag: .core, message: errorMessage)
+            return nil
+        }
+        return from(plistPath: path)
+    }
+
     /// デフォルト値で初期化された設定インスタンスを返します。
     public class var defaultConfiguration: Configuration {
         Configuration()
+    }
+
+    internal var _appKey = AppKey("")
+    // swiftlint:disable:previous identifier_name
+
+    /// アプリケーションキーの取得・設定を行います。
+    ///
+    /// 設定ファイルから自動でロードされるアプリケーションキー以外を利用したい場合にのみ設定します。
+    public var appKey: String {
+        get {
+            _appKey.value
+        }
+        set {
+            _appKey = AppKey(newValue)
+        }
     }
 
     /// ベースURLの取得・設定を行います。
@@ -73,10 +106,44 @@ public class Configuration: NSObject, NSCopying {
 
     /// SDK設定インスタンスを初期化します。
     ///
+    /// - Parameter appKey: アプリケーションキー
+    public init(appKey: String) {
+        self._appKey = AppKey(appKey)
+    }
+
+    /// SDK設定インスタンスを初期化します。
+    ///
     /// - Parameter configurator: 初期化ブロック
     public convenience init(configurator: (Configuration) -> Void) {
         self.init()
         configurator(self)
+    }
+
+    /// SDK設定インスタンスを初期化します。
+    ///
+    /// **SDK内部で利用する初期化関数であるため、通常のSDK利用においてこちらの関数を利用する必要はありません。**
+    /// - Parameter decoder: デコーダー
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self._appKey = try container.decode(AppKey.self, forKey: ._appKey)
+    }
+
+    /// SDK設定インスタンスを plist ファイルからロードします。
+    ///
+    /// 指定したパスに有効な plist ファイルが存在しない場合は nil を返します。
+    /// - Parameter plistPath: plistのファイルパス
+    public class func from(plistPath: String) -> Configuration? {
+        let decoder = PropertyListDecoder()
+
+        do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: plistPath))
+            return try decoder.decode(Self.self, from: data)
+        } catch {
+            let errorMessage = "Decode configuration from plist failed: \(error.localizedDescription)"
+            assertionFailure(errorMessage)
+            Logger.error(tag: .core, message: errorMessage)
+            return nil
+        }
     }
 
     /// SDK設定インスタンスを初期化します。
@@ -91,6 +158,7 @@ public class Configuration: NSObject, NSCopying {
     /// - Parameter zone: NSZone
     public func copy(with zone: NSZone? = nil) -> Any {
         let configuration = Configuration()
+        configuration._appKey = _appKey
         configuration.baseURL = baseURL
         configuration.overlayBaseURL = overlayBaseURL
         configuration.isDryRun = isDryRun
@@ -101,5 +169,17 @@ public class Configuration: NSObject, NSCopying {
     }
 
     deinit {
+    }
+}
+
+extension Resolver {
+    static func registerConfiguration() {
+        register(Configuration.self, name: "configuration") {
+            Configuration.default
+        }
+
+        register(String.self, name: "configuration.path") {
+            Bundle.main.path(forResource: "Karte-Info", ofType: "plist")
+        }
     }
 }

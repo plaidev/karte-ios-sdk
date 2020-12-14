@@ -104,6 +104,16 @@ extension Resolver {
         
         resolver.register { SelectorDetectorMock() as SelectorDetector }
         
+        resolver.register(name: "configuration") { () -> Configuration? in
+            let config = Configuration()
+            config.appKey = APP_KEY
+            return config
+        }
+        
+        resolver.register(String.self, name: "configuration.path") {
+            Bundle(for: SetupSpec.self).path(forResource: "Karte-mock-Info", ofType: "plist")
+        }
+        
         Resolver.root = Resolver.mock
     }
 }
