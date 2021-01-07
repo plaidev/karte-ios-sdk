@@ -48,8 +48,6 @@ internal class OptOutService {
             return
         }
 
-        settings.isEnabled = true
-
         KarteApp.shared.modules.forEach { module in
             if case let .action(module) = module {
                 module.resetAll()
@@ -58,6 +56,8 @@ internal class OptOutService {
                 module.unsubscribe()
             }
         }
+
+        settings.isEnabled = true
     }
 
     func optOutTemporarily() {
