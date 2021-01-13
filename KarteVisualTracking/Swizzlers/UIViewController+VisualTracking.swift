@@ -40,7 +40,7 @@ extension UIViewController {
     private func krt_vt_viewDidAppear(_ animated: Bool) {
         krt_vt_viewDidAppear(animated)
 
-        let action = Action(
+        let action = UIKitAction(
             "viewDidAppear",
             view: view,
             viewController: self,
@@ -51,7 +51,7 @@ extension UIViewController {
 
     @objc
     private func krt_vt_presentViewController(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        let action = Action(
+        let action = UIKitAction(
             "presentViewController",
             view: nil,
             viewController: viewController,
@@ -69,7 +69,7 @@ extension UIViewController {
             viewController = tempViewController
         }
 
-        let action = Action(
+        let action = UIKitAction(
             "dismissViewControllerAnimated",
             view: nil,
             viewController: viewController,

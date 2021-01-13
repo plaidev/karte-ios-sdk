@@ -35,7 +35,7 @@ extension UIApplication {
     private func krt_vt_sendAction(_ action: Selector, to target: Any?, from sender: Any?, for event: UIEvent?) -> Bool {
         if let view = target as? UIView, event != nil {
             let viewController = UIResponder.krt_vt_retrieveViewController(for: view)
-            let action = Action(
+            let action = UIKitAction(
                 NSStringFromSelector(action),
                 view: view,
                 viewController: viewController,
@@ -52,7 +52,7 @@ extension UIApplication {
         for touch in touches where touch.phase == .ended {
             let view = touch.view
             let viewController = UIResponder.krt_vt_retrieveViewController(for: view)
-            let action = Action(
+            let action = UIKitAction(
                 "touch",
                 view: view,
                 viewController: viewController,

@@ -31,11 +31,11 @@ internal struct AutoTrackDefinition: Codable {
         return definition
     }
 
-    func events(action: Action, appInfo: AppInfo) -> [Event] {
+    func events(action: ActionProtocol, appInfo: AppInfo) -> [Event] {
         let container = Container(
             action: action.action,
-            view: action.viewName,
-            viewController: action.viewControllerName,
+            view: action.screenName,
+            viewController: action.screenHostName,
             targetText: action.targetText,
             appInfo: appInfo,
             actionId: action.actionId

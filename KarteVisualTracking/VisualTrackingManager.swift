@@ -67,7 +67,7 @@ internal class VisualTrackingManager {
         receivers.append(receiver)
     }
 
-    func dispatch(action: Action?) {
+    func dispatch(action: ActionProtocol?) {
         guard let action = action else {
             Logger.warn(tag: .visualTracking, message: "Action is invalid.")
             return

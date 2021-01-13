@@ -51,7 +51,7 @@ class DefinitionMatchSpec: QuickSpec {
                         event = e
                     }
                     
-                    let action = Action("dummy", view: UIButton(), viewController: nil, targetText: "購入")
+                    let action = UIKitAction("dummy", view: UIButton(), viewController: nil, targetText: "購入")
                     VisualTrackingManager.shared.dispatch(action: action)
                     
                     module2.wait()
