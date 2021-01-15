@@ -16,7 +16,7 @@ DEPENDENCIES:
   - Quick
 
 SPEC REPOS:
-  trunk:
+  https://cdn.cocoapods.org/:
     - Mockingjay
     - Nimble
     - Quick
