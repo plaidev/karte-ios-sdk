@@ -367,6 +367,7 @@
 		68751C272583692D00C6306A /* CrashReporter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68751C0E258368FF00C6306A /* CrashReporter.xcframework */; };
 		68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
+		68C9FA0D25C38E830069EA3D /* JsMessageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C9FA0C25C38E830069EA3D /* JsMessageSpec.swift */; };
 		68E62712254036AA005148FC /* Karte-mock-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68E62711254036AA005148FC /* Karte-mock-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -866,6 +867,7 @@
 		68751C0E258368FF00C6306A /* CrashReporter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CrashReporter.xcframework; path = KarteCrashReporting/PLCrashReporter/CrashReporter.xcframework; sourceTree = "<group>"; };
 		68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessSpec.swift; sourceTree = "<group>"; };
 		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
+		68C9FA0C25C38E830069EA3D /* JsMessageSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsMessageSpec.swift; sourceTree = "<group>"; };
 		68E62711254036AA005148FC /* Karte-mock-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Karte-mock-Info.plist"; sourceTree = "<group>"; };
 		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
 		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2108,6 +2110,7 @@
 			isa = PBXGroup;
 			children = (
 				68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */,
+				68C9FA0C25C38E830069EA3D /* JsMessageSpec.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -2911,6 +2914,7 @@
 				0C83930F2408294D0014C2BF /* TrackCommonSpec.swift in Sources */,
 				0C839314240837E70014C2BF /* VariablesSpec.swift in Sources */,
 				0C839303240822A40014C2BF /* ViewEventSpec.swift in Sources */,
+				68C9FA0D25C38E830069EA3D /* JsMessageSpec.swift in Sources */,
 				0C839306240822A40014C2BF /* EventFieldNameSpec.swift in Sources */,
 				0C839301240822A40014C2BF /* InstallEventSpec.swift in Sources */,
 				0CDBACC923A37F0400CEB853 /* GlobalMocks.swift in Sources */,
@@ -3383,7 +3387,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 2.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3415,7 +3419,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 2.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
