@@ -77,7 +77,7 @@ class TracerTests: XCTestCase {
             expect(body.visitorId).to(equal("dummy_visitor_id"))
 
             DispatchQueue.main.async {
-                let action = Action("dummy", view: UIButton(), viewController: nil, targetText: "購入")
+                let action = UIKitAction("dummy", view: UIButton(), viewController: nil, targetText: "購入")
                 VisualTrackingManager.shared.dispatch(action: action)
             }
 

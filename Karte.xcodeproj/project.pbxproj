@@ -274,7 +274,6 @@
 		0C8976CD237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976C9237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift */; };
 		0C8976CE237EE78D00098CD8 /* UINavigationController+VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976CA237EE78D00098CD8 /* UINavigationController+VisualTracking.swift */; };
 		0C8976D0237EE79700098CD8 /* UIResponder+VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976CF237EE79700098CD8 /* UIResponder+VisualTracking.swift */; };
-		0C8976D2237EE7F500098CD8 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976D1237EE7F500098CD8 /* Action.swift */; };
 		0C8976D4237EEA2400098CD8 /* Inspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976D3237EEA2400098CD8 /* Inspector.swift */; };
 		0C8976D6237F996D00098CD8 /* VisualTrackingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976D5237F996D00098CD8 /* VisualTrackingManager.swift */; };
 		0C8976DA237FBA8A00098CD8 /* ActionReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976D9237FBA8A00098CD8 /* ActionReceiver.swift */; };
@@ -367,7 +366,10 @@
 		68751C272583692D00C6306A /* CrashReporter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68751C0E258368FF00C6306A /* CrashReporter.xcframework */; };
 		68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
+		68C9F92125AEE0360069EA3D /* UIKitAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C9F92025AEE0360069EA3D /* UIKitAction.swift */; };
 		68C9FA0D25C38E830069EA3D /* JsMessageSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C9FA0C25C38E830069EA3D /* JsMessageSpec.swift */; };
+		68C9FAD425C55C2F0069EA3D /* ActionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C9FAD325C55C2F0069EA3D /* ActionProtocol.swift */; };
+		68E47D0225C7B6E0003C878F /* ActionFactorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E47D0125C7B6E0003C878F /* ActionFactorySpec.swift */; };
 		68E62712254036AA005148FC /* Karte-mock-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68E62711254036AA005148FC /* Karte-mock-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -732,7 +734,6 @@
 		0C8976C9237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+VisualTracking.swift"; sourceTree = "<group>"; };
 		0C8976CA237EE78D00098CD8 /* UINavigationController+VisualTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+VisualTracking.swift"; sourceTree = "<group>"; };
 		0C8976CF237EE79700098CD8 /* UIResponder+VisualTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIResponder+VisualTracking.swift"; sourceTree = "<group>"; };
-		0C8976D1237EE7F500098CD8 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		0C8976D3237EEA2400098CD8 /* Inspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector.swift; sourceTree = "<group>"; };
 		0C8976D5237F996D00098CD8 /* VisualTrackingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualTrackingManager.swift; sourceTree = "<group>"; };
 		0C8976D9237FBA8A00098CD8 /* ActionReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionReceiver.swift; sourceTree = "<group>"; };
@@ -867,7 +868,10 @@
 		68751C0E258368FF00C6306A /* CrashReporter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CrashReporter.xcframework; path = KarteCrashReporting/PLCrashReporter/CrashReporter.xcframework; sourceTree = "<group>"; };
 		68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessSpec.swift; sourceTree = "<group>"; };
 		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
+		68C9F92025AEE0360069EA3D /* UIKitAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitAction.swift; sourceTree = "<group>"; };
 		68C9FA0C25C38E830069EA3D /* JsMessageSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsMessageSpec.swift; sourceTree = "<group>"; };
+		68C9FAD325C55C2F0069EA3D /* ActionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionProtocol.swift; sourceTree = "<group>"; };
+		68E47D0125C7B6E0003C878F /* ActionFactorySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionFactorySpec.swift; sourceTree = "<group>"; };
 		68E62711254036AA005148FC /* Karte-mock-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Karte-mock-Info.plist"; sourceTree = "<group>"; };
 		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
 		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1550,7 +1554,8 @@
 				0C8976D8237FBA1A00098CD8 /* Tracking */,
 				0C8976C6237EE70D00098CD8 /* Swizzlers */,
 				0C8976C4237EDD4D00098CD8 /* Account.swift */,
-				0C8976D1237EE7F500098CD8 /* Action.swift */,
+				68C9FAD325C55C2F0069EA3D /* ActionProtocol.swift */,
+				68C9F92025AEE0360069EA3D /* UIKitAction.swift */,
 				0C8976D9237FBA8A00098CD8 /* ActionReceiver.swift */,
 				0C8976D3237EEA2400098CD8 /* Inspector.swift */,
 				0C8976CF237EE79700098CD8 /* UIResponder+VisualTracking.swift */,
@@ -1797,6 +1802,7 @@
 		0CC648BE238CF974009EB5DF /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				68E47D0125C7B6E0003C878F /* ActionFactorySpec.swift */,
 				0CC648C0238CF999009EB5DF /* ActionSpec.swift */,
 				0CC648C2238D07B5009EB5DF /* ActionAppropriateViewDetectorSpec.swift */,
 				0CA6D43B238E3D3F00583E5C /* LogicalOperatorSpec.swift */,
@@ -2817,15 +2823,16 @@
 			files = (
 				0C8976E6237FE20D00098CD8 /* AutoTrackDefinition.swift in Sources */,
 				0C8976CD237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift in Sources */,
-				0C8976D2237EE7F500098CD8 /* Action.swift in Sources */,
 				0C8976CC237EE78D00098CD8 /* UIApplication+VisualTracking.swift in Sources */,
 				0C8976E8237FE4D200098CD8 /* Definition.swift in Sources */,
 				0C8976F4238016E700098CD8 /* PairingRequest.swift in Sources */,
 				0C8976FA23801F1E00098CD8 /* PairingHeartbeatRequest.swift in Sources */,
 				0C8976F623801A3300098CD8 /* PairingRequestBodyParameters.swift in Sources */,
+				68C9FAD425C55C2F0069EA3D /* ActionProtocol.swift in Sources */,
 				0C8976D0237EE79700098CD8 /* UIResponder+VisualTracking.swift in Sources */,
 				684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */,
 				0C8976BE237EA58D00098CD8 /* VisualTracking.swift in Sources */,
+				68C9F92125AEE0360069EA3D /* UIKitAction.swift in Sources */,
 				0C8976D4237EEA2400098CD8 /* Inspector.swift in Sources */,
 				0C8976FC2380206100098CD8 /* PairingHeartbeatRequestBodyParameters.swift in Sources */,
 				0C8976DE237FBF2900098CD8 /* ActionTracker.swift in Sources */,
@@ -2890,6 +2897,7 @@
 				0C8392F92407F4380014C2BF /* VisitorIdServiceSpec.swift in Sources */,
 				0C839308240822A40014C2BF /* OpenEventSpec.swift in Sources */,
 				0C8392F52407CCFA0014C2BF /* OptOutConfigSpec.swift in Sources */,
+				68E47D0225C7B6E0003C878F /* ActionFactorySpec.swift in Sources */,
 				68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */,
 				0CE79326238653AD00F0D932 /* Support.swift in Sources */,
 				680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */,
@@ -3510,7 +3518,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3541,7 +3549,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

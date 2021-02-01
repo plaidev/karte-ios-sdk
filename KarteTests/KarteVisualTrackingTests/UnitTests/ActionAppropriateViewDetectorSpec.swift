@@ -26,7 +26,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UIView") {
                     it("return is UIView") {
                         let view = UIView()
-                        let action = Action.AppropriateViewDetector(view: view)
+                        let action = UIKitAction.AppropriateViewDetector(view: view)
                         expect(action?.detect()).to(beAnInstanceOf(UIView.self))
                     }
                 }
@@ -34,7 +34,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UITableViewCellContentView included in UITableViewCell") {
                     it("return is UITableViewCell") {
                         let cell = UITableViewCell()
-                        let action = Action.AppropriateViewDetector(view: cell.contentView)
+                        let action = UIKitAction.AppropriateViewDetector(view: cell.contentView)
                         expect(action?.detect()).to(beAKindOf(UITableViewCell.self))
                     }
                 }
@@ -45,7 +45,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                         let cell = UITableViewCell()
                         cell.addSubview(button)
                         
-                        let action = Action.AppropriateViewDetector(view: button)
+                        let action = UIKitAction.AppropriateViewDetector(view: button)
                         expect(action?.detect()).to(beAKindOf(UIButton.self))
                     }
                 }
@@ -57,7 +57,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                         let cell = UITableViewCell()
                         cell.addSubview(button)
                         
-                        let action = Action.AppropriateViewDetector(view: button)
+                        let action = UIKitAction.AppropriateViewDetector(view: button)
                         expect(action?.detect()).to(beAKindOf(UITableViewCell.self))
                     }
                 }
@@ -67,7 +67,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UITableView") {
                     it("return true") {
                         let view = UITableView()
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }
@@ -75,7 +75,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UIScrollView") {
                     it("return true") {
                         let view = UIScrollView()
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }
@@ -83,7 +83,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UICollectionView") {
                     it("return true") {
                         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }
@@ -91,7 +91,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UIButton is enable") {
                     it("return true") {
                         let view = UIButton()
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }
@@ -101,7 +101,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                         let view = UILabel()
                         view.addGestureRecognizer(UIGestureRecognizer())
                         
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }
@@ -111,7 +111,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                         let view = UIImageView()
                         view.addGestureRecognizer(UIGestureRecognizer())
                         
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }
@@ -119,7 +119,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UITableViewCell") {
                     it("return true") {
                         let view = UITableViewCell()
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }
@@ -130,7 +130,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                         view.isEnabled = false
                         view.isUserInteractionEnabled = false
                         
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beFalse())
                     }
                 }
@@ -142,7 +142,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                         let view = UILabel()
                         view.addGestureRecognizer(gesture)
                         
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beFalse())
                     }
                 }
@@ -150,7 +150,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UITableViewCellContentView") {
                     it("return false") {
                         let view = UITableViewCell().contentView
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beFalse())
                     }
                 }
@@ -158,7 +158,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UIPickerView") {
                     it("return true") {
                         let view = UIPickerView()
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }
@@ -166,7 +166,7 @@ class ActionAppropriateViewDetectorSpec: QuickSpec {
                 context("when passing UIDatePicker") {
                     it("return true") {
                         let view = UIDatePicker()
-                        let detector = Action.AppropriateViewDetector(view: view)
+                        let detector = UIKitAction.AppropriateViewDetector(view: view)
                         expect(detector?.isAppropriateView).to(beTrue())
                     }
                 }

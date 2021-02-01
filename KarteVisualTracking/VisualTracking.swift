@@ -59,6 +59,16 @@ extension VisualTracking: Library {
 
         VisualTrackingManager.shared.unconfigure(app: app)
     }
+
+    /// 操作ログをハンドルします。<br>
+    ///
+    /// 操作ログはペアリング時のみ送信されます<br>
+    /// イベント発火条件定義に操作ログがマッチした際にビジュアルイベントが送信されます。
+    ///
+    /// - Parameter actionProtocol: ActionProtocol
+    public static func handle(actionProtocol: ActionProtocol) {
+        VisualTrackingManager.shared.dispatch(action: actionProtocol)
+    }
 }
 
 extension Logger.Tag {

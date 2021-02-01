@@ -28,12 +28,12 @@ class ActionSpec: QuickSpec {
                     context("when a simple view structure") {
                         var viewController: UIViewController!
                         var button: UIButton!
-                        var action: Action!
+                        var action: UIKitAction!
                         
                         beforeEach {
                             viewController = UIViewController()
                             button = UIButton(type: .system)
-                            action = Action(
+                            action = UIKitAction(
                                 "dummy_action",
                                 view: button,
                                 viewController: viewController,
@@ -80,7 +80,7 @@ class ActionSpec: QuickSpec {
                         }
                         
                         it("button index of actionId is 0") {
-                            let action = Action(
+                            let action = UIKitAction(
                                 "dummy_action",
                                 view: button0,
                                 viewController: viewController,
@@ -89,7 +89,7 @@ class ActionSpec: QuickSpec {
                             expect(action!.actionId!).to(equal("UIButton0UIView0UIView"))
                         }
                         it("button index of actionId is 1") {
-                            let action = Action(
+                            let action = UIKitAction(
                                 "dummy_action",
                                 view: button1,
                                 viewController: viewController,
@@ -97,9 +97,20 @@ class ActionSpec: QuickSpec {
                             )
                             expect(action!.actionId!).to(equal("UIButton1UIView0UIView"))
                         }
+                        
+                        it("actionId is overridden by argument") {
+                            let action = UIKitAction(
+                                "dummy_action",
+                                view: button1,
+                                viewController: viewController,
+                                targetText: "dummy_target_text",
+                                actionId: "dummy_action_id"
+                            )
+                            expect(action!.actionId!).to(equal("dummy_action_id"))
+                        }
 
                         it("actionId is nil") {
-                            let action = Action(
+                            let action = UIKitAction(
                                 "dummy_action",
                                 view: nil,
                                 viewController: viewController,
@@ -107,7 +118,43 @@ class ActionSpec: QuickSpec {
                             )
                             expect(action!.actionId).to(beNil())
                         }
-                        
+                    }
+                    
+                    context("when pass an ignore action name") {
+                        it("returns nil") {
+                            let action = UIKitAction(
+                                "handlePan:",
+                                view: UIView(),
+                                viewController: UIViewController(),
+                                targetText: "dummy_target_text"
+                            )
+                            expect(action).to(beNil())
+                        }
+                    }
+                    
+                    context("when pass nil for view / viewController") {
+                        it("screenName / hostName return nil") {
+                            let action = UIKitAction(
+                                "test_action",
+                                view: nil,
+                                viewController: nil,
+                                targetText: "dummy_target_text"
+                            )
+                            expect(action?.screenName).to(beNil())
+                            expect(action?.screenHostName).to(beNil())
+                        }
+                    }
+                    
+                    context("when pass nil for view / viewController / targetText") {
+                        it("returns nil") {
+                            let action = UIKitAction(
+                                "test_action",
+                                view: nil,
+                                viewController: nil,
+                                targetText: nil
+                            )
+                            expect(action).to(beNil())
+                        }
                     }
                 }
             }
