@@ -39,7 +39,8 @@ internal enum JsMessage: CustomStringConvertible {
     }
 
     init(scriptMessage: WKScriptMessage) throws {
-        guard let data = try? JSONSerialization.data(withJSONObject: scriptMessage.body, options: .fragmentsAllowed) else {
+        guard JSONSerialization.isValidJSONObject(scriptMessage.body),
+              let data = try? JSONSerialization.data(withJSONObject: scriptMessage.body, options: .fragmentsAllowed) else {
             throw JsMessageError.invalidBody
         }
         guard let name = JsMessageName(rawValue: scriptMessage.name) else {

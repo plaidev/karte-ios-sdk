@@ -16,7 +16,7 @@ DEPENDENCIES:
   - Quick
 
 SPEC REPOS:
-  https://cdn.cocoapods.org/:
+  trunk:
     - Mockingjay
     - Nimble
     - Quick
@@ -30,4 +30,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5a0d817e9e6b5c6a1eb018597eb370d7f57d1c03
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.1

@@ -48,7 +48,7 @@ extension UINavigationController {
 
     @objc
     private func krt_vt_setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
-        let action = Action(
+        let action = UIKitAction(
             "setViewControllers",
             view: nil,
             viewController: viewControllers.last,
@@ -61,7 +61,7 @@ extension UINavigationController {
 
     @objc
     private func krt_vt_pushViewController(_ viewController: UIViewController, animated: Bool) {
-        let action = Action(
+        let action = UIKitAction(
             "pushViewController",
             view: nil,
             viewController: visibleViewController,
@@ -74,7 +74,7 @@ extension UINavigationController {
 
     @objc
     private func krt_vt_popViewController(animated: Bool) -> UIViewController? {
-        let action = Action(
+        let action = UIKitAction(
             "popViewController",
             view: nil,
             viewController: visibleViewController,
@@ -88,7 +88,7 @@ extension UINavigationController {
     @objc
     private func krt_vt_popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         // swiftlint:disable:previous discouraged_optional_collection
-        let action = Action(
+        let action = UIKitAction(
             "popToViewController",
             view: nil,
             viewController: viewController,
@@ -102,7 +102,7 @@ extension UINavigationController {
     @objc
     private func krt_vt_popToRootViewController(animated: Bool) -> [UIViewController]? {
         // swiftlint:disable:previous discouraged_optional_collection
-        let action = Action(
+        let action = UIKitAction(
             "popToRootViewController",
             view: nil,
             viewController: viewControllers.first,

@@ -45,7 +45,7 @@ extension UIGestureRecognizer {
             let viewController = UIResponder.krt_vt_retrieveViewController(for: view)
             if let match = RE.shared.firstMatch(in: description) {
                 let range = match.range(at: 1)
-                let action = Action(
+                let action = UIKitAction(
                     (description as NSString).substring(with: range),
                     view: view,
                     viewController: viewController,
