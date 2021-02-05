@@ -160,7 +160,7 @@ jobs:
             if [ $EXEC_ENV = 'private' ]; then
               git config --global user.name "${GITHUB_USER_NAME}"
               git config --global user.email "${GITHUB_USER_EMAIL}"
-              ruby ./generate_docs.rb
+              bundle exec ruby ./generate_docs.rb
             fi
           working_directory: /Users/distiller/project/scripts
       - slack/status:
