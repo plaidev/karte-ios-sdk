@@ -16,6 +16,7 @@
 
 import Quick
 import Nimble
+import KarteUtilities
 @testable import KarteCore
 
 class EventFilterSpec: QuickSpec {
@@ -68,6 +69,70 @@ class EventFilterSpec: QuickSpec {
                     expect(expression: {
                         try filter.filter(event)
                     }).toNot(throwError())
+                }
+            }
+        }
+        
+        describe("a unretryable event filter rule") {
+            var filter: EventFilter!
+            
+            beforeEach {
+                filter = EventFilter.Builder().add(UnretryableEventFilterRule()).build()
+            }
+            
+            context("when unretryable event passed") {
+                context("when online") {
+                    it("not throw error") {
+                        let event = Event(eventName: EventName("_fetch_variables"))
+                        expect(expression: {
+                            try filter.filter(event)
+                        }).toNot(throwError())
+                    }
+                }
+                context("when offline") {
+                    beforeEach {
+                        Resolver.root = Resolver.submock
+                        Resolver.root.register(Bool.self, name: "isReachable") {
+                            false
+                        }
+                    }
+                    afterEach {
+                        Resolver.root = Resolver.mock
+                    }
+                    it("throw error") {
+                        let event = Event(eventName: EventName("_fetch_variables"))
+                        expect(expression: {
+                            try filter.filter(event)
+                        }).to(throwError())
+                    }
+                }
+            }
+            
+            context("when retryable event passed") {
+                context("when online") {
+                    it("not throw error") {
+                        let event = Event(eventName: EventName("event"))
+                        expect(expression: {
+                            try filter.filter(event)
+                        }).toNot(throwError())
+                    }
+                }
+                context("when offline") {
+                    beforeEach {
+                        Resolver.root = Resolver.submock
+                        Resolver.root.register(Bool.self, name: "isReachable") {
+                            false
+                        }
+                    }
+                    afterEach {
+                        Resolver.root = Resolver.mock
+                    }
+                    it("not throw error") {
+                        let event = Event(eventName: EventName("event"))
+                        expect(expression: {
+                            try filter.filter(event)
+                        }).toNot(throwError())
+                    }
                 }
             }
         }

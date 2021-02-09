@@ -77,6 +77,7 @@ private extension TrackingClient {
         let filter = EventFilter.Builder()
             .add(EmptyEventNameFilterRule())
             .add(NonAsciiEventNameFilterRule())
+            .add(UnretryableEventFilterRule())
             .add(InitializationEventFilterRule(), isEnabled: !coreService.configuration.isSendInitializationEventEnabled)
             .build()
         do {
