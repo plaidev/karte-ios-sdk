@@ -114,6 +114,10 @@ extension Resolver {
             Bundle(for: SetupSpec.self).path(forResource: "Karte-mock-Info", ofType: "plist")
         }
         
+        resolver.register(Bool.self, name: "isReachable") {
+            return true
+        }
+        
         Resolver.root = Resolver.mock
     }
 }

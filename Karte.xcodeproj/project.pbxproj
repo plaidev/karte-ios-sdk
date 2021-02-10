@@ -364,6 +364,8 @@
 		6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
 		68751C272583692D00C6306A /* CrashReporter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68751C0E258368FF00C6306A /* CrashReporter.xcframework */; };
+		6898FEC725D3CCA500D0839A /* EventFilterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6898FEC625D3CCA500D0839A /* EventFilterError.swift */; };
+		68B40CBA25D2F2870081B1AE /* UnretryableEventFilterRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B40CB925D2F2870081B1AE /* UnretryableEventFilterRule.swift */; };
 		68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */; };
 		68C0835C243DE20F001CFF93 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C0835B243DE20F001CFF93 /* Data+Gzip.swift */; };
 		68C9F92125AEE0360069EA3D /* UIKitAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C9F92025AEE0360069EA3D /* UIKitAction.swift */; };
@@ -866,6 +868,8 @@
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
 		68751C0E258368FF00C6306A /* CrashReporter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CrashReporter.xcframework; path = KarteCrashReporting/PLCrashReporter/CrashReporter.xcframework; sourceTree = "<group>"; };
+		6898FEC625D3CCA500D0839A /* EventFilterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilterError.swift; sourceTree = "<group>"; };
+		68B40CB925D2F2870081B1AE /* UnretryableEventFilterRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnretryableEventFilterRule.swift; sourceTree = "<group>"; };
 		68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessSpec.swift; sourceTree = "<group>"; };
 		68C0835B243DE20F001CFF93 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
 		68C9F92025AEE0360069EA3D /* UIKitAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitAction.swift; sourceTree = "<group>"; };
@@ -1247,6 +1251,7 @@
 				0C69D40624EB9DB200D75893 /* Rules */,
 				0C69D40524EB9DB200D75893 /* EventFilterRule.swift */,
 				0C69D40A24EB9DB200D75893 /* EventFilter.swift */,
+				6898FEC625D3CCA500D0839A /* EventFilterError.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1257,6 +1262,7 @@
 				0C69D40724EB9DB200D75893 /* InitializationEventFilterRule.swift */,
 				0C69D40824EB9DB200D75893 /* EmptyEventNameFilterRule.swift */,
 				0C69D40924EB9DB200D75893 /* NonAsciiEventNameFilterRule.swift */,
+				68B40CB925D2F2870081B1AE /* UnretryableEventFilterRule.swift */,
 			);
 			path = Rules;
 			sourceTree = "<group>";
@@ -2657,6 +2663,7 @@
 				0C83928B2406C6AA0014C2BF /* VisitorId.swift in Sources */,
 				0CFD001724ECE6E300598C8C /* TrackClientSession.swift in Sources */,
 				0C8392902406C6AA0014C2BF /* VersionRetriever.swift in Sources */,
+				6898FEC725D3CCA500D0839A /* EventFilterError.swift in Sources */,
 				0C0822D424E636E90038EBDA /* RetryTrackingCommandExecutor.swift in Sources */,
 				0C8392852406C6AA0014C2BF /* PvService.swift in Sources */,
 				0C69D41224EB9DB200D75893 /* EventFilter.swift in Sources */,
@@ -2724,6 +2731,7 @@
 				681E8391248252EE00A95083 /* CommandHandlerLoader.m in Sources */,
 				0CB10A1023B216F20086D603 /* TrackerDelegate.swift in Sources */,
 				0C8392AF2406C7010014C2BF /* Logger.swift in Sources */,
+				68B40CBA25D2F2870081B1AE /* UnretryableEventFilterRule.swift in Sources */,
 				0C0822D224E636DA0038EBDA /* DefaultTrackingCommandExecutor.swift in Sources */,
 				6807B2A9251D7FC800CDAB43 /* ExperimentalConfiguration.swift in Sources */,
 				0C0822F124E6BEA40038EBDA /* SceneBundleRule.swift in Sources */,
@@ -3329,7 +3337,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.13.0;
+				MARKETING_VERSION = 2.13.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3363,7 +3371,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.13.0;
+				MARKETING_VERSION = 2.13.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

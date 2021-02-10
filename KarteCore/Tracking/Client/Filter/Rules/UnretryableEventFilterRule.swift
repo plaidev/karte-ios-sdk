@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -15,12 +15,13 @@
 //
 
 import Foundation
+import KarteUtilities
 
-internal struct EmptyEventNameFilterRule: EventFilterRule {
+internal struct UnretryableEventFilterRule: EventFilterRule {
     func filter(_ event: Event) throws {
-        if event.eventName.rawValue.isEmpty {
-            Logger.error(tag: .track, message: "Event name is empty.")
-            throw EventFilterError.emptyEventName
+        if !event.isRetryable && !Resolver.resolve(Bool.self, name: "isReachable") {
+            Logger.error(tag: .track, message: "Unretryable event detect when offline.")
+            throw EventFilterError.unretryableEvent
         }
     }
 }

@@ -39,7 +39,7 @@ internal class TrackClient {
     private (set) var observers = [TrackClientObserver]()
 
     private (set) var reachability: ReachabilityService?
-    private (set) var isReachable = false
+    private (set) var isReachable = true
     private (set) var isSending = false
 
     private (set) var callbackQueue = DispatchQueue.main
@@ -176,6 +176,12 @@ extension Resolver {
         register { _, arg -> ReachabilityService in
             let baseURL = arg as? URL ?? KarteApp.shared.configuration.baseURL
             return DefaultReachabilityService(baseURL: baseURL)
+        }
+    }
+
+    static func registerIsReachable() {
+        register(Bool.self, name: "isReachable") {
+            TrackClient.shared.isReachable
         }
     }
 }

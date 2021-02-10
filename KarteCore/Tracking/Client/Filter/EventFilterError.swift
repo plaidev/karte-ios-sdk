@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -16,11 +16,8 @@
 
 import Foundation
 
-internal struct EmptyEventNameFilterRule: EventFilterRule {
-    func filter(_ event: Event) throws {
-        if event.eventName.rawValue.isEmpty {
-            Logger.error(tag: .track, message: "Event name is empty.")
-            throw EventFilterError.emptyEventName
-        }
-    }
+internal enum EventFilterError: Error {
+    case emptyEventName
+    case initializationEvent
+    case unretryableEvent
 }

@@ -339,5 +339,6 @@ extension Resolver: ResolverRegistering {
         registerApplicationStateProvider()
         registerSelectorDetector()
         registerConfiguration()
+        registerIsReachable()
     }
 }

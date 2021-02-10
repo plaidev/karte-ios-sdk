@@ -17,6 +17,7 @@
 import Quick
 import Nimble
 import Mockingjay
+import KarteUtilities
 @testable import KarteCore
 @testable import KarteVariables
 
@@ -237,23 +238,54 @@ class VariablesSpec: QuickSpec {
             }
             
             describe("its fetchCompletion") {
-                var result: Bool!
-                beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1, eventName: .fetchVariables) { (_, _, _) in
-                    }
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    Variables.fetch { (isSuccess) in
-                        result = isSuccess
-                    }
+                context("when online") {
+                    var result: Bool!
+                    beforeEachWithMetadata { (metadata) in
+                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1, eventName: .fetchVariables) { (_, _, _) in
+                        }
+                        
+                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                        Variables.fetch { (isSuccess) in
+                            result = isSuccess
+                        }
 
-                    module.wait()
+                        module.wait()
+                        
+                        StubActionModule(self, metadata: metadata, builder: otherStubBuilder, eventName: .messageReady).wait()
+                    }
                     
-                    StubActionModule(self, metadata: metadata, builder: otherStubBuilder, eventName: .messageReady).wait()
+                    it("result is true") {
+                        expect(result).to(beTrue())
+                    }
                 }
-                
-                it("result is true") {
-                    expect(result).to(beTrue())
+                context("when offline") {
+                    var result: Bool!
+                    beforeEachWithMetadata { (metadata) in
+                        
+                        Resolver.root = Resolver.submock
+                        Resolver.root.register(Bool.self, name: "isReachable") {
+                            false
+                        }
+                        
+                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1, eventName: .fetchVariables) { (_, _, _) in
+                        }
+                        
+                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                        Variables.fetch { (isSuccess) in
+                            result = isSuccess
+                            module.finish()
+                        }
+
+                        module.wait()
+                    }
+                    
+                    afterEach {
+                        Resolver.root = Resolver.mock
+                    }
+                    
+                    it("result is false") {
+                        expect(result).to(beFalse())
+                    }
                 }
             }
         }
