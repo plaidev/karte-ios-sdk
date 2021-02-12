@@ -8,11 +8,10 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteCore'
-  s.version                 = '2.13.0'
+  s.version                 = '2.13.1'
   s.summary                 = 'KARTE Core SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
-  s.social_media_url        = 'https://twitter.com/karte_io'
   s.documentation_url       = 'https://developers.karte.io/docs/ios-sdk'
   s.license                 = { :type => 'Apache', :file => 'LICENSE' }
 
