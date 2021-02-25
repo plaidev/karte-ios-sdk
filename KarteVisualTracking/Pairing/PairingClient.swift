@@ -22,7 +22,12 @@ internal class PairingClient {
     var app: KarteApp
     var account: Account
     var timer: SafeTimer
-    var isPairing = false
+    var isPaired = false {
+        didSet {
+            let visualTracking = VisualTracking.shared
+            visualTracking.delegate?.visualTrackingDevicePairingStatusUpdated?(visualTracking, isPaired: isPaired)
+        }
+    }
 
     private var backgroundTask = BackgroundTask()
 
@@ -57,17 +62,17 @@ internal class PairingClient {
     }
 
     func stopPairing() {
-        if isPairing {
+        if isPaired {
             stopPolling()
         }
     }
 
     private func startPolling() {
-        if isPairing {
+        if isPaired {
             return
         }
 
-        isPairing = true
+        isPaired = true
 
         backgroundTask.observeLifecycle()
 
@@ -82,12 +87,12 @@ internal class PairingClient {
     }
 
     private func stopPolling() {
-        guard isPairing else {
+        guard isPaired else {
             return
         }
 
         timer.suspend()
-        isPairing = false
+        isPaired = false
 
         backgroundTask.unobserveLifecycle()
 

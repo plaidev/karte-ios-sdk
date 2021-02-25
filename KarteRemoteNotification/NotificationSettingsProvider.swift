@@ -67,6 +67,9 @@ extension NotificationSettingsProvider {
             // When you change the notification settings in the Settings app, it is automatically changed to authorized.
             return true
 
+        case .ephemeral:
+            return true
+
         @unknown default:
             return false
         }

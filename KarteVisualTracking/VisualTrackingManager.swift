@@ -23,6 +23,9 @@ internal class VisualTrackingManager {
     private var receivers: [ActionReceiver] = []
     var tracer: ActionTracer?
     var tracker: ActionTracker?
+    var isPaired: Bool {
+        tracer?.pairingClient?.isPaired ?? false
+    }
 
     init() {
     }

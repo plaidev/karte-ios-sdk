@@ -360,6 +360,7 @@
 		681E839B2483B5C800A95083 /* OpenSettingsCommandSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681E839A2483B5C800A95083 /* OpenSettingsCommandSpec.swift */; };
 		681F0EA724975F9B0080C15A /* NotificationCommandHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */; };
 		68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */; };
+		68274FFB25E7E0F1005FFE1B /* VisualTrackingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68274FFA25E7E0F1005FFE1B /* VisualTrackingDelegate.swift */; };
 		683762F9252F201D00E690CE /* SelectorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683762F8252F201D00E690CE /* SelectorDetector.swift */; };
 		6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
@@ -863,6 +864,7 @@
 		681E83982483B54800A95083 /* RequestReviewCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestReviewCommandSpec.swift; sourceTree = "<group>"; };
 		681E839A2483B5C800A95083 /* OpenSettingsCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSettingsCommandSpec.swift; sourceTree = "<group>"; };
 		681F0EA624975F9B0080C15A /* NotificationCommandHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCommandHandler.swift; sourceTree = "<group>"; };
+		68274FFA25E7E0F1005FFE1B /* VisualTrackingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualTrackingDelegate.swift; sourceTree = "<group>"; };
 		683762F8252F201D00E690CE /* SelectorDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorDetector.swift; sourceTree = "<group>"; };
 		6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorDetectorMock.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
@@ -1566,6 +1568,7 @@
 				0C8976D3237EEA2400098CD8 /* Inspector.swift */,
 				0C8976CF237EE79700098CD8 /* UIResponder+VisualTracking.swift */,
 				0C8976BD237EA58D00098CD8 /* VisualTracking.swift */,
+				68274FFA25E7E0F1005FFE1B /* VisualTrackingDelegate.swift */,
 				0C8976C1237EB01000098CD8 /* VisualTrackingLoader.m */,
 				0C8976D5237F996D00098CD8 /* VisualTrackingManager.swift */,
 				0C8974592379050600098CD8 /* KarteVisualTracking.h */,
@@ -2829,6 +2832,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68274FFB25E7E0F1005FFE1B /* VisualTrackingDelegate.swift in Sources */,
 				0C8976E6237FE20D00098CD8 /* AutoTrackDefinition.swift in Sources */,
 				0C8976CD237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift in Sources */,
 				0C8976CC237EE78D00098CD8 /* UIApplication+VisualTracking.swift in Sources */,
@@ -3337,7 +3341,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.13.1;
+				MARKETING_VERSION = 2.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3371,7 +3375,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.13.1;
+				MARKETING_VERSION = 2.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3526,7 +3530,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3557,7 +3561,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

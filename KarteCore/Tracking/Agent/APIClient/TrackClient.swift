@@ -148,7 +148,9 @@ private extension TrackClient {
     }
 
     func dequeue() {
-        tasks.removeFirst()
+        if !tasks.isEmpty {
+            tasks.removeFirst()
+        }
         updateState()
         send()
     }
