@@ -21,8 +21,19 @@ import KarteUtilities
 @testable import KarteCore
 @testable import KarteVisualTracking
 
+
+class VisualTrackDelegate: VisualTrackingDelegate {
+    var countOfCall = 0
+    var isPaired = false
+    func visualTrackingDevicePairingStatusUpdated(_ visualTracking: VisualTracking, isPaired: Bool) {
+        countOfCall += 1
+        self.isPaired = isPaired
+    }
+}
+
 class TracerTests: XCTestCase {
     let idfa = IDFA()
+    let visualTrackDelegate = VisualTrackDelegate()
 
     override func setUp() {
         Resolver.registerMockServices()
@@ -31,6 +42,7 @@ class TracerTests: XCTestCase {
 
     override func tearDown() {
         KarteApp.shared.teardown()
+        VisualTracking.shared.delegate = nil
     }
 
     func testPairingAndTrace() {
@@ -98,12 +110,22 @@ class TracerTests: XCTestCase {
             configuration.isSendInitializationEventEnabled = false
             configuration.idfaDelegate = idfa
         }
+        
         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-
+        VisualTracking.shared.delegate = visualTrackDelegate
+        
+        expect(VisualTracking.shared.isPaired).to(beFalse())
+        expect(self.visualTrackDelegate.countOfCall).to(be(0))
+        expect(self.visualTrackDelegate.isPaired).to(beFalse())
+        
         let res = KarteApp.shared.application(UIApplication.shared, open: URL(string: "app://_krtp/dummy_account_id")!)
         expect(res).to(beTrue())
 
         waitForExpectations(timeout: 10) { [weak self] (error) in
+            expect(VisualTracking.shared.isPaired).to(beTrue())
+            expect(self?.visualTrackDelegate.countOfCall).to(be(1))
+            expect(self?.visualTrackDelegate.isPaired).to(beTrue())
+            
             self?.removeStub(pairingStub)
             self?.removeStub(heartbeatStub)
             self?.removeStub(traceStub)

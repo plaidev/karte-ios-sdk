@@ -20,11 +20,34 @@ import UIKit
 /// VisualTrackingモジュールクラスです。
 @objc(KRTVisualTracking)
 public class VisualTracking: NSObject {
+    /// 共有インスタンスを返します。
+    @objc public static let shared = VisualTracking()
+
+    /// ビジュアルトラッキングで発生するイベント等を委譲するためのデリゲートインスタンスを取得・設定します。
+    @objc public weak var delegate: VisualTrackingDelegate?
+
+    /// ペアリング状態を取得します。
+    ///
+    /// - Returns: 端末がペアリングされていればtrue、それ以外はfalseを返します。
+    @objc public var isPaired: Bool {
+        VisualTrackingManager.shared.isPaired
+    }
+
     /// ローダークラスが Objective-Cランライムに追加されたタイミングで呼び出されるメソッドです。
     /// 本メソッドが呼び出されたタイミングで、`KarteApp` クラスに本クラスをライブラリとして登録します。
     @objc
     public class func _krt_load() {
         KarteApp.register(library: self)
+    }
+
+    /// 操作ログをハンドルします。<br>
+    ///
+    /// 操作ログはペアリング時のみ送信されます<br>
+    /// イベント発火条件定義に操作ログがマッチした際にビジュアルイベントが送信されます。
+    ///
+    /// - Parameter actionProtocol: ActionProtocol
+    public static func handle(actionProtocol: ActionProtocol) {
+        VisualTrackingManager.shared.dispatch(action: actionProtocol)
     }
 
     deinit {
@@ -58,16 +81,6 @@ extension VisualTracking: Library {
         app.unregister(module: .track(VisualTrackingManager.shared))
 
         VisualTrackingManager.shared.unconfigure(app: app)
-    }
-
-    /// 操作ログをハンドルします。<br>
-    ///
-    /// 操作ログはペアリング時のみ送信されます<br>
-    /// イベント発火条件定義に操作ログがマッチした際にビジュアルイベントが送信されます。
-    ///
-    /// - Parameter actionProtocol: ActionProtocol
-    public static func handle(actionProtocol: ActionProtocol) {
-        VisualTrackingManager.shared.dispatch(action: actionProtocol)
     }
 }
 
