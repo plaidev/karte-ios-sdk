@@ -65,11 +65,6 @@ internal class FCMTokenRegistrar {
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIApplication.didBecomeActiveNotification,
-            object: nil
-        )
     }
 }
 

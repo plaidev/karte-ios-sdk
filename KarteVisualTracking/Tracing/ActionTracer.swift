@@ -19,7 +19,7 @@ import KarteUtilities
 import UIKit
 
 internal class ActionTracer {
-    private var pairingClient: PairingClient?
+    internal var pairingClient: PairingClient?
     private var queue: DispatchQueue
     private var app: KarteApp
 
@@ -69,7 +69,7 @@ extension ActionTracer {
 
 extension ActionTracer: ActionReceiver {
     func receive(action: ActionProtocol) {
-        guard let pairingClient = pairingClient, pairingClient.isPairing else {
+        guard let pairingClient = pairingClient, pairingClient.isPaired else {
             Logger.verbose(tag: .visualTracking, message: "Not paired.")
             return
         }
