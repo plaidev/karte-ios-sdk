@@ -47,7 +47,7 @@ public enum ActionFactory {
             viewController: viewController,
             targetText: targetText,
             actionId: actionId,
-            imageProvider: UIKitAction.defaultImageProvider(view: view, viewController: viewController)
+            imageProvider: imageProvider ?? UIKitAction.defaultImageProvider(view: view, viewController: viewController)
         )
     }
 }
