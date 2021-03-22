@@ -67,12 +67,10 @@
             "inlined_variables": [
               {
                 "value": "変数1",
-                "data_type": "text",
                 "name": "var1"
               },
               {
                 "value": "変数2a",
-                "data_type": "text",
                 "name": "var2"
               }
             ]
@@ -185,10 +183,6 @@
           "device_type": "all",
           "should_hide_on_scroll": false,
           "hide_scroll_percentage": 0,
-          "vals": {
-            "var2": "変数2b",
-            "var3": "変数3a"
-          },
           "components": [],
           "default_preview_url": "",
           "delivery_timing_type": "",
