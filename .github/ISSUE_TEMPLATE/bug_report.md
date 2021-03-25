@@ -26,14 +26,37 @@ Please fill in as much of the template below as you can.
 3.
 4.
 
-## Context (Environment)
+## SDK Version
+
+<!--- Please fill in all the SDK versions -->
+
+- KarteCore x.x.x
+- KarteCrashReporting x.x.x
+- KarteInAppMessaging x.x.x
+- KarteRemoteNotification x.x.x
+- KarteVariables x.x.x
+- KarteVisualTracking x.x.x
+- KarteUtilities x.x.x
+
+## iOS Version
+
+<!--- Please indicate the iOS version that reproduces the problem, such as iOS 10 or higher -->
+## Build Environment
+
+- macOS Version x.x.x
+- Xcode Version x.x.x
+- CocoaPods Version x.x.x
+- Carthage Version x.x.x
+
+## Context Details
 <!--- How has this issue affected you? What are you trying to accomplish? -->
 <!--- Providing context helps us come up with a solution that is most useful in the real world -->
 
 <!--- Provide a general summary of the issue in the Title above -->
 
-## Detailed Description
-<!--- Provide a detailed description of the change or addition you are proposing -->
+## Logs
+
+<!---Please attach the log of the SDK. (Be careful not to include any sensitive information.) -->
 
 ## Possible Implementation
 <!--- Not obligatory, but suggest an idea for implementing addition or change -->

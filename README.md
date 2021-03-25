@@ -24,9 +24,9 @@ The API references are located at
 
 ## Getting Help
 - **Have a bug to report?**
-  [Open a GitHub issue](https://github.com/plaidev/karte-ios-sdk/issues/new). If possible, include the OS version, SDK version and full logs.
+  [Open a GitHub issue](https://github.com/plaidev/karte-ios-sdk/issues/new?assignees=&labels=&template=bug_report.md). If possible, include the OS version, SDK version and full logs.
 - **Have a feature request?**
-  [Open a GitHub issue](https://github.com/plaidev/karte-ios-sdk/issues/new). Tell us what the feature should do and why you want the feature.
+  [Open a GitHub issue](https://github.com/plaidev/karte-ios-sdk/issues/new?assignees=&labels=&template=feature_request.md). Tell us what the feature should do and why you want the feature.
 
 ## Contributing
 
