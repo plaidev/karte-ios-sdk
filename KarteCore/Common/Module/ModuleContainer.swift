@@ -17,21 +17,30 @@
 import Foundation
 
 internal class ModuleContainer {
-    private(set) var modules: [Module] = []
+    private let queue = DispatchQueue(label: "io.karte.modulecontainer.ThreadSafeAccessQueue")
+    private var _modules: [Module] = []
+
+    var modules: [Module] {
+        queue.sync {
+            _modules
+        }
+    }
 
     init() {
     }
 
     func register(_ module: Module) {
-        //        print("Register module: \(module.type)(\(module.name))")
-        if !modules.contains(module) {
-            modules.append(module)
+        queue.sync {
+            if !_modules.contains(module) {
+                _modules.append(module)
+            }
         }
     }
 
     func unregister(_ module: Module) {
-        //        print("Unregister module: \(module.type)(\(module.name))")
-        modules.removeAll { $0 == module }
+        queue.sync {
+            _modules.removeAll { $0 == module }
+        }
     }
 
     deinit {
