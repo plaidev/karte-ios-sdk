@@ -86,6 +86,7 @@ public class ExperimentalConfiguration: Configuration {
         configuration.isDryRun = isDryRun
         configuration.isOptOut = isOptOut
         configuration.isSendInitializationEventEnabled = isSendInitializationEventEnabled
+        configuration.libraryConfigurations = libraryConfigurations
         configuration.idfaDelegate = idfaDelegate
 
         // experimental configuraiton

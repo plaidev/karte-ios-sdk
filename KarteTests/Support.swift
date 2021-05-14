@@ -100,6 +100,13 @@ extension InputStream {
     }
 }
 
+class DummyLibraryConfiguration: LibraryConfiguration {
+    let name: String
+    init(name: String) {
+        self.name = name
+    }
+}
+
 class IDFA: IDFADelegate {
     var isEnabled: Bool
     var idfa: String

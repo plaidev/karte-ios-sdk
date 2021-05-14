@@ -39,6 +39,6 @@ internal struct PairingHeartbeatRequestBodyParameters: BodyParameters, Codable {
 extension PairingHeartbeatRequestBodyParameters {
     enum CodingKeys: String, CodingKey {
         case os
-        case visitorId  = "visitor_id"
+        case visitorId = "visitor_id"
     }
 }

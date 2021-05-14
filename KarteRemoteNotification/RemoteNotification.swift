@@ -26,6 +26,7 @@ public class RemoteNotification: NSObject {
     /// デフォルトは `true` です。
     ///
     /// **本フラグの設定は `KarteApp.setup(appKey:)` を呼び出す前に行う必要があります。**
+    @available(*, deprecated, renamed: "RemoteNotificationConfiguration.isEnabledAutoMeasurement")
     @objc public class var isEnabledAutoMeasurement: Bool {
         get {
             RemoteNotificationProxy.shared.isEnabled
@@ -139,6 +140,9 @@ extension RemoteNotification: Library {
         app.register(module: .notification(FCMTokenRegistrar.shared))
         app.register(module: .deeplink(NotificationCommandHandler.shared))
 
+        if let config: RemoteNotificationConfiguration = app.libraryConfiguration() {
+            RemoteNotificationProxy.shared.isEnabled = config.isEnabledAutoMeasurement
+        }
         if RemoteNotificationProxy.shared.canSwizzleMethods {
             RemoteNotificationProxy.shared.swizzleMethods()
         }

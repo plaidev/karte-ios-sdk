@@ -20,10 +20,10 @@ import UIKit
 public struct SystemInfo: Codable {
     enum CodingKeys: String, CodingKey {
         case os
-        case osVersion  = "os_version"
+        case osVersion = "os_version"
         case device
         case model
-        case bundleId   = "bundle_id"
+        case bundleId = "bundle_id"
         case idfv
         case idfa
         case language

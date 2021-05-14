@@ -53,6 +53,10 @@ class ConfigurationSpec: QuickSpec {
                     expect(configuration.isSendInitializationEventEnabled).to(beTrue())
                 }
                 
+                it("libraryConfigrations is empty") {
+                    expect(configuration.libraryConfigurations).to(beEmpty())
+                }
+                
                 it("IDFADelegate is nil") {
                     expect(configuration.idfaDelegate).to(beNil())
                 }
@@ -71,6 +75,7 @@ class ConfigurationSpec: QuickSpec {
                         configuration.isDryRun = true
                         configuration.isOptOut = true
                         configuration.isSendInitializationEventEnabled = false
+                        configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
                         configuration.idfaDelegate = idfa
                     }
                 }
@@ -97,6 +102,10 @@ class ConfigurationSpec: QuickSpec {
                 
                 it("isEnabledSendInitializationEvent is false") {
                     expect(configuration.isSendInitializationEventEnabled).to(beFalse())
+                }
+                
+                it("libraryConfiguration is not empty") {
+                    expect(configuration.libraryConfigurations).toNot(beEmpty())
                 }
                 
                 it("IDFADelegate is not nil") {
