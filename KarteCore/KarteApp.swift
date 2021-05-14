@@ -215,6 +215,14 @@ public extension KarteApp {
     func unregister(module: Module) {
         moduleContainer.unregister(module)
     }
+
+    /// ライブラリの設定を取得します。
+    ///
+    /// - 該当クラスが存在しない場合、`nil` を返します。
+    /// - 該当クラスが複数存在する場合、最初の設定のみを返します。
+    func libraryConfiguration<T: LibraryConfiguration>() -> T? {
+        configuration.libraryConfigurations.compactMap { $0 as? T }.first
+    }
 }
 
 public extension KarteApp {

@@ -67,6 +67,11 @@ class SetupSpec: QuickSpec {
                         expect(contain).to(beTrue())
                     }
                     
+                    it("libraryConfigurations is empty") {
+                        let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
+                        expect(dummy).to(beNil())
+                    }
+                    
                     it("idfa is nil") {
                         expect(body.appInfo.systemInfo.idfa).to(beNil())
                     }
@@ -147,6 +152,20 @@ class SetupSpec: QuickSpec {
                         }
                     }
                     
+                    context("when library config is added") {
+                        beforeEachWithMetadata { (metadata) in
+                            let configuration = Configuration { (configuration) in
+                                configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
+                            }
+                            KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                        }
+                        
+                        it("libraryConfigurations is not empty") {
+                            let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
+                            expect(dummy).toNot(beNil())
+                        }
+                    }
+                    
                     context("when set idfa delegate") {
                         var body: TrackBodyParameters!
                         var idfa: IDFA!
@@ -220,6 +239,20 @@ class SetupSpec: QuickSpec {
                         }
                     }
                     
+                    context("when library config is added") {
+                        beforeEachWithMetadata { (metadata) in
+                            if let configuration = Configuration.default {
+                                configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
+                                KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                            }
+                        }
+                        
+                        it("libraryConfigurations is not empty") {
+                            let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
+                            expect(dummy).toNot(beNil())
+                        }
+                    }
+                    
                     context("when mode is ingest") {
                         var request: URLRequest!
                         beforeEachWithMetadata { (metadata) in
@@ -277,6 +310,11 @@ class SetupSpec: QuickSpec {
                     it("occurred native_app_install event") {
                         let contain = events.contains(where: { $0.eventName == .nativeAppInstall })
                         expect(contain).to(beTrue())
+                    }
+                    
+                    it("libraryConfigurations is empty") {
+                        let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
+                        expect(dummy).to(beNil())
                     }
                     
                     it("idfa is nil") {
@@ -363,6 +401,21 @@ class SetupSpec: QuickSpec {
                         
                         it("Request URL is `https://api.karte.io/v0/native/ingest`") {
                             expect(request.url?.absoluteString).to(equal("https://api.karte.io/v0/native/ingest"))
+                        }
+                    }
+                    
+                    context("when library config is added") {
+                        beforeEachWithMetadata { (metadata) in
+                            let path = Bundle(for: SetupSpec.self).path(forResource: "Karte-mock-Info", ofType: "plist")
+                            if let configuration = Configuration.from(plistPath: path!) {
+                                configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
+                                KarteApp.setup(configuration: configuration)
+                            }
+                        }
+                        
+                        it("libraryConfigurations is not empty") {
+                            let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
+                            expect(dummy).toNot(beNil())
                         }
                     }
                     

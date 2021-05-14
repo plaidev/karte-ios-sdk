@@ -92,6 +92,9 @@ public class Configuration: NSObject, NSCopying, Codable {
     /// デフォルトは `false` です。
     public var isOptOut = false
 
+    /// ライブラリの設定の取得・設定を行います。
+    public var libraryConfigurations: [LibraryConfiguration] = []
+
     /// IDFA取得用の委譲先インスタンスの取得・設定を行います。<br>
     /// インスタンスが未設定の場合は、IDFAの情報はイベントに付与されません。
     public weak var idfaDelegate: IDFADelegate?
@@ -164,6 +167,7 @@ public class Configuration: NSObject, NSCopying, Codable {
         configuration.isDryRun = isDryRun
         configuration.isOptOut = isOptOut
         configuration.isSendInitializationEventEnabled = isSendInitializationEventEnabled
+        configuration.libraryConfigurations = libraryConfigurations
         configuration.idfaDelegate = idfaDelegate
         return configuration
     }

@@ -70,7 +70,7 @@ public extension TrackResponse.Response {
         case events
         case messages
         case options
-        case autoTrackDefinition    = "auto_track_definition"
+        case autoTrackDefinition = "auto_track_definition"
     }
 
     /// イベント情報を保持する構造体です。
