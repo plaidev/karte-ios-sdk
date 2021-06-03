@@ -59,7 +59,7 @@ internal struct Definition: Codable {
 
 extension Definition {
     enum CodingKeys: String, CodingKey {
-        case eventName  = "event_name"
+        case eventName = "event_name"
         case triggers
     }
 }

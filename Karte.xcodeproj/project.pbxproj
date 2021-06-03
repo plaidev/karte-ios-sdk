@@ -338,7 +338,10 @@
 		36404EB6247D5E8400F35ECB /* DeepLinkEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */; };
 		36404EB8247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */; };
 		36404EBA247D5EB400F35ECB /* DeepLinkEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */; };
+		368ED92D25DBCB0B0069C5F7 /* LibraryConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368ED92C25DBCB0B0069C5F7 /* LibraryConfiguration.swift */; };
+		368ED94F25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368ED94E25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift */; };
 		369C2FE0256B9E6D00ED5948 /* DefinitionsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369C2FDF256B9E6D00ED5948 /* DefinitionsRequest.swift */; };
+		36AF0710264C835B00568FC6 /* RemoteNotificationSetupSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AF070F264C835B00568FC6 /* RemoteNotificationSetupSpec.swift */; };
 		36F3BC7124F4A928002D4382 /* GetLogUploadURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */; };
 		36F3BC7324F4BE71002D4382 /* UploadLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */; };
 		36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */; };
@@ -843,7 +846,10 @@
 		36404EB4247D5E8300F35ECB /* DeepLinkEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEvent.swift; sourceTree = "<group>"; };
 		36404EB7247D5EA400F35ECB /* DeepLinkAppOpenEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkAppOpenEventSpec.swift; sourceTree = "<group>"; };
 		36404EB9247D5EB400F35ECB /* DeepLinkEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkEventSpec.swift; sourceTree = "<group>"; };
+		368ED92C25DBCB0B0069C5F7 /* LibraryConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryConfiguration.swift; sourceTree = "<group>"; };
+		368ED94E25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationConfiguration.swift; sourceTree = "<group>"; };
 		369C2FDF256B9E6D00ED5948 /* DefinitionsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionsRequest.swift; sourceTree = "<group>"; };
+		36AF070F264C835B00568FC6 /* RemoteNotificationSetupSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationSetupSpec.swift; sourceTree = "<group>"; };
 		36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLogUploadURLRequest.swift; sourceTree = "<group>"; };
 		36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLogRequest.swift; sourceTree = "<group>"; };
 		36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppenderSpec.swift; sourceTree = "<group>"; };
@@ -1453,6 +1459,7 @@
 			isa = PBXGroup;
 			children = (
 				0C8392A72406C7010014C2BF /* Library.swift */,
+				368ED92C25DBCB0B0069C5F7 /* LibraryConfiguration.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -1684,6 +1691,7 @@
 				0C897693237BBA9300098CD8 /* RemoteNotification.swift */,
 				0C89769C237BBB0D00098CD8 /* RemoteNotificationLoader.m */,
 				0C897692237BBA9300098CD8 /* RemoteNotificationKey.swift */,
+				368ED94E25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift */,
 				0C897695237BBA9300098CD8 /* FCMTokenRegistrar.swift */,
 				0C897696237BBA9300098CD8 /* Measurement.swift */,
 				0CCFA7B824A5871200E0F184 /* NotificationSettingsProvider.swift */,
@@ -1838,6 +1846,7 @@
 			children = (
 				0CCFA7B424A5814100E0F184 /* FCMTokenRegistrarSpec.swift */,
 				0CD484792508716F007F52E1 /* MeasurementSpec.swift */,
+				36AF070F264C835B00568FC6 /* RemoteNotificationSetupSpec.swift */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -2770,6 +2779,7 @@
 				0C8392C12406C7750014C2BF /* CoreService.swift in Sources */,
 				0C8392E52407842D0014C2BF /* FindMyselfLoader.m in Sources */,
 				0C0822E924E6816A0038EBDA /* TrackingCommandRecord.swift in Sources */,
+				368ED92D25DBCB0B0069C5F7 /* LibraryConfiguration.swift in Sources */,
 				0C0822E124E67B790038EBDA /* TrackingCommandRepository.swift in Sources */,
 				0C69D40E24EB9DB200D75893 /* EventFilterRule.swift in Sources */,
 				0C8392882406C6AA0014C2BF /* PvId.swift in Sources */,
@@ -2877,6 +2887,7 @@
 				0C89769B237BBA9300098CD8 /* Measurement.swift in Sources */,
 				0C897698237BBA9300098CD8 /* RemoteNotification.swift in Sources */,
 				680DB3C1247FC98400AE6800 /* RegisterPushCommand.swift in Sources */,
+				368ED94F25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift in Sources */,
 				0C897699237BBA9300098CD8 /* RemoteNotificationProxy.swift in Sources */,
 				0C897697237BBA9300098CD8 /* RemoteNotificationKey.swift in Sources */,
 				0CCFA7B924A5871200E0F184 /* NotificationSettingsProvider.swift in Sources */,
@@ -2898,6 +2909,7 @@
 				0CFD001124EBD2DC00598C8C /* TrackCallbackSpec.swift in Sources */,
 				0C83931A240838050014C2BF /* InspectorSpec.swift in Sources */,
 				0C839312240831B30014C2BF /* LifecycleEventSpec.swift in Sources */,
+				36AF0710264C835B00568FC6 /* RemoteNotificationSetupSpec.swift in Sources */,
 				6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */,
 				0CE79311238653AD00F0D932 /* StubActionModule.swift in Sources */,
 				0CD4847A2508716F007F52E1 /* MeasurementSpec.swift in Sources */,
@@ -3341,7 +3353,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.14.1;
+				MARKETING_VERSION = 2.15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3375,7 +3387,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.14.1;
+				MARKETING_VERSION = 2.15.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3407,7 +3419,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.1;
+				MARKETING_VERSION = 2.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3439,7 +3451,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.1;
+				MARKETING_VERSION = 2.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3591,7 +3603,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3622,7 +3634,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

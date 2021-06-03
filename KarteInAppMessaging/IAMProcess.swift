@@ -167,7 +167,7 @@ extension IAMProcess {
         if shouldReset(from: viewController, in: window) {
             Logger.verbose(tag: .inAppMessaging, message: "Will hide in-app messaging.")
             webView?.reset(mode: .soft)
-            configuration.app.pvService?.renewPvId(forSceneId: sceneId)
+            configuration.app.pvService?.changePv(sceneId)
         }
     }
 
