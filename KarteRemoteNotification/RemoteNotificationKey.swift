@@ -25,11 +25,9 @@ internal struct RemoteNotificationKey {
 }
 
 extension RemoteNotificationKey {
-    // swiftlint:disable operator_usage_whitespace
     static let push         = RemoteNotificationKey("krt_push_notification")
     static let massPush     = RemoteNotificationKey("krt_mass_push_notification")
     static let eventValues  = RemoteNotificationKey("krt_event_values")
     static let campaignId   = RemoteNotificationKey("krt_campaign_id")
     static let shortenId    = RemoteNotificationKey("krt_shorten_id")
-    // swiftlint:enable operator_usage_whitespace
 }

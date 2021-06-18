@@ -54,7 +54,6 @@ extension CommandBundlerSpy: CommandBundlerDelegate {
     func commandBundler(_ bundler: CommandBundler, didFinishBundle bundle: CommandBundle) {
         actualCount += 1
         bundles.append(bundle)
-        
         expectation.fulfill()
     }
 }
@@ -186,34 +185,33 @@ class CommandBundlerSpec: QuickSpec {
                     var spy: CommandBundlerSpy!
                     
                     beforeEachWithMetadata { (metadata) in
-                        spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 2)
+                        spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 3)
                         
-                        let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(100))
+                        let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(1000))
                         let bundler = CommandBundler(
                             beforeBundleRules: [],
                             afterBundleRules: [],
                             asyncBundleRules: [timeWindowBundleRule]
                         )
                         bundler.delegate = spy
-                        
-                        spy.wait {
+                        spy.wait(timeout: 10) {
                             spy.queue.async {
                                 bundler.addCommand(buildCommand())
                                 bundler.addCommand(buildCommand())
                             }
-                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(120)) {
+                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(1200)) {
                                 bundler.addCommand(buildCommand())
                                 bundler.addCommand(buildCommand())
                                 bundler.addCommand(buildCommand())
                             }
-                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(240)) {
+                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(2400)) {
                                 bundler.addCommand(buildCommand())
                             }
                         }
                     }
                     
-                    it("count is 2") {
-                        expect(spy.actualCount).to(equal(2))
+                    it("count is 3") {
+                        expect(spy.actualCount).to(equal(3))
                     }
                     
                     it("bundle[0] has 2 command") {
@@ -239,7 +237,7 @@ class CommandBundlerSpec: QuickSpec {
                         )
                         bundler.delegate = spy
                         
-                        spy.wait {
+                        spy.wait(timeout: 5) {
                             spy.queue.async {
                                 bundler.addCommand(buildCommand())
                                 bundler.addCommand(buildCommand())

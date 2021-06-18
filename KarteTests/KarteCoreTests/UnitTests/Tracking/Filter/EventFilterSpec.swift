@@ -32,7 +32,7 @@ class EventFilterSpec: QuickSpec {
             context("when event name is empty") {
                 it("throw error") {
                     let event = Event(eventName: EventName(""))
-                    expect(expression: {
+                    expect({
                         try filter.filter(event)
                     }).to(throwError())
                 }
@@ -40,7 +40,7 @@ class EventFilterSpec: QuickSpec {
             
             context("when event name is nativeAppOpen") {
                 it("not throw error") {
-                    expect(expression: {
+                    expect({
                         try filter.filter(Event(.open))
                     }).toNot(throwError())
                 }
@@ -57,7 +57,7 @@ class EventFilterSpec: QuickSpec {
             context("when event name contains non ascii character") {
                 it("not throw error") {
                     let event = Event(eventName: EventName("イベント"))
-                    expect(expression: {
+                    expect({
                         try filter.filter(event)
                     }).toNot(throwError())
                 }
@@ -66,7 +66,7 @@ class EventFilterSpec: QuickSpec {
             context("when event name not contains non ascii character") {
                 it("not throw error") {
                     let event = Event(eventName: EventName("event"))
-                    expect(expression: {
+                    expect({
                         try filter.filter(event)
                     }).toNot(throwError())
                 }
@@ -84,7 +84,7 @@ class EventFilterSpec: QuickSpec {
                 context("when online") {
                     it("not throw error") {
                         let event = Event(eventName: EventName("_fetch_variables"))
-                        expect(expression: {
+                        expect({
                             try filter.filter(event)
                         }).toNot(throwError())
                     }
@@ -101,7 +101,7 @@ class EventFilterSpec: QuickSpec {
                     }
                     it("throw error") {
                         let event = Event(eventName: EventName("_fetch_variables"))
-                        expect(expression: {
+                        expect({
                             try filter.filter(event)
                         }).to(throwError())
                     }
@@ -112,7 +112,7 @@ class EventFilterSpec: QuickSpec {
                 context("when online") {
                     it("not throw error") {
                         let event = Event(eventName: EventName("event"))
-                        expect(expression: {
+                        expect({
                             try filter.filter(event)
                         }).toNot(throwError())
                     }
@@ -129,7 +129,7 @@ class EventFilterSpec: QuickSpec {
                     }
                     it("not throw error") {
                         let event = Event(eventName: EventName("event"))
-                        expect(expression: {
+                        expect({
                             try filter.filter(event)
                         }).toNot(throwError())
                     }
@@ -146,7 +146,7 @@ class EventFilterSpec: QuickSpec {
             
             context("when event is initialization event") {
                 it("throw error") {
-                    expect(expression: {
+                    expect({
                         try filter.filter(Event(.open))
                     }).to(throwError())
                 }
@@ -155,7 +155,7 @@ class EventFilterSpec: QuickSpec {
             context("when event is not initialization event") {
                 it("not throw error") {
                     let event = Event(eventName: EventName("event"))
-                    expect(expression: {
+                    expect({
                         try filter.filter(event)
                     }).toNot(throwError())
                 }

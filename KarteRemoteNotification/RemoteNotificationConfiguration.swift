@@ -22,7 +22,7 @@ public class RemoteNotificationConfiguration: NSObject, LibraryConfiguration {
     /// 通知のクリック計測を自動で行うかどうかを表すフラグを返します。<br>
     /// フラグを `false` にした場合は、自動でのクリック計測が行われません。<br>
     /// デフォルトは `true` です。
-    @objc public var isEnabledAutoMeasurement: Bool = true
+    @objc public var isEnabledAutoMeasurement = true
 
     deinit {}
 }

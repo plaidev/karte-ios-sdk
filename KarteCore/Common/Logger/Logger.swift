@@ -54,7 +54,7 @@ public struct Logger {
     private static var shared = Logger()
 
     var level: LogLevel = .error
-    var isEnabled: Bool = true
+    var isEnabled = true
     let appenders: [LogAppender] = [ConsoleLogAppender(), FileLogAppender()]
 
     private init() {

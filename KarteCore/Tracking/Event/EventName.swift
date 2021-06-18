@@ -66,7 +66,6 @@ extension EventName: Equatable {
 }
 
 public extension EventName {
-    // swiftlint:disable operator_usage_whitespace
     /// view イベント
     static let view                      = EventName("view")
     /// identify イベント
@@ -105,5 +104,4 @@ public extension EventName {
     static let pluginNativeAppIdentify   = EventName("plugin_native_app_identify")
     /// _fetch_variables イベント
     static let fetchVariables            = EventName("_fetch_variables")
-    // swiftlint:enable operator_usage_whitespace
 }
