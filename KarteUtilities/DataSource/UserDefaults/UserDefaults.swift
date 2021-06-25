@@ -37,6 +37,22 @@ extension UserDefaults {
         saveRootObject(root, forNamespace: key.namespace)
     }
 
+    /// 指定された `Dictionary` のキーと値を指定されたネームスペースに対してそれぞれ保存します。
+    /// - Parameters:
+    ///   - keyValue: 保存するキーと値を持った `Dictionary`
+    ///   - namespace: 保存先のネームスペースキー
+    public func bulkSet(_ keyValue: [String: Any?], forNameSpace namespace: UserDefaultsNamespace) {
+        var root = loadRootObject(forNamespace: namespace)
+        for (key, value) in keyValue {
+            if let value = value {
+                root[key] = value
+            } else {
+                root.removeValue(forKey: key)
+            }
+        }
+        saveRootObject(root, forNamespace: namespace)
+    }
+
     /// 指定されたキーに関連付けられた値にアクセスします。
     /// - Parameter key: `UserDefaults` を検索するためのキー
     /// - Returns: キーに関連付けられた値がある場合はそれを返し、ない場合は nil を返します。

@@ -116,11 +116,11 @@ extension Variables: ActionModule, UserModule {
                 }
 
                 let variable = Variable(name: name, campaignId: campaignId, shortenId: shortenId, value: value)
-                variable.save()
                 return variable
             }
             return variables
         }
+        bulkSave(variables: variables)
 
         Tracker.track(variables: variables, type: .ready, values: [:])
     }
@@ -133,6 +133,18 @@ extension Variables: ActionModule, UserModule {
 
     public func renew(visitorId current: String, previous: String) {
         UserDefaults.standard.removeObject(forNamespace: .variables)
+    }
+
+    private func bulkSave(variables: [Variable]) {
+        let keyValue = variables.filter { $0.campaignId != nil && $0.shortenId != nil }.reduce(into: [String: Any?]()) { dict, variable in
+            do {
+                let data = try JSONEncoder().encode(variable)
+                dict[variable.name] = data
+            } catch {
+                Logger.verbose(tag: .variables, message: "Failed to encode JSON. \(error)")
+            }
+        }
+        UserDefaults.standard.bulkSet(keyValue, forNameSpace: .variables)
     }
 }
 
