@@ -36,7 +36,7 @@ internal class IAMProcess: NSObject {
         window != nil
     }
 
-    var isSuppressed: Bool = false
+    var isSuppressed = false
 
     init(view: UIView, configuration: IAMProcessConfiguration) {
         self.sceneId = SceneId(view: view)

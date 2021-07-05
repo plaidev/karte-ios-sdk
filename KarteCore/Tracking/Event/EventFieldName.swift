@@ -27,7 +27,6 @@ public struct EventFieldName {
 }
 
 public extension EventFieldName {
-    // swiftlint:disable operator_usage_whitespace
     /// message フィールド
     static let message      = EventFieldName("message")
     /// campaign_id フィールド
@@ -60,7 +59,6 @@ public extension EventFieldName {
     static let viewName     = EventFieldName("view_name")
     /// title フィールド
     static let title        = EventFieldName("title")
-    // swiftlint:enable operator_usage_whitespace
 }
 
 extension EventFieldName {

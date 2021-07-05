@@ -34,7 +34,7 @@ public class UserSync: NSObject, Codable {
     var visitorId: String?
     var appInfo: AppInfo?
     var timestamp: Date?
-    var deactivate: Bool = false
+    var deactivate = false
 
     var rawValue: String? {
         if !deactivate && visitorId == nil {
