@@ -65,7 +65,7 @@ class JsMessageSpec: QuickSpec {
                                               mssageFrameInfo: testFrameInfo,
                                               messageName: JsMessageName.event.rawValue,
                                               messageWebView: testWebview)
-                expect(expression: {
+                expect({
                     try JsMessage.init(scriptMessage: testMessage)
                 }).notTo(throwError())
             }
@@ -76,7 +76,7 @@ class JsMessageSpec: QuickSpec {
                                               mssageFrameInfo: testFrameInfo,
                                               messageName: JsMessageName.event.rawValue,
                                               messageWebView: testWebview)
-                expect(expression: {
+                expect({
                     try JsMessage.init(scriptMessage: testMessage)
                 }).to(throwError(JsMessageError.invalidBody))
             }
@@ -87,7 +87,7 @@ class JsMessageSpec: QuickSpec {
                                               mssageFrameInfo: testFrameInfo,
                                               messageName: "test name",
                                               messageWebView: testWebview)
-                expect(expression: {
+                expect({
                     try JsMessage.init(scriptMessage: testMessage)
                 }).to(throwError(JsMessageError.invalidName))
             }

@@ -6,12 +6,13 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@3.4.2
+  codecov: codecov/codecov@1.2.3 
 
 executors:
   build:
     resource_class: medium
     macos:
-      xcode: "12.0.0"
+      xcode: "12.5.1"
     shell: /bin/bash --login -eo pipefail
     working_directory: /Users/distiller/project
     environment:
@@ -117,6 +118,11 @@ jobs:
                             -destination "platform=iOS Simulator,name=${DEVICE},OS=${OS}" \
                             -derivedDataPath DerivedData \
                             -resultBundlePath "output/KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
+            bundle exec slather
+      - codecov/upload:
+          xtra_args: -f ./cobertura.xml -X coveragepy -X gcov -X xcode -build_directory "output/KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
+          validate_url: true
+          
       - run:
           name: Archive test result
           command: zip -r "KarteTests-results.zip" "KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
