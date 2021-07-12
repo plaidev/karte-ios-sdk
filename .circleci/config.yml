@@ -141,7 +141,7 @@ jobs:
           name: Request Ui Test
           command: |
             if [ $EXEC_ENV = 'private' ]; then
-              curl -u ${CIRCLECI_KEY} \
+              curl -f -u ${CIRCLECI_KEY} \
                     -d build_parameters[CIRCLE_JOB]=e2e_test \
                     -d build_parameters[RELEASE_BRANCH]=${CIRCLE_BRANCH} \
                     ${UI_TEST_ENDPOINT}
