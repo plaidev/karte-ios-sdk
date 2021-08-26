@@ -1,4 +1,4 @@
-Please bump up the modules version if needed.
+Please bump up the version of modules if needed.
 
 # Summary
    - related issue number
@@ -8,4 +8,4 @@ Please bump up the modules version if needed.
 # Test plan
 
 # Other Information
-   - release note url
+   - release note URL
