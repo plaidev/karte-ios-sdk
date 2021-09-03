@@ -48,7 +48,7 @@ internal class VisitorIdService {
         let newVisId = generate()
 
         Tracker(oldVisId).track(event: Event(.renewVisitorId(old: nil, new: newVisId)))
-        Tracker(oldVisId).track(event: Event(.renewVisitorId(old: oldVisId, new: nil)))
+        Tracker(newVisId).track(event: Event(.renewVisitorId(old: oldVisId, new: nil)))
 
         KarteApp.shared.modules.forEach { module in
             if case let .user(module) = module {
