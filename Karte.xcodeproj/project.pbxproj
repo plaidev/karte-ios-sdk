@@ -342,6 +342,7 @@
 		368ED94F25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368ED94E25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift */; };
 		369C2FE0256B9E6D00ED5948 /* DefinitionsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369C2FDF256B9E6D00ED5948 /* DefinitionsRequest.swift */; };
 		36AF0710264C835B00568FC6 /* RemoteNotificationSetupSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AF070F264C835B00568FC6 /* RemoteNotificationSetupSpec.swift */; };
+		36EFDE8B271951D300C60666 /* CircuitBreaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EFDE8A271951D300C60666 /* CircuitBreaker.swift */; };
 		36F3BC7124F4A928002D4382 /* GetLogUploadURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */; };
 		36F3BC7324F4BE71002D4382 /* UploadLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */; };
 		36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */; };
@@ -850,6 +851,7 @@
 		368ED94E25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationConfiguration.swift; sourceTree = "<group>"; };
 		369C2FDF256B9E6D00ED5948 /* DefinitionsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionsRequest.swift; sourceTree = "<group>"; };
 		36AF070F264C835B00568FC6 /* RemoteNotificationSetupSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationSetupSpec.swift; sourceTree = "<group>"; };
+		36EFDE8A271951D300C60666 /* CircuitBreaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircuitBreaker.swift; sourceTree = "<group>"; };
 		36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLogUploadURLRequest.swift; sourceTree = "<group>"; };
 		36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLogRequest.swift; sourceTree = "<group>"; };
 		36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppenderSpec.swift; sourceTree = "<group>"; };
@@ -1157,6 +1159,7 @@
 				0C0822D324E636E90038EBDA /* RetryTrackingCommandExecutor.swift */,
 				0C0822D924E67B3D0038EBDA /* TrackingCommand.swift */,
 				0C0822DA24E67B3D0038EBDA /* TrackingCommandExecutor.swift */,
+				36EFDE8A271951D300C60666 /* CircuitBreaker.swift */,
 			);
 			path = Command;
 			sourceTree = "<group>";
@@ -2782,6 +2785,7 @@
 				368ED92D25DBCB0B0069C5F7 /* LibraryConfiguration.swift in Sources */,
 				0C0822E124E67B790038EBDA /* TrackingCommandRepository.swift in Sources */,
 				0C69D40E24EB9DB200D75893 /* EventFilterRule.swift in Sources */,
+				36EFDE8B271951D300C60666 /* CircuitBreaker.swift in Sources */,
 				0C8392882406C6AA0014C2BF /* PvId.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

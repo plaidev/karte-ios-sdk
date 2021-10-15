@@ -22,6 +22,7 @@ internal class TrackingAgent {
 
     private let queue: DispatchQueue
     private let repository: TrackingCommandRepository
+    private let circuitBreaker: CircuitBreaker
 
     private var defaultTrackingCommandExecutor: TrackingCommandExecutor
     private var retryTrackingCommandExecutor: TrackingCommandExecutor
@@ -39,6 +40,8 @@ internal class TrackingAgent {
 
         self.queue = queue
         self.repository = repository
+        self.circuitBreaker = CircuitBreaker()
+
         self.defaultTrackingCommandExecutor = DefaultTrackingCommandExecutor(
             app: app,
             queue: queue,
@@ -96,14 +99,16 @@ private extension TrackingAgent {
 extension TrackingAgent: TrackingCommandExecutorDelegate {
     func trackingCommandExecutor(_ executor: TrackingCommandExecutor, didCompleteCommand command: TrackingCommand) {
         command.task?.resolve()
+        circuitBreaker.reset()
     }
 
     func trackingCommandExecutor(_ executor: TrackingCommandExecutor, didFailCommand command: TrackingCommand) {
+        circuitBreaker.countFailure()
         var command = command
         command.task?.reject()
         command.task = nil
 
-        guard command.properties.isRetryable else {
+        guard command.properties.isRetryable && circuitBreaker.canRequest else {
             return
         }
         do {
