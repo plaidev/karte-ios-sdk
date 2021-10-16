@@ -16,28 +16,30 @@
 
 import Foundation
 
-private let kTimeRecoverAfterSec: Double = 300
+private let kTimeRecoverAfterSec: TimeInterval = 300
 
 internal class CircuitBreaker {
     internal let threshold: Int
-    internal let recoverAfter: Double
+    internal let recoverAfterSec: TimeInterval
+    private var todaySupplier: TodaySupplier
     private var failureCount = 0
     private var lastFailedAt = Date(timeIntervalSince1970: 0)
 
     var canRequest: Bool {
-        if Date() > lastFailedAt.addingTimeInterval(recoverAfter) {
+        if todaySupplier.today > lastFailedAt.addingTimeInterval(recoverAfterSec) {
             reset()
         }
         return failureCount < threshold
     }
 
-    init(threshold: Int = 3, recoverAfter: Double = kTimeRecoverAfterSec) {
+    init(threshold: Int = 3, recoverAfterSec: TimeInterval = kTimeRecoverAfterSec, todaySupplier: TodaySupplier = TodaySupplier()) {
         self.threshold = threshold
-        self.recoverAfter = recoverAfter
+        self.recoverAfterSec = recoverAfterSec
+        self.todaySupplier = todaySupplier
     }
 
     func countFailure() {
-        lastFailedAt = Date()
+        lastFailedAt = todaySupplier.today
         failureCount += 1
     }
 
