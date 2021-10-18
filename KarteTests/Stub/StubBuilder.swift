@@ -29,10 +29,10 @@ struct StubBuilder {
         self.url = resource.url(bundle: Bundle(for: type(of: test)))!
     }
     
-    func build() -> (URLRequest) -> Response {
+    func build(status: Int = 200) -> (URLRequest) -> Response {
         let data = try! Data(contentsOf: url)
         return { (request) -> Response in
-            return jsonData(data)(request)
+            return jsonData(data, status: status)(request)
         }        
     }
 }

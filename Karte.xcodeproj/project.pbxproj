@@ -346,6 +346,8 @@
 		36EFDE972719738500C60666 /* CircuitBreakerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EFDE962719738500C60666 /* CircuitBreakerSpec.swift */; };
 		36EFDEB5271ABD2400C60666 /* TodaySupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EFDEB4271ABD2400C60666 /* TodaySupplier.swift */; };
 		36EFDEC0271ABDE200C60666 /* TodaySupplierMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EFDEBF271ABDE200C60666 /* TodaySupplierMock.swift */; };
+		36EFDED5271BF26700C60666 /* failure_invalid_request.json in Resources */ = {isa = PBXBuildFile; fileRef = 36EFDECA271B8F3A00C60666 /* failure_invalid_request.json */; };
+		36EFDEDF271BF26B00C60666 /* failure_server_error.json in Resources */ = {isa = PBXBuildFile; fileRef = 36EFDECB271B8FAA00C60666 /* failure_server_error.json */; };
 		36F3BC7124F4A928002D4382 /* GetLogUploadURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */; };
 		36F3BC7324F4BE71002D4382 /* UploadLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */; };
 		36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */; };
@@ -858,6 +860,8 @@
 		36EFDE962719738500C60666 /* CircuitBreakerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircuitBreakerSpec.swift; sourceTree = "<group>"; };
 		36EFDEB4271ABD2400C60666 /* TodaySupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaySupplier.swift; sourceTree = "<group>"; };
 		36EFDEBF271ABDE200C60666 /* TodaySupplierMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaySupplierMock.swift; sourceTree = "<group>"; };
+		36EFDECA271B8F3A00C60666 /* failure_invalid_request.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = failure_invalid_request.json; sourceTree = "<group>"; };
+		36EFDECB271B8FAA00C60666 /* failure_server_error.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = failure_server_error.json; sourceTree = "<group>"; };
 		36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLogUploadURLRequest.swift; sourceTree = "<group>"; };
 		36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLogRequest.swift; sourceTree = "<group>"; };
 		36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppenderSpec.swift; sourceTree = "<group>"; };
@@ -1816,6 +1820,8 @@
 				0CC648B7238CCFC3009EB5DF /* StubBuilder.swift */,
 				0CC648BC238CD4DC009EB5DF /* StubResource.swift */,
 				0CC648BA238CD4AA009EB5DF /* success_empty.json */,
+				36EFDECA271B8F3A00C60666 /* failure_invalid_request.json */,
+				36EFDECB271B8FAA00C60666 /* failure_server_error.json */,
 				0CC648AF238A15BD009EB5DF /* success_variables_1.json */,
 				0CC648B5238CB77B009EB5DF /* success_variables_2.json */,
 				0CF44AFA242E451000CA7F3A /* success_variables_3.json */,
@@ -2537,6 +2543,8 @@
 				0CC648C7238D5559009EB5DF /* success_vt_2.json in Resources */,
 				0CF44AFB242E451000CA7F3A /* success_variables_3.json in Resources */,
 				363F26172582B028007E6E4B /* success_vt_definitions.json in Resources */,
+				36EFDED5271BF26700C60666 /* failure_invalid_request.json in Resources */,
+				36EFDEDF271BF26B00C60666 /* failure_server_error.json in Resources */,
 				0CC648BB238CD4AA009EB5DF /* success_empty.json in Resources */,
 				0CC648C6238D5559009EB5DF /* success_vt_1.json in Resources */,
 				68E62712254036AA005148FC /* Karte-mock-Info.plist in Resources */,

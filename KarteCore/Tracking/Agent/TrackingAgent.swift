@@ -40,7 +40,7 @@ internal class TrackingAgent {
 
         self.queue = queue
         self.repository = repository
-        self.circuitBreaker = CircuitBreaker()
+        self.circuitBreaker = Resolver.resolve()
 
         self.defaultTrackingCommandExecutor = DefaultTrackingCommandExecutor(
             app: app,
@@ -143,5 +143,11 @@ extension TrackingAgent: BackgroundTaskDelegate {
 
     func backgroundTaskDidFinish(_ backgroundTask: BackgroundTask) {
         Logger.debug(tag: .track, message: "Ends the sending of unsent events.")
+    }
+}
+
+extension Resolver {
+    static func registerCircuitBreaker() {
+        register { CircuitBreaker() }
     }
 }
