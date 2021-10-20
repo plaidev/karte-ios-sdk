@@ -38,6 +38,8 @@ struct StubResource {
 
 extension StubResource {
     static var empty = StubResource("success_empty.json")
+    static var failure_invalid_request = StubResource("failure_invalid_request.json")
+    static var failure_server_error = StubResource("failure_server_error.json")
     static var variables1 = StubResource("success_variables_1.json")
     static var variables2 = StubResource("success_variables_2.json")
     static var variables3 = StubResource("success_variables_3.json")

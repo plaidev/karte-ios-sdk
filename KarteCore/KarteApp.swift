@@ -348,5 +348,7 @@ extension Resolver: ResolverRegistering {
         registerSelectorDetector()
         registerConfiguration()
         registerIsReachable()
+        registerExponentialBackoff()
+        registerCircuitBreaker()
     }
 }
