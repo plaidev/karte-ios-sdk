@@ -132,13 +132,6 @@ extension FileLogAppender: BackgroundTaskDelegate {
     }
 }
 
-internal class TodaySupplier {
-    var today: Date {
-        Date()
-    }
-    deinit {}
-}
-
 private extension DateFormatter {
     private static func from(format: String) -> DateFormatter {
         let formatter = DateFormatter()

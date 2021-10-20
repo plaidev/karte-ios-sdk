@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -15,24 +15,12 @@
 //
 
 import Foundation
-import Quick
-import Mockingjay
 
-struct StubBuilder {
-    let url: URL
-    
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
+/// 当日のDateを返すためクラスです。
+/// Mockしやすくする用途で使用します。
+internal class TodaySupplier {
+    var today: Date {
+        Date()
     }
-    
-    init(test: XCTestCase, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: test)))!
-    }
-    
-    func build(status: Int = 200) -> (URLRequest) -> Response {
-        let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
-            return jsonData(data, status: status)(request)
-        }        
-    }
+    deinit {}
 }

@@ -18,19 +18,13 @@ import Quick
 import Nimble
 @testable import KarteCore
 
-class MockTodaySupplier : TodaySupplier{
-    override var today: Date {
-        let calendar = Calendar(identifier: .gregorian)
-        return calendar.date(from: DateComponents(year: 2020, month: 4, day: 10, hour: 21, minute: 0, second: 0))!
-    }
-}
 let todayFile = "2020-04-10_test.log"
 let testFiles = ["2020-04-11_test.log","2020-04-09_test.log","2020-04-08_test.log","2020-04-07_test.log","2020-04-06_test.log"]
 
 class FileLogAppenderSpec: QuickSpec {
 
     override func spec() {
-        let fileLogAppender = FileLogAppender(MockTodaySupplier())
+        let fileLogAppender = FileLogAppender(TodaySupplierMock(DateComponents(year: 2020, month: 4, day: 10, hour: 21, minute: 0, second: 0)))
 
         beforeSuite {
             (testFiles + [todayFile]).forEach{

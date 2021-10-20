@@ -52,7 +52,7 @@ internal struct TrackingCommand: Codable {
 
     var task: TrackingTask?
     var isRetry = false
-    var exponentialBackoff = ExponentialBackoff(interval: 0.5, randomFactor: 0, multiplier: 4, maxCount: 6)
+    var exponentialBackoff: ExponentialBackoff = Resolver.resolve()
 
     init(task: TrackingTask, scene: Scene) {
         self.event = task.event
@@ -70,5 +70,11 @@ internal struct TrackingCommand: Codable {
 extension TrackingCommand: Equatable {
     static func == (lhs: TrackingCommand, rhs: TrackingCommand) -> Bool {
         lhs.identifier == rhs.identifier
+    }
+}
+
+extension Resolver {
+    static func registerExponentialBackoff() {
+        register { ExponentialBackoff(interval: 5, randomFactor: 0, multiplier: 4, maxCount: 3) }
     }
 }
