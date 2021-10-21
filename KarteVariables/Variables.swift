@@ -16,18 +16,63 @@
 
 import Foundation
 import KarteCore
+import KarteUtilities
 
 /// 設定値の取得完了をハンドルするためのブロックの宣言です。
 public typealias FetchCompletion = (_ isSuccessful: Bool) -> Void
 
+/// 最終フェッチステータスを表す列挙型です。
+@objc(KRTLastFetchStatus)
+public enum LastFetchStatus: Int {
+    /// nofetchYet
+    case nofetchYet
+    /// success
+    case success
+    /// failure
+    case failure
+}
+
 /// 設定値の取得・管理を司るクラスです。
 @objc(KRTVariables)
 public class Variables: NSObject {
+    private static let lastFetchTimeKey = "lastFetchTime"
+    private static let lastFetchStatusKey = "lastFetchStatus"
+
+    /// 最終フェッチ完了時間を返します、未フェッチな場合は `nil` を返します
+    @objc public class var lastFetchTime: Date? {
+        if let date = UserDefaults.standard.object(forKey: .lastFetchTime) as? Date {
+            return date
+        }
+        return nil
+    }
+
+    /// 最終フェッチ完了ステータスを返します
+    @objc public class var lastFetchStatus: LastFetchStatus {
+        if let optionalStatus = UserDefaults.standard.object(forKey: .lastFetchStatus) as? Int,
+           let status = LastFetchStatus(rawValue: optionalStatus) {
+            return status
+        }
+        return .nofetchYet
+    }
+
     /// ローダークラスが Objective-Cランライムに追加されたタイミングで呼び出されるメソッドです。
     /// 本メソッドが呼び出されたタイミングで、`KarteApp` クラスに本クラスをライブラリとして登録します。
     @objc
     public class func _krt_load() {
         KarteApp.register(library: self)
+    }
+
+    /// 直近指定秒以内に成功したフェッチ結果があるかどうかを返します
+    /// - Parameter inSeconds: 秒数（1以上）
+    @objc
+    public class func hasSuccessfulLastFetch(inSeconds: TimeInterval) -> Bool {
+        guard let lastFetchTime = Variables.lastFetchTime,
+              Variables.lastFetchStatus == .success,
+              inSeconds > 0 else {
+            return false
+        }
+        let nowMinusInSeconds = Date(timeIntervalSinceNow: -inSeconds)
+        return nowMinusInSeconds < lastFetchTime
     }
 
     /// 設定値を取得し、端末上にキャッシュします。
@@ -36,6 +81,7 @@ public class Variables: NSObject {
     public class func fetch(completion: FetchCompletion? = nil) {
         let task = Tracker.track(event: Event(.fetchVariables))
         task.completion = { isSuccessful in
+            saveLastFetchInfo(isSuccessful)
             completion?(isSuccessful)
         }
     }
@@ -133,6 +179,24 @@ extension Variables: ActionModule, UserModule {
 
     public func renew(visitorId current: String, previous: String) {
         UserDefaults.standard.removeObject(forNamespace: .variables)
+    }
+}
+
+extension Variables {
+    private class func saveLastFetchInfo(_ isSuccessful: Bool) {
+        if isSuccessful {
+            let keyValue: [String: Any] = [
+                lastFetchTimeKey: Date(),
+                lastFetchStatusKey: LastFetchStatus.success.rawValue
+            ]
+            UserDefaults.standard.bulkSet(keyValue, forNameSpace: .variables)
+        } else {
+            let keyValue: [String: Any] = [
+                lastFetchTimeKey: Date(),
+                lastFetchStatusKey: LastFetchStatus.failure.rawValue
+            ]
+            UserDefaults.standard.bulkSet(keyValue, forNameSpace: .variables)
+        }
     }
 
     private func bulkSave(variables: [Variable]) {

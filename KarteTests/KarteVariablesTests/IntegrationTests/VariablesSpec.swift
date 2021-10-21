@@ -235,6 +235,71 @@ class VariablesSpec: QuickSpec {
                         expect(variable.string).to(equal("変数4"))
                     }
                 }
+                
+                describe("default lastFetch information") {
+                    beforeEachWithMetadata { (metadata) in
+                        UserDefaults.standard.removeObject(forKey: .lastFetchStatus)
+                        UserDefaults.standard.removeObject(forKey: .lastFetchTime)
+                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                    }
+
+                    it("lastFetchStatus is notyet") {
+                        let lastFetchStatus = Variables.lastFetchStatus
+                        expect(lastFetchStatus).to(equal(.nofetchYet))
+                    }
+                    it("lastFetchTime is nil") {
+                        let lastFetchTime = Variables.lastFetchTime
+                        expect(lastFetchTime).to(beNil())
+                    }
+                    
+                    it("hasSuccessfulLastFetch returns false") {
+                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 100)
+                        expect(hasSuccessfulLastFetch).to(beFalse())
+                    }
+                }
+                
+                describe("update lastFetch information") {
+                    beforeEachWithMetadata { (metadata) in
+                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2, eventName: .fetchVariables) { (_, _, _) in
+                        }
+
+                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                        Variables.fetch()
+
+                        module.wait()
+                        
+                        StubActionModule(self, metadata: metadata, builder: otherStubBuilder, eventName: .messageReady).wait()
+                    }
+
+                    it("lastFetchTime is not nil") {
+                        let lastFetchTime = Variables.lastFetchTime
+                        expect(lastFetchTime).toNot(beNil())
+                    }
+                    
+                    it("lastFetchStatus is success") {
+                        let lastFetchStatus = Variables.lastFetchStatus
+                        expect(lastFetchStatus).to(equal(.success))
+                    }
+
+                    it("hasSuccessfulLastFetch returns true") {
+                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 1)
+                        expect(hasSuccessfulLastFetch).to(beTrue())
+                        
+                        let hasSuccessfulLastFetch60 = Variables.hasSuccessfulLastFetch(inSeconds: 60)
+                        expect(hasSuccessfulLastFetch60).to(beTrue())
+                    }
+                    
+                    it("hasSuccessfulLastFetch returns false") {
+                        Thread.sleep(until: Date(timeIntervalSinceNow: 1))
+                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 1)
+                        expect(hasSuccessfulLastFetch).to(beFalse())
+                    }
+                    
+                    it("hasSuccessfulLastFetch returns false when specify minus value") {
+                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: -60)
+                        expect(hasSuccessfulLastFetch).to(beFalse())
+                    }
+                }
             }
             
             describe("its fetchCompletion") {
@@ -285,6 +350,21 @@ class VariablesSpec: QuickSpec {
                     
                     it("result is false") {
                         expect(result).to(beFalse())
+                    }
+
+                    it("lastFetchTime is not nil") {
+                        let lastFetchTime = Variables.lastFetchTime
+                        expect(lastFetchTime).toNot(beNil())
+                    }
+                    
+                    it("lastFetchStatus is failure") {
+                        let lastFetchStatus = Variables.lastFetchStatus
+                        expect(lastFetchStatus).to(equal(.failure))
+                    }
+                    
+                    it("hasSuccessfulLastFetch returns false") {
+                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 10)
+                        expect(hasSuccessfulLastFetch).to(beFalse())
                     }
                 }
             }
