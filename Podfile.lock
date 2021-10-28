@@ -8,26 +8,35 @@ PODS:
     - Mockingjay/Core
   - Nimble (9.2.0)
   - Quick (4.0.0)
-  - URITemplate (3.0.0)
+  - URITemplate (3.0.1)
 
 DEPENDENCIES:
-  - Mockingjay (= 3.0.0-alpha.1)
+  - Mockingjay (from `https://github.com/kylef/Mockingjay.git`, branch `master`)
   - Nimble
   - Quick
 
 SPEC REPOS:
   trunk:
-    - Mockingjay
     - Nimble
     - Quick
     - URITemplate
 
+EXTERNAL SOURCES:
+  Mockingjay:
+    :branch: master
+    :git: https://github.com/kylef/Mockingjay.git
+
+CHECKOUT OPTIONS:
+  Mockingjay:
+    :commit: b88c9dce2b7561cccbf35e2882b3c71a2efa387a
+    :git: https://github.com/kylef/Mockingjay.git
+
 SPEC CHECKSUMS:
-  Mockingjay: 0f7c5aa49c7f1b95621cee3c79b557141f5a225c
+  Mockingjay: 97656c6f59879923976a0a52ef09da45756cca82
   Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
   Quick: 6473349e43b9271a8d43839d9ba1c442ed1b7ac4
-  URITemplate: 58e0d47f967006c5d59888af5356c4a8ed3b197d
+  URITemplate: 5f5a79f3e384884102c4e6b3325d159c20a8035a
 
-PODFILE CHECKSUM: 5a0d817e9e6b5c6a1eb018597eb370d7f57d1c03
+PODFILE CHECKSUM: e6a525f3a112251366005c5cd58304729b99fc8f
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

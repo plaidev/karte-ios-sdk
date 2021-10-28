@@ -6,7 +6,7 @@ platform :ios, '9.0'
 target 'KarteTests' do
   use_frameworks!
 
-  pod 'Mockingjay', '3.0.0-alpha.1'
+  pod 'Mockingjay', :git => 'https://github.com/kylef/Mockingjay.git', :branch => 'master'
   pod 'Quick'
   pod 'Nimble'
 end
