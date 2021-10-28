@@ -37,4 +37,8 @@ public struct UserDefaultsKey {
 public extension UserDefaultsKey {
     /// オプトアウト情報
     static let optout = UserDefaultsKey("optout", forNamespace: .config)
+    /// 最終フェッチ時間
+    static let lastFetchTime = UserDefaultsKey("lastFetchTime", forNamespace: .variables)
+    /// 最終フェッチステータス
+    static let lastFetchStatus = UserDefaultsKey("lastFetchStatus", forNamespace: .variables)
 }
