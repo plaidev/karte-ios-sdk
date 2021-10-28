@@ -1,0 +1,11 @@
+framework module KarteVisualTracking {
+  umbrella header "KarteVisualTracking.h"
+
+  export *
+  module * { export * }
+}
+
+module KarteVisualTracking.Swift {
+    header "KarteVisualTracking-Swift.h"
+    requires objc
+}

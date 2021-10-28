@@ -1,0 +1,11 @@
+framework module KarteCore {
+  umbrella header "KarteCore.h"
+
+  export *
+  module * { export * }
+}
+
+module KarteCore.Swift {
+    header "KarteCore-Swift.h"
+    requires objc
+}

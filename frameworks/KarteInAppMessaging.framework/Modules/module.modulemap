@@ -1,0 +1,11 @@
+framework module KarteInAppMessaging {
+  umbrella header "KarteInAppMessaging.h"
+
+  export *
+  module * { export * }
+}
+
+module KarteInAppMessaging.Swift {
+    header "KarteInAppMessaging-Swift.h"
+    requires objc
+}

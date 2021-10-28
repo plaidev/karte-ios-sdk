@@ -1,0 +1,11 @@
+framework module KarteCrashReporting {
+  umbrella header "KarteCrashReporting.h"
+
+  export *
+  module * { export * }
+}
+
+module KarteCrashReporting.Swift {
+    header "KarteCrashReporting-Swift.h"
+    requires objc
+}

@@ -1,0 +1,11 @@
+framework module KarteVariables {
+  umbrella header "KarteVariables.h"
+
+  export *
+  module * { export * }
+}
+
+module KarteVariables.Swift {
+    header "KarteVariables-Swift.h"
+    requires objc
+}
