@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -15,14 +15,20 @@
 //
 
 import Foundation
-import KarteCore
 
-public extension TrackerObjectiveC {
-    /// 通知の効果測定用のイベント（message_click）を発火します。
-    ///
-    /// - Parameter userInfo: 通知ペイロード
+/// SwiftとObjective-Cの互換性のためのクラスです。
+///
+/// **SDK内部で利用するクラスであり、通常のSDK利用でこちらのクラスを利用することはありません。**
+public class ObjcCompatibleScope: NSObject {
     @objc
-    class func trackClick(userInfo: [AnyHashable: Any]) {
+    public static func registerFCMToken(_ fcmToken: String?) {
+        FCMTokenRegistrar.shared.registerFCMToken(fcmToken)
+    }
+
+    @objc
+    public static func trackClick(userInfo: [AnyHashable: Any]) {
         Measurement.measure(userInfo: userInfo)
     }
+
+    deinit {}
 }

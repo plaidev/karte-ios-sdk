@@ -25,3 +25,5 @@ FOUNDATION_EXPORT const unsigned char KarteVariablesVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <KarteVariables/PublicHeader.h>
 
 FOUNDATION_EXPORT NSString * KRTVariablesCurrentLibraryVersion(void);
+
+#import <KarteVariables/KRTTracker+Variables.h>

@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -14,16 +14,13 @@
 //  limitations under the License.
 //
 
-import Foundation
-import KarteCore
+#import "KRTTracker+RemoteNotification.h"
+#import <KarteRemoteNotification/KarteRemoteNotification-Swift.h>
 
-public extension KarteApp {
-    /// FCM（Firebase Cloud Messaging）トークンを登録します。
-    ///
-    /// なお初期化が行われていない状態で呼び出した場合は登録処理は行われません。
-    ///
-    /// - Parameter fcmToken: FCMトークン
-    class func registerFCMToken(_ fcmToken: String?) {
-        ObjcCompatibleScope.registerFCMToken(fcmToken)
-    }
+@implementation KRTTracker (RemoteNotification)
+
++ (void)trackClickWithUserInfo:(NSDictionary *)userInfo {
+    [ObjcCompatibleScope trackClickWithUserInfo:userInfo];
 }
+
+@end

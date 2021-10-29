@@ -290,7 +290,6 @@
 		0C8976FA23801F1E00098CD8 /* PairingHeartbeatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976F923801F1E00098CD8 /* PairingHeartbeatRequest.swift */; };
 		0C8976FC2380206100098CD8 /* PairingHeartbeatRequestBodyParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976FB2380206000098CD8 /* PairingHeartbeatRequestBodyParameters.swift */; };
 		0C8976FE23802FE500098CD8 /* TraceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976FD23802FE500098CD8 /* TraceRequest.swift */; };
-		0C8FF84B2418A963007BF7B1 /* TrackerObjectiveC+RemoteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8FF84A2418A963007BF7B1 /* TrackerObjectiveC+RemoteNotification.swift */; };
 		0CB10A1023B216F20086D603 /* TrackerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB10A0F23B216F20086D603 /* TrackerDelegate.swift */; };
 		0CBE6288239902BF00BDD6CF /* KarteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBE6287239902BF00BDD6CF /* KarteApp.swift */; };
 		0CC648B0238A15BD009EB5DF /* success_variables_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648AF238A15BD009EB5DF /* success_variables_1.json */; };
@@ -320,7 +319,6 @@
 		0CE339EC23F39C9300E2EB98 /* AppKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE339B023F39C9300E2EB98 /* AppKey.swift */; };
 		0CE33A0423F4008500E2EB98 /* UserSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE33A0323F4008500E2EB98 /* UserSync.swift */; };
 		0CE33A1323F533F500E2EB98 /* Tracker+Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE33A1223F533F500E2EB98 /* Tracker+Variables.swift */; };
-		0CE33A1523F5340900E2EB98 /* TrackerObjectiveC+Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE33A1423F5340900E2EB98 /* TrackerObjectiveC+Variables.swift */; };
 		0CE79311238653AD00F0D932 /* StubActionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE792EC238653AD00F0D932 /* StubActionModule.swift */; };
 		0CE79326238653AD00F0D932 /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE79307238653AD00F0D932 /* Support.swift */; };
 		0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE79308238653AD00F0D932 /* SpecConfiguration.swift */; };
@@ -356,6 +354,14 @@
 		36F3BC7C24F8DAFB002D4382 /* FileLogAppender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7B24F8DAFB002D4382 /* FileLogAppender.swift */; };
 		36F3BC7E24F8DE39002D4382 /* LogLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7D24F8DE39002D4382 /* LogLayout.swift */; };
 		36F3BC8024F8E101002D4382 /* LogFileCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7F24F8E101002D4382 /* LogFileCollector.swift */; };
+		500813BF2703E7A300805FA7 /* ObjcCompatibleScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500813BE2703E7A300805FA7 /* ObjcCompatibleScope.swift */; };
+		500813C22703E9CD00805FA7 /* KRTTracker+RemoteNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 500813C02703E9CD00805FA7 /* KRTTracker+RemoteNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		500813C32703E9CD00805FA7 /* KRTTracker+RemoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 500813C12703E9CD00805FA7 /* KRTTracker+RemoteNotification.m */; };
+		500813C52703EC8000805FA7 /* ObjcCompatibleScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500813C42703EC8000805FA7 /* ObjcCompatibleScope.swift */; };
+		500813C82703ED3100805FA7 /* KRTTracker+Variables.h in Headers */ = {isa = PBXBuildFile; fileRef = 500813C62703ED3100805FA7 /* KRTTracker+Variables.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		500813C92703ED3100805FA7 /* KRTTracker+Variables.m in Sources */ = {isa = PBXBuildFile; fileRef = 500813C72703ED3100805FA7 /* KRTTracker+Variables.m */; };
+		5089E1712701F64B00D1C77C /* KRTApp+RemoteNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5089E16F2701F64B00D1C77C /* KRTApp+RemoteNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5089E1722701F64B00D1C77C /* KRTApp+RemoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5089E1702701F64B00D1C77C /* KRTApp+RemoteNotification.m */; };
 		6807B2A9251D7FC800CDAB43 /* ExperimentalConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6807B2A8251D7FC800CDAB43 /* ExperimentalConfiguration.swift */; };
 		6807B2AB251D80C900CDAB43 /* ExperimentalConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6807B2AA251D80C900CDAB43 /* ExperimentalConfigurationTests.swift */; };
 		680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */; };
@@ -762,7 +768,6 @@
 		0C8976F923801F1E00098CD8 /* PairingHeartbeatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingHeartbeatRequest.swift; sourceTree = "<group>"; };
 		0C8976FB2380206000098CD8 /* PairingHeartbeatRequestBodyParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingHeartbeatRequestBodyParameters.swift; sourceTree = "<group>"; };
 		0C8976FD23802FE500098CD8 /* TraceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceRequest.swift; sourceTree = "<group>"; };
-		0C8FF84A2418A963007BF7B1 /* TrackerObjectiveC+RemoteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackerObjectiveC+RemoteNotification.swift"; sourceTree = "<group>"; };
 		0CA52D582387BE4C00A575BC /* OptOutConfigSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptOutConfigSpec.swift; sourceTree = "<group>"; };
 		0CA52D5C2387BE9E00A575BC /* ConfigurationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
 		0CA52D612387BEAE00A575BC /* DictionaryExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionTests.swift; sourceTree = "<group>"; };
@@ -808,7 +813,6 @@
 		0CE33A0323F4008500E2EB98 /* UserSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSync.swift; sourceTree = "<group>"; };
 		0CE33A0523F40C2200E2EB98 /* UserSyncParameterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSyncParameterSpec.swift; sourceTree = "<group>"; };
 		0CE33A1223F533F500E2EB98 /* Tracker+Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tracker+Variables.swift"; sourceTree = "<group>"; };
-		0CE33A1423F5340900E2EB98 /* TrackerObjectiveC+Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackerObjectiveC+Variables.swift"; sourceTree = "<group>"; };
 		0CE792E323862C9C00F0D932 /* KarteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KarteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE792E723862C9C00F0D932 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CE792EC238653AD00F0D932 /* StubActionModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubActionModule.swift; sourceTree = "<group>"; };
@@ -870,6 +874,14 @@
 		36F3BC7B24F8DAFB002D4382 /* FileLogAppender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppender.swift; sourceTree = "<group>"; };
 		36F3BC7D24F8DE39002D4382 /* LogLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLayout.swift; sourceTree = "<group>"; };
 		36F3BC7F24F8E101002D4382 /* LogFileCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFileCollector.swift; sourceTree = "<group>"; };
+		500813BE2703E7A300805FA7 /* ObjcCompatibleScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjcCompatibleScope.swift; sourceTree = "<group>"; };
+		500813C02703E9CD00805FA7 /* KRTTracker+RemoteNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KRTTracker+RemoteNotification.h"; sourceTree = "<group>"; };
+		500813C12703E9CD00805FA7 /* KRTTracker+RemoteNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KRTTracker+RemoteNotification.m"; sourceTree = "<group>"; };
+		500813C42703EC8000805FA7 /* ObjcCompatibleScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjcCompatibleScope.swift; sourceTree = "<group>"; };
+		500813C62703ED3100805FA7 /* KRTTracker+Variables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KRTTracker+Variables.h"; sourceTree = "<group>"; };
+		500813C72703ED3100805FA7 /* KRTTracker+Variables.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KRTTracker+Variables.m"; sourceTree = "<group>"; };
+		5089E16F2701F64B00D1C77C /* KRTApp+RemoteNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KRTApp+RemoteNotification.h"; sourceTree = "<group>"; };
+		5089E1702701F64B00D1C77C /* KRTApp+RemoteNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KRTApp+RemoteNotification.m"; sourceTree = "<group>"; };
 		6807B2A8251D7FC800CDAB43 /* ExperimentalConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperimentalConfiguration.swift; sourceTree = "<group>"; };
 		6807B2AA251D80C900CDAB43 /* ExperimentalConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalConfigurationTests.swift; sourceTree = "<group>"; };
 		680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBodyParametersSpec.swift; sourceTree = "<group>"; };
@@ -1567,10 +1579,12 @@
 				0C897631237AFBC600098CD8 /* Variable.swift */,
 				0C897632237AFBC600098CD8 /* VariableMessage.swift */,
 				0CE33A1223F533F500E2EB98 /* Tracker+Variables.swift */,
-				0CE33A1423F5340900E2EB98 /* TrackerObjectiveC+Variables.swift */,
 				0C89744C237904F700098CD8 /* KarteVariables.h */,
 				0C49FE6723C824AA004B6F2C /* KarteVariables.m */,
 				0C89744D237904F700098CD8 /* Info.plist */,
+				500813C42703EC8000805FA7 /* ObjcCompatibleScope.swift */,
+				500813C62703ED3100805FA7 /* KRTTracker+Variables.h */,
+				500813C72703ED3100805FA7 /* KRTTracker+Variables.m */,
 			);
 			path = KarteVariables;
 			sourceTree = "<group>";
@@ -1712,9 +1726,13 @@
 				0C897694237BBA9300098CD8 /* RemoteNotificationProxy.swift */,
 				0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */,
 				0C1257502418942800034DFF /* Tracker+RemoteNotification.swift */,
-				0C8FF84A2418A963007BF7B1 /* TrackerObjectiveC+RemoteNotification.swift */,
 				0C89768C237BBA5300098CD8 /* KarteRemoteNotification.h */,
 				0C49FE6523C82444004B6F2C /* KarteRemoteNotification.m */,
+				500813BE2703E7A300805FA7 /* ObjcCompatibleScope.swift */,
+				5089E16F2701F64B00D1C77C /* KRTApp+RemoteNotification.h */,
+				5089E1702701F64B00D1C77C /* KRTApp+RemoteNotification.m */,
+				500813C02703E9CD00805FA7 /* KRTTracker+RemoteNotification.h */,
+				500813C12703E9CD00805FA7 /* KRTTracker+RemoteNotification.m */,
 				0C89768D237BBA5300098CD8 /* Info.plist */,
 			);
 			path = KarteRemoteNotification;
@@ -2225,6 +2243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C89744E237904F700098CD8 /* KarteVariables.h in Headers */,
+				500813C82703ED3100805FA7 /* KRTTracker+Variables.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2240,7 +2259,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				500813C22703E9CD00805FA7 /* KRTTracker+RemoteNotification.h in Headers */,
 				0C89768E237BBA5300098CD8 /* KarteRemoteNotification.h in Headers */,
+				5089E1712701F64B00D1C77C /* KRTApp+RemoteNotification.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2859,11 +2880,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C897638237AFBC600098CD8 /* VariablesLoader.m in Sources */,
+				500813C92703ED3100805FA7 /* KRTTracker+Variables.m in Sources */,
 				0C897637237AFBC600098CD8 /* VariableMessage.swift in Sources */,
+				500813C52703EC8000805FA7 /* ObjcCompatibleScope.swift in Sources */,
 				0CE33A1323F533F500E2EB98 /* Tracker+Variables.swift in Sources */,
 				0C897636237AFBC600098CD8 /* Variable.swift in Sources */,
 				0C897639237AFBC600098CD8 /* Variables.swift in Sources */,
-				0CE33A1523F5340900E2EB98 /* TrackerObjectiveC+Variables.swift in Sources */,
 				0C49FE6823C824AA004B6F2C /* KarteVariables.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2918,10 +2940,12 @@
 				0C897698237BBA9300098CD8 /* RemoteNotification.swift in Sources */,
 				680DB3C1247FC98400AE6800 /* RegisterPushCommand.swift in Sources */,
 				368ED94F25DBD6270069C5F7 /* RemoteNotificationConfiguration.swift in Sources */,
+				5089E1722701F64B00D1C77C /* KRTApp+RemoteNotification.m in Sources */,
 				0C897699237BBA9300098CD8 /* RemoteNotificationProxy.swift in Sources */,
+				500813C32703E9CD00805FA7 /* KRTTracker+RemoteNotification.m in Sources */,
 				0C897697237BBA9300098CD8 /* RemoteNotificationKey.swift in Sources */,
 				0CCFA7B924A5871200E0F184 /* NotificationSettingsProvider.swift in Sources */,
-				0C8FF84B2418A963007BF7B1 /* TrackerObjectiveC+RemoteNotification.swift in Sources */,
+				500813BF2703E7A300805FA7 /* ObjcCompatibleScope.swift in Sources */,
 				0C89769D237BBB0D00098CD8 /* RemoteNotificationLoader.m in Sources */,
 				0C49FE6623C82444004B6F2C /* KarteRemoteNotification.m in Sources */,
 			);
