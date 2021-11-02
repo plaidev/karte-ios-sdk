@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-#import <KarteCore/KarteCore.h>
+@import KarteCore;
 
 NS_ASSUME_NONNULL_BEGIN
 
