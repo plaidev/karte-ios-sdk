@@ -145,6 +145,10 @@ jobs:
                     -d build_parameters[CIRCLE_JOB]=e2e_test \
                     -d build_parameters[RELEASE_BRANCH]=${CIRCLE_BRANCH} \
                     ${UI_TEST_ENDPOINT}
+              
+              curl -f -u ${CIRCLECI_KEY} \
+                    -d build_parameters[CIRCLE_JOB]=spm_link_test \
+                    ${UI_TEST_ENDPOINT}
             fi
 
   generate_docs:
