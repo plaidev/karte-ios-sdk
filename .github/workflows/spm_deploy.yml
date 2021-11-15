@@ -77,3 +77,11 @@ jobs:
           git add Package.swift
           git commit -m "[skip ci] Update spm manifest file"
           git push
+      - name: Request Swift-PM link test
+        run: |
+          curl -g -u ${CIRCLECI_KEY} \
+            -d build_parameters[CIRCLE_JOB]=spm_link_test \
+            ${UI_TEST_ENDPOINT}
+        env:
+           CIRCLECI_KEY: ${{ secrets.CIRCLECI_KEY }}
+           UI_TEST_ENDPOINT: ${{ secrets.UI_TEST_ENDPOINT }}
