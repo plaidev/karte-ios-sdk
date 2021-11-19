@@ -78,7 +78,9 @@ public extension Event {
         /// `view` イベント
         case view(viewName: String, title: String, values: [String: JSONConvertible])
         /// `identify` イベント
-        case identify(values: [String: JSONConvertible])
+        case identify(userId: String, values: [String: JSONConvertible])
+        /// `attribute` イベント
+        case attribute(values: [String: JSONConvertible])
         /// `native_app_open` イベント
         case open
         /// `native_app_foreground` イベント
@@ -114,8 +116,15 @@ public extension Event {
                 name = .view
                 vals = values.merging(other) { $1 }
 
-            case let .identify(values: values):
+            case let .identify(userId: userId, values: values):
+                let other: [String: JSONConvertible] = [
+                    field(.userId): userId
+                ]
                 name = .identify
+                vals = values.merging(other) { $1 }
+
+            case let .attribute(values: values):
+                name = .attribute
                 vals = values
 
             case .open:

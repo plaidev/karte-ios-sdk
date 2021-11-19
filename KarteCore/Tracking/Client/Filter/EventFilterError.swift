@@ -20,4 +20,5 @@ internal enum EventFilterError: Error {
     case emptyEventName
     case initializationEvent
     case unretryableEvent
+    case invalidEventFieldValue
 }

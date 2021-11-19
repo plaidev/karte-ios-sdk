@@ -161,5 +161,119 @@ class EventFilterSpec: QuickSpec {
                 }
             }
         }
+        
+        describe("a invalid event name filter rule") {
+            var filter: EventFilter!
+            
+            beforeEach {
+                filter = EventFilter.Builder().add(InvalidEventNameFilterRule()).build()
+            }
+            
+            context("when event name contains uppercase") {
+                it("not throw error") {
+                    let event = Event(eventName: EventName("Hoge"))
+                    expect({
+                        try filter.filter(event)
+                    }).toNot(throwError())
+                }
+            }
+            
+            context("when event name contains invalid symbol") {
+                it("not throw error") {
+                    expect({
+                        let event = Event(eventName: EventName("event-name"))
+                        try filter.filter(event)
+                    }).toNot(throwError())
+                }
+            }
+            
+            context("when event name starts with underscore") {
+                it("not throw error") {
+                    expect({
+                        let event = Event(eventName: EventName("_test"))
+                        try filter.filter(event)
+                    }).toNot(throwError())
+                }
+            }
+            
+            context("when event name only use [a-z0-9_]") {
+                it("not throw error") {
+                    expect({
+                        let event = Event(eventName: EventName("test_0123"))
+                        try filter.filter(event)
+                    }).toNot(throwError())
+                }
+            }
+        }
+        
+        describe("a invalid event field name filter rule") {
+            var filter: EventFilter!
+            
+            beforeEach {
+                filter = EventFilter.Builder().add(InvalidEventFieldNameFilterRule()).build()
+            }
+            
+            context("when event field name contains dot") {
+                it("not throw error") {
+                    let event = Event(eventName: .view, values: ["test.1": "invalid field name"])
+                    expect({
+                        try filter.filter(event)
+                    }).toNot(throwError())
+                }
+            }
+            
+            context("when event field name starts with dollar") {
+                it("not throw error") {
+                    let event = Event(eventName: .view, values: ["$test": "invalid field name"])
+                    expect({
+                        try filter.filter(event)
+                    }).toNot(throwError())
+                }
+            }
+            
+            context("when event field name is count") {
+                it("not throw error") {
+                    let event = Event(eventName: .view, values: ["count": 10])
+                    expect({
+                        try filter.filter(event)
+                    }).toNot(throwError())
+                }
+            }
+        }
+        
+        describe("a invalid event field value filter rule") {
+            var filter: EventFilter!
+            
+            beforeEach {
+                filter = EventFilter.Builder().add(InvalidEventFieldValueFilterRule()).build()
+            }
+            
+            context("when the view_name of view event is empty") {
+                it("throw error") {
+                    let event = Event(.view(viewName: "", title: "title", values: [:]))
+                    expect({
+                        try filter.filter(event)
+                    }).to(throwError())
+                }
+            }
+            
+            context("when the user_id of identify event is empty") {
+                it("throw error") {
+                    let event = Event(.identify(userId: "", values: [:]))
+                    expect({
+                        try filter.filter(event)
+                    }).to(throwError())
+                }
+            }
+            
+            context("when the user_id of identify event is nil") {
+                it("not throw error") {
+                    let event = Event(eventName: EventName("identify"), values: [:])
+                    expect({
+                        try filter.filter(event)
+                    }).toNot(throwError())
+                }
+            }
+        }
     }
 }

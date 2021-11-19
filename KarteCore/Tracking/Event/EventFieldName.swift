@@ -21,7 +21,7 @@ public struct EventFieldName {
     /// フィールド名
     public let rawValue: String
 
-    init(_ rawValue: String) {
+    public init(_ rawValue: String) {
         self.rawValue = rawValue
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -19,13 +19,12 @@ import Nimble
 import Mockingjay
 @testable import KarteCore
 
-class IdentifySpec: QuickSpec {
+class AttributeSpec: QuickSpec {
     
     override func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
         
-        let userId = "test_user"
         let num = 100
         let str = "foo"
         let bool = true
@@ -52,27 +51,23 @@ class IdentifySpec: QuickSpec {
         }
         
         describe("a tracker") {
-            describe("its identify") {
+            describe("its attribute") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .identify) { (_, _, e) in
+                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .attribute) { (_, _, e) in
                         event = e
                     }
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                    let event = Event(.identify(userId: userId, values: values))
+                    let event = Event(.attribute(values: values))
                     Tracker.track(event: event)
                     
                     module.wait()
                 }
                 
-                it("event name is `identify`") {
-                    expect(event.eventName).to(equal(.identify))
-                }
-                
-                it("values.user_id is `test_user`") {
-                    expect(event.values.string(forKey: "user_id")).to(equal(userId))
+                it("event name is `attribute`") {
+                    expect(event.eventName).to(equal(.attribute))
                 }
                 
                 it("values.num is 100") {
@@ -112,26 +107,22 @@ class IdentifySpec: QuickSpec {
                 }
             }
             
-            describe("its identify compatible") {
+            describe("its attribute compatible") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .identify) { (_, _, e) in
+                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .attribute) { (_, _, e) in
                         event = e
                     }
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                    Tracker.identify(userId, values)
+                    Tracker.attribute(values)
                     
                     module.wait()
                 }
                 
-                it("event name is `test`") {
-                    expect(event.eventName).to(equal(.identify))
-                }
-                
-                it("values.user_id is `test_user`") {
-                    expect(event.values.string(forKey: "user_id")).to(equal(userId))
+                it("event name is `attribute`") {
+                    expect(event.eventName).to(equal(.attribute))
                 }
                 
                 it("values.num is 100") {
@@ -173,3 +164,4 @@ class IdentifySpec: QuickSpec {
         }
     }
 }
+
