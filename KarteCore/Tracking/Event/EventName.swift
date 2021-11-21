@@ -44,13 +44,13 @@ public struct EventName: Codable {
     var isUserDefinedEvent: Bool {
         switch self {
         case .view, .identify, .attribute,
-            .nativeAppInstall, .nativeAppUpdate, .nativeAppOpen, .nativeAppCrashed,
-            .nativeAppForeground, .nativeAppBackground, .nativeAppRenewVisitorId,
-            .nativeFindMyself, .deepLinkAppOpen,
-            .messageReady, .messageOpen, .messageClick, .messageClose, .messageSuppressed,
-            .massPushClick,
-            .pluginNativeAppIdentify,
-            .fetchVariables:
+             .nativeAppInstall, .nativeAppUpdate, .nativeAppOpen, .nativeAppCrashed,
+             .nativeAppForeground, .nativeAppBackground, .nativeAppRenewVisitorId,
+             .nativeFindMyself, .deepLinkAppOpen,
+             .messageReady, .messageOpen, .messageClick, .messageClose, .messageSuppressed,
+             .massPushClick,
+             .pluginNativeAppIdentify,
+             .fetchVariables:
             return false
         default:
             return true
