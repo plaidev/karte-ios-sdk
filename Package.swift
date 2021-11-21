@@ -10,12 +10,8 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "KarteUtilities",
-            targets: ["KarteUtilities"]
-        ),
-        .library(
             name: "KarteCore",
-            targets: ["KarteCore"]
+            targets: ["KarteCore", "KarteUtilities"]
         ),
         .library(
             name: "KarteInAppMessaging",
