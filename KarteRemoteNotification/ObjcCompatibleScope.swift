@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -15,15 +15,20 @@
 //
 
 import Foundation
-import KarteCore
 
-public extension KarteApp {
-    /// FCM（Firebase Cloud Messaging）トークンを登録します。
-    ///
-    /// なお初期化が行われていない状態で呼び出した場合は登録処理は行われません。
-    ///
-    /// - Parameter fcmToken: FCMトークン
-    class func registerFCMToken(_ fcmToken: String?) {
-        ObjcCompatibleScope.registerFCMToken(fcmToken)
+/// SwiftとObjective-Cの互換性のためのクラスです。
+///
+/// **SDK内部で利用するクラスであり、通常のSDK利用でこちらのクラスを利用することはありません。**
+public class ObjcCompatibleScope: NSObject {
+    @objc
+    public static func registerFCMToken(_ fcmToken: String?) {
+        FCMTokenRegistrar.shared.registerFCMToken(fcmToken)
     }
+
+    @objc
+    public static func trackClick(userInfo: [AnyHashable: Any]) {
+        Measurement.measure(userInfo: userInfo)
+    }
+
+    deinit {}
 }

@@ -79,6 +79,9 @@ private extension TrackingClient {
             .add(NonAsciiEventNameFilterRule())
             .add(UnretryableEventFilterRule())
             .add(InitializationEventFilterRule(), isEnabled: !coreService.configuration.isSendInitializationEventEnabled)
+            .add(InvalidEventNameFilterRule())
+            .add(InvalidEventFieldNameFilterRule())
+            .add(InvalidEventFieldValueFilterRule())
             .build()
         do {
             try filter.filter(event)

@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - 'develop'
+      - 'master'
 
 permissions:
   contents: read
@@ -22,6 +23,8 @@ jobs:
           fi
       - name: Setup danger
         run: gem install danger danger-swiftlint
+      - name: Git fetch
+        run: git fetch -t
       - name: Run danger
         run: danger
         env:

@@ -50,6 +50,115 @@ class EventNameSpec: QuickSpec {
                 }
             }
             
+            describe("its not user defined event") {
+                context("when the event name is view") {
+                    it("is true") {
+                        expect(EventName.view.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is identify") {
+                    it("is true") {
+                        expect(EventName.identify.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is attribute") {
+                    it("is true") {
+                        expect(EventName.attribute
+                                .isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is native_app_install") {
+                    it("is true") {
+                        expect(EventName.nativeAppInstall.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is native_app_update") {
+                    it("is true") {
+                        expect(EventName.nativeAppUpdate.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is native_app_open") {
+                    it("is true") {
+                        expect(EventName.nativeAppOpen.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is native_app_foreground") {
+                    it("is true") {
+                        expect(EventName.nativeAppForeground.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is native_app_background") {
+                    it("is true") {
+                        expect(EventName.nativeAppBackground.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is native_app_crashed") {
+                    it("is true") {
+                        expect(EventName.nativeAppCrashed.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is native_app_renew_visitor_id") {
+                    it("is true") {
+                        expect(EventName.nativeAppRenewVisitorId.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is native_app_find_myself") {
+                    it("is true") {
+                        expect(EventName.nativeFindMyself.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is deep_link_app_open") {
+                    it("is true") {
+                        expect(EventName.deepLinkAppOpen.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is _message_ready") {
+                    it("is true") {
+                        expect(EventName.messageReady.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is message_open") {
+                    it("is true") {
+                        expect(EventName.messageOpen.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is message_close") {
+                    it("is true") {
+                        expect(EventName.messageClose.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is message_click") {
+                    it("is true") {
+                        expect(EventName.messageClick.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is _message_suppressed") {
+                    it("is true") {
+                        expect(EventName.messageSuppressed.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is mass_push_click") {
+                    it("is true") {
+                        expect(EventName.massPushClick.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is plugin_native_app_identify") {
+                    it("is true") {
+                        expect(EventName.pluginNativeAppIdentify.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is _fetch_variables") {
+                    it("is true") {
+                        expect(EventName.fetchVariables.isUserDefinedEvent).to(beFalse())
+                    }
+                }
+                context("when the event name is foo") {
+                    it("is false") {
+                        expect(EventName("foo").isUserDefinedEvent).to(beTrue())
+                    }
+                }
+            }
+            
             describe("its raw value") {
                 context("when the event name is view") {
                     it("is `view`") {
@@ -59,6 +168,11 @@ class EventNameSpec: QuickSpec {
                 context("when the event name is identify") {
                     it("is `identify`") {
                         expect(EventName.identify.rawValue).to(equal("identify"))
+                    }
+                }
+                context("when the event name is attribute") {
+                    it("is `attribute`") {
+                        expect(EventName.attribute.rawValue).to(equal("attribute"))
                     }
                 }
                 context("when the event name is nativeAppInstall") {

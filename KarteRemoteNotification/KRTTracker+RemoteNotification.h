@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -14,16 +14,17 @@
 //  limitations under the License.
 //
 
-import Foundation
-import KarteCore
+@import KarteCore;
 
-public extension KarteApp {
-    /// FCM（Firebase Cloud Messaging）トークンを登録します。
-    ///
-    /// なお初期化が行われていない状態で呼び出した場合は登録処理は行われません。
-    ///
-    /// - Parameter fcmToken: FCMトークン
-    class func registerFCMToken(_ fcmToken: String?) {
-        ObjcCompatibleScope.registerFCMToken(fcmToken)
-    }
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface KRTTracker (RemoteNotification)
+
+/// 通知の効果測定用のイベント（message_click）を発火します。
+///
+/// - Parameter userInfo: 通知ペイロード
++ (void)trackClickWithUserInfo:(NSDictionary *)userInfo;
+
+@end
+
+NS_ASSUME_NONNULL_END

@@ -41,6 +41,22 @@ public struct EventName: Codable {
         }
     }
 
+    var isUserDefinedEvent: Bool {
+        switch self {
+        case .view, .identify, .attribute,
+             .nativeAppInstall, .nativeAppUpdate, .nativeAppOpen, .nativeAppCrashed,
+             .nativeAppForeground, .nativeAppBackground, .nativeAppRenewVisitorId,
+             .nativeFindMyself, .deepLinkAppOpen,
+             .messageReady, .messageOpen, .messageClick, .messageClose, .messageSuppressed,
+             .massPushClick,
+             .pluginNativeAppIdentify,
+             .fetchVariables:
+            return false
+        default:
+            return true
+        }
+    }
+
     /// 構造体を初期化します。
     ///
     /// - Parameter rawValue: イベント名
@@ -70,6 +86,8 @@ public extension EventName {
     static let view                      = EventName("view")
     /// identify イベント
     static let identify                  = EventName("identify")
+    /// attribute イベント
+    static let attribute                  = EventName("attribute")
     /// native_app_install イベント
     static let nativeAppInstall          = EventName("native_app_install")
     /// native_app_update イベント

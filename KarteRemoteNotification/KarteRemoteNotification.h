@@ -25,3 +25,6 @@ FOUNDATION_EXPORT const unsigned char KarteRemoteNotificationVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <KarteRemoteNotification/PublicHeader.h>
 
 FOUNDATION_EXPORT NSString * KRTRemoteNotificationCurrentLibraryVersion(void);
+
+#import <KarteRemoteNotification/KRTApp+RemoteNotification.h>
+#import <KarteRemoteNotification/KRTTracker+RemoteNotification.h>

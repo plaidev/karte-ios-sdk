@@ -19,11 +19,11 @@ import UIKit
 
 public struct Screen: Codable {
     /// スクリーン幅
-    @CodableInjected(name: "screen.width")
+    @CodableInjectedForObjcCompatibility(name: "screen.width")
     public var width: CGFloat
 
     /// スクリーン高
-    @CodableInjected(name: "screen.height")
+    @CodableInjectedForObjcCompatibility(name: "screen.height")
     public var height: CGFloat
 
     init() {

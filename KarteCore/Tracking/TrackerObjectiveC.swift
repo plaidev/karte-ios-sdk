@@ -81,8 +81,34 @@ public class TrackerObjectiveC: NSObject {
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @objc
     @discardableResult
+    @available(*, deprecated, message: "userId is a required parameter")
     public static func identify(_ values: [String: Any]) -> TrackingTask {
         let task = Tracker.identify(JSONConvertibleConverter.convert(values))
+        return task
+    }
+
+    /// Identifyイベントの送信を行います。
+    ///
+    /// - Parameters:
+    ///   - userId: ユーザーを識別する一意なID
+    ///   - values: Identifyイベントに紐付けるカスタムオブジェクト
+    /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
+    @objc
+    @discardableResult
+    public static func identify(_ userId: String, _ values: [String: Any]) -> TrackingTask {
+        let task = Tracker.identify(userId, JSONConvertibleConverter.convert(values))
+        return task
+    }
+
+    /// Attributeイベントの送信を行います。
+    ///
+    /// - Parameters:
+    ///   - values: Attributeイベントに紐付けるカスタムオブジェクト
+    /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
+    @objc
+    @discardableResult
+    public static func attribute(_ values: [String: Any]) -> TrackingTask {
+        let task = Tracker.attribute(JSONConvertibleConverter.convert(values))
         return task
     }
 
@@ -161,8 +187,34 @@ public class TrackerObjectiveC: NSObject {
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @objc
     @discardableResult
+    @available(*, deprecated, message: "userId is a required parameter")
     public func identify(_ values: [String: Any]) -> TrackingTask {
         let task = Tracker(view: view).identify(JSONConvertibleConverter.convert(values))
+        return task
+    }
+
+    /// Identifyイベントの送信を行います。
+    ///
+    /// - Parameters:
+    ///   - userId: ユーザーを識別する一意なID
+    ///   - values: Identifyイベントに紐付けるカスタムオブジェクト
+    /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
+    @objc
+    @discardableResult
+    public func identify(_ userId: String, _ values: [String: Any]) -> TrackingTask {
+        let task = Tracker(view: view).identify(userId, JSONConvertibleConverter.convert(values))
+        return task
+    }
+
+    /// Attributeイベントの送信を行います。
+    ///
+    /// - Parameters:
+    ///   - values: Attributeイベントに紐付けるカスタムオブジェクト
+    /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
+    @objc
+    @discardableResult
+    public func attribute(_ values: [String: Any]) -> TrackingTask {
+        let task = Tracker(view: view).attribute(JSONConvertibleConverter.convert(values))
         return task
     }
 

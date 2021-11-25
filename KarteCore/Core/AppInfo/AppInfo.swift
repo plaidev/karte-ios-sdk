@@ -26,23 +26,23 @@ public struct AppInfo: Codable {
         case systemInfo         = "system_info"
     }
     /// アプリケーションのバージョン番号（CFBundleShortVersionString）を返します。
-    @OptionalCodableInjected(name: "app_info.version_name")
+    @OptionalCodableInjectedForObjcCompatibility(name: "app_info.version_name")
     public var versionName: String?
 
     /// アプリケーションのビルド番号（CFBundleVersion）を返します。
-    @OptionalCodableInjected(name: "app_info.version_code")
+    @OptionalCodableInjectedForObjcCompatibility(name: "app_info.version_code")
     public var versionCode: String?
 
     /// KARTE Core SDKのバージョン番号を返します。
-    @OptionalCodableInjected(name: "app_info.karte_sdk_version")
+    @OptionalCodableInjectedForObjcCompatibility(name: "app_info.karte_sdk_version")
     public var karteSdkVersion: String?
 
     /// KARTE SDKの各モジュールバージョンを返します。
-    @CodableInjected(name: "app_info.module_info")
+    @CodableInjectedForObjcCompatibility(name: "app_info.module_info")
     public var moduleInfo: [String: String]
 
     /// System情報を返します。
-    @CodableInjected(name: "app_info.system_info")
+    @CodableInjectedForObjcCompatibility(name: "app_info.system_info")
     public var systemInfo: SystemInfo
 
     init() {

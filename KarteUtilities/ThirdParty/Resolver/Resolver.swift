@@ -390,7 +390,7 @@ extension Resolver {
 }
 
 /// Resolver scopes exist to control when resolution occurs and how resolved instances are cached. (If at all.)
-public protocol ResolverScope: class {
+public protocol ResolverScope: AnyObject {
     func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
 }
 

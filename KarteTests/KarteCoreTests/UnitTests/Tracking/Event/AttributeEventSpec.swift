@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2021 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,21 +18,21 @@ import Quick
 import Nimble
 @testable import KarteCore
 
-class IdentifyEventSpec: QuickSpec {
-    
+class AttributeEventSpec: QuickSpec {
+
     override func spec() {
-        describe("a identify event") {
+        describe("a attribute event") {
             var event: Event!
             
             beforeEach {
-                event = Event(.identify(userId: "test_user", values: [
+                event = Event(.attribute(values: [
                     "key": "value"
                 ]))
             }
             
             describe("its eventName") {
-                it("is identify") {
-                    expect(event.eventName).to(equal(.identify))
+                it("is attribute") {
+                    expect(event.eventName).to(equal(.attribute))
                 }
             }
             
@@ -41,11 +41,7 @@ class IdentifyEventSpec: QuickSpec {
                     expect(event.values).toNot(beNil())
                 }
                 it("count is 1") {
-                    expect(event.values.count).to(equal(2))
-                }
-                
-                it("values.user_id is `test_user`") {
-                    expect(event.values.string(forKey: "user_id")).to(equal("test_user"))
+                    expect(event.values.count).to(equal(1))
                 }
                 
                 it("values.key is `value`") {

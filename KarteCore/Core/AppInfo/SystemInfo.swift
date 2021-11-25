@@ -30,27 +30,27 @@ public struct SystemInfo: Codable {
         case screen
     }
     /// OS名を返します。
-    @CodableInjected(name: "system_info.os")
+    @CodableInjectedForObjcCompatibility(name: "system_info.os")
     public var os: String
 
     /// OSバージョンを返します。
-    @CodableInjected(name: "system_info.os_version")
+    @CodableInjectedForObjcCompatibility(name: "system_info.os_version")
     public var osVersion: String
 
     /// デバイス名を返します。
-    @CodableInjected(name: "system_info.device")
+    @CodableInjectedForObjcCompatibility(name: "system_info.device")
     public var device: String
 
     /// デバイスモデル名を返します。
-    @CodableInjected(name: "system_info.model")
+    @CodableInjectedForObjcCompatibility(name: "system_info.model")
     public var model: String
 
     /// バンドルIDを返します。
-    @OptionalCodableInjected(name: "system_info.bundle_id")
+    @OptionalCodableInjectedForObjcCompatibility(name: "system_info.bundle_id")
     public var bundleId: String?
 
     /// 端末識別子を返します。
-    @OptionalCodableInjected(name: "system_info.idfv")
+    @OptionalCodableInjectedForObjcCompatibility(name: "system_info.idfv")
     public var idfv: String?
 
     /// 広告識別子を返します。
@@ -65,11 +65,11 @@ public struct SystemInfo: Codable {
     }
 
     /// 言語設定を返します。
-    @OptionalCodableInjected(name: "system_info.language")
+    @OptionalCodableInjectedForObjcCompatibility(name: "system_info.language")
     public var language: String?
 
     /// スクリーンサイズ情報を返します。
-    @CodableInjected(name: "system_info.screen")
+    @CodableInjectedForObjcCompatibility(name: "system_info.screen")
     public var screen: Screen
 
     init() {

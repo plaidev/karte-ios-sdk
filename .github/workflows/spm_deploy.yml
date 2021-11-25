@@ -1,0 +1,87 @@
+name: "Create XCFramework and Deploy Swift-PM"
+on:
+  pull_request:
+   branches:
+    - master
+
+jobs:
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - name: Configure Git
+        run: |
+          git config user.email "git@users.noreply.github.com"
+          git config user.name "github actions"
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@b8c74de753fbcb4868bf2011fb2e15826ce973af # コミットハッシュを指定
+        with:
+          aws-region: ap-northeast-1
+          role-to-assume: arn:aws:iam::161473449094:role/ProductionNativeSdkRole
+          role-session-name: MySessionName
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Setup Gems
+        run: bundle install
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_12.4.app'
+      - name: Find Release Targets
+        id: find-release-targets
+        run: |
+          PODSPECS=(`git diff origin/master --name-only | grep podspec`)
+          for PODSPEC in ${PODSPECS[@]}; do
+              POD_NAME="${PODSPEC%.*} "
+              RELEASE_TARGETS+="${POD_NAME} "
+              echo "#########################"
+              echo "# ${POD_NAME}"
+              echo "#########################"
+              echo " "
+          done
+          echo "::set-output name=targets::${RELEASE_TARGETS}"
+      - name: Create XCFrameworks
+        run: |
+          ./scripts/create_xcframeworks.sh ${{ steps.find-release-targets.outputs.targets }}
+      - name: Upload xcframeworks to aws s3
+        run: |
+          aws sts get-caller-identity
+          aws s3 ls s3://production-native-sdk/
+          for TARGET in ${{ steps.find-release-targets.outputs.targets }}; do
+            TAG=`ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t ${TARGET}`
+            aws s3 cp ./xcframeworks/${TARGET}.xcframework.zip s3://production-native-sdk/ios/swiftpm/${TAG}/ --acl public-read
+          done
+      - name: Backup Swift-PM manifest file
+        run: cp Package.swift Package.swift.back
+      - name: Checkout Head Branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{github.event.pull_request.head.ref}}
+          clean: 'false'
+      - name: Update Swift-PM manifest file
+        run: |
+          rm Package.swift
+          mv Package.swift.back Package.swift
+          git add Package.swift
+          git commit -m "[skip ci] Update spm manifest file"
+          git push
+      - name: Request Swift-PM link test
+        run: |
+          curl -g -u ${CIRCLECI_KEY} \
+            -d build_parameters[CIRCLE_JOB]=spm_link_test \
+            ${UI_TEST_ENDPOINT}
+        env:
+           CIRCLECI_KEY: ${{ secrets.CIRCLECI_KEY }}
+           UI_TEST_ENDPOINT: ${{ secrets.UI_TEST_ENDPOINT }}
