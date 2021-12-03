@@ -34,10 +34,19 @@ def vup_check(vup_type)
     }
 end
 
+def changelog_check
+    if git.modified_files.include?("CHANGELOG.md")
+        return
+    end
+    warn "Please update CHANGELOG.md"
+end
+
 if github.branch_for_base == "develop" && github.branch_for_head.start_with?("feature/")
     vup_check("minor")
+    changelog_check
 elsif github.branch_for_base == "master" && github.branch_for_head.start_with?("hotfix/")
     vup_check("patch")
+    changelog_check
 end
 
 # Sometimes it's a README fix, or something like that - which isn't relevant for

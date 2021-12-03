@@ -86,6 +86,9 @@ function publish() {
 
   # Register cocoapods.
   publish_pods ${SORTED_PODSPECS[@]}
+
+  # Publish release node
+  ruby scripts/publish_changelog.rb
 }
 
 function publish_pods() {
