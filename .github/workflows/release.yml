@@ -36,7 +36,7 @@ jobs:
         git checkout -b release/${{ steps.date.outputs.date }}
     - name: Update CHANGELOG.md
       run: |
-        sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')/g" ./CHANGELOG.md
+        sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
         git add ./CHANGELOG.md
         git commit -m "Update CHANGELOG.md"
     - name: Push release branch
