@@ -14,20 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if !(type brew); then
-  echo 'homebrew command is not installed.'
-  exit 1
-fi
-
 if !(type bundle); then
   echo 'bundler command is not installed.'
   exit 1
 fi
 
-if !(type swiftlint); then
-  echo 'swiftlint command is not installed.'
-  brew install swiftlint
-
-fi
-
-bundle install
+bundle install --path ./vendor/bundle
+swift run --package-path SwiftPackages mint bootstrap
+git submodule update --init --recursive
