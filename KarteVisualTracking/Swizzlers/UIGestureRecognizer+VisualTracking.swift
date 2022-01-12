@@ -45,11 +45,14 @@ extension UIGestureRecognizer {
             let viewController = UIResponder.krt_vt_retrieveViewController(for: view)
             if let match = RE.shared.firstMatch(in: description) {
                 let range = match.range(at: 1)
+                let appropriateView = UIKitAction.AppropriateViewDetector(view: view)?.detect()
+                let actionId = UIKitAction.actionId(view: appropriateView)
                 let action = UIKitAction(
                     (description as NSString).substring(with: range),
-                    view: view,
+                    view: appropriateView,
                     viewController: viewController,
-                    targetText: Inspector.inspectText(with: view)
+                    targetText: Inspector.inspectText(with: appropriateView),
+                    actionId: actionId
                 )
                 VisualTrackingManager.shared.dispatch(action: action)
             }

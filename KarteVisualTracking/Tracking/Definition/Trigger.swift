@@ -16,12 +16,48 @@
 
 import Foundation
 import KarteCore
+import UIKit
 
 internal struct Trigger: Codable {
     var condition: LogicalOperator
     var fields: [String: String]
+    var dynamicFields: [DynamicField]?
+
+    func dynamicValues(window: UIWindow?) -> [String: JSONConvertible]? {
+        guard let dynamicFields = self.dynamicFields,
+              let window = window,
+              !dynamicFields.isEmpty else {
+            return nil
+        }
+        var result: [String: JSONConvertible] = [:]
+        for dynamicField in dynamicFields {
+            guard let dynamicFieldActionId = dynamicField.actionId,
+                  let dynamicFieldName = dynamicField.name
+            else {
+                return nil
+            }
+
+            let viewPath = UIKitAction.viewPathIndices(actionId: dynamicFieldActionId)
+            let view = Inspector.inspectView(with: viewPath, inWindow: window)
+            let actionId = UIKitAction.actionId(view: view)
+            if dynamicFieldActionId == actionId,
+               let targetText = Inspector.inspectText(with: view) {
+                result[dynamicFieldName] = targetText
+            }
+        }
+
+        return result
+    }
 
     func match(data: [String: JSONValue]) -> Bool {
         condition.match(data: data)
+    }
+}
+
+extension Trigger {
+    enum CodingKeys: String, CodingKey {
+        case condition
+        case fields
+        case dynamicFields = "dynamic_fields"
     }
 }

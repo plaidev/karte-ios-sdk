@@ -43,11 +43,11 @@ public enum ActionFactory {
     ) -> ActionProtocol? {
         UIKitAction(
             actionName,
-            view: view,
+            view: UIKitAction.AppropriateViewDetector(view: view)?.detect(),
             viewController: viewController,
             targetText: targetText,
             actionId: actionId,
-            imageProvider: imageProvider ?? UIKitAction.defaultImageProvider(view: view, viewController: viewController)
+            imageProvider: imageProvider
         )
     }
 }
@@ -80,8 +80,8 @@ extension UIKitActionProtocol {
 }
 
 internal struct UIKitAction: UIKitActionProtocol {
-    static let ignoreActions = ["handlePan:", "handlePanGesture:", "handlePinchGesture:", "handleTouchMonitor:", "handleTiltGesture:"]
-
+    static let ignoreActions = ["handlePan:", "handlePanGesture:", "handlePinchGesture:",
+                                "handleTouchMonitor:", "handleTiltGesture:", "observerGestureHandler:"]
     var action: String
     var view: UIView?
     var viewController: UIViewController?
@@ -103,26 +103,13 @@ internal struct UIKitAction: UIKitActionProtocol {
         return String(describing: type(of: viewController))
     }
 
-    init?(_ action: String, view: UIView?, viewController: UIViewController?, targetText: String?, imageProvider: ImageProvider? = nil) {
+    init?(_ action: String, view: UIView?, viewController: UIViewController?, targetText: String? = nil, actionId: String? = nil, imageProvider: ImageProvider? = nil) {
         guard UIKitAction.validate(actoionName: action, view: view, viewController: viewController, targetText: targetText) else {
             return nil
         }
 
         self.action = action
-        self.view = AppropriateViewDetector(view: view)?.detect()
-        self.viewController = viewController
-        self.targetText = targetText
-        self.actionId = UIKitAction.actionId(view: self.view)
-        self.imageProvider = imageProvider ?? Self.defaultImageProvider(view: view, viewController: viewController)
-    }
-
-    init?(_ action: String, view: UIView?, viewController: UIViewController?, targetText: String?, actionId: String?, imageProvider: ImageProvider? = nil) {
-        guard UIKitAction.validate(actoionName: action, view: view, viewController: viewController, targetText: targetText) else {
-            return nil
-        }
-
-        self.action = action
-        self.view = AppropriateViewDetector(view: view)?.detect()
+        self.view = view
         self.viewController = viewController
         self.targetText = targetText
         self.actionId = actionId
@@ -149,7 +136,8 @@ internal struct UIKitAction: UIKitActionProtocol {
 }
 
 extension UIKitAction {
-    private static func actionId(view: UIView?) -> String? {
+    /// Viewの階層情報を連結してactionIdとして返す。（例: UIButton0UIView0UIView）
+    static func actionId(view: UIView?) -> String? {
         guard view != nil else {
             return nil
         }
@@ -170,6 +158,15 @@ extension UIKitAction {
         }
         return actionId
     }
+
+    /// actionIdからView階層のパスを示すindex配列を返す。（例: UIView1UIView0UIViewからは、[0,1]が返される）
+    static func viewPathIndices(actionId: String?) -> [Int] {
+        guard let actionId = actionId else {
+            return []
+        }
+        let indices = actionId.components(separatedBy: CharacterSet.decimalDigits.inverted).compactMap { Int($0) }
+        return indices.reversed()
+    }
 }
 
 extension UIKitAction {
@@ -183,6 +180,8 @@ extension UIKitAction {
             self.view = view
         }
 
+        /// View階層を探索してビジュアルトラッキングの発火条件として扱いやすい親Viewがあれば返す。（UITableViewCellなど）
+        /// 発火条件として扱いやすい親Viewがなければ、保持しているviewを返す。
         func detect() -> UIView? {
             if isAppropriateView {
                 return view

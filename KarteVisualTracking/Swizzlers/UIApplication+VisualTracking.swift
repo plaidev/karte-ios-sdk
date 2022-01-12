@@ -35,11 +35,13 @@ extension UIApplication {
     private func krt_vt_sendAction(_ action: Selector, to target: Any?, from sender: Any?, for event: UIEvent?) -> Bool {
         if let view = target as? UIView, event != nil {
             let viewController = UIResponder.krt_vt_retrieveViewController(for: view)
+            let appropriateView = UIKitAction.AppropriateViewDetector(view: view)?.detect()
             let action = UIKitAction(
                 NSStringFromSelector(action),
                 view: view,
                 viewController: viewController,
-                targetText: Inspector.inspectText(with: sender)
+                targetText: Inspector.inspectText(with: sender),
+                actionId: UIKitAction.actionId(view: appropriateView)
             )
             VisualTrackingManager.shared.dispatch(action: action)
         }
@@ -52,14 +54,18 @@ extension UIApplication {
         for touch in touches where touch.phase == .ended {
             let view = touch.view
             let viewController = UIResponder.krt_vt_retrieveViewController(for: view)
+            let appropriateView = UIKitAction.AppropriateViewDetector(view: view)?.detect()
+            let actionId = UIKitAction.actionId(view: appropriateView)
             let action = UIKitAction(
                 "touch",
-                view: view,
+                view: appropriateView,
                 viewController: viewController,
-                targetText: Inspector.inspectText(with: view)
+                targetText: Inspector.inspectText(with: view),
+                actionId: actionId
             )
             VisualTrackingManager.shared.dispatch(action: action)
         }
+
         krt_vt_sendEvent(event)
     }
 }

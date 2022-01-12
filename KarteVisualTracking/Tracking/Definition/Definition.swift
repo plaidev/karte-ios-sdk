@@ -43,7 +43,11 @@ internal struct Definition: Codable {
         triggers.filter { trigger -> Bool in
             trigger.match(data: data)
         }.map { trigger -> Event in
-            let values: [String: JSONConvertible] = trigger.fields
+            var values: [String: JSONConvertible] = trigger.fields
+            let window = WindowDetector.retrieveRelatedWindows().first
+            if let dynamicValues = trigger.dynamicValues(window: window) {
+                values.merge(dynamicValues) { (values, _) in values }
+            }
             let other: [String: JSONConvertible] = [
                 "_system": [
                     "auto_track": 1

@@ -39,6 +39,23 @@ internal enum Inspector {
         return nil
     }
 
+    /// View階層のパス情報でwindowのsubViewを探索して見つかったViewを返す
+    static func inspectView(with viewPathIndices: [Int], inWindow window: UIWindow?) -> UIView? {
+        guard var target: UIView = window, viewPathIndices.count > 0 else {
+            return nil
+        }
+
+        for index in viewPathIndices {
+            guard target.subviews.indices.contains(index) else {
+                return nil
+            }
+            let next = target.subviews[index]
+            target = next
+        }
+
+        return target
+    }
+
     static func takeSnapshot(with view: UIView?) -> UIImage? {
         guard let view = view else {
             return nil

@@ -6,9 +6,16 @@
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.10.1 |
 | KarteRemoteNotification |  プッシュ通知の受信および効果測定機能を提供します。 | 2.6.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.3.0 |
-| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.6.0 |
+| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.7.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.4.0 |
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.6.0 |
+
+# Releases - 2022.1.12
+
+### VisualTracking 2.7.0
+** 🎉 FEATURE**
+- 動的なフィールドの付与に対応しました。
+  - 動的フィールドについては[こちら](https://support.karte.io/post/7JbUVotDwZMvl6h3HL9Zt7#6-0)を参考ください。
 
 # Releases - 2021.11.25
 ### Core 2.19.0

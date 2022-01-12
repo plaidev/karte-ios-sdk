@@ -380,7 +380,10 @@
 		683762F9252F201D00E690CE /* SelectorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683762F8252F201D00E690CE /* SelectorDetector.swift */; };
 		6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */; };
 		684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684F02052417640900AF4AC0 /* SafeTimer.swift */; };
+		6857834427478B4D00A1AE58 /* DefinitionsRequestForDynamicFieldSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6857834327478B4D00A1AE58 /* DefinitionsRequestForDynamicFieldSpec.swift */; };
+		6857834627478B7000A1AE58 /* success_vt_definitions_with_dynamic_fields.json in Resources */ = {isa = PBXBuildFile; fileRef = 6857834527478B7000A1AE58 /* success_vt_definitions_with_dynamic_fields.json */; };
 		68751C272583692D00C6306A /* CrashReporter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68751C0E258368FF00C6306A /* CrashReporter.xcframework */; };
+		688AB96D274DF02C001C01B5 /* DynamicField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688AB96C274DF02C001C01B5 /* DynamicField.swift */; };
 		6898FEC725D3CCA500D0839A /* EventFilterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6898FEC625D3CCA500D0839A /* EventFilterError.swift */; };
 		68B40CBA25D2F2870081B1AE /* UnretryableEventFilterRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B40CB925D2F2870081B1AE /* UnretryableEventFilterRule.swift */; };
 		68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */; };
@@ -905,8 +908,11 @@
 		683762F8252F201D00E690CE /* SelectorDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorDetector.swift; sourceTree = "<group>"; };
 		6837631A252FDAE200E690CE /* SelectorDetectorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorDetectorMock.swift; sourceTree = "<group>"; };
 		684F02052417640900AF4AC0 /* SafeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTimer.swift; sourceTree = "<group>"; };
+		6857834327478B4D00A1AE58 /* DefinitionsRequestForDynamicFieldSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinitionsRequestForDynamicFieldSpec.swift; sourceTree = "<group>"; };
+		6857834527478B7000A1AE58 /* success_vt_definitions_with_dynamic_fields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_vt_definitions_with_dynamic_fields.json; sourceTree = "<group>"; };
 		68597A44239A324F00607D73 /* InspectorSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorSpec.swift; sourceTree = "<group>"; };
 		68751C0E258368FF00C6306A /* CrashReporter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CrashReporter.xcframework; path = KarteCrashReporting/PLCrashReporter/CrashReporter.xcframework; sourceTree = "<group>"; };
+		688AB96C274DF02C001C01B5 /* DynamicField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicField.swift; sourceTree = "<group>"; };
 		6898FEC625D3CCA500D0839A /* EventFilterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilterError.swift; sourceTree = "<group>"; };
 		68B40CB925D2F2870081B1AE /* UnretryableEventFilterRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnretryableEventFilterRule.swift; sourceTree = "<group>"; };
 		68BBBCD424BB5156009A1CE0 /* IAMProcessSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessSpec.swift; sourceTree = "<group>"; };
@@ -1817,6 +1823,7 @@
 				0C8976EB237FECFF00098CD8 /* LogicalOperator.swift */,
 				0C8976EF237FFD5200098CD8 /* ComparisonOperator.swift */,
 				369C2FDF256B9E6D00ED5948 /* DefinitionsRequest.swift */,
+				688AB96C274DF02C001C01B5 /* DynamicField.swift */,
 			);
 			path = Definition;
 			sourceTree = "<group>";
@@ -1862,6 +1869,7 @@
 				0CC648C4238D5559009EB5DF /* success_vt_1.json */,
 				0CC648C5238D5559009EB5DF /* success_vt_2.json */,
 				363F260D2582AE60007E6E4B /* success_vt_definitions.json */,
+				6857834527478B7000A1AE58 /* success_vt_definitions_with_dynamic_fields.json */,
 			);
 			path = Stub;
 			sourceTree = "<group>";
@@ -1883,6 +1891,7 @@
 		0CC648BF238CF97C009EB5DF /* IntegrationTests */ = {
 			isa = PBXGroup;
 			children = (
+				6857834327478B4D00A1AE58 /* DefinitionsRequestForDynamicFieldSpec.swift */,
 				0CA6D437238E14D800583E5C /* DefinitionLoadSpec.swift */,
 				0CA6D435238E13D300583E5C /* DefinitionMatchSpec.swift */,
 				0CA6D441238EC5AD00583E5C /* TracerTests.swift */,
@@ -2582,6 +2591,7 @@
 				0CC648C7238D5559009EB5DF /* success_vt_2.json in Resources */,
 				0CF44AFB242E451000CA7F3A /* success_variables_3.json in Resources */,
 				363F26172582B028007E6E4B /* success_vt_definitions.json in Resources */,
+				6857834627478B7000A1AE58 /* success_vt_definitions_with_dynamic_fields.json in Resources */,
 				36EFDED5271BF26700C60666 /* failure_invalid_request.json in Resources */,
 				36EFDEDF271BF26B00C60666 /* failure_server_error.json in Resources */,
 				0CC648BB238CD4AA009EB5DF /* success_empty.json in Resources */,
@@ -2938,6 +2948,7 @@
 				0C8976C5237EDD4D00098CD8 /* Account.swift in Sources */,
 				0C8976F823801DC200098CD8 /* PairingClient.swift in Sources */,
 				0C8976CB237EE78D00098CD8 /* UIViewController+VisualTracking.swift in Sources */,
+				688AB96D274DF02C001C01B5 /* DynamicField.swift in Sources */,
 				369C2FE0256B9E6D00ED5948 /* DefinitionsRequest.swift in Sources */,
 				0C8976CE237EE78D00098CD8 /* UINavigationController+VisualTracking.swift in Sources */,
 				0C8976EC237FECFF00098CD8 /* LogicalOperator.swift in Sources */,
@@ -3052,6 +3063,7 @@
 				0C83931D240838320014C2BF /* TracerTests.swift in Sources */,
 				0C8392F42407CCE60014C2BF /* ConfigurationTests.swift in Sources */,
 				0C839310240831630014C2BF /* SetupSpec.swift in Sources */,
+				6857834427478B4D00A1AE58 /* DefinitionsRequestForDynamicFieldSpec.swift in Sources */,
 				36EFDEC0271ABDE200C60666 /* TodaySupplierMock.swift in Sources */,
 				0C839305240822A40014C2BF /* EventSpec.swift in Sources */,
 				0CFD001524ECCA5800598C8C /* CommandBundlerProxySpec.swift in Sources */,
@@ -3622,7 +3634,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3653,7 +3665,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
