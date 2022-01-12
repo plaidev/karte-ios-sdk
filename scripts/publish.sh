@@ -70,7 +70,10 @@ function publish() {
   # Synchronize repository.
   sync_repository
 
-  # Set tag.
+  # Set tag for Swift-PM
+  publish_spm ${SORTED_PODSPECS[@]}
+
+  # Set tag for Pods
   for PODSPEC in ${SORTED_PODSPECS[@]}; do
     local TARGET=`echo $PODSPEC | sed -e "s/.podspec//"`
     TAG_VERSION=`ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t $TARGET`
@@ -86,6 +89,9 @@ function publish() {
 
   # Register cocoapods.
   publish_pods ${SORTED_PODSPECS[@]}
+
+  # Publish release node
+  ruby scripts/publish_changelog.rb
 }
 
 function publish_pods() {
@@ -99,6 +105,18 @@ function publish_pods() {
     SLACK_MESSAGE=`get_slack_message $? $POD_NAME ${POD_VERSION##*-}`
     curl -i -H "Content-type: application/json" -s -S -X POST -d "${SLACK_MESSAGE}" "${SLACK_WEBHOOK_URL}"
   done
+}
+
+function publish_spm() {
+  TAG_VERSION=`cat .spm-version`
+
+  has_tag $TAG_VERSION
+  if [ $? -eq 1 ]; then
+    echo "This tag is already exist: $TAG_VERSION"
+    exit 1
+  else
+    set_tag $TAG_VERSION
+  fi
 }
 
 function get_slack_message() {

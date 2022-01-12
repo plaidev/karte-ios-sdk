@@ -1,0 +1,64 @@
+name: "Get Ready for Release"
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.repository != 'plaidev/karte-ios-sdk'
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
+    steps:
+    - name: Checkout develop
+      uses: actions/checkout@v2
+      with:
+        ref: develop
+    - name: Configure Git
+      run: |
+        git config user.email "git@users.noreply.github.com"
+        git config user.name "github actions"
+        git fetch
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y.%m.%dT%H.%M.%S')"
+    - name: Find Release Targets
+      id: find-release-targets
+      run: |
+        PODSPECS=`git diff remotes/origin/master --name-only | grep podspec`
+        for PODSPEC in ${PODSPECS[@]}; do
+            RELEASE_TARGETS+="${PODSPEC%.*}, "
+        done
+        echo "::set-output name=targets::${RELEASE_TARGETS}"
+    - name: Create release branch
+      run: |
+        git checkout -b release/${{ steps.date.outputs.date }}
+    - name: Update CHANGELOG.md
+      run: |
+        sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
+        git add ./CHANGELOG.md
+        git commit -m "Update CHANGELOG.md"
+    - name: Push release branch
+      run: git push origin -u release/${{ steps.date.outputs.date }}
+    - name: Pull Request Action
+      uses: vsoch/pull-request-action@1.0.18
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        PULL_REQUEST_BRANCH: master
+        PULL_REQUEST_FROM_BRANCH: release/${{ steps.date.outputs.date }}
+        PULL_REQUEST_TITLE: Deploy to production by ${{ github.actor }}
+        PULL_REQUEST_BODY: |
+          ### 以下問題なければマージしてください
+          - [ ] Podspecのバージョンが正しく更新されていること
+          - [ ] 配信されたサンプルアプリでの動作確認
+          - [ ] CHANGELOG.md のリリース日付が正しく設定されていること
+
+          ### Update
+          ${{ steps.find-release-targets.outputs.targets }}
+    - name: Request beta release
+      run : |
+        curl -u ${{ secrets.CIRCLECI_KEY }} \
+          -d build_parameters[CIRCLE_JOB]=release \
+          -d build_parameters[RELEASE_BRANCH]=release/${{ steps.date.outputs.date }} \
+          ${{ secrets.UI_TEST_ENDPOINT }}

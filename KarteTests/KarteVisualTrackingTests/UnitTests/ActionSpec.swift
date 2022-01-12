@@ -37,7 +37,8 @@ class ActionSpec: QuickSpec {
                                 "dummy_action",
                                 view: button,
                                 viewController: viewController,
-                                targetText: "dummy_target_text"
+                                targetText: "dummy_target_text",
+                                actionId: UIKitAction.actionId(view: button)
                             )
                         }
                         
@@ -84,7 +85,8 @@ class ActionSpec: QuickSpec {
                                 "dummy_action",
                                 view: button0,
                                 viewController: viewController,
-                                targetText: "dummy_target_text"
+                                targetText: "dummy_target_text",
+                                actionId: UIKitAction.actionId(view: button0)
                             )
                             expect(action!.actionId!).to(equal("UIButton0UIView0UIView"))
                         }
@@ -93,7 +95,8 @@ class ActionSpec: QuickSpec {
                                 "dummy_action",
                                 view: button1,
                                 viewController: viewController,
-                                targetText: "dummy_target_text"
+                                targetText: "dummy_target_text",
+                                actionId: UIKitAction.actionId(view: button1)
                             )
                             expect(action!.actionId!).to(equal("UIButton1UIView0UIView"))
                         }
@@ -155,6 +158,45 @@ class ActionSpec: QuickSpec {
                             )
                             expect(action).to(beNil())
                         }
+                    }
+                }
+            }
+            describe("its viewPathIndices") {
+                context("when passing nil") {
+                    it("returns empty array") {
+                        let actual = UIKitAction.viewPathIndices(actionId: nil)
+                        expect(actual).to(equal([]))
+                    }
+                }
+                context("when passing empty string") {
+                    it("returns empty array") {
+                        let actual = UIKitAction.viewPathIndices(actionId: "")
+                        expect(actual).to(equal([]))
+                    }
+                }
+                context("when passing UIView") {
+                    it("returns empty array") {
+                        let actual = UIKitAction.viewPathIndices(actionId: "UIView")
+                        expect(actual).to(equal([]))
+                    }
+                }
+                context("when passing UIView0") {
+                    it("returns array with 0") {
+                        let actual = UIKitAction.viewPathIndices(actionId: "UIView0")
+                        expect(actual).to(equal([0]))
+                    }
+                }
+                context("when passing complexView") {
+                    it("returns array with 0,0,0,0,0,0,0,11") {
+                        let actual = UIKitAction.viewPathIndices(actionId:  "UIView11UITableView0UIView0UIViewControllerWrapperView0UINavigationTransitionView0UILayoutContainerView0UIDropShadowView0UITransitionView0SimpleUIWindow")
+                        expect(actual).toNot(beNil())
+                        expect(actual).to(equal([0,0,0,0,0,0,0,11]))
+                    }
+                }
+                context("when passing UIView999UIView2000UIView3000") {
+                    it("returns array with 3000,2000,999") {
+                        let actual = UIKitAction.viewPathIndices(actionId: "UIView999UIView2000UIView3000")
+                        expect(actual).to(equal([3000,2000,999]))
                     }
                 }
             }

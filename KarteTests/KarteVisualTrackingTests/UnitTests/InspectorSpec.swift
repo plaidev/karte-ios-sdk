@@ -22,6 +22,55 @@ class InspectorSpec: QuickSpec {
     
     override func spec() {
         describe("a inspector") {
+            describe("its inspectView") {
+                var window: UIWindow!
+                var view1: UIView!
+                var view2: UIView!
+                var view3: UIView!
+                var view4: UIView!
+
+                beforeEach {
+                    window = UIWindow()
+                    view1 = UIView()
+                    view2 = UIView()
+                    view3 = UIView()
+                    view4 = UIView()
+                    view1.addSubview(view2)
+                    view2.addSubview(view3)
+                    view2.addSubview(view4)
+                    window.addSubview(view1)
+                }
+
+                context("when passing inWindow nil") {
+                    it("returns nil") {
+                        let actual = Inspector.inspectView(with: [0], inWindow: nil)
+                        expect(actual).to(beNil())
+                    }
+                }
+                context("when passing empty array") {
+                    it("returns nil") {
+                        let actual = Inspector.inspectView(with: [], inWindow: UIWindow())
+                        expect(actual).to(beNil())
+                    }
+                }
+                context("when passing out-of-bounds indices") {
+                    it("returns nil") {
+                        let viewPathIndices = UIKitAction.viewPathIndices(actionId: "Olympic0View11UIView0")
+                        let actual = Inspector.inspectView(with: viewPathIndices, inWindow: window)
+                        expect(actual).to(beNil())
+                    }
+                }
+                context("when passing UIView1UIView0UIView0UIWindow") {
+                    it("returns not nil") {
+                        let actionId = UIKitAction.actionId(view: view4)
+                        let viewPathIndices = UIKitAction.viewPathIndices(actionId: actionId)
+                        let actual = Inspector.inspectView(with: viewPathIndices, inWindow: window)
+                        expect(actual).toNot(beNil())
+                        expect(actionId).to(equal("UIView1UIView0UIView0UIWindow"))
+                    }
+                }
+            }
+            
             describe("its inspectText") {
                 context("when passing nil") {
                     it("returns nil") {

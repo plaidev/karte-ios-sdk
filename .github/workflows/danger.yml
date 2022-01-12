@@ -22,7 +22,7 @@ jobs:
             brew install swiftlint
           fi
       - name: Setup danger
-        run: gem install danger danger-swiftlint
+        run: gem install danger danger-swiftlint fastlane
       - name: Git fetch
         run: git fetch -t
       - name: Run danger

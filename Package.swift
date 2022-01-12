@@ -55,7 +55,7 @@ let package = Package(
             name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.3.0/KarteVariables.xcframework.zip", checksum: "3b01304607aa2679d1caef4a2bab8acd4559179f8f7f3eec1f775953dc8da055"
         ),
         .binaryTarget(
-            name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.6.0/KarteVisualTracking.xcframework.zip", checksum: "7ddc6e789f24a32dee331283dae704357cf428fef35bf95880906c825ffda60f"
+            name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.7.0/KarteVisualTracking.xcframework.zip", checksum: "8f6bc12580a7976ab26a90e39ef0435c5b610beccecd22c36414f8c9a8015176"
         ),
         .binaryTarget(
             name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.6.0/KarteRemoteNotification.xcframework.zip", checksum: "ecc561475a95fa056058ef589695f657ce5735a4aafba7c1fe73ba33f0c870b6"

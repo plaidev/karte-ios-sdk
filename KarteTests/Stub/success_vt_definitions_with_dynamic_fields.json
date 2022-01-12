@@ -1,0 +1,248 @@
+{
+    "success": 1,
+    "status": 200,
+    "response": {
+      "status": "modified",
+      "last_modified": 1555039737865,
+      "definitions": [
+        {
+          "event_name": "view",
+          "triggers": [
+            {
+              "fields": {
+                "foo": "bar"
+              },
+              "dynamic_fields": [
+                  {
+                      "type": "target_text",
+                      "name": "foo",
+                      "action_id": "UILabel2UIView0UIWindow"
+                  },
+                  {
+                      "type": "unknown_type",
+                      "name": "bar",
+                      "action_id": "UILabel2UIView0UIWindow"
+                  },
+                  {
+                      "name": "baz",
+                      "action_id": "UILabel2UIView0UIWindow"
+                  },
+                  {
+                      "name": "has_unknown_key",
+                      "action_id": "UILabel2UIView0UIWindow",
+                      "unknown_key": "foo"
+                  }
+              ],
+              "condition": {
+                "$and": [
+                  {
+                    "unknown_key": {
+                      "$eq": "購入"
+                    }
+                  },
+                  {
+                    "view_controller": {
+                      "unknown_key": "購入"
+                    }
+                  },
+                  {
+                    "target_text": {
+                      "$eq": "購入"
+                    }
+                  },
+                  {
+                    "view": {
+                      "$eq": "UIButton"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "fields": {},
+              "dynamic_fields": [
+                  {
+                      "name": "foo"
+                  },
+                  {
+                      "type": "foo"
+                  },
+                  {
+                      "type": "foo",
+                      "action_id": "UIButton"
+                  }
+              ],
+              "condition": {
+                "$and": [
+                  {
+                    "target_text": {
+                      "$ne": "-"
+                    }
+                  },
+                  {
+                    "view": {
+                      "$eq": "UITableView"
+                    }
+                  },
+                  {
+                    "view_controller": {
+                      "$eq": "Tracker.BasicViewController"
+                    }
+                  },
+                  {
+                    "action": {
+                      "$eq": "viewDidAppear"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "fields": {},
+              "dynamic_fields": [],
+              "condition": {
+                "$and": [
+                  {
+                    "target_text": {
+                      "$ne": "-"
+                    }
+                  },
+                  {
+                    "view": {
+                      "$eq": "UITableView"
+                    }
+                  },
+                  {
+                    "view_controller": {
+                      "$eq": "Tracker.BasicViewController"
+                    }
+                  },
+                  {
+                    "action": {
+                      "$eq": "viewDidAppear"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "fields": {},
+              "dynamic_fields": [{}],
+              "condition": {
+                "$and": [
+                  {
+                    "target_text": {
+                      "$ne": "-"
+                    }
+                  },
+                  {
+                    "view": {
+                      "$eq": "UITableView"
+                    }
+                  },
+                  {
+                    "view_controller": {
+                      "$eq": "Tracker.BasicViewController"
+                    }
+                  },
+                  {
+                    "action": {
+                      "$eq": "viewDidAppear"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "event_name": "vt_test1",
+          "triggers": [
+            {
+              "fields": {},
+              "condition": {
+                "$and": [
+                  {
+                    "target_text": {
+                      "$eq": "購入"
+                    }
+                  },
+                  {
+                    "view": {
+                      "$eq": "UIButton"
+                    }
+                  },
+                  {
+                    "view_controller": {
+                      "$eq": "ItemDetailViewController"
+                    }
+                  },
+                  {
+                    "action": {
+                      "$eq": "_buttonDown"
+                    }
+                  },
+                  {
+                    "app_info.version_name": {
+                      "$ne": "1.0.0"
+                    }
+                  },
+                  {
+                    "app_info.version_code": {
+                      "$ne": "0"
+                    }
+                  },
+                  {
+                    "app_info.karte_sdk_version": {
+                      "$ne": "1.0.0"
+                    }
+                  },
+                  {
+                    "app_info.system_info.os": {
+                      "$startsWith": "iO"
+                    }
+                  },
+                  {
+                    "app_info.system_info.os_version": {
+                      "$ne": "1"
+                    }
+                  },
+                  {
+                    "app_info.system_info.device": {
+                      "$startsWith": "i"
+                    }
+                  },
+                  {
+                    "app_info.system_info.model": {
+                      "$endsWith": "64"
+                    }
+                  },
+                  {
+                    "app_info.system_info.bundle_id": {
+                      "$contains": "karte"
+                    }
+                  },
+                  {
+                    "app_info.system_info.idfv": {
+                      "$contains": "1"
+                    }
+                  },
+                  {
+                    "app_info.system_info.idfa": {
+                      "$contains": "1"
+                    }
+                  },
+                  {
+                    "app_info.system_info.language": {
+                      "$contains": "en"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+  

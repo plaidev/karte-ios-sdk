@@ -51,8 +51,7 @@ extension UINavigationController {
         let action = UIKitAction(
             "setViewControllers",
             view: nil,
-            viewController: viewControllers.last,
-            targetText: nil
+            viewController: viewControllers.last
         )
         VisualTrackingManager.shared.dispatch(action: action)
 
@@ -64,8 +63,7 @@ extension UINavigationController {
         let action = UIKitAction(
             "pushViewController",
             view: nil,
-            viewController: visibleViewController,
-            targetText: nil
+            viewController: visibleViewController
         )
         VisualTrackingManager.shared.dispatch(action: action)
 
@@ -77,8 +75,7 @@ extension UINavigationController {
         let action = UIKitAction(
             "popViewController",
             view: nil,
-            viewController: visibleViewController,
-            targetText: nil
+            viewController: visibleViewController
         )
         VisualTrackingManager.shared.dispatch(action: action)
 
@@ -91,8 +88,7 @@ extension UINavigationController {
         let action = UIKitAction(
             "popToViewController",
             view: nil,
-            viewController: viewController,
-            targetText: nil
+            viewController: viewController
         )
         VisualTrackingManager.shared.dispatch(action: action)
 
@@ -105,8 +101,7 @@ extension UINavigationController {
         let action = UIKitAction(
             "popToRootViewController",
             view: nil,
-            viewController: viewControllers.first,
-            targetText: nil
+            viewController: viewControllers.first
         )
         VisualTrackingManager.shared.dispatch(action: action)
 
