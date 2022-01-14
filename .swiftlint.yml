@@ -123,6 +123,7 @@ included:
   - KarteVariables
   - KarteVisualTracking
   - KarteCrashReporting
+  - KarteNotificationServiceExtension
 
 excluded:
   - KarteUtilities/ThirdParty

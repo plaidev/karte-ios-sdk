@@ -33,6 +33,10 @@ let package = Package(
             name: "KarteCrashReporting",
             type: .static,
             targets: ["KarteCrashReportingTarget", "KarteCore", "KarteUtilities"]
+        ),
+        .library(
+            name: "KarteNotificationServiceExtension",
+            targets: ["KarteNotificationServiceExtension"]
         )
     ],
     dependencies: [
@@ -67,6 +71,9 @@ let package = Package(
             name: "KarteCrashReportingTarget", 
             dependencies: ["PLCrashReporter", "KarteCrashReporting"],
             path: "KarteCrashReporting/SwiftPM"
-        )
+        ),
+        .binaryTarget(
+            name: "KarteNotificationServiceExtension", url: "https://sdk.karte.io/ios/swiftpm/NotificationServiceExtension-1.0.3/KarteNotificationServiceExtension.xcframework.zip", checksum: "xxx"
+        ),
     ]
 )

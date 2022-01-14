@@ -16,5 +16,7 @@
   - KarteDetectors/**
 'Module:Utilities':
   - KarteUtilities/**
+'Module:NotificationServiceExtension':
+  - KarteNotificationServiceExtension/**
 'Test':
   - KarteTests/**

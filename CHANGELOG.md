@@ -9,6 +9,7 @@
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.7.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.4.0 |
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.6.0 |
+| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
 
 # Releases - 2022.1.12
 
