@@ -25,8 +25,9 @@
   - attributeイベントとidentifyイベントの使い分けについては[こちら](https://support.karte.io/post/1X39NRwR0HXzCtigtRrbLJ#2-0)を参考ください。
 
 ** 🔨 CHANGED**
-- identifyイベントにuser_idパラメータの付与を必須にしました。
-- identifyイベントのuser_idとviewイベントのview_nameに空文字が指定された場合に、イベントが送信されないようにしました。
+- identifyイベントの第一引数「user_id」パラメータの付与を必須にしました。
+- identifyイベントの第一引数「user_id」パラメータに空文字が指定された場合に、イベントが送信されないようにしました。
+- viewイベントの第一引数「view_name」パラメータに空文字が指定された場合に、イベントが送信されないようにしました。
 - イベント名とフィールド名に非推奨な名前が使われていた場合に、warningログを出力するようにしました。
   - イベント名とフィールド名に関する制限については[こちら](https://developers.karte.io/docs/guide-event#%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%81%AE%E5%88%B6%E9%99%90)を参考ください。
 
