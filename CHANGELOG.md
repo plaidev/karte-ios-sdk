@@ -11,7 +11,15 @@
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.6.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
 
-# Releases - 2022.1.12
+# Releases - xxxx.xx.xx
+
+### KarteNotificationServiceExtension 1.0.0
+** 🎉 FEATURE**
+- リッチプッシュ通知機能のモジュールをOSSとして公開しました。
+  - 既存のKarteTrackerAppExtensionsモジュールも引き続きご利用できますが、今後はバグ修正等はこちらのモジュールでのみ行われます。
+
+# Releases - 2022.01.12
+## Version 2.1.0
 
 ### VisualTracking 2.7.0
 ** 🎉 FEATURE**
@@ -19,6 +27,7 @@
   - 動的フィールドについては[こちら](https://support.karte.io/post/7JbUVotDwZMvl6h3HL9Zt7#6-0)を参考ください。
 
 # Releases - 2021.11.25
+## Version 2.0.0
 ### Core 2.19.0
 ** 🎉 FEATURE**
 - attributeイベントを送信するためのAPIを追加しました。
