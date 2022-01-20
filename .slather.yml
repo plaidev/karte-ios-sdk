@@ -11,3 +11,4 @@ binary_basename:
   - KarteVariables
   - KarteCrashReporting
   - KarteUtilities
+  - KarteNotificationServiceExtension

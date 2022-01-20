@@ -12,6 +12,7 @@ MODULES=(
   "KarteVariables"
   "KarteVisualTracking"
   "KarteUtilities"
+  "KarteNotificationServiceExtension"
 )
 
 ##################################################

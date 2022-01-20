@@ -19,3 +19,4 @@ exclude:
   - KarteCore/Core/AppInfo/*
   - KarteCore/Tracking/Client/*
   - KarteInAppMessaging/Preview/*
+  - KarteNotificationServiceExtension/*

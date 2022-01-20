@@ -2,7 +2,7 @@ require 'fastlane'
 Fastlane.load_actions
 
 $diff_files = (git.added_files + git.modified_files + git.deleted_files)
-$modules = ["Utilities", "Core", "InAppMessaging", "RemoteNotification", "Variables", "VisualTracking", "CrashReporting"]
+$modules = ["Utilities", "Core", "InAppMessaging", "RemoteNotification", "Variables", "VisualTracking", "CrashReporting", "NotificationServiceExtension"]
 $formatted_tags = git.tags.map { |tag| tag.strip }
 
 $is_develop_pr = github.branch_for_base == "develop" && github.branch_for_head.start_with?("feature/")
