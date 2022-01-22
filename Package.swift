@@ -73,7 +73,7 @@ let package = Package(
             path: "KarteCrashReporting/SwiftPM"
         ),
         .binaryTarget(
-            name: "KarteNotificationServiceExtension", url: "https://sdk.karte.io/ios/swiftpm/NotificationServiceExtension-1.0.3/KarteNotificationServiceExtension.xcframework.zip", checksum: "xxx"
+            name: "KarteNotificationServiceExtension", url: "https://sdk.karte.io/ios/swiftpm/NotificationServiceExtension-1.0.0/KarteNotificationServiceExtension.xcframework.zip", checksum: "91310af814444d2a70f5cb390d64f8f73fe1b7e943e759326cd58a8152b988c9"
         ),
     ]
 )
