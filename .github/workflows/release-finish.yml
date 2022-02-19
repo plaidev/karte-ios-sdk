@@ -7,6 +7,8 @@ on:
 jobs:
   check_that_current_pr_is_complete:
     if: github.repository != 'plaidev/karte-ios-sdk'
+    permissions:
+      pull-requests: read
     runs-on: ubuntu-latest
     outputs:
       completed: ${{ steps.check_completion.outputs.completed }}
