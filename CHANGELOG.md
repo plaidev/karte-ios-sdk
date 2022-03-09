@@ -181,7 +181,7 @@
 ### Utilities 3.3.0
 ** 🎉FEATURE**
 - CocoaPodsで特定のバージョンのsqlite3をバンドルした際にもビルド可能なsubspecを追加しました。
-  `pod 'sqlite3'`など特定のバージョンのsqlite3をバンドルするときは、 `pod 'KarteUtililies/sqlite-standalone'` とKarteUtilitiesのsubspecを明示的にdependenciesに追記してください。
+  `pod 'sqlite3'`など特定のバージョンのsqlite3をバンドルするときは、 `pod 'KarteUtilities/sqlite-standalone'` とKarteUtilitiesのsubspecを明示的にdependenciesに追記してください。
 
 # Releases - 2020.11.16
 ### Utilities 3.2.0
