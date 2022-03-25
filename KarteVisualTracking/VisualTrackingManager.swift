@@ -40,10 +40,13 @@ internal class VisualTrackingManager {
         register(receiver: tracer)
         register(receiver: tracker)
 
-        UIApplication.krt_vt_swizzleApplicationMethods()
-        UIGestureRecognizer.krt_vt_swizzleGestureRecognizerMethods()
-        UINavigationController.krt_vt_swizzleNavigationControllerMethods()
-        UIViewController.krt_vt_swizzleViewControllerMethods()
+        let config: VisualTrackingConfiguration = app.libraryConfiguration() ?? VisualTrackingConfiguration()
+        if config.automaticallyCollectLogs {
+            UIApplication.krt_vt_swizzleApplicationMethods()
+            UIGestureRecognizer.krt_vt_swizzleGestureRecognizerMethods()
+            UINavigationController.krt_vt_swizzleNavigationControllerMethods()
+            UIViewController.krt_vt_swizzleViewControllerMethods()
+        }
 
         var token: NSObjectProtocol?
         token = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { _ in

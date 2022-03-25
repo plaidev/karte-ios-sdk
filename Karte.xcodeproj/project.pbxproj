@@ -368,6 +368,7 @@
 		5089E1712701F64B00D1C77C /* KRTApp+RemoteNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5089E16F2701F64B00D1C77C /* KRTApp+RemoteNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5089E1722701F64B00D1C77C /* KRTApp+RemoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5089E1702701F64B00D1C77C /* KRTApp+RemoteNotification.m */; };
 		50E1E45427219090008CD346 /* DIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1E45327219090008CD346 /* DIHelper.swift */; };
+		50E9585C27EBCCB8000CCE8E /* VisualTrackingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E9585B27EBCCB7000CCE8E /* VisualTrackingConfiguration.swift */; };
 		6807B2A9251D7FC800CDAB43 /* ExperimentalConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6807B2A8251D7FC800CDAB43 /* ExperimentalConfiguration.swift */; };
 		6807B2AB251D80C900CDAB43 /* ExperimentalConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6807B2AA251D80C900CDAB43 /* ExperimentalConfigurationTests.swift */; };
 		680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */; };
@@ -903,6 +904,7 @@
 		5089E16F2701F64B00D1C77C /* KRTApp+RemoteNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KRTApp+RemoteNotification.h"; sourceTree = "<group>"; };
 		5089E1702701F64B00D1C77C /* KRTApp+RemoteNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KRTApp+RemoteNotification.m"; sourceTree = "<group>"; };
 		50E1E45327219090008CD346 /* DIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIHelper.swift; sourceTree = "<group>"; };
+		50E9585B27EBCCB7000CCE8E /* VisualTrackingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualTrackingConfiguration.swift; sourceTree = "<group>"; };
 		6807B2A8251D7FC800CDAB43 /* ExperimentalConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperimentalConfiguration.swift; sourceTree = "<group>"; };
 		6807B2AA251D80C900CDAB43 /* ExperimentalConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalConfigurationTests.swift; sourceTree = "<group>"; };
 		680C29B42446B99200FB1363 /* TrackBodyParametersSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackBodyParametersSpec.swift; sourceTree = "<group>"; };
@@ -1648,6 +1650,7 @@
 				68274FFA25E7E0F1005FFE1B /* VisualTrackingDelegate.swift */,
 				0C8976C1237EB01000098CD8 /* VisualTrackingLoader.m */,
 				0C8976D5237F996D00098CD8 /* VisualTrackingManager.swift */,
+				50E9585B27EBCCB7000CCE8E /* VisualTrackingConfiguration.swift */,
 				0C8974592379050600098CD8 /* KarteVisualTracking.h */,
 				0C49FE6923C8251E004B6F2C /* KarteVisualTracking.m */,
 				0C89745A2379050600098CD8 /* Info.plist */,
@@ -3029,6 +3032,7 @@
 				0C8976CB237EE78D00098CD8 /* UIViewController+VisualTracking.swift in Sources */,
 				688AB96D274DF02C001C01B5 /* DynamicField.swift in Sources */,
 				369C2FE0256B9E6D00ED5948 /* DefinitionsRequest.swift in Sources */,
+				50E9585C27EBCCB8000CCE8E /* VisualTrackingConfiguration.swift in Sources */,
 				0C8976CE237EE78D00098CD8 /* UINavigationController+VisualTracking.swift in Sources */,
 				0C8976EC237FECFF00098CD8 /* LogicalOperator.swift in Sources */,
 				0C2B3C6323823275008A2708 /* Condition.swift in Sources */,
@@ -3722,7 +3726,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.7.0;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3753,7 +3757,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.7.0;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
