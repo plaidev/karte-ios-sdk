@@ -1,0 +1,77 @@
+name: "Git-flow merge"
+on:
+  pull_request:
+    types: [edited]
+    branches: [master]
+
+jobs:
+  check_that_current_pr_is_complete:
+    if: github.repository != 'plaidev/karte-ios-sdk'
+    permissions:
+      pull-requests: read
+    runs-on: ubuntu-latest
+    outputs:
+      completed: ${{ steps.check_completion.outputs.completed }}
+    steps:
+    - name: Cancel Previous Runs
+      uses: styfle/cancel-workflow-action@0.9.1
+      with:
+        access_token: ${{ secrets.GH_ACCESS_TOKEN }}
+        all_but_latest: true
+    - name: Getting PRs
+      id: get_pulls
+      uses: octokit/request-action@v2.1.0
+      with:
+        route: GET /repos/${{ github.repository }}/pulls
+        state: open
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Find Current PR
+      id: find_current_pf
+      run: |
+        result=$(echo '${{ steps.get_pulls.outputs.data }}' | jq '.[] | select(.head.ref == "${{ github.head_ref }}" and .base.ref == "${{ github.base_ref }}") | { number, body }')
+        result=$(echo $result | sed -z 's/\n/%0A/g' | sed -z 's/\r/%0D/g')
+        echo "::set-output name=result::$result"
+    - name: Check Completion
+      id: check_completion
+      run: |
+        body=$(echo '${{ steps.find_current_pf.outputs.result }}' | jq '.body')
+        incomplete_task=$(echo $body | sed -n "/\- \[ \]/ p")
+        if [ -z $incomplete_task ]; then
+            echo "::set-output name=completed::true"
+        else
+            echo "::set-output name=completed::false"
+        fi
+
+  perform_merge:
+    permissions:
+      contents: write
+    needs: [check_that_current_pr_is_complete]
+    runs-on: ubuntu-latest
+    if: needs.check_that_current_pr_is_complete.outputs.completed == 'true'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Configure Git
+      run: |
+        git config user.email "git@users.noreply.github.com"
+        git config user.name "${{ github.actor }}"
+        git fetch
+    - name: Merge to develop
+      run: |
+        git checkout develop
+        git merge origin/${{ github.head_ref }} --no-ff -m "Merge ${{ github.head_ref }} into develop"
+    - name: Push to develop
+      uses: CasperWA/push-protected@v2
+      with:
+        token: ${{ secrets.GH_ACCESS_TOKEN }}
+        branch: develop
+    - name: Merge to master
+      run: |
+        git checkout master
+        git merge origin/${{ github.head_ref }} --no-ff -m "Merge ${{ github.head_ref }} into master"
+    - name: Push to master
+      uses: CasperWA/push-protected@v2
+      with:
+        token: ${{ secrets.GH_ACCESS_TOKEN }}
+        branch: master

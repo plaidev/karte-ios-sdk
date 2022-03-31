@@ -147,6 +147,19 @@ jobs:
                     ${UI_TEST_ENDPOINT}
             fi
 
+  spm_test:
+    executor:
+      name: build
+    steps:
+      - run:
+          name: Request Swift-PM link Test
+          command: |
+            if [ $EXEC_ENV = 'private' ]; then
+              curl -f -u ${CIRCLECI_KEY} \
+                    -d build_parameters[CIRCLE_JOB]=spm_link_test \
+                    ${UI_TEST_ENDPOINT}
+            fi
+
   generate_docs:
     executor:
       name: build
@@ -216,6 +229,13 @@ workflows:
       - publish:
           requires:
             - test
+          filters:
+            branches:
+              only:
+                - master
+      - spm_test:
+          requires:
+            - build
           filters:
             branches:
               only:

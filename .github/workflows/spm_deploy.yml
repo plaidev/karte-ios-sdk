@@ -11,6 +11,10 @@ jobs:
       contents: write
       id-token: write
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Checkout master
         uses: actions/checkout@v2
         with:
@@ -75,13 +79,5 @@ jobs:
           rm Package.swift
           mv Package.swift.back Package.swift
           git add Package.swift
-          git commit -m "[skip ci] Update spm manifest file"
+          git commit -m "Update spm manifest file"
           git push
-      - name: Request Swift-PM link test
-        run: |
-          curl -g -u ${CIRCLECI_KEY} \
-            -d build_parameters[CIRCLE_JOB]=spm_link_test \
-            ${UI_TEST_ENDPOINT}
-        env:
-           CIRCLECI_KEY: ${{ secrets.CIRCLECI_KEY }}
-           UI_TEST_ENDPOINT: ${{ secrets.UI_TEST_ENDPOINT }}

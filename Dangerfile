@@ -13,8 +13,8 @@ $is_hotfix_pr = (github.branch_for_base == "master" || github.branch_for_base ==
 #
 github.dismiss_out_of_range_messages
 swiftlint.config_file = '.swiftlint.yml'
+swiftlint.binary_path = '/usr/local/bin/swiftlint'
 swiftlint.lint_files inline_mode: true
-swiftlint.binary_path = '/usr/local/Cellar/swiftlint/0.39.1/bin/swiftlint'
 
 # 
 # Check Version
@@ -53,6 +53,11 @@ if ($is_develop_pr || $is_hotfix_pr)
         end
     
         last_release_version = get_lastest_release_module_version(module_name)
+        if last_release_version.nil?
+            warn "#{module_name} release history not found.\nIgnore this warning if you add a new module."
+            next
+        end
+        
         next_version = bump_version(last_release_version)
         current_version = Fastlane::Actions::VersionGetPodspecAction.run(path: "Karte#{module_name}.podspec")
         if Gem::Version.new(next_version) > Gem::Version.new(current_version)
