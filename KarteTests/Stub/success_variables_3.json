@@ -18,6 +18,9 @@
           "native_app_display_limit_mode": false,
           "service_action_type": "remote_config",
           "display_frequency": "any"
+        },
+        "trigger": {
+          "event_hashes": "a001"
         }
       }
     ],

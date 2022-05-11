@@ -11,6 +11,10 @@
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.6.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
 
+### Core 2.20.0
+** 🎉 FEATURE**
+- イベントトラッキングのレスポンス構造体にtriggerフィールドを追加しました。
+
 # Releases - 2022.03.31
 ## Version 2.3.0
 
