@@ -19,8 +19,8 @@ import KarteUtilities
 @testable import KarteCore
 
 class SpecConfiguration: QuickConfiguration {
-    
-    override class func configure(_ configuration: Quick.Configuration!) {
+
+    override class func configure(_ configuration: QCKConfiguration!) {
         configuration.beforeSuite {
             KarteApp.setLogEnabled(false)
             KarteApp.shared.teardown()
