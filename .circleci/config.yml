@@ -61,13 +61,6 @@ commands:
           key: v1-pod-{{ checksum "Podfile.lock" }}
           paths: Pods
 
-  launch_simulator:
-    steps:
-      - run:
-          name: Launch simulator
-          command: |
-            UDID=$(xcrun simctl list -j | jq ".devices.\"com.apple.CoreSimulator.SimRuntime.iOS-${SIM_OS}\"[] | select(.name == \"${SIM_DEVICE}\") | .udid" | sed s/\"//g)
-            xcrun simctl boot $UDID
 jobs:
   build:
     executor:
@@ -95,7 +88,6 @@ jobs:
       name: build
     steps:
       - git_clone
-      - launch_simulator
       - attach_workspace:
           at: /tmp/workspace
       - run:
