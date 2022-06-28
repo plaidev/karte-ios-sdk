@@ -3283,7 +3283,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.6.0;
+				MARKETING_VERSION = 3.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteUtilities;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3314,7 +3314,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.6.0;
+				MARKETING_VERSION = 3.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteUtilities;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3348,7 +3348,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3383,7 +3383,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCrashReporting;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3603,7 +3603,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.10.1;
+				MARKETING_VERSION = 2.11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3635,7 +3635,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.10.1;
+				MARKETING_VERSION = 2.11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3665,7 +3665,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVariables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3696,7 +3696,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.0;
+				MARKETING_VERSION = 2.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVariables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3726,7 +3726,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 2.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3757,7 +3757,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 2.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3787,7 +3787,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3818,7 +3818,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
