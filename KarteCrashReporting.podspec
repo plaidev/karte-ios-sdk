@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.static_framework        = true
 
   s.platform                = :ios
-  s.ios.deployment_target   = '9.0'
+  s.ios.deployment_target   = '10.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "CrashReporting-#{s.version}" }
   s.source_files            = 'KarteCrashReporting/**/*.{swift,h,m}'

@@ -89,6 +89,8 @@ public extension TrackResponse.Response {
         public var action: [String: JSONValue]
         /// キャンペーン情報
         public var campaign: [String: JSONValue]
+        /// トリガー情報
+        public var trigger: [String: JSONValue]
     }
 }
 

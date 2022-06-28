@@ -100,6 +100,9 @@
           "_id": "5b750a095db3aa091ed1f590",
           "service_action_type": "remote_config",
           "display_frequency": "any"
+        },
+        "trigger": {
+          "event_hashes": "a001"
         }
       },
       {
@@ -197,6 +200,9 @@
           "service_action_type": "remote_config",
           "_id": "5cee3cf51a73b2088d8e62fc",
           "display_frequency": "any"
+        },
+        "trigger": {
+          "event_hashes": "a001"
         }
       }
     ],

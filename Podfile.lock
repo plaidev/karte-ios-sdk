@@ -6,8 +6,8 @@ PODS:
     - URITemplate (~> 3.0)
   - Mockingjay/XCTest (3.0.0-alpha.1):
     - Mockingjay/Core
-  - Nimble (9.2.0)
-  - Quick (4.0.0)
+  - Nimble (9.2.1)
+  - Quick (5.0.1)
   - URITemplate (3.0.1)
 
 DEPENDENCIES:
@@ -33,8 +33,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Mockingjay: 97656c6f59879923976a0a52ef09da45756cca82
-  Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
-  Quick: 6473349e43b9271a8d43839d9ba1c442ed1b7ac4
+  Nimble: e7e615c0335ee4bf5b0d786685451e62746117d5
+  Quick: 749aa754fd1e7d984f2000fe051e18a3a9809179
   URITemplate: 5f5a79f3e384884102c4e6b3325d159c20a8035a
 
 PODFILE CHECKSUM: e6a525f3a112251366005c5cd58304729b99fc8f

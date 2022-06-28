@@ -4,6 +4,14 @@
 #
 version: 2.1
 
+parameters:
+  os:
+    type: string
+    default: "14.5"
+  device:
+    type: string
+    default: "iPhone 11"
+
 orbs:
   slack: circleci/slack@3.4.2
   codecov: codecov/codecov@1.2.3 
@@ -61,13 +69,6 @@ commands:
           key: v1-pod-{{ checksum "Podfile.lock" }}
           paths: Pods
 
-  launch_simulator:
-    steps:
-      - run:
-          name: Launch simulator
-          command: |
-            UDID=$(xcrun simctl list -j | jq ".devices.\"com.apple.CoreSimulator.SimRuntime.iOS-${SIM_OS}\"[] | select(.name == \"${SIM_DEVICE}\") | .udid" | sed s/\"//g)
-            xcrun simctl boot $UDID
 jobs:
   build:
     executor:
@@ -77,11 +78,10 @@ jobs:
       - run:
           name: Build frameworks
           command: |
-            DEVICE=`echo ${BUILD_TARGET_DEVICE} | sed 's/_/ /g'`
-            OS=`echo ${BUILD_TARGET_OS} | sed 's/_/\./g'`
+            DESTINATION=`echo 'platform=iOS Simulator,name=<< pipeline.parameters.device >>,OS=<< pipeline.parameters.os >>'`
             xcodebuild -workspace Karte.xcworkspace \
                        -scheme Build \
-                       -destination "platform=iOS Simulator,name=${DEVICE},OS=${OS}" \
+                       -destination "${DESTINATION}" \
                        -derivedDataPath DerivedData
       - persist_to_workspace:
           root: DerivedData
@@ -95,7 +95,6 @@ jobs:
       name: build
     steps:
       - git_clone
-      - launch_simulator
       - attach_workspace:
           at: /tmp/workspace
       - run:
@@ -111,21 +110,20 @@ jobs:
       - run:
           name: Run tests
           command: |
-            DEVICE=`echo ${BUILD_TARGET_DEVICE} | sed 's/_/ /g'`
-            OS=`echo ${BUILD_TARGET_OS} | sed 's/_/\./g'`
+            DESTINATION=`echo 'platform=iOS Simulator,name=<< pipeline.parameters.device >>,OS=<< pipeline.parameters.os >>'`
             xcodebuild test -workspace Karte.xcworkspace \
                             -scheme KarteTests \
-                            -destination "platform=iOS Simulator,name=${DEVICE},OS=${OS}" \
+                            -destination "${DESTINATION}" \
                             -derivedDataPath DerivedData \
-                            -resultBundlePath "output/KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
+                            -resultBundlePath "output/KarteTests_<< pipeline.parameters.os >>.xcresult"
             bundle exec slather
       - codecov/upload:
-          xtra_args: -f ./cobertura.xml -X coveragepy -X gcov -X xcode -build_directory "output/KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
+          xtra_args: -f ./cobertura.xml -X coveragepy -X gcov -X xcode -build_directory "output/KarteTests_<< pipeline.parameters.os >>.xcresult"
           validate_url: true
           
       - run:
           name: Archive test result
-          command: zip -r "KarteTests-results.zip" "KarteTests_${BUILD_TARGET_DEVICE}_${BUILD_TARGET_OS}.xcresult"
+          command: zip -r "KarteTests-results.zip" "KarteTests_<< pipeline.parameters.os >>.xcresult"
           working_directory: /Users/distiller/project/output
           when: always
       - store_artifacts:
