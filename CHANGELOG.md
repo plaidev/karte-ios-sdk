@@ -12,7 +12,6 @@
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
 
 # Releases - xxxx.xx.xx
-## Version 2.4.0
 
 ** 🔨CHANGED**
 - Deployment Targetの変更 iOS9 → iOS10
