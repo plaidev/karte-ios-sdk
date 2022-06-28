@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.swift_versions          = [5.1]
 
   s.platform                = :ios
-  s.ios.deployment_target   = '9.0'
+  s.ios.deployment_target   = '10.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Utilities-#{s.version}" }
   s.default_subspec  = 'standard'
