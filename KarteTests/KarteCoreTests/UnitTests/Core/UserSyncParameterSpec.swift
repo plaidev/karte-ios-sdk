@@ -231,6 +231,18 @@ class UserSyncSpec: QuickSpec {
                     }
                 }
                 
+                context("a getUserSyncScript") {
+                    it("sync script is equals rawValue") {
+                        let now = Date()
+                        guard let parameter = UserSync(now).rawValue else {
+                            return
+                        }
+                        let expectSource = "window.__karte_ntvsync = \(parameter);"
+                        let script = UserSync(now).getUserSyncScript()
+                        expect(script).to(equal(expectSource))
+                    }
+                }
+                
                 context("when set optOut") {
                     beforeEach {
                         KarteApp.optOut()
