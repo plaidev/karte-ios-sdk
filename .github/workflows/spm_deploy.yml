@@ -48,17 +48,17 @@ jobs:
         run: |
           PODSPECS=(`git diff origin/master --name-only | grep podspec`)
           for PODSPEC in ${PODSPECS[@]}; do
-              SPEC_DIFF=`git diff -- ${PODSPEC} -U0 | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)'`
-              if echo $SPEC_DIFF | grep -q 's\.version'; then
-                POD_NAME="${PODSPEC%.*} "
-                RELEASE_TARGETS+="${POD_NAME} "
-                echo "#########################"
-                echo "# ${POD_NAME}"
-                echo "#########################"
-                echo " "
-              else
-                echo 'SPEC_DIFF does not contains s.version'
-              fi
+            SPEC_DIFF=`git diff -U0 origin/master -- ${PODSPEC} | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)'`
+            if echo $SPEC_DIFF | grep -q 's\.version'; then
+              POD_NAME="${PODSPEC%.*} "
+              RELEASE_TARGETS+="${POD_NAME} "
+              echo "#########################"
+              echo "# ${POD_NAME}"
+              echo "#########################"
+              echo " "
+            else
+              echo 'SPEC_DIFF does not contains s.version'
+            fi
           done
           echo "::set-output name=targets::${RELEASE_TARGETS}"
       - name: Create XCFrameworks
