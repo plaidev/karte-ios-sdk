@@ -20,7 +20,7 @@ import WebKit
 
 /// WebView 連携するためのクラスです。
 ///
-/// WebページURLに連携用のクエリパラメータを付与した状態で、URLをWebViewで開くことでWebとAppのユーザーの紐付けが行われます。<br>
+/// Webページを開くWebViewに連携用のスクリプトを設定することで、WebとAppのユーザーの紐付けが行われます。<br>
 /// なお連携を行うためにはWebページに、KARTEのタグが埋め込まれている必要があります。
 @objc(KRTUserSync)
 public class UserSync: NSObject, Codable {
@@ -65,6 +65,7 @@ public class UserSync: NSObject, Codable {
     /// - Parameter urlString: 連携するページのURL文字列
     /// - Returns: 連携用のクエリパラメータを付与したURL文字列を返します。指定されたURL文字列の形式が正しくない場合、またはSDKの初期化が行われていない場合は、引数に指定したURL文字列を返します。
     @objc(appendingQueryParameterWithURLString:)
+    @available(*, deprecated, message: "User sync function using query parameters is deprecated. It will be removed in the future. Use setUserSyncSript.")
     public static func appendingQueryParameter(_ urlString: String) -> String {
         UserSync().appendingQueryParameter(urlString)
     }
@@ -74,6 +75,7 @@ public class UserSync: NSObject, Codable {
     /// - Parameter url: 連携するページのURL
     /// - Returns: 連携用のクエリパラメータを付与したURLを返します。SDKの初期化が行われていない場合は、引数に指定したURLを返します。
     @objc(appendingQueryParameterWithURL:)
+    @available(*, deprecated, message: "User sync function using query parameters is deprecated. It will be removed in the future. Use setUserSyncSript.")
     public static func appendingQueryParameter(_ url: URL) -> URL {
         UserSync().appendingQueryParameter(url)
     }
@@ -87,6 +89,17 @@ public class UserSync: NSObject, Codable {
     @objc(setUserSyncScriptWithWebView:)
     public static func setUserSyncScript(_ webView: WKWebView) {
         UserSync().setUserSyncScript(webView)
+    }
+
+    /// WebViewに連携するためのスクリプトを生成します。<br>
+    /// スクリプトをユーザースクリプトとしてWebViewに設定することで連携できます。
+    ///
+    /// なおSDKの初期化が行われていない場合はnilが返却されます。
+    ///
+    /// - Returns: 生成したスクリプト文字列を返します。SDKの初期化が行われていない場合は nil を返します。
+    @objc(getUserSyncScript)
+    public static func getUserSyncScript() -> String? {
+        return UserSync().getUserSyncScript()
     }
 
     func appendingQueryParameter(_ urlString: String) -> String {
@@ -113,14 +126,20 @@ public class UserSync: NSObject, Codable {
     }
 
     func setUserSyncScript(_ webView: WKWebView) {
-        guard let parameter = self.rawValue else {
-            Logger.error(tag: .core, message: "Failed to set sync user script.")
+        guard let source = getUserSyncScript() else {
             return
         }
-        let source = "window.__karte_ntvsync = \(parameter);"
 
         let userScript = WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: true)
         webView.configuration.userContentController.addUserScript(userScript)
+    }
+
+    func getUserSyncScript() -> String? {
+        guard let parameter = self.rawValue else {
+            Logger.error(tag: .core, message: "Failed to get sync user script.")
+            return nil
+        }
+        return "window.__karte_ntvsync = \(parameter);"
     }
 
     deinit {
