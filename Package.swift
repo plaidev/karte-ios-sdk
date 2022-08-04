@@ -56,13 +56,13 @@ let package = Package(
             name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.10.1/KarteInAppMessaging.xcframework.zip", checksum: "039ed7d314f271c13471abd42d77b84b296d9026bf68c4db1047187a8c8c1d09"
         ),
         .binaryTarget(
-            name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.3.0/KarteVariables.xcframework.zip", checksum: "b75488bba0b5b2e9a04d8fdff0471cc4f520a85ef9e554dffcd65a9c3c63aaf7"
+            name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.4.1/KarteVariables.xcframework.zip", checksum: "eef7f37b7b20aa79217d9001d6c7c568fc38a71562730e645a108e560dfb87b9"
         ),
         .binaryTarget(
             name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.8.0/KarteVisualTracking.xcframework.zip", checksum: "421785f3b28f44c747815a21cf4c758d64a3279ca8a3f5381c6e73b902f0f79d"
         ),
         .binaryTarget(
-            name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.6.0/KarteRemoteNotification.xcframework.zip", checksum: "a733d6efd577e6c9b88ad7149950fe8f5558bf6592902df30a00ec3db26d99f1"
+            name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.7.1/KarteRemoteNotification.xcframework.zip", checksum: "48ddb768ed483daa77574faedc545ae1f50c99bd8d2c84ba89122552c0336304"
         ),
         .binaryTarget(
             name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.4.0/KarteCrashReporting.xcframework.zip", checksum: "ab53a6706a67f231be8ceca19859170858f721d3f9cf8bab8b99f2ace6852e76"
