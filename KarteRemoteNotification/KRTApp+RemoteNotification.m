@@ -15,12 +15,17 @@
 //
 
 #import "KRTApp+RemoteNotification.h"
+
+#if __has_include("KarteRemoteNotification-Swift.h")
+#import "KarteRemoteNotification-Swift.h"
+#else
 #import <KarteRemoteNotification/KarteRemoteNotification-Swift.h>
+#endif
 
 @implementation KRTApp (RemoteNotification)
 
 + (void)registerFCMToken:(NSString *)fcmToken {
-    [ObjcCompatibleScope registerFCMToken:fcmToken];
+    [ObjcCompatibleScopeForNotification registerFCMToken:fcmToken];
 }
 
 @end

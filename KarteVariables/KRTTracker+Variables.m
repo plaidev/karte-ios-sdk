@@ -15,7 +15,12 @@
 //
 
 #import "KRTTracker+Variables.h"
+
+#if __has_include("KarteVariables-Swift.h")
+#import "KarteVariables-Swift.h"
+#else
 #import <KarteVariables/KarteVariables-Swift.h>
+#endif
 
 @implementation KRTTracker (Variables)
 
@@ -23,7 +28,7 @@
 ///
 /// - Parameter variables: 設定値の配列
 + (void)trackOpenWithVariables:(NSArray<KRTVariable *> *)variables {
-    [ObjcCompatibleScope trackOpenWithVariables:variables];
+    [ObjcCompatibleScopeForVariables trackOpenWithVariables:variables];
 }
 
 /// 指定された設定値に関連するキャンペーン情報を元に効果測定用のイベント（message_open）を発火します。
@@ -32,14 +37,14 @@
 ///   - variables: 設定値の配列
 ///   - values: イベントに紐付けるカスタムオブジェクト
 + (void)trackOpenWithVariables:(NSArray<KRTVariable *> *)variables values:(NSDictionary<NSString *, id> *)values {
-    [ObjcCompatibleScope trackOpenWithVariables:variables values:values];
+    [ObjcCompatibleScopeForVariables trackOpenWithVariables:variables values:values];
 }
 
 /// 指定された設定値に関連するキャンペーン情報を元に効果測定用のイベント（message_click）を発火します。
 ///
 /// - Parameter variables: 設定値の配列
 + (void)trackClickWithVariables:(NSArray<KRTVariable *> *)variables {
-    [ObjcCompatibleScope trackClickWithVariables:variables];
+    [ObjcCompatibleScopeForVariables trackClickWithVariables:variables];
 }
 
 /// 指定された設定値に関連するキャンペーン情報を元に効果測定用のイベント（message_click）を発火します。
@@ -48,7 +53,7 @@
 ///   - variables: 設定値の配列
 ///   - values: イベントに紐付けるカスタムオブジェクト
 + (void)trackClickWithVariables:(NSArray *)variables values:(NSDictionary<NSString *, id> *)values {
-    [ObjcCompatibleScope trackClickWithVariables:variables values:values];
+    [ObjcCompatibleScopeForVariables trackClickWithVariables:variables values:values];
 }
 
 @end
