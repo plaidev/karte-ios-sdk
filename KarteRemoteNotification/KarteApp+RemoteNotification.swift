@@ -24,6 +24,6 @@ public extension KarteApp {
     ///
     /// - Parameter fcmToken: FCMトークン
     class func registerFCMToken(_ fcmToken: String?) {
-        ObjcCompatibleScope.registerFCMToken(fcmToken)
+        ObjcCompatibleScopeForNotification.registerFCMToken(fcmToken)
     }
 }

@@ -4,12 +4,25 @@
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.21.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.11.0 |
-| KarteRemoteNotification |  プッシュ通知の受信および効果測定機能を提供します。 | 2.7.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.4.0 |
+| KarteRemoteNotification |  プッシュ通知の受信および効果測定機能を提供します。 | 2.7.1 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.4.1 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.9.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.5.0 |
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.7.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
+
+# Releases - 2022.08.04
+## Version 2.5.1
+
+### RemoteNotification 2.7.1
+** 💊FIXED** 
+- 一部のファイルがStatic Library としてビルドできない問題を修正しました
+- Xcode 13.3以降でVariablesモジュールとあわせて導入した際にコンパイルエラーになる問題を修正しました
+
+### Variables 2.4.1
+** 💊FIXED** 
+- 一部のファイルがStatic Library としてビルドできない問題を修正しました
+- Xcode 13.3以降でRemoteNotificationモジュールとあわせて導入した際にコンパイルエラーになる問題を修正しました
 
 # Releases - 2022.07.29
 ## Version 2.5.0

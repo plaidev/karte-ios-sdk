@@ -15,12 +15,17 @@
 //
 
 #import "KRTTracker+RemoteNotification.h"
+
+#if __has_include("KarteRemoteNotification-Swift.h")
+#import "KarteRemoteNotification-Swift.h"
+#else
 #import <KarteRemoteNotification/KarteRemoteNotification-Swift.h>
+#endif
 
 @implementation KRTTracker (RemoteNotification)
 
 + (void)trackClickWithUserInfo:(NSDictionary *)userInfo {
-    [ObjcCompatibleScope trackClickWithUserInfo:userInfo];
+    [ObjcCompatibleScopeForNotification trackClickWithUserInfo:userInfo];
 }
 
 @end

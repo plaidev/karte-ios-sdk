@@ -20,7 +20,7 @@ import KarteCore
 /// SwiftとObjective-Cの互換性のためのクラスです。
 ///
 /// **SDK内部で利用するクラスであり、通常のSDK利用でこちらのクラスを利用することはありません。**
-public class ObjcCompatibleScope: NSObject {
+public class ObjcCompatibleScopeForVariables: NSObject {
     @objc
     public static func trackOpen(variables: [Variable]) {
         trackOpen(variables: variables, values: [:])
