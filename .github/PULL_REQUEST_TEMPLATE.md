@@ -8,4 +8,3 @@ Please bump up the version of modules if needed.
 # Test plan
 
 # Other Information
-   - release note URL
