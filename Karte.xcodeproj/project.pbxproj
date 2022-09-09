@@ -2703,7 +2703,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -z \"$CI\" ]; then\n  swift_packages=\"xcrun --sdk macosx swift run --package-path SwiftPackages\"\n  if eval $swift_packages mint list | grep -q 'SwiftLint'; then\n    eval $swift_packages mint run swiftlint autocorrect --format\n    eval $swift_packages mint run swiftlint swiftlint\n  else\n    echo \"error: SwiftLint is not installed\"\n  fi\nfi\n";
+			shellScript = "if [ -z \"$CI\" ]; then\n  if [ \"$CONFIGURATION\" = \"Debug\" ]; then\n    swift_packages=\"xcrun --sdk macosx swift run --package-path SwiftPackages\"\n    if eval $swift_packages mint list | grep -q 'SwiftLint'; then\n      eval $swift_packages mint run swiftlint autocorrect --format    \n      eval $swift_packages mint run swiftlint swiftlint\n    else\n      echo \"error: SwiftLint is not installed\"\n    fi\n  fi\nfi\n";
 		};
 		0CFB1F3D243475E300BC8757 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3607,7 +3607,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.11.0;
+				MARKETING_VERSION = 2.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3639,7 +3639,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.11.0;
+				MARKETING_VERSION = 2.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3791,7 +3791,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.7.1;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3822,7 +3822,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.7.1;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

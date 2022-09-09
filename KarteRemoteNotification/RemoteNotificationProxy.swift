@@ -28,7 +28,6 @@ internal class RemoteNotificationProxy: NSObject {
 
     // swiftlint:disable identifier_name
     private let applicationDidReceiveRemoteNotificationFetchCompletionHandlerSelector = #selector(UIApplicationDelegate.application(_:didReceiveRemoteNotification:fetchCompletionHandler:))
-    private let applicationDidReceiveRemoteNotificationSelector = #selector(UIApplicationDelegate.application(_:didReceiveRemoteNotification:))
     private let userNotificationCenterDidReceiveNotificationResponseWithCompletionHandlerSelectorString = "userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:"
     // swiftlint:enable identifier_name
 
@@ -89,17 +88,6 @@ internal class RemoteNotificationProxy: NSObject {
                 label: label,
                 cls: type(of: delegate).self,
                 name: applicationDidReceiveRemoteNotificationFetchCompletionHandlerSelector,
-                imp: imp,
-                proto: UIApplicationDelegate.self
-            )
-        } else if delegate.responds(to: applicationDidReceiveRemoteNotificationSelector) {
-            let block: @convention(block) (Any, UIApplication, [AnyHashable: Any]) -> Void = applicationDidReceiveRemoteNotification
-            let imp = imp_implementationWithBlock(block)
-
-            Swizzler.shared.swizzle(
-                label: label,
-                cls: type(of: delegate).self,
-                name: applicationDidReceiveRemoteNotificationSelector,
                 imp: imp,
                 proto: UIApplicationDelegate.self
             )
@@ -267,21 +255,6 @@ extension RemoteNotificationProxy {
             to: (@convention(c) (Any, Selector, UIApplication, [AnyHashable: Any], @escaping (UIBackgroundFetchResult) -> Void) -> Void).self
         )
         originalFunction(receiver, originalSelector, app, userInfo, handler)
-    }
-
-    private func applicationDidReceiveRemoteNotification(_ receiver: Any, app: UIApplication, userInfo: [AnyHashable: Any]) {
-        application(app, didReceiveRemoteNotification: userInfo)
-
-        let originalSelector = applicationDidReceiveRemoteNotificationSelector
-        guard let originalImplementation = Swizzler.shared.originalImplementation(forName: originalSelector) else {
-            return
-        }
-
-        let originalFunction = unsafeBitCast(
-            originalImplementation,
-            to: (@convention(c) (Any, Selector, UIApplication, [AnyHashable: Any]) -> Void).self
-        )
-        originalFunction(receiver, originalSelector, app, userInfo)
     }
 
     private func userNotificationCenterDidReceiveNotificationResponseWithCompletionHandler(_ receiver: Any, center: AnyObject, response: AnyObject, handler: @escaping () -> Void) {

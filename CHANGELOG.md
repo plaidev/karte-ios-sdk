@@ -3,13 +3,28 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.21.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.11.0 |
-| KarteRemoteNotification |  プッシュ通知の受信および効果測定機能を提供します。 | 2.7.1 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.12.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.8.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.4.1 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.9.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.5.0 |
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.7.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
+
+# Releases - 2022.09.09
+## Version 2.6.0
+
+### InAppMessaging 2.12.0
+** 💊FIXED**
+
+iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対応しました。
+この対応により、iOS16以上で接客内の動画はフルスクリーンではなくインラインで再生されます。
+なお、iOS16未満のOS上の動作に変更はありません。
+
+### RemoteNotification 2.8.0
+** 🔨CHANGED**
+- iOS9用の実装の削除しました。
+- iOS10の非推奨APIを使った実装を削除しました。
 
 # Releases - 2022.08.04
 ## Version 2.5.1

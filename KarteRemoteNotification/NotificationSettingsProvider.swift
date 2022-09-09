@@ -38,18 +38,9 @@ extension NotificationSettingsProvider {
     }
 
     func checkAvailability(completionHandler: @escaping (Bool) -> Void) {
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().getNotificationSettings { settings in
-                let isAvailable = self.checkAvailability(settings: settings)
-                completionHandler(isAvailable)
-            }
-        } else {
-            // In order to get the latest notification settings, the timing needs to be adjusted.
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                let types = UIApplication.shared.currentUserNotificationSettings?.types ?? []
-                let isAvailable = !types.intersection([.alert, .badge, .sound]).isEmpty
-                completionHandler(isAvailable)
-            }
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            let isAvailable = self.checkAvailability(settings: settings)
+            completionHandler(isAvailable)
         }
     }
 

@@ -24,11 +24,7 @@ internal struct RegisterPushCommand: Command {
     }
 
     func execute() {
-        if #available(iOS 10.0, *) {
-            requestAuth()
-        } else {
-            requestAuthIOS9()
-        }
+        requestAuth()
     }
 }
 
@@ -52,14 +48,6 @@ extension RegisterPushCommand {
                     }
                 }
             }
-        }
-    }
-
-    private func requestAuthIOS9() {
-        let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-        DispatchQueue.main.async {
-            UIApplication.shared.registerUserNotificationSettings(settings)
-            UIApplication.shared.registerForRemoteNotifications()
         }
     }
 }
