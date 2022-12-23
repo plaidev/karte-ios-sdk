@@ -11,7 +11,8 @@
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.7.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
 
-# Releases - xxxx.xx.xx
+# Releases - 2022.12.23
+## Version 2.7.0
 
 ### InAppMessaging 2.13.0
 ** 💊FIXED**
