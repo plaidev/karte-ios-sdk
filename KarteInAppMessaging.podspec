@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteInAppMessaging'
-  s.version                 = '2.12.0'
+  s.version                 = '2.13.0'
   s.summary                 = 'KARTE In-app messaging SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }

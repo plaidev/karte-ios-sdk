@@ -6,7 +6,7 @@ on:
 
 jobs:
   check_that_current_pr_is_complete:
-    if: github.repository != 'plaidev/karte-ios-sdk'
+    if: ${{ github.repository != 'plaidev/karte-ios-sdk' && github.event.pull_request.state == 'open' }}
     permissions:
       pull-requests: read
     runs-on: ubuntu-latest
@@ -18,24 +18,10 @@ jobs:
       with:
         access_token: ${{ secrets.GH_ACCESS_TOKEN }}
         all_but_latest: true
-    - name: Getting PRs
-      id: get_pulls
-      uses: octokit/request-action@v2.1.0
-      with:
-        route: GET /repos/${{ github.repository }}/pulls
-        state: open
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Find Current PR
-      id: find_current_pf
-      run: |
-        result=$(echo '${{ steps.get_pulls.outputs.data }}' | jq '.[] | select(.head.ref == "${{ github.head_ref }}" and .base.ref == "${{ github.base_ref }}") | { number, body }')
-        result=$(echo $result | sed -z 's/\n/%0A/g' | sed -z 's/\r/%0D/g')
-        echo "::set-output name=result::$result"
     - name: Check Completion
       id: check_completion
       run: |
-        body=$(echo '${{ steps.find_current_pf.outputs.result }}' | jq '.body')
+        body=$(echo '${{ github.event.pull_request.body }}')
         incomplete_task=$(echo $body | sed -n "/\- \[ \]/ p")
         if [ -z $incomplete_task ]; then
             echo "::set-output name=completed::true"
