@@ -62,7 +62,7 @@ class IAMProcessPoolSpec: QuickSpec {
                 it("`retrieveProcess` returns the IAMProcess") {
                     let actual = pool.retrieveProcess(sceneId: SceneId("DEFAULT"))
                     expect(actual).toNot(beNil())
-                    expect(actual?.sceneId.identifier).to(be("DEFAULT"))
+                    expect(actual?.sceneId.identifier).to(equal("DEFAULT"))
                 }
             }
             context("If the process is not matched with id of view") {
@@ -85,7 +85,7 @@ class IAMProcessPoolSpec: QuickSpec {
                 it("`retrieveProcess` returns the IAMProcess") {
                     let actual = pool.retrieveProcess(view: view)
                     expect(actual).toNot(beNil())
-                    expect(actual?.sceneId.identifier).to(be("DEFAULT"))
+                    expect(actual?.sceneId.identifier).to(equal("DEFAULT"))
                 }
             }
             context("If the process is not matched with id of view") {

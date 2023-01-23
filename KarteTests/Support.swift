@@ -19,7 +19,7 @@ import XCTest
 @testable import KarteVisualTracking
 @testable import KarteUtilities
 
-let APP_KEY = "dummy_application_key_0123456789"
+let APP_KEY = "dummy_application_key_from_code_"
 
 extension URLRequest {
     

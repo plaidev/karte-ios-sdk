@@ -81,6 +81,7 @@ public class ExperimentalConfiguration: Configuration {
     override public func copy(with zone: NSZone? = nil) -> Any {
         let configuration = ExperimentalConfiguration()
         configuration._appKey = _appKey
+        configuration._apiKey = _apiKey
         configuration.baseURL = baseURL
         configuration.overlayBaseURL = overlayBaseURL
         configuration.isDryRun = isDryRun

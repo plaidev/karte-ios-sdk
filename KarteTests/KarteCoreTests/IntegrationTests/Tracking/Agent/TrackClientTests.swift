@@ -185,7 +185,7 @@ class TrackClientTests: XCTestCase {
         self.stub = stub(uri("/v0/native/track"), successResponse)
         Tracker.view("test1")
         waitTrackingAgentHasNoCommandsNotification {
-            expect(self.circuitBreaker.count).to(be(0))
+            expect(self.circuitBreaker.count).to(equal(0))
         }
         
         // status: 400 の時はリトライしない(失敗にカウントしない)
@@ -193,7 +193,7 @@ class TrackClientTests: XCTestCase {
         self.stub = stub(uri("/v0/native/track"), badRequestResponse)
         Tracker.view("test2")
         waitTrackingAgentHasNoCommandsNotification {
-            expect(self.circuitBreaker.count).to(be(0))
+            expect(self.circuitBreaker.count).to(equal(0))
         }
         
         self.removeStub(self.stub)

@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>karte_app_key</key>
-	<string>dummy_application_key_from_plist</string>
+	<string>dummy_application_key_customized</string>
+	<key>karte_api_key</key>
+	<string>dummy_karte_api_key</string>
 </dict>
 </plist>
