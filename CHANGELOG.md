@@ -3,12 +3,12 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.22.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.13.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.8.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.14.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.9.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.4.1 |
-| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.9.0 |
+| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.10.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.5.0 |
-| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.7.0 |
+| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.8.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
 
 # Releases - xxxx.xx.xx
@@ -17,6 +17,24 @@
 ** 🎉 FEATURE**
 - KARTEプロジェクトのAPIキーをSDKに設定できるようになりました。
    - Inboxモジュールを使用する場合のみ設定が必要です。
+** 💊FIXED**
+- メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
+
+### InAppMessaging 2.14.0
+** 💊FIXED**
+- メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
+
+### RemoteNotification 2.9.0
+** 💊FIXED**
+- メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
+
+### VisualTracking 2.10.0
+** 💊FIXED**
+- メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
+
+### Utilities 3.8.0
+** 🎉FEATURE**
+- メソッド置換を安全に行うために改良したAPIを追加しました。
 
 # Releases - 2022.12.23
 ## Version 2.7.0

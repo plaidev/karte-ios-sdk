@@ -233,10 +233,6 @@
 		0C89744E237904F700098CD8 /* KarteVariables.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C89744C237904F700098CD8 /* KarteVariables.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C89745B2379050600098CD8 /* KarteVisualTracking.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C8974592379050600098CD8 /* KarteVisualTracking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C8974C02379094A00098CD8 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8974652379094A00098CD8 /* Tracker.swift */; };
-		0C89760C237AE27D00098CD8 /* UINavigationController+TransitionSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8975F1237AE27D00098CD8 /* UINavigationController+TransitionSwizzler.swift */; };
-		0C89760D237AE27D00098CD8 /* UITabBarController+TransitionSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8975F2237AE27D00098CD8 /* UITabBarController+TransitionSwizzler.swift */; };
-		0C89760E237AE27D00098CD8 /* UIViewController+LifecycleSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8975F3237AE27D00098CD8 /* UIViewController+LifecycleSwizzler.swift */; };
-		0C89760F237AE27D00098CD8 /* UIViewController+TransitionSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8975F4237AE27D00098CD8 /* UIViewController+TransitionSwizzler.swift */; };
 		0C897611237AE27D00098CD8 /* IAMWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8975F6237AE27D00098CD8 /* IAMWindow.swift */; };
 		0C897612237AE27D00098CD8 /* IAMProcessPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8975F7237AE27D00098CD8 /* IAMProcessPool.swift */; };
 		0C897613237AE27D00098CD8 /* IAMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8975F8237AE27D00098CD8 /* IAMViewController.swift */; };
@@ -269,10 +265,6 @@
 		0C8976BE237EA58D00098CD8 /* VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976BD237EA58D00098CD8 /* VisualTracking.swift */; };
 		0C8976C2237EB01000098CD8 /* VisualTrackingLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976C1237EB01000098CD8 /* VisualTrackingLoader.m */; };
 		0C8976C5237EDD4D00098CD8 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976C4237EDD4D00098CD8 /* Account.swift */; };
-		0C8976CB237EE78D00098CD8 /* UIViewController+VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976C7237EE78D00098CD8 /* UIViewController+VisualTracking.swift */; };
-		0C8976CC237EE78D00098CD8 /* UIApplication+VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976C8237EE78D00098CD8 /* UIApplication+VisualTracking.swift */; };
-		0C8976CD237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976C9237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift */; };
-		0C8976CE237EE78D00098CD8 /* UINavigationController+VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976CA237EE78D00098CD8 /* UINavigationController+VisualTracking.swift */; };
 		0C8976D0237EE79700098CD8 /* UIResponder+VisualTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976CF237EE79700098CD8 /* UIResponder+VisualTracking.swift */; };
 		0C8976D4237EEA2400098CD8 /* Inspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976D3237EEA2400098CD8 /* Inspector.swift */; };
 		0C8976D6237F996D00098CD8 /* VisualTrackingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976D5237F996D00098CD8 /* VisualTrackingManager.swift */; };
@@ -290,6 +282,15 @@
 		0C8976FA23801F1E00098CD8 /* PairingHeartbeatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976F923801F1E00098CD8 /* PairingHeartbeatRequest.swift */; };
 		0C8976FC2380206100098CD8 /* PairingHeartbeatRequestBodyParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976FB2380206000098CD8 /* PairingHeartbeatRequestBodyParameters.swift */; };
 		0C8976FE23802FE500098CD8 /* TraceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976FD23802FE500098CD8 /* TraceRequest.swift */; };
+		0C9C6B00296E519200077D25 /* UIApplicationProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6AFC296E519200077D25 /* UIApplicationProxy.swift */; };
+		0C9C6B01296E519200077D25 /* UINavigationControllerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6AFD296E519200077D25 /* UINavigationControllerProxy.swift */; };
+		0C9C6B02296E519200077D25 /* UIViewControllerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6AFE296E519200077D25 /* UIViewControllerProxy.swift */; };
+		0C9C6B03296E519200077D25 /* UIGestureRecognizerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6AFF296E519200077D25 /* UIGestureRecognizerProxy.swift */; };
+		0C9C6B07296E51AA00077D25 /* UITabBarControllerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6B04296E51AA00077D25 /* UITabBarControllerProxy.swift */; };
+		0C9C6B08296E51AA00077D25 /* UINavigationControllerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6B05296E51AA00077D25 /* UINavigationControllerProxy.swift */; };
+		0C9C6B09296E51AA00077D25 /* UIViewControllerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6B06296E51AA00077D25 /* UIViewControllerProxy.swift */; };
+		0C9C6B0B296E51BB00077D25 /* SafeSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6B0A296E51BB00077D25 /* SafeSwizzler.swift */; };
+		0C9C6B0D296E623C00077D25 /* SafeSwizzlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6B0C296E623C00077D25 /* SafeSwizzlerTests.swift */; };
 		0CB10A1023B216F20086D603 /* TrackerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB10A0F23B216F20086D603 /* TrackerDelegate.swift */; };
 		0CBE6288239902BF00BDD6CF /* KarteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBE6287239902BF00BDD6CF /* KarteApp.swift */; };
 		0CC648B0238A15BD009EB5DF /* success_variables_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648AF238A15BD009EB5DF /* success_variables_1.json */; };
@@ -727,10 +728,6 @@
 		0C8974592379050600098CD8 /* KarteVisualTracking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KarteVisualTracking.h; sourceTree = "<group>"; };
 		0C89745A2379050600098CD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C8974652379094A00098CD8 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
-		0C8975F1237AE27D00098CD8 /* UINavigationController+TransitionSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+TransitionSwizzler.swift"; sourceTree = "<group>"; };
-		0C8975F2237AE27D00098CD8 /* UITabBarController+TransitionSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+TransitionSwizzler.swift"; sourceTree = "<group>"; };
-		0C8975F3237AE27D00098CD8 /* UIViewController+LifecycleSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LifecycleSwizzler.swift"; sourceTree = "<group>"; };
-		0C8975F4237AE27D00098CD8 /* UIViewController+TransitionSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TransitionSwizzler.swift"; sourceTree = "<group>"; };
 		0C8975F6237AE27D00098CD8 /* IAMWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAMWindow.swift; sourceTree = "<group>"; };
 		0C8975F7237AE27D00098CD8 /* IAMProcessPool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAMProcessPool.swift; sourceTree = "<group>"; };
 		0C8975F8237AE27D00098CD8 /* IAMViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAMViewController.swift; sourceTree = "<group>"; };
@@ -765,10 +762,6 @@
 		0C8976BD237EA58D00098CD8 /* VisualTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualTracking.swift; sourceTree = "<group>"; };
 		0C8976C1237EB01000098CD8 /* VisualTrackingLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VisualTrackingLoader.m; sourceTree = "<group>"; };
 		0C8976C4237EDD4D00098CD8 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
-		0C8976C7237EE78D00098CD8 /* UIViewController+VisualTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+VisualTracking.swift"; sourceTree = "<group>"; };
-		0C8976C8237EE78D00098CD8 /* UIApplication+VisualTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+VisualTracking.swift"; sourceTree = "<group>"; };
-		0C8976C9237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+VisualTracking.swift"; sourceTree = "<group>"; };
-		0C8976CA237EE78D00098CD8 /* UINavigationController+VisualTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+VisualTracking.swift"; sourceTree = "<group>"; };
 		0C8976CF237EE79700098CD8 /* UIResponder+VisualTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIResponder+VisualTracking.swift"; sourceTree = "<group>"; };
 		0C8976D3237EEA2400098CD8 /* Inspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector.swift; sourceTree = "<group>"; };
 		0C8976D5237F996D00098CD8 /* VisualTrackingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualTrackingManager.swift; sourceTree = "<group>"; };
@@ -786,6 +779,15 @@
 		0C8976F923801F1E00098CD8 /* PairingHeartbeatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingHeartbeatRequest.swift; sourceTree = "<group>"; };
 		0C8976FB2380206000098CD8 /* PairingHeartbeatRequestBodyParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingHeartbeatRequestBodyParameters.swift; sourceTree = "<group>"; };
 		0C8976FD23802FE500098CD8 /* TraceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceRequest.swift; sourceTree = "<group>"; };
+		0C9C6AFC296E519200077D25 /* UIApplicationProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplicationProxy.swift; sourceTree = "<group>"; };
+		0C9C6AFD296E519200077D25 /* UINavigationControllerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationControllerProxy.swift; sourceTree = "<group>"; };
+		0C9C6AFE296E519200077D25 /* UIViewControllerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerProxy.swift; sourceTree = "<group>"; };
+		0C9C6AFF296E519200077D25 /* UIGestureRecognizerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerProxy.swift; sourceTree = "<group>"; };
+		0C9C6B04296E51AA00077D25 /* UITabBarControllerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITabBarControllerProxy.swift; sourceTree = "<group>"; };
+		0C9C6B05296E51AA00077D25 /* UINavigationControllerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationControllerProxy.swift; sourceTree = "<group>"; };
+		0C9C6B06296E51AA00077D25 /* UIViewControllerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerProxy.swift; sourceTree = "<group>"; };
+		0C9C6B0A296E51BB00077D25 /* SafeSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeSwizzler.swift; sourceTree = "<group>"; };
+		0C9C6B0C296E623C00077D25 /* SafeSwizzlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeSwizzlerTests.swift; sourceTree = "<group>"; };
 		0CA52D582387BE4C00A575BC /* OptOutConfigSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptOutConfigSpec.swift; sourceTree = "<group>"; };
 		0CA52D5C2387BE9E00A575BC /* ConfigurationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationTests.swift; sourceTree = "<group>"; };
 		0CA52D612387BEAE00A575BC /* DictionaryExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionTests.swift; sourceTree = "<group>"; };
@@ -1041,6 +1043,7 @@
 			isa = PBXGroup;
 			children = (
 				0C060EA22384D7C8006AF974 /* Swizzler.swift */,
+				0C9C6B0A296E51BB00077D25 /* SafeSwizzler.swift */,
 			);
 			path = Runtime;
 			sourceTree = "<group>";
@@ -1723,10 +1726,9 @@
 		0C8975F0237AE27C00098CD8 /* Swizzlers */ = {
 			isa = PBXGroup;
 			children = (
-				0C8975F1237AE27D00098CD8 /* UINavigationController+TransitionSwizzler.swift */,
-				0C8975F2237AE27D00098CD8 /* UITabBarController+TransitionSwizzler.swift */,
-				0C8975F3237AE27D00098CD8 /* UIViewController+LifecycleSwizzler.swift */,
-				0C8975F4237AE27D00098CD8 /* UIViewController+TransitionSwizzler.swift */,
+				0C9C6B05296E51AA00077D25 /* UINavigationControllerProxy.swift */,
+				0C9C6B04296E51AA00077D25 /* UITabBarControllerProxy.swift */,
+				0C9C6B06296E51AA00077D25 /* UIViewControllerProxy.swift */,
 				0C89762E237AFB6600098CD8 /* IAMProxy.swift */,
 			);
 			path = Swizzlers;
@@ -1817,10 +1819,10 @@
 		0C8976C6237EE70D00098CD8 /* Swizzlers */ = {
 			isa = PBXGroup;
 			children = (
-				0C8976C8237EE78D00098CD8 /* UIApplication+VisualTracking.swift */,
-				0C8976C9237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift */,
-				0C8976CA237EE78D00098CD8 /* UINavigationController+VisualTracking.swift */,
-				0C8976C7237EE78D00098CD8 /* UIViewController+VisualTracking.swift */,
+				0C9C6AFC296E519200077D25 /* UIApplicationProxy.swift */,
+				0C9C6AFF296E519200077D25 /* UIGestureRecognizerProxy.swift */,
+				0C9C6AFD296E519200077D25 /* UINavigationControllerProxy.swift */,
+				0C9C6AFE296E519200077D25 /* UIViewControllerProxy.swift */,
 			);
 			path = Swizzlers;
 			sourceTree = "<group>";
@@ -2113,6 +2115,7 @@
 			isa = PBXGroup;
 			children = (
 				0CA52D612387BEAE00A575BC /* DictionaryExtensionTests.swift */,
+				0C9C6B0C296E623C00077D25 /* SafeSwizzlerTests.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -2806,6 +2809,7 @@
 				0C060EE12384D7C8006AF974 /* DataParser.swift in Sources */,
 				0CDBAC6B239CBA6500CEB853 /* SQLiteDatabase.swift in Sources */,
 				0CDBAC6F239D206200CEB853 /* SQLiteColumn.swift in Sources */,
+				0C9C6B0B296E51BB00077D25 /* SafeSwizzler.swift in Sources */,
 				0C060EE92384D7C8006AF974 /* CallbackQueue.swift in Sources */,
 				0CDBAC67239CB8E400CEB853 /* SQLiteTableSchema.swift in Sources */,
 				0C060F042384D7C8006AF974 /* UserDefaults.swift in Sources */,
@@ -2975,6 +2979,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C9C6B07296E51AA00077D25 /* UITabBarControllerProxy.swift in Sources */,
 				0C897617237AE27D00098CD8 /* MessagePvIdFilterRule.swift in Sources */,
 				0C897612237AE27D00098CD8 /* IAMProcessPool.swift in Sources */,
 				0C89761C237AE27D00098CD8 /* InAppMessaging.swift in Sources */,
@@ -2982,8 +2987,10 @@
 				0C4945C123B9E35900804700 /* PreviewLoader.m in Sources */,
 				0C5A7D2E24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift in Sources */,
 				0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */,
+				0C9C6B08296E51AA00077D25 /* UINavigationControllerProxy.swift in Sources */,
 				0C897614237AE27D00098CD8 /* IAMState.swift in Sources */,
 				0C897621237AE27D00098CD8 /* JsMessageName.swift in Sources */,
+				0C9C6B09296E51AA00077D25 /* UIViewControllerProxy.swift in Sources */,
 				0C89761F237AE27D00098CD8 /* WidgetsState.swift in Sources */,
 				0C6A5193241B990B00BA0F5E /* IAMProcessConfiguration.swift in Sources */,
 				0C897622237AE27D00098CD8 /* JsState.swift in Sources */,
@@ -2993,19 +3000,15 @@
 				0C4B51B42492173B0075A67D /* ClassLoader.swift in Sources */,
 				0C89761E237AE27D00098CD8 /* IAMWebView.swift in Sources */,
 				0C897613237AE27D00098CD8 /* IAMViewController.swift in Sources */,
-				0C89760D237AE27D00098CD8 /* UITabBarController+TransitionSwizzler.swift in Sources */,
-				0C89760F237AE27D00098CD8 /* UIViewController+TransitionSwizzler.swift in Sources */,
 				0C4B51B62492173B0075A67D /* OpacityDetector.swift in Sources */,
 				0C4945C523B9EA2F00804700 /* PreviewURL.swift in Sources */,
 				0C897611237AE27D00098CD8 /* IAMWindow.swift in Sources */,
 				0C89762F237AFB6600098CD8 /* IAMProxy.swift in Sources */,
 				0C89761B237AE27D00098CD8 /* InAppMessagingLoader.m in Sources */,
 				0C897619237AE27D00098CD8 /* MessageFilter.swift in Sources */,
-				0C89760E237AE27D00098CD8 /* UIViewController+LifecycleSwizzler.swift in Sources */,
 				0C897623237AE27D00098CD8 /* JsMessage.swift in Sources */,
 				0C897615237AE27D00098CD8 /* InAppMessagingDelegate.swift in Sources */,
 				0C897618237AE27D00098CD8 /* MessageFilterRule.swift in Sources */,
-				0C89760C237AE27D00098CD8 /* UINavigationController+TransitionSwizzler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3030,14 +3033,14 @@
 			files = (
 				68274FFB25E7E0F1005FFE1B /* VisualTrackingDelegate.swift in Sources */,
 				0C8976E6237FE20D00098CD8 /* AutoTrackDefinition.swift in Sources */,
-				0C8976CD237EE78D00098CD8 /* UIGestureRecognizer+VisualTracking.swift in Sources */,
-				0C8976CC237EE78D00098CD8 /* UIApplication+VisualTracking.swift in Sources */,
 				0C8976E8237FE4D200098CD8 /* Definition.swift in Sources */,
 				0C8976F4238016E700098CD8 /* PairingRequest.swift in Sources */,
 				0C8976FA23801F1E00098CD8 /* PairingHeartbeatRequest.swift in Sources */,
 				0C8976F623801A3300098CD8 /* PairingRequestBodyParameters.swift in Sources */,
 				68C9FAD425C55C2F0069EA3D /* ActionProtocol.swift in Sources */,
+				0C9C6B03296E519200077D25 /* UIGestureRecognizerProxy.swift in Sources */,
 				0C8976D0237EE79700098CD8 /* UIResponder+VisualTracking.swift in Sources */,
+				0C9C6B01296E519200077D25 /* UINavigationControllerProxy.swift in Sources */,
 				684F02062417640900AF4AC0 /* SafeTimer.swift in Sources */,
 				0C8976BE237EA58D00098CD8 /* VisualTracking.swift in Sources */,
 				68C9F92125AEE0360069EA3D /* UIKitAction.swift in Sources */,
@@ -3047,13 +3050,13 @@
 				0C8976EA237FE5A000098CD8 /* Trigger.swift in Sources */,
 				0C8976DA237FBA8A00098CD8 /* ActionReceiver.swift in Sources */,
 				0C8976C2237EB01000098CD8 /* VisualTrackingLoader.m in Sources */,
+				0C9C6B00296E519200077D25 /* UIApplicationProxy.swift in Sources */,
 				0C8976C5237EDD4D00098CD8 /* Account.swift in Sources */,
 				0C8976F823801DC200098CD8 /* PairingClient.swift in Sources */,
-				0C8976CB237EE78D00098CD8 /* UIViewController+VisualTracking.swift in Sources */,
+				0C9C6B02296E519200077D25 /* UIViewControllerProxy.swift in Sources */,
 				688AB96D274DF02C001C01B5 /* DynamicField.swift in Sources */,
 				369C2FE0256B9E6D00ED5948 /* DefinitionsRequest.swift in Sources */,
 				50E9585C27EBCCB8000CCE8E /* VisualTrackingConfiguration.swift in Sources */,
-				0C8976CE237EE78D00098CD8 /* UINavigationController+VisualTracking.swift in Sources */,
 				0C8976EC237FECFF00098CD8 /* LogicalOperator.swift in Sources */,
 				0C2B3C6323823275008A2708 /* Condition.swift in Sources */,
 				0C8976F0237FFD5200098CD8 /* ComparisonOperator.swift in Sources */,
@@ -3152,6 +3155,7 @@
 				0CC648BD238CD4DC009EB5DF /* StubResource.swift in Sources */,
 				0C839319240838050014C2BF /* AccountSpec.swift in Sources */,
 				681E83992483B54800A95083 /* RequestReviewCommandSpec.swift in Sources */,
+				0C9C6B0D296E623C00077D25 /* SafeSwizzlerTests.swift in Sources */,
 				77DFA95D274630B70093FB65 /* AttributeEventSpec.swift in Sources */,
 				0C839307240822A40014C2BF /* IdentifyEventSpec.swift in Sources */,
 				0C8392FC240822920014C2BF /* ForegroundEventSpec.swift in Sources */,
@@ -3304,7 +3308,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteUtilities;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3335,7 +3339,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteUtilities;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3624,7 +3628,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.13.0;
+				MARKETING_VERSION = 2.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3656,7 +3660,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.13.0;
+				MARKETING_VERSION = 2.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3747,7 +3751,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.0;
+				MARKETING_VERSION = 2.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3778,7 +3782,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.9.0;
+				MARKETING_VERSION = 2.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVisualTracking;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3808,7 +3812,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 2.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3839,7 +3843,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 2.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteRemoteNotification;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

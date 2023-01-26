@@ -1,6 +1,6 @@
 <a href="https://karte.io"><img src="https://karte.io/assets/images/common/logo_black.svg" width="270" height="80"></img></a>
 
-[![CircleCI](https://circleci.com/gh/plaidev/karte-ios-dev/tree/develop.svg?style=shield&circle-token=2d77dd3ed586a471aa58ca8047d82e574390428a)](https://circleci.com/gh/plaidev/karte-ios-dev/tree/develop)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/plaidev/karte-ios-dev/tree/develop.svg?style=shield&circle-token=5f3ac2eca27be274678628d8756814b959bdc0b1)](https://dl.circleci.com/status-badge/redirect/gh/plaidev/karte-ios-dev/tree/develop)
 [![codecov](https://codecov.io/gh/plaidev/karte-ios-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/plaidev/karte-ios-sdk)
 [![License](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/plaidev/karte-ios-sdk/blob/master/LICENSE)
 

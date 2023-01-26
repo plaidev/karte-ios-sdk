@@ -289,7 +289,7 @@ extension KarteApp {
     }
 
     func teardown() {
-        KarteApp.libraries.forEach { library in
+        KarteApp.libraries.reversed().forEach { library in
             library.unconfigure(app: self)
         }
 

@@ -136,10 +136,9 @@ public class InAppMessaging: NSObject {
         app.register(module: .user(self))
 
         IAMProxy.shared.swizzleMethods()
-        UINavigationController.krt_swizzleNavigationTransitionMethods()
-        UITabBarController.krt_swizzleTabBarTransitionMethods()
-        UIViewController.krt_swizzleTransitionMethods()
-        UIViewController.krt_swizzleLifecycleMethods()
+        UINavigationControllerProxy.shared.swizzleMethods()
+        UITabBarControllerProxy.shared.swizzleMethods()
+        UIViewControllerProxy.shared.swizzleMethods()
 
         checkInfoPlist()
     }

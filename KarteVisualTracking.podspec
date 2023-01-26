@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteVisualTracking'
-  s.version                 = '2.9.0'
+  s.version                 = '2.10.0'
   s.summary                 = 'KARTE Visual tracking SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -31,5 +31,5 @@ Pod::Spec.new do |s|
   }
 
   s.dependency 'KarteCore', '~> 2.0'
-  s.dependency 'KarteUtilities', '~> 3.1'
+  s.dependency 'KarteUtilities', '~> 3.8'
 end

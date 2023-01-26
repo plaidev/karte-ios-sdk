@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2023 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -14,10 +14,49 @@
 //  limitations under the License.
 //
 
-import KarteUtilities
+import Foundation
 import UIKit
+import KarteUtilities
+import KarteCore
 
-extension UIGestureRecognizer {
+internal class UIGestureRecognizerProxy: NSObject {
+    static let shared = UIGestureRecognizerProxy()
+
+    private let scope = SafeSwizzler.scope { builder in
+        builder
+            .add(VisualTracking.self)
+            .add(UIGestureRecognizerProxy.self)
+    }
+    private let cls = UIGestureRecognizer.self
+
+    private let setStateSelector = NSSelectorFromString("setState:")
+
+    private lazy var className: String = {
+        String(describing: type(of: self))
+    }()
+
+    private override init() {
+        super.init()
+    }
+
+    func swizzleMethods() {
+        let block: @convention(block) (Any, UIGestureRecognizer.State) -> Void = setState
+        scope.swizzle(
+            cls: cls,
+            name: setStateSelector,
+            imp: imp_implementationWithBlock(block)
+        )
+
+        Logger.debug(tag: .visualTracking, message: "\(className) executed method swizzling.")
+    }
+
+    func unswizzleMethods() {
+        scope.unswizzle()
+        Logger.debug(tag: .visualTracking, message: "\(className) removed method swizzling.")
+    }
+}
+
+extension UIGestureRecognizerProxy {
     // swiftlint:disable:next type_name
     class RE {
         static let shared = RE()
@@ -31,17 +70,15 @@ extension UIGestureRecognizer {
         }
     }
 
-    class func krt_vt_swizzleGestureRecognizerMethods() {
-        exchangeInstanceMethod(
-            cls: self,
-            from: NSSelectorFromString("setState:"),
-            to: #selector(krt_vt_setState(_:))
-        )
-    }
+    func setState(receiver: Any, state: UIGestureRecognizer.State) {
+        Logger.debug(tag: .visualTracking, message: "Invoked \(className).\(#function)")
 
-    @objc
-    private func krt_vt_setState(_ state: UIGestureRecognizer.State) {
+        guard let receiver = receiver as? UIGestureRecognizer else {
+            return
+        }
+
         if state == .recognized || state == .changed || state == .ended {
+            let view = receiver.view
             let viewController = UIResponder.krt_vt_retrieveViewController(for: view)
             if let match = RE.shared.firstMatch(in: description) {
                 let range = match.range(at: 1)
@@ -58,6 +95,14 @@ extension UIGestureRecognizer {
             }
         }
 
-        krt_vt_setState(state)
+        let originalImplementation = scope.originalImplementation(
+            cls: cls,
+            name: setStateSelector
+        )
+        let originalFunction = unsafeBitCast(
+            originalImplementation,
+            to: (@convention(c) (Any, Selector, UIGestureRecognizer.State) -> Void).self
+        )
+        originalFunction(receiver, setStateSelector, state)
     }
 }
