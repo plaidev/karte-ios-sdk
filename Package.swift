@@ -26,6 +26,10 @@ let package = Package(
             targets: ["KarteVisualTracking", "KarteCore", "KarteUtilities"]
         ),
         .library(
+            name: "KarteInbox",
+            targets: ["KarteInbox", "KarteCore", "KarteUtilities"]
+        ),
+        .library(
             name: "KarteRemoteNotification",
             targets: ["KarteRemoteNotification", "KarteCore", "KarteUtilities"]
         ),
@@ -60,6 +64,9 @@ let package = Package(
         ),
         .binaryTarget(
             name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.8.0/KarteVisualTracking.xcframework.zip", checksum: "421785f3b28f44c747815a21cf4c758d64a3279ca8a3f5381c6e73b902f0f79d"
+        ),
+        .binaryTarget(
+            name: "KarteInbox", url: "https://sdk.karte.io/ios/swiftpm/Inbox-0.1.0/KarteInbox.xcframework.zip", checksum: "TO_BE_REPLACED"
         ),
         .binaryTarget(
             name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.8.0/KarteRemoteNotification.xcframework.zip", checksum: "63485389ac28e0e4d17fdd9f10291b631c8b2c5fab9e74b827a5e9fd571afde1"

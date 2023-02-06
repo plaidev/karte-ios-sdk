@@ -1,0 +1,22 @@
+{
+    "messages": [
+        {
+            "attachmentUrl": "",
+            "body": "body1",
+            "campaignId": "dummy_campaignId_1",
+            "linkUrl": "",
+            "messageId": "dummy_messageId_1",
+            "timestamp": 1674015317,
+            "title": "title1"
+        },
+        {
+            "attachmentUrl": "",
+            "body": "body2",
+            "campaignId": "dummy_campaignId_2",
+            "linkUrl": "",
+            "messageId": "dummy_messageId_2",
+            "timestamp": 1672919717,
+            "title": "title2"
+        }
+    ]
+}

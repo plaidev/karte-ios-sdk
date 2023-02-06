@@ -7,6 +7,7 @@
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.9.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.4.1 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.10.0 |
+| KarteInbox | Push通知の送信履歴を取得する機能を提供します（β版）。 | 0.1.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.5.0 |
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.8.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
@@ -35,6 +36,11 @@
 ### Utilities 3.8.0
 ** 🎉FEATURE**
 - メソッド置換を安全に行うために改良したAPIを追加しました。
+
+### Inbox 0.1.0
+** 🎉 FEATURE**
+- Push通知の送信履歴が取得できるモジュールをOSSとして公開しました（β版）。
+  - ご利用いただくには別途お手続きが必要です。
 
 # Releases - 2022.12.23
 ## Version 2.7.0
