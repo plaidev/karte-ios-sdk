@@ -18,32 +18,24 @@ import Foundation
 
 internal struct InvalidEventFieldValueFilterRule: EventFilterRule {
     func filter(_ event: Event) throws {
-        var invalid = false
-        var errorMessage = ""
-
         switch event.eventName {
         case .view:
             guard let viewName = event.values.string(forKey: field(.viewName)) else {
                 break
             }
             if viewName.isEmpty {
-                invalid = true
-                errorMessage = "This view event is invalid. view_name is empty: \(event)"
+                Logger.error(tag: .track, message: "This view event is invalid. view_name is empty: \(event)")
+                throw EventFilterError.invalidEventFieldValue
             }
         case .identify:
             guard let userId = event.values.string(forKey: field(.userId)) else {
                 break
             }
             if userId.isEmpty {
-                invalid = true
-                errorMessage = "This identify event is invalid. user_id is empty: \(event)"
+                Logger.warn(tag: .track, message: "This identify event is invalid. user_id is empty: \(event)")
             }
         default:
             break
-        }
-        if invalid {
-            Logger.error(tag: .track, message: "\(errorMessage)")
-            throw EventFilterError.invalidEventFieldValue
         }
     }
 }

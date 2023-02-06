@@ -258,11 +258,11 @@ class EventFilterSpec: QuickSpec {
             }
             
             context("when the user_id of identify event is empty") {
-                it("throw error") {
+                it("not throw error") {
                     let event = Event(.identify(userId: "", values: [:]))
                     expect({
                         try filter.filter(event)
-                    }).to(throwError())
+                    }).toNot(throwError())
                 }
             }
             
