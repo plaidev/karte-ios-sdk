@@ -249,11 +249,11 @@ class EventFilterSpec: QuickSpec {
             }
             
             context("when the view_name of view event is empty") {
-                it("throw error") {
+                it("not throw error") {
                     let event = Event(.view(viewName: "", title: "title", values: [:]))
                     expect({
                         try filter.filter(event)
-                    }).to(throwError())
+                    }).toNot(throwError())
                 }
             }
             

@@ -24,8 +24,7 @@ internal struct InvalidEventFieldValueFilterRule: EventFilterRule {
                 break
             }
             if viewName.isEmpty {
-                Logger.error(tag: .track, message: "This view event is invalid. view_name is empty: \(event)")
-                throw EventFilterError.invalidEventFieldValue
+                Logger.warn(tag: .track, message: "This view event is invalid. view_name is empty: \(event)")
             }
         case .identify:
             guard let userId = event.values.string(forKey: field(.userId)) else {
