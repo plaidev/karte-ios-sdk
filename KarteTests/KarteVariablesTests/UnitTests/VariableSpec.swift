@@ -49,13 +49,21 @@ class VariableSpec: QuickSpec {
                 it("isDefined is false") {
                     expect(variable.isDefined).to(beFalse())
                 }
+                
+                it("timestamp is nil") {
+                    expect(variable.timestamp).to(beNil())
+                }
+                
+                it("eventHash is nil") {
+                    expect(variable.eventHash).to(beNil())
+                }
             }
             
             context("variable is defined") {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "name", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo")
+                    variable = Variable(name: "name", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: "timestamp", eventHash: "eventHash")
                     variable.save()
                 }
                 
@@ -82,13 +90,21 @@ class VariableSpec: QuickSpec {
                 it("isDefined is true") {
                     expect(variable.isDefined).to(beTrue())
                 }
+                
+                it("timestamp is `timestamp`") {
+                    expect(variable.timestamp).to(equal("timestamp"))
+                }
+                
+                it("eventHash is `eventHash`") {
+                    expect(variable.eventHash).to(equal("eventHash"))
+                }
             }
             
             context("basic parameters") {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -116,7 +132,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -192,7 +208,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "0")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "0", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -268,7 +284,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "1")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "1", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -344,7 +360,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: String(Int.max))
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: String(Int.max), timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -420,7 +436,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "9223372036854775808")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "9223372036854775808", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -496,7 +512,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: String(Int.min))
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: String(Int.min), timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -572,7 +588,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "-9223372036854775809")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "-9223372036854775809", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -648,7 +664,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "0.0")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "0.0", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -724,7 +740,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "1.0")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "1.0", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -800,7 +816,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "true")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "true", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -876,7 +892,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "false")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "false", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -952,7 +968,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "[\"foo\", \"bar\"]")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "[\"foo\", \"bar\"]", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -1028,7 +1044,7 @@ class VariableSpec: QuickSpec {
                 var variable: Variable!
                 
                 beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "{\"foo\": \"bar\"}")
+                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "{\"foo\": \"bar\"}", timestamp: nil, eventHash: nil)
                     variable.save()
                 }
                 
@@ -1098,6 +1114,37 @@ class VariableSpec: QuickSpec {
                         expect(variable.dictionary(default: ["bar": "foo"]) as? [String: String]).to(equal(["foo": "bar"]))
                     }
                 }
+            }
+        }
+        
+        describe("backward compatibility check") {
+            var variable: Variable!
+            
+            beforeSuite {
+                let v = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: nil, eventHash: nil)
+                Variables.bulkSave(variables: [v])
+                
+                variable = Variables.variable(forKey: "foo")
+            }
+            
+            it("value is `bar`") {
+                expect(variable.string).to(equal("bar"))
+            }
+            
+            it("campaignId is `c1`") {
+                expect(variable.campaignId).to(equal("c1"))
+            }
+            
+            it("shortenId is `s1`") {
+                expect(variable.shortenId).to(equal("s1"))
+            }
+            
+            it("timestamp is nil") {
+                expect(variable.timestamp).to(beNil())
+            }
+            
+            it("eventHash is nil") {
+                expect(variable.eventHash).to(beNil())
             }
         }
     }

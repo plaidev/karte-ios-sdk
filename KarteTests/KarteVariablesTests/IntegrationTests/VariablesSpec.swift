@@ -28,6 +28,7 @@ class VariablesSpec: QuickSpec {
         var fetchStubBuilder1: Builder!
         var fetchStubBuilder2: Builder!
         var fetchStubBuilder3: Builder!
+        var fetchStubBuilder4: Builder!
         var otherStubBuilder: Builder!
         
         beforeSuite {
@@ -37,6 +38,7 @@ class VariablesSpec: QuickSpec {
             fetchStubBuilder1 = StubBuilder(spec: self, resource: .variables1).build()
             fetchStubBuilder2 = StubBuilder(spec: self, resource: .variables2).build()
             fetchStubBuilder3 = StubBuilder(spec: self, resource: .variables3).build()
+            fetchStubBuilder4 = StubBuilder(spec: self, resource: .variables4).build()
             otherStubBuilder = StubBuilder(spec: self, resource: .empty).build()
         }
         
@@ -65,6 +67,22 @@ class VariablesSpec: QuickSpec {
                     it("shorten_id is match") {
                         expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("__5e7dab7215bd5200119c9658"))
                     }
+                    
+                    it("response_id is match") {
+                        expect(event.values.string(forKeyPath: "message.response_id")).to(equal("2020-03-27T14:25:37.151Z___5e7dab7215bd5200119c9658"))
+                    }
+                    
+                    it("response_timestamp is match") {
+                        expect(event.values.string(forKeyPath: "message.response_timestamp")).to(equal("2020-03-27T14:25:37.151Z"))
+                    }
+                    
+                    it("event_hashes is match") {
+                        expect(event.values.string(forKeyPath: "message.trigger.event_hashes")).to(equal("a001"))
+                    }
+                    
+                    it("no_action is match") {
+                        expect(event.values.bool(forKeyPath: "no_action")).to(beFalse())
+                    }
                 }
                 
                 describe("action is not control group") {
@@ -89,6 +107,68 @@ class VariablesSpec: QuickSpec {
                     
                     it("shorten_id is match") {
                         expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("14kU"))
+                    }
+                    
+                    it("response_id is match") {
+                        expect(event.values.string(forKeyPath: "message.response_id")).to(equal("2019-11-24T02:05:12.616Z_14kU"))
+                    }
+                    
+                    it("response_timestamp is match") {
+                        expect(event.values.string(forKeyPath: "message.response_timestamp")).to(equal("2019-11-24T02:05:12.616Z"))
+                    }
+                    
+                    it("event_hashes is match") {
+                        expect(event.values.string(forKeyPath: "message.trigger.event_hashes")).to(equal("a001"))
+                    }
+                    
+                    it("no_action is match") {
+                        expect(event.values.bool(forKeyPath: "no_action")).to(beFalse())
+                    }
+                }
+                
+                
+                describe("no action") {
+                    var event: Event!
+                    beforeEachWithMetadata { (metadata) in
+                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder4, eventName: .fetchVariables) { (_, _, _) in
+                        }
+                        
+                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+                        Variables.fetch()
+
+                        module.wait()
+                        
+                        StubActionModule(self, metadata: metadata, builder: otherStubBuilder, eventName: .messageReady) { (_, _, e) in
+                            event = e
+                        }.wait()
+                    }
+                    
+                    it("campaign_id is match") {
+                        expect(event.values.string(forKeyPath: "message.campaign_id")).to(equal("5b750a095db3aa091ed1f590"))
+                    }
+                    
+                    it("shorten_id is match") {
+                        expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("14kU"))
+                    }
+                       
+                    it("response_id is match") {
+                        expect(event.values.string(forKeyPath: "message.response_id")).to(equal("2019-11-24T02:05:12.616Z_14kU"))
+                    }
+                    
+                    it("response_timestamp is match") {
+                        expect(event.values.string(forKeyPath: "message.response_timestamp")).to(equal("2019-11-24T02:05:12.616Z"))
+                    }
+                    
+                    it("event_hashes is match") {
+                        expect(event.values.string(forKeyPath: "message.trigger.event_hashes")).to(equal("a001"))
+                    }
+
+                    it("no_action is match") {
+                        expect(event.values.bool(forKeyPath: "no_action")).to(beTrue())
+                    }
+                    
+                    it("reason is match") {
+                        expect(event.values.string(forKeyPath: "reason")).to(equal("foo"))
                     }
                 }
             }

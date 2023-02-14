@@ -119,6 +119,10 @@
 		0C4B51B42492173B0075A67D /* ClassLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B12492173B0075A67D /* ClassLoader.swift */; };
 		0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */; };
 		0C4B51B62492173B0075A67D /* OpacityDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B32492173B0075A67D /* OpacityDetector.swift */; };
+		0C520BC8298CE6DB00480B77 /* success_variables_4.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C520BC7298CE6DA00480B77 /* success_variables_4.json */; };
+		0C520BCA298CF68800480B77 /* TrackVariablesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C520BC9298CF68800480B77 /* TrackVariablesSpec.swift */; };
+		0C520BCC2990995000480B77 /* JSONConvertibleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */; };
+		0C520BD02990C50100480B77 /* JSONValueSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C520BCF2990C50100480B77 /* JSONValueSpec.swift */; };
 		0C57796E23DA7E8200054C82 /* KarteApp+RemoteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */; };
 		0C5A7D2E24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5A7D2D24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift */; };
 		0C69D3E724EB859900D75893 /* CommandBundlerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C69D3E624EB859800D75893 /* CommandBundlerSpec.swift */; };
@@ -678,6 +682,10 @@
 		0C4B51B12492173B0075A67D /* ClassLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassLoader.swift; sourceTree = "<group>"; };
 		0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteViewDetector.swift; sourceTree = "<group>"; };
 		0C4B51B32492173B0075A67D /* OpacityDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpacityDetector.swift; sourceTree = "<group>"; };
+		0C520BC7298CE6DA00480B77 /* success_variables_4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_variables_4.json; sourceTree = "<group>"; };
+		0C520BC9298CF68800480B77 /* TrackVariablesSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackVariablesSpec.swift; sourceTree = "<group>"; };
+		0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONConvertibleSpec.swift; sourceTree = "<group>"; };
+		0C520BCF2990C50100480B77 /* JSONValueSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValueSpec.swift; sourceTree = "<group>"; };
 		0C57796D23DA7E8200054C82 /* KarteApp+RemoteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KarteApp+RemoteNotification.swift"; sourceTree = "<group>"; };
 		0C5A7D2D24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSuppressionFilterRule.swift; sourceTree = "<group>"; };
 		0C69D3E624EB859800D75893 /* CommandBundlerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBundlerSpec.swift; sourceTree = "<group>"; };
@@ -1931,6 +1939,7 @@
 			isa = PBXGroup;
 			children = (
 				0CA52D6E2388CB9D00A575BC /* VariablesSpec.swift */,
+				0C520BC9298CF68800480B77 /* TrackVariablesSpec.swift */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -1957,6 +1966,7 @@
 				0CC648AF238A15BD009EB5DF /* success_variables_1.json */,
 				0CC648B5238CB77B009EB5DF /* success_variables_2.json */,
 				0CF44AFA242E451000CA7F3A /* success_variables_3.json */,
+				0C520BC7298CE6DA00480B77 /* success_variables_4.json */,
 				0CC648C4238D5559009EB5DF /* success_vt_1.json */,
 				0CC648C5238D5559009EB5DF /* success_vt_2.json */,
 				363F260D2582AE60007E6E4B /* success_vt_definitions.json */,
@@ -2264,6 +2274,8 @@
 			isa = PBXGroup;
 			children = (
 				36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */,
+				0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */,
+				0C520BCF2990C50100480B77 /* JSONValueSpec.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2846,6 +2858,7 @@
 				0CC648BB238CD4AA009EB5DF /* success_empty.json in Resources */,
 				0CC648C6238D5559009EB5DF /* success_vt_1.json in Resources */,
 				68E62712254036AA005148FC /* Karte-mock-Info.plist in Resources */,
+				0C520BC8298CE6DB00480B77 /* success_variables_4.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3276,6 +3289,7 @@
 				0C839308240822A40014C2BF /* OpenEventSpec.swift in Sources */,
 				0C8392F52407CCFA0014C2BF /* OptOutConfigSpec.swift in Sources */,
 				68E47D0225C7B6E0003C878F /* ActionFactorySpec.swift in Sources */,
+				0C520BCA298CF68800480B77 /* TrackVariablesSpec.swift in Sources */,
 				68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */,
 				0CE79326238653AD00F0D932 /* Support.swift in Sources */,
 				680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */,
@@ -3294,8 +3308,10 @@
 				36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */,
 				0C839316240838050014C2BF /* ActionAppropriateViewDetectorSpec.swift in Sources */,
 				363F25F12582A1EB007E6E4B /* DefinitionsRequestSpec.swift in Sources */,
+				0C520BCC2990995000480B77 /* JSONConvertibleSpec.swift in Sources */,
 				6807B2AB251D80C900CDAB43 /* ExperimentalConfigurationTests.swift in Sources */,
 				0CFD001F24ED08E800598C8C /* ReachabilityServiceMock.swift in Sources */,
+				0C520BD02990C50100480B77 /* JSONValueSpec.swift in Sources */,
 				0C69D3E724EB859900D75893 /* CommandBundlerSpec.swift in Sources */,
 				0C8392FF240822A40014C2BF /* BackgroundEventSpec.swift in Sources */,
 				0C83930F2408294D0014C2BF /* TrackCommonSpec.swift in Sources */,
@@ -3882,7 +3898,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVariables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3913,7 +3929,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteVariables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

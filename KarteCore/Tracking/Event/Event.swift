@@ -57,7 +57,7 @@ public struct Event: Codable {
     }
 
     public mutating func merge(_ other: [String: JSONConvertible]) {
-        values.merge(other.mapValues { $0.jsonValue }) { $1 }
+        values.mergeRecursive(other.mapValues { $0.jsonValue })
     }
 
     mutating func mergeAdditionalParameter(date: Date, isRetry: Bool) {
@@ -114,14 +114,14 @@ public extension Event {
                     field(.title): title
                 ]
                 name = .view
-                vals = values.merging(other) { $1 }
+                vals = values.mergingRecursive(other)
 
             case let .identify(userId: userId, values: values):
                 let other: [String: JSONConvertible] = [
                     field(.userId): userId
                 ]
                 name = .identify
-                vals = values.merging(other) { $1 }
+                vals = values.mergingRecursive(other)
 
             case let .attribute(values: values):
                 name = .attribute
@@ -159,7 +159,7 @@ public extension Event {
                     ]
                 ]
                 name = type.eventName
-                vals = values.merging(other) { $1 }
+                vals = values.mergingRecursive(other)
 
             case let .renewVisitorId(old: old, new: new):
                 var values = [String: JSONConvertible]()

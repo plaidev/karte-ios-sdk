@@ -146,4 +146,21 @@ extension Dictionary: JSONConvertible where Key == String, Value == JSONConverti
     public var jsonValue: JSONValue {
         .dictionary(self.mapValues { $0.jsonValue })
     }
+
+    public mutating func mergeRecursive(_ other: [Key: Value]) {
+        merge(other, uniquingKeysWith: resolveConflict)
+    }
+
+    public func mergingRecursive(_ other: [Key: Value]) -> [Key: Value] {
+        return merging(other, uniquingKeysWith: resolveConflict)
+    }
+
+    func resolveConflict(_ lhs: Value, _ rhs: Value) -> Value {
+        switch (lhs, rhs) {
+        case let (lhs, rhs) as ([Key: Value], [Key: Value]):
+            return lhs.mergingRecursive(rhs)
+        default:
+            return rhs
+        }
+    }
 }
