@@ -67,14 +67,12 @@ class FindMyselfSpec: QuickSpec {
 
                 beforeEachWithMetadata { (metadata) in
                     let url = URL(string: "app://karte.io/find_myself?k=v")!
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .nativeFindMyself) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     result = KarteApp.shared.application(UIApplication.shared, open: url)
 
-                    module.wait()
+                    event = module.wait().event(.nativeFindMyself)
                 }
 
                 it("return true") {

@@ -59,16 +59,13 @@ class TrackSpec: QuickSpec {
             describe("its track") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: EventName("test")) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                    let event = Event(eventName: EventName("test"), values: values)
-                    Tracker.track(event: event)
+                    Tracker.track(event: Event(eventName: EventName("test"), values: values))
                     
-                    module.wait()
+                    event = module.wait().event(EventName("test"))
                 }
                 
                 it("event name is `test`") {
@@ -115,15 +112,13 @@ class TrackSpec: QuickSpec {
             describe("its track compatible") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: EventName("test")) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                     Tracker.track("test", values: values)
                     
-                    module.wait()
+                    event = module.wait().event(EventName("test"))
                 }
                 
                 it("event name is `test`") {

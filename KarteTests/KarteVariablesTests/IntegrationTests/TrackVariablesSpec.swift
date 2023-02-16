@@ -40,16 +40,14 @@ class TrackVariablesSpec: QuickSpec {
         describe("track message_open") {
             var event: Event!
             beforeEachWithMetadata { (metadata) in
-                let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .messageOpen) { (_, _, e) in
-                    event = e
-                }
+                let module = StubActionModule(self, metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                 let variable = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: "t1", eventHash: "h1")
                 Tracker.trackOpen(variables: [variable], values: ["foo": "bar"])
                 
-                module.wait()
+                event = module.wait().event(.messageOpen)
             }
             
             it("event name is `message_open`") {
@@ -89,16 +87,14 @@ class TrackVariablesSpec: QuickSpec {
         describe("track message_click") {
             var event: Event!
             beforeEachWithMetadata { (metadata) in
-                let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .messageClick) { (_, _, e) in
-                    event = e
-                }
+                let module = StubActionModule(self, metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                 let variable = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: "t1", eventHash: "h1")
                 Tracker.trackClick(variables: [variable], values: ["foo": "bar"])
                 
-                module.wait()
+                event = module.wait().event(.messageClick)
             }
             
             it("event name is `message_click`") {

@@ -39,16 +39,14 @@ class TrackCommonSpec: QuickSpec {
             describe("its track common") {
                 var body: TrackBodyParameters!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: EventName("test")) { (_, b, _) in
-                        body = b
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                     let event = Event(eventName: EventName("test"))
                     Tracker.track(event: event)
                     
-                    module.wait()
+                    body = module.wait().body(EventName("test"))
                 }
                 
                 it("keys.visitor_id is `dummy_visitor_id`") {

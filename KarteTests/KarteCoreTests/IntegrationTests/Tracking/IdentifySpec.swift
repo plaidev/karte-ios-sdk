@@ -55,16 +55,13 @@ class IdentifySpec: QuickSpec {
             describe("its identify") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .identify) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                    let event = Event(.identify(userId: userId, values: values))
-                    Tracker.track(event: event)
+                    Tracker.track(event: Event(.identify(userId: userId, values: values)))
                     
-                    module.wait()
+                    event = module.wait().event(.identify)
                 }
                 
                 it("event name is `identify`") {
@@ -115,15 +112,13 @@ class IdentifySpec: QuickSpec {
             describe("its identify compatible") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .identify) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                     Tracker.identify(userId, values)
                     
-                    module.wait()
+                    event = module.wait().event(.identify)
                 }
                 
                 it("event name is `test`") {

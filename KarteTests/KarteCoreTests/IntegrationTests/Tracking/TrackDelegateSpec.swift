@@ -52,14 +52,12 @@ class TrackDelegateSpec: QuickSpec {
             describe("its delegate") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .nativeAppOpen) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     Tracker.setDelegate(delegate)
                     KarteApp.setup(appKey: APP_KEY)
                     
-                    module.wait()
+                    event = module.wait().event(.nativeAppOpen)
                 }
                 
                 it("event name is `native_app_open`") {

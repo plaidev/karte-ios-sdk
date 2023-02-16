@@ -75,15 +75,13 @@ class CustomConfigurationBaseBehavior : Behavior<CustomConfigurationContext> {
         context("when customized base url") {
             var request: URLRequest!
             beforeEachWithMetadata { (metadata) in
-                let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder, eventName: .nativeAppOpen) { (r, _, _) in
-                    request = r
-                }
+                let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
                 ctx.setup { configuration in
                     configuration.baseURL = URL(string: "https://t.karte.io")!
                     configuration.overlayBaseURL = URL(string: "https://api.karte.io")!
                 }
                 
-                module.wait()
+                request = module.wait().request(.nativeAppOpen)
             }
             
             it("Request Header contains `X-KARTE-App-Key: dummy_app_key`") {
@@ -124,14 +122,13 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         context("when enabled opt out default") {
             var event: Event!
             beforeEachWithMetadata { (metadata) in
-                let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder, eventName: .nativeAppOpen) { (_, _, e) in
-                    event = e
-                }
+                let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
                 ctx.setup { configuration in
                     configuration.isOptOut = true
                 }
                 
                 module.verify()
+                event = module.event(.nativeAppOpen)
             }
             
             it("never sent events") {
@@ -142,14 +139,12 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         context("when mode is ingest") {
             var request: URLRequest!
             beforeEachWithMetadata { (metadata) in
-                let module = StubActionModule(ctx.spec, metadata: metadata, path: "/v0/native/ingest", builder: ctx.builder, eventName: .nativeAppOpen) { (r, _, _) in
-                    request = r
-                }
+                let module = StubActionModule(ctx.spec, metadata: metadata, path: "/v0/native/ingest", builder: ctx.builder)
                 ctx.setupExp { configuration in
                     configuration.operationMode = .ingest
                 }
                 
-                module.wait()
+                request = module.wait().request(.nativeAppOpen)
             }
             
             it("Request URL is `https://api.karte.io/v0/native/ingest`") {
@@ -176,14 +171,12 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
             context("when disable") {
                 beforeEachWithMetadata { (metadata) in
                     idfa = IDFA(isEnabled: false, idfa: "dummy_idfa")
-                    let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder, eventName: .nativeAppOpen) { (_, b, _) in
-                        body = b
-                    }
+                    let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
                     ctx.setup { configuration in
                         configuration.idfaDelegate = idfa
                     }
                     
-                    module.wait()
+                    body = module.wait().body(.nativeAppOpen)
                 }
                 
                 it("idfa is nil") {
@@ -194,14 +187,12 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
             context("when enable") {
                 beforeEachWithMetadata { (metadata) in
                     idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
-                    let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder, eventName: .nativeAppOpen) { (_, b, _) in
-                        body = b
-                    }
+                    let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
                     ctx.setup { configuration in
                         configuration.idfaDelegate = idfa
                     }
                     
-                    module.wait()
+                    body = module.wait().body(.nativeAppOpen)
                 }
                 
                 it("idfa is `dummy_idfa`") {
@@ -234,15 +225,15 @@ class SetupSpec: QuickSpec {
                     var body: TrackBodyParameters!
                     var events: [Event] = []
                     beforeEachWithMetadata { (metadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder, eventNames: [.nativeAppOpen, .nativeAppInstall]) { (r, b, e) in
-                            request = r
-                            body = b
-                            events.append(e)
-                        }
+                        let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                         KarteApp.setup(appKey: APP_KEY)
                         
-                        module.wait()
+                        module.wait().responseDatas([.nativeAppOpen, .nativeAppInstall]).forEach { data in
+                            request = data.request
+                            body = data.body
+                            events.append(data.event)
+                        }
                     }
                     itBehavesLike(ResolvedConfigurationBehavior.self) { (request, body, events) }
                 }
@@ -331,15 +322,15 @@ class SetupSpec: QuickSpec {
                     var body: TrackBodyParameters!
                     var events: [Event] = []
                     beforeEachWithMetadata { (metadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder, eventNames: [.nativeAppOpen, .nativeAppInstall]) { (r, b, e) in
-                            request = r
-                            body = b
-                            events.append(e)
-                        }
+                        let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                         KarteApp.setup()
                         
-                        module.wait()
+                        module.wait().responseDatas([.nativeAppOpen, .nativeAppInstall]).forEach { data in
+                            request = data.request
+                            body = data.body
+                            events.append(data.event)
+                        }
                     }
                     itBehavesLike(ResolvedConfigurationBehavior.self) { (request, body, events) }
                 }
