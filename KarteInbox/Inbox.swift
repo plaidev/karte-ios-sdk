@@ -39,8 +39,10 @@ public class Inbox: NSObject {
 
     /// Push通知の送信履歴を取得します。エラー発生時はnilを返します。
     /// - Parameter userId: 取得対象のユーザーのユーザーID。未Identify状態のユーザー（visitor）の履歴は取得できません。
-    public static func fetchMessages(by userId: String) async -> [InboxMessage]? {
-        return await InboxClient.fetchMessages(by: userId)
+    /// - Parameter limit: 最大取得件数を指定します。デフォルトは最新50件を取得します。
+    /// - Parameter latestMessageId: この値で指定されたmessageIdより前の履歴を取得します。指定したmessageIdを持つ履歴は戻り値に含まれません。
+    public static func fetchMessages(by userId: String, limit: UInt? = nil, latestMessageId: String? = nil) async -> [InboxMessage]? {
+        return await InboxClient.fetchMessages(by: userId, limit: limit, latestMessageId: latestMessageId)
     }
 }
 

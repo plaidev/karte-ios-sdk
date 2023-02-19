@@ -29,8 +29,8 @@ struct InboxClient {
 }
 
 extension InboxClient {
-    static func fetchMessages(by userId: String) async -> [InboxMessage]? {
-        let req = FetchMessagesRequest(userId: userId)
+    static func fetchMessages(by userId: String, limit: UInt? = nil, latestMessageId: String? = nil) async -> [InboxMessage]? {
+        let req = FetchMessagesRequest(userId: userId, limit: limit, latestMessageId: latestMessageId)
         let res = await call(req)
         return res?.messages
     }

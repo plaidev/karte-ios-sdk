@@ -21,6 +21,14 @@ struct FetchMessagesRequest: BaseAPIRequest {
     typealias Response = FetchMessagesResponse
 
     let userId: String
+    let limit: UInt?
+    let latestMessageId: String?
+
+    init(userId: String, limit: UInt? = nil, latestMessageId: String? = nil) {
+        self.userId = userId
+        self.limit = limit
+        self.latestMessageId = latestMessageId
+    }
 
     var method: HTTPMethod {
         .post
@@ -31,11 +39,18 @@ struct FetchMessagesRequest: BaseAPIRequest {
     }
 
     var bodyParams: [String: Any]? {
-        [
+        var body: [String: Any] = [
             "userId": userId,
             "appType": "native_app",
             "os": "ios"
         ]
+        if let limit = limit {
+            body["limit"] = limit
+        }
+        if let latest = latestMessageId {
+            body["latestMessageId"] = latest
+        }
+        return body
     }
 }
 

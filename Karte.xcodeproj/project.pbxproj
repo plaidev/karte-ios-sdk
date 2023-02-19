@@ -426,6 +426,7 @@
 		AF49FAA1296ED953005A7575 /* CallerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF49FAA0296ED953005A7575 /* CallerSpec.swift */; };
 		AFA6E8142987B03500111497 /* InboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6E8132987B03500111497 /* InboxSpec.swift */; };
 		AFA6E8162987CBD400111497 /* success_inbox.json in Resources */ = {isa = PBXBuildFile; fileRef = AFA6E8152987CBD400111497 /* success_inbox.json */; };
+		AFCAF2C4299F6809005B4DCC /* FetchMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1006,6 +1007,7 @@
 		AF49FAA0296ED953005A7575 /* CallerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallerSpec.swift; sourceTree = "<group>"; };
 		AFA6E8132987B03500111497 /* InboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxSpec.swift; sourceTree = "<group>"; };
 		AFA6E8152987CBD400111497 /* success_inbox.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success_inbox.json; sourceTree = "<group>"; };
+		AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchMessagesRequestSpec.swift; sourceTree = "<group>"; };
 		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BFF77FFF3DF47D9011A20C08 /* Pods-Karte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.debug.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2411,6 +2413,7 @@
 			isa = PBXGroup;
 			children = (
 				AF49FAA0296ED953005A7575 /* CallerSpec.swift */,
+				AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -3314,6 +3317,7 @@
 				0C520BD02990C50100480B77 /* JSONValueSpec.swift in Sources */,
 				0C69D3E724EB859900D75893 /* CommandBundlerSpec.swift in Sources */,
 				0C8392FF240822A40014C2BF /* BackgroundEventSpec.swift in Sources */,
+				AFCAF2C4299F6809005B4DCC /* FetchMessagesRequestSpec.swift in Sources */,
 				0C83930F2408294D0014C2BF /* TrackCommonSpec.swift in Sources */,
 				0C839314240837E70014C2BF /* VariablesSpec.swift in Sources */,
 				0C839303240822A40014C2BF /* ViewEventSpec.swift in Sources */,
