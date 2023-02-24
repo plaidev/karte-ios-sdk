@@ -23,8 +23,9 @@ internal class DefaultTrackingCommandExecutor: TrackingCommandExecutor {
 
     private var app: KarteApp
     private var bundler: CommandBundlerProxy
+    private var filter: TrackEventRejectionFilter
 
-    init(app: KarteApp, queue: DispatchQueue, repository: TrackingCommandRepository) {
+    init(app: KarteApp, queue: DispatchQueue, repository: TrackingCommandRepository, filter: TrackEventRejectionFilter) {
         let timeWindowBundleRule = TimeWindowBundleRule(queue: queue, interval: .milliseconds(100))
         TrackClient.shared.addObserver(timeWindowBundleRule)
 
@@ -36,6 +37,7 @@ internal class DefaultTrackingCommandExecutor: TrackingCommandExecutor {
         self.bundler = StateCommandBundlerProxy(bundler: bundler)
         self.repository = repository
         self.app = app
+        self.filter = filter
 
         bundler.delegate = self
     }
@@ -54,7 +56,7 @@ internal class DefaultTrackingCommandExecutor: TrackingCommandExecutor {
 
 private extension DefaultTrackingCommandExecutor {
     func request(bundle: CommandBundle) {
-        guard let request = bundle.newRequest(app: app) else {
+        guard let request = bundle.newRequest(app: app, filter: filter) else {
             return
         }
 

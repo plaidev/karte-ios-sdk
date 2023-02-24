@@ -17,6 +17,13 @@
 import Foundation
 import ObjectiveC
 
+public let iso8601DateTimeFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    return formatter
+}()
+
 /// JSONEncoder を返します。
 /// なお dateEncodingStrategy = .secondsSince1970 が設定済みです。
 public func createJSONEncoder() -> JSONEncoder {

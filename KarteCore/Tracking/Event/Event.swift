@@ -43,17 +43,22 @@ public struct Event: Codable {
     /// * `Dictionary`
     public var values: [String: JSONValue]
 
+    /// イベント発生源のライブラリ名
+    public var libraryName: String?
+
     var isRetryable: Bool {
         eventName.isRetryable
     }
 
-    public init(eventName: EventName, values: [String: JSONConvertible] = [:]) {
+    public init(eventName: EventName, values: [String: JSONConvertible] = [:], libraryName: String? = nil) {
         self.eventName = eventName
         self.values = values.mapValues { $0.jsonValue }
+        self.libraryName = libraryName
     }
 
-    public init(_ alias: Alias) {
+    public init(_ alias: Alias, libraryName: String? = nil) {
         (eventName, values) = alias.build()
+        self.libraryName = libraryName
     }
 
     public mutating func merge(_ other: [String: JSONConvertible]) {
@@ -249,5 +254,6 @@ private extension Event {
     enum CodingKeys: String, CodingKey {
         case eventName = "event_name"
         case values
+        case libraryName
     }
 }

@@ -234,12 +234,7 @@ extension IAMProcess {
     }
 
     private func handleJsMessageEvent(_ data: JsMessage.EventData) {
-        let event = Event(
-            eventName: data.eventName,
-            values: data.values.mapValues { $0.rawValue }
-        )
-        Tracker(view: window).track(event: event)
-
+        Tracker.track(view: window, data: data)
         notifyCampaignOpenOrClose(data)
     }
 

@@ -120,4 +120,8 @@ extension VisualTrackingManager: ActionModule, DeepLinkModule, TrackModule {
         }
         return try tracker.intercept(urlRequest: urlRequest)
     }
+
+    func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
+        return []
+    }
 }

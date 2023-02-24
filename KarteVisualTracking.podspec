@@ -30,6 +30,6 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'VISUAL_TRACKING_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteCore', '~> 2.0'
+  s.dependency 'KarteCore', '~> 2.22'
   s.dependency 'KarteUtilities', '~> 3.8'
 end
