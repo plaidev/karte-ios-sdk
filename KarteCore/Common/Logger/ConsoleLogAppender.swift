@@ -26,7 +26,7 @@ internal class ConsoleLogAppender: LogAppender {
     let developmentLayout = DevelopmentLogLayout()
 
     func append(_ log: Logger.Log) {
-        if Logger.level < log.level || !Logger.isEnabled {
+        if Logger.level < log.level {
             return
         }
 

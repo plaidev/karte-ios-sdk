@@ -361,14 +361,9 @@
 		36EFDEC0271ABDE200C60666 /* TodaySupplierMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EFDEBF271ABDE200C60666 /* TodaySupplierMock.swift */; };
 		36EFDED5271BF26700C60666 /* failure_invalid_request.json in Resources */ = {isa = PBXBuildFile; fileRef = 36EFDECA271B8F3A00C60666 /* failure_invalid_request.json */; };
 		36EFDEDF271BF26B00C60666 /* failure_server_error.json in Resources */ = {isa = PBXBuildFile; fileRef = 36EFDECB271B8FAA00C60666 /* failure_server_error.json */; };
-		36F3BC7124F4A928002D4382 /* GetLogUploadURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */; };
-		36F3BC7324F4BE71002D4382 /* UploadLogRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */; };
-		36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */; };
 		36F3BC7824F8DAC1002D4382 /* LogAppender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7724F8DAC1002D4382 /* LogAppender.swift */; };
 		36F3BC7A24F8DAEC002D4382 /* ConsoleLogAppender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7924F8DAEC002D4382 /* ConsoleLogAppender.swift */; };
-		36F3BC7C24F8DAFB002D4382 /* FileLogAppender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7B24F8DAFB002D4382 /* FileLogAppender.swift */; };
 		36F3BC7E24F8DE39002D4382 /* LogLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7D24F8DE39002D4382 /* LogLayout.swift */; };
-		36F3BC8024F8E101002D4382 /* LogFileCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F3BC7F24F8E101002D4382 /* LogFileCollector.swift */; };
 		500813BF2703E7A300805FA7 /* ObjcCompatibleScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500813BE2703E7A300805FA7 /* ObjcCompatibleScope.swift */; };
 		500813C22703E9CD00805FA7 /* KRTTracker+RemoteNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 500813C02703E9CD00805FA7 /* KRTTracker+RemoteNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		500813C32703E9CD00805FA7 /* KRTTracker+RemoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 500813C12703E9CD00805FA7 /* KRTTracker+RemoteNotification.m */; };
@@ -946,14 +941,9 @@
 		36EFDEBF271ABDE200C60666 /* TodaySupplierMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaySupplierMock.swift; sourceTree = "<group>"; };
 		36EFDECA271B8F3A00C60666 /* failure_invalid_request.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = failure_invalid_request.json; sourceTree = "<group>"; };
 		36EFDECB271B8FAA00C60666 /* failure_server_error.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = failure_server_error.json; sourceTree = "<group>"; };
-		36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLogUploadURLRequest.swift; sourceTree = "<group>"; };
-		36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadLogRequest.swift; sourceTree = "<group>"; };
-		36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppenderSpec.swift; sourceTree = "<group>"; };
 		36F3BC7724F8DAC1002D4382 /* LogAppender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogAppender.swift; sourceTree = "<group>"; };
 		36F3BC7924F8DAEC002D4382 /* ConsoleLogAppender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogAppender.swift; sourceTree = "<group>"; };
-		36F3BC7B24F8DAFB002D4382 /* FileLogAppender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLogAppender.swift; sourceTree = "<group>"; };
 		36F3BC7D24F8DE39002D4382 /* LogLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLayout.swift; sourceTree = "<group>"; };
-		36F3BC7F24F8E101002D4382 /* LogFileCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFileCollector.swift; sourceTree = "<group>"; };
 		500813BE2703E7A300805FA7 /* ObjcCompatibleScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjcCompatibleScope.swift; sourceTree = "<group>"; };
 		500813C02703E9CD00805FA7 /* KRTTracker+RemoteNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KRTTracker+RemoteNotification.h"; sourceTree = "<group>"; };
 		500813C12703E9CD00805FA7 /* KRTTracker+RemoteNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "KRTTracker+RemoteNotification.m"; sourceTree = "<group>"; };
@@ -1610,12 +1600,10 @@
 		0C83929A2406C7010014C2BF /* Logger */ = {
 			isa = PBXGroup;
 			children = (
-				36F3BC6D24F4A760002D4382 /* Collection */,
 				0C83929B2406C7010014C2BF /* Logger.swift */,
 				0C83929C2406C7010014C2BF /* LogLevel.swift */,
 				36F3BC7724F8DAC1002D4382 /* LogAppender.swift */,
 				36F3BC7924F8DAEC002D4382 /* ConsoleLogAppender.swift */,
-				36F3BC7B24F8DAFB002D4382 /* FileLogAppender.swift */,
 				36F3BC7D24F8DE39002D4382 /* LogLayout.swift */,
 			);
 			path = Logger;
@@ -2298,20 +2286,9 @@
 			path = Agent;
 			sourceTree = "<group>";
 		};
-		36F3BC6D24F4A760002D4382 /* Collection */ = {
-			isa = PBXGroup;
-			children = (
-				36F3BC7F24F8E101002D4382 /* LogFileCollector.swift */,
-				36F3BC7024F4A928002D4382 /* GetLogUploadURLRequest.swift */,
-				36F3BC7224F4BE71002D4382 /* UploadLogRequest.swift */,
-			);
-			path = Collection;
-			sourceTree = "<group>";
-		};
 		36F3BC7424F786F4002D4382 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				36F3BC7524F78726002D4382 /* FileLogAppenderSpec.swift */,
 				0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */,
 				0C520BCF2990C50100480B77 /* JSONValueSpec.swift */,
 			);
@@ -3090,7 +3067,6 @@
 				0C83928F2406C6AA0014C2BF /* InstallationStatus.swift in Sources */,
 				0C69D3FC24EB9D9D00D75893 /* TrackClientState.swift in Sources */,
 				0C8392B72406C7010014C2BF /* Module.swift in Sources */,
-				36F3BC7124F4A928002D4382 /* GetLogUploadURLRequest.swift in Sources */,
 				0C0822D824E67B2E0038EBDA /* CommandBundleRule.swift in Sources */,
 				0C69D40224EB9D9D00D75893 /* TrackBodyParameters.swift in Sources */,
 				0C8392B42406C7010014C2BF /* UserModule.swift in Sources */,
@@ -3099,7 +3075,6 @@
 				0C69D3FE24EB9D9D00D75893 /* ReachabilityService.swift in Sources */,
 				36F3BC7E24F8DE39002D4382 /* LogLayout.swift in Sources */,
 				0C8392842406C6AA0014C2BF /* PvIdGenerator.swift in Sources */,
-				36F3BC8024F8E101002D4382 /* LogFileCollector.swift in Sources */,
 				0C69D41524EB9DC600D75893 /* TrackingTask.swift in Sources */,
 				0CE339EC23F39C9300E2EB98 /* AppKey.swift in Sources */,
 				36F3BC7824F8DAC1002D4382 /* LogAppender.swift in Sources */,
@@ -3138,7 +3113,6 @@
 				1E9A3C652949BBFD006B54D3 /* ApiKey.swift in Sources */,
 				681E83952482A90E00A95083 /* OpenSettingsCommand.swift in Sources */,
 				0C8392662406C5510014C2BF /* Screen.swift in Sources */,
-				36F3BC7324F4BE71002D4382 /* UploadLogRequest.swift in Sources */,
 				0C0822DC24E67B3D0038EBDA /* TrackingCommandExecutor.swift in Sources */,
 				681E8391248252EE00A95083 /* CommandHandlerLoader.m in Sources */,
 				0CB10A1023B216F20086D603 /* TrackerDelegate.swift in Sources */,
@@ -3178,7 +3152,6 @@
 				0C8392E42407842D0014C2BF /* FindMyself.swift in Sources */,
 				777D605927421BB600339D7E /* InvalidEventFieldValueFilterRule.swift in Sources */,
 				36EFDEB5271ABD2400C60666 /* TodaySupplier.swift in Sources */,
-				36F3BC7C24F8DAFB002D4382 /* FileLogAppender.swift in Sources */,
 				0C8392C12406C7750014C2BF /* CoreService.swift in Sources */,
 				0C8392E52407842D0014C2BF /* FindMyselfLoader.m in Sources */,
 				0C0822E924E6816A0038EBDA /* TrackingCommandRecord.swift in Sources */,
@@ -3352,7 +3325,6 @@
 				0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */,
 				0CC648B8238CCFC3009EB5DF /* StubBuilder.swift in Sources */,
 				0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */,
-				36F3BC7624F78726002D4382 /* FileLogAppenderSpec.swift in Sources */,
 				0C839316240838050014C2BF /* ActionAppropriateViewDetectorSpec.swift in Sources */,
 				363F25F12582A1EB007E6E4B /* DefinitionsRequestSpec.swift in Sources */,
 				0C520BCC2990995000480B77 /* JSONConvertibleSpec.swift in Sources */,

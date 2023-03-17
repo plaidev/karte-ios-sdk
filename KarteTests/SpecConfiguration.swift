@@ -22,7 +22,7 @@ class SpecConfiguration: QuickConfiguration {
 
     override class func configure(_ configuration: QCKConfiguration!) {
         configuration.beforeSuite {
-            KarteApp.setLogEnabled(false)
+            KarteApp.setLogLevel(.off)
             KarteApp.shared.teardown()
             Resolver.registerMockServices()
         }
