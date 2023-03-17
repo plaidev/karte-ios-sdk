@@ -34,4 +34,10 @@ extension InboxClient {
         let res = await call(req)
         return res?.messages
     }
+
+    static func openMessages(userId: String, messageIds: [String]) async -> Bool {
+        let req = OpenMessagesRequest(userId: userId, messageIds: messageIds)
+        let res = await call(req)
+        return res?.success ?? false
+    }
 }

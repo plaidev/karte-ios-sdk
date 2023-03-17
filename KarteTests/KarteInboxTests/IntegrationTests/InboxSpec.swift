@@ -37,6 +37,7 @@ final class InboxSpec: XCTestCase {
         expect(res[0].timestamp).notTo(beNil())
         expect(res[0].attachmentUrl).to(beEmpty())
         expect(res[0].linkUrl).to(beEmpty())
+        expect(res[0].isRead).to(beTrue())
 
         expect(res[1].title).to(equal("title2"))
         expect(res[1].body).to(equal("body2"))
@@ -45,6 +46,7 @@ final class InboxSpec: XCTestCase {
         expect(res[1].timestamp).notTo(beNil())
         expect(res[1].attachmentUrl).to(beEmpty())
         expect(res[1].linkUrl).to(beEmpty())
+        expect(res[1].isRead).to(beFalse())
     }
 
     func test_fetchMessagesShouldReturnNilWith400Errors() async throws {
@@ -82,5 +84,19 @@ final class InboxSpec: XCTestCase {
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), jsonData(badResponse))
         let res = await Inbox.fetchMessages(by: "dummy_id")
         expect(res).to(beNil())
+    }
+
+    func test_openMessagesShouldReturnTrueIfResponseIsSuccess() async throws {
+        let successResponse = StubBuilder(test: self, resource: .inbox_success_empty).build()
+        stub(http(.post, uri: "/v2native/inbox/openMessages"), successResponse)
+        let res = await Inbox.openMessages(userId: "dummy", messageIds: [])
+        expect(res).to(beTrue())
+    }
+
+    func test_openMessagesShouldReturnFalseIfResponseIsError() async throws {
+        let badResponse = StubBuilder(test: self, resource: .failure_server_error).build()
+        stub(http(.post, uri: "/v2native/inbox/openMessages"), badResponse)
+        let res = await Inbox.openMessages(userId: "dummy", messageIds: [])
+        expect(res).to(beFalse())
     }
 }

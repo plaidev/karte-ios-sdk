@@ -44,6 +44,14 @@ public class Inbox: NSObject {
     public static func fetchMessages(by userId: String, limit: UInt? = nil, latestMessageId: String? = nil) async -> [InboxMessage]? {
         return await InboxClient.fetchMessages(by: userId, limit: limit, latestMessageId: latestMessageId)
     }
+
+    /// Push通知を指定して既読状態にします。
+    /// - Parameter userId: 既読状態にするPush通知が所属するユーザーのユーザーID。
+    /// - Parameter messageIds: 既読状態にする対象のメッセージIDの配列。
+    /// - Returns リクエスト成功時はtrue, エラー発生時はfalseを返します。
+    public static func openMessages(userId: String, messageIds: [String]) async -> Bool {
+        return await InboxClient.openMessages(userId: userId, messageIds: messageIds)
+    }
 }
 
 extension Inbox: Library {

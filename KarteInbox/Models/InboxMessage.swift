@@ -41,6 +41,9 @@ public struct InboxMessage: Decodable {
     /// Push通知のユニークなIDを返します。
     public let messageId: String
 
+    /// Push通知の既読状態を返します。
+    public let isRead: Bool
+
     public init(
         timestamp: Date,
         title: String,
@@ -48,7 +51,8 @@ public struct InboxMessage: Decodable {
         linkUrl: String,
         attachmentUrl: String,
         campaignId: String,
-        messageId: String
+        messageId: String,
+        isRead: Bool
     ) {
         self.timestamp = timestamp
         self.title = title
@@ -57,5 +61,6 @@ public struct InboxMessage: Decodable {
         self.attachmentUrl = attachmentUrl
         self.campaignId = campaignId
         self.messageId = messageId
+        self.isRead = isRead
     }
 }

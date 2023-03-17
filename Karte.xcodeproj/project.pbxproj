@@ -426,6 +426,9 @@
 		AF0A5F31295475B300209D4E /* KarteInbox.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A5F30295475B300209D4E /* KarteInbox.m */; };
 		AF0A5F352959986F00209D4E /* InboxLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A5F342959986F00209D4E /* InboxLoader.m */; };
 		AF49FAA1296ED953005A7575 /* CallerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF49FAA0296ED953005A7575 /* CallerSpec.swift */; };
+		AF5EDEB329C1C49000D05825 /* OpenMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */; };
+		AF5EDEB529C1C5A600D05825 /* OpenMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */; };
+		AF5EDEB929C30CE700D05825 /* success_inbox_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = AF5EDEB829C30A5400D05825 /* success_inbox_empty.json */; };
 		AFA6E8142987B03500111497 /* InboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6E8132987B03500111497 /* InboxSpec.swift */; };
 		AFA6E8162987CBD400111497 /* success_inbox.json in Resources */ = {isa = PBXBuildFile; fileRef = AFA6E8152987CBD400111497 /* success_inbox.json */; };
 		AFCAF2C4299F6809005B4DCC /* FetchMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */; };
@@ -1009,6 +1012,9 @@
 		AF0A5F30295475B300209D4E /* KarteInbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteInbox.m; sourceTree = "<group>"; };
 		AF0A5F342959986F00209D4E /* InboxLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InboxLoader.m; sourceTree = "<group>"; };
 		AF49FAA0296ED953005A7575 /* CallerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallerSpec.swift; sourceTree = "<group>"; };
+		AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMessagesRequestSpec.swift; sourceTree = "<group>"; };
+		AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMessagesRequest.swift; sourceTree = "<group>"; };
+		AF5EDEB829C30A5400D05825 /* success_inbox_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success_inbox_empty.json; sourceTree = "<group>"; };
 		AFA6E8132987B03500111497 /* InboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxSpec.swift; sourceTree = "<group>"; };
 		AFA6E8152987CBD400111497 /* success_inbox.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success_inbox.json; sourceTree = "<group>"; };
 		AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchMessagesRequestSpec.swift; sourceTree = "<group>"; };
@@ -1997,6 +2003,7 @@
 				363F260D2582AE60007E6E4B /* success_vt_definitions.json */,
 				6857834527478B7000A1AE58 /* success_vt_definitions_with_dynamic_fields.json */,
 				AFA6E8152987CBD400111497 /* success_inbox.json */,
+				AF5EDEB829C30A5400D05825 /* success_inbox_empty.json */,
 			);
 			path = Stub;
 			sourceTree = "<group>";
@@ -2410,6 +2417,7 @@
 				AF0A5F2829546AFC00209D4E /* Caller.swift */,
 				AF0A5F2A29546B3500209D4E /* BaseAPIRequest.swift */,
 				AF0A5F2C29546B5B00209D4E /* FetchMessagesRequest.swift */,
+				AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2428,6 +2436,7 @@
 			children = (
 				AF49FAA0296ED953005A7575 /* CallerSpec.swift */,
 				AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */,
+				AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -2869,6 +2878,7 @@
 				363F26172582B028007E6E4B /* success_vt_definitions.json in Resources */,
 				1EE766B7297546440040278E /* Karte-custom-Info.plist in Resources */,
 				AFA6E8162987CBD400111497 /* success_inbox.json in Resources */,
+				AF5EDEB929C30CE700D05825 /* success_inbox_empty.json in Resources */,
 				6857834627478B7000A1AE58 /* success_vt_definitions_with_dynamic_fields.json in Resources */,
 				36EFDED5271BF26700C60666 /* failure_invalid_request.json in Resources */,
 				36EFDEDF271BF26B00C60666 /* failure_server_error.json in Resources */,
@@ -3318,6 +3328,7 @@
 				0CCFA7BB24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift in Sources */,
 				0C839313240837D40014C2BF /* VariableSpec.swift in Sources */,
 				0C83931B240838320014C2BF /* DefinitionLoadSpec.swift in Sources */,
+				AF5EDEB329C1C49000D05825 /* OpenMessagesRequestSpec.swift in Sources */,
 				93E00F8E28745FF500116B5B /* IAMProcessPoolSpec.swift in Sources */,
 				0C8392F82407CEC50014C2BF /* VersionServiceSpec.swift in Sources */,
 				0C839315240838050014C2BF /* ActionSpec.swift in Sources */,
@@ -3397,6 +3408,7 @@
 				AF0A5F2929546AFC00209D4E /* Caller.swift in Sources */,
 				AF0A5F31295475B300209D4E /* KarteInbox.m in Sources */,
 				AF0A5F2729546AE300209D4E /* InboxClient.swift in Sources */,
+				AF5EDEB529C1C5A600D05825 /* OpenMessagesRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

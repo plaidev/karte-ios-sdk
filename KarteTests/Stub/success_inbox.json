@@ -7,7 +7,8 @@
             "linkUrl": "",
             "messageId": "dummy_messageId_1",
             "timestamp": 1674015317,
-            "title": "title1"
+            "title": "title1",
+            "isRead": true
         },
         {
             "attachmentUrl": "",
@@ -16,7 +17,8 @@
             "linkUrl": "",
             "messageId": "dummy_messageId_2",
             "timestamp": 1672919717,
-            "title": "title2"
+            "title": "title2",
+            "isRead": false
         }
     ]
 }
