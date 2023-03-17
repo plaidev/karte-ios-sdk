@@ -124,6 +124,7 @@
 		0C4B51B42492173B0075A67D /* ClassLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B12492173B0075A67D /* ClassLoader.swift */; };
 		0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */; };
 		0C4B51B62492173B0075A67D /* OpacityDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B32492173B0075A67D /* OpacityDetector.swift */; };
+		0C50509229C17ECA007C5C9B /* JailbreakDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C50509129C17ECA007C5C9B /* JailbreakDetection.swift */; };
 		0C520BC8298CE6DB00480B77 /* success_variables_4.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C520BC7298CE6DA00480B77 /* success_variables_4.json */; };
 		0C520BCA298CF68800480B77 /* TrackVariablesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C520BC9298CF68800480B77 /* TrackVariablesSpec.swift */; };
 		0C520BCC2990995000480B77 /* JSONConvertibleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */; };
@@ -694,6 +695,7 @@
 		0C4B51B12492173B0075A67D /* ClassLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassLoader.swift; sourceTree = "<group>"; };
 		0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteViewDetector.swift; sourceTree = "<group>"; };
 		0C4B51B32492173B0075A67D /* OpacityDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpacityDetector.swift; sourceTree = "<group>"; };
+		0C50509129C17ECA007C5C9B /* JailbreakDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JailbreakDetection.swift; sourceTree = "<group>"; };
 		0C520BC7298CE6DA00480B77 /* success_variables_4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_variables_4.json; sourceTree = "<group>"; };
 		0C520BC9298CF68800480B77 /* TrackVariablesSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackVariablesSpec.swift; sourceTree = "<group>"; };
 		0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONConvertibleSpec.swift; sourceTree = "<group>"; };
@@ -1806,6 +1808,7 @@
 			isa = PBXGroup;
 			children = (
 				683762F8252F201D00E690CE /* SelectorDetector.swift */,
+				0C50509129C17ECA007C5C9B /* JailbreakDetection.swift */,
 				0C8392C02406C7750014C2BF /* CoreService.swift */,
 				0C8392582406C4260014C2BF /* AppInfo */,
 				1E9A3C632949BBFD006B54D3 /* ApiKey */,
@@ -3064,6 +3067,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C83928B2406C6AA0014C2BF /* VisitorId.swift in Sources */,
+				0C50509229C17ECA007C5C9B /* JailbreakDetection.swift in Sources */,
 				0CFD001724ECE6E300598C8C /* TrackClientSession.swift in Sources */,
 				0C8392902406C6AA0014C2BF /* VersionRetriever.swift in Sources */,
 				6898FEC725D3CCA500D0839A /* EventFilterError.swift in Sources */,
