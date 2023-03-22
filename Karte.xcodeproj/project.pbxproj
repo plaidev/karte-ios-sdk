@@ -429,6 +429,8 @@
 		AF5EDEB329C1C49000D05825 /* OpenMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */; };
 		AF5EDEB529C1C5A600D05825 /* OpenMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */; };
 		AF5EDEB929C30CE700D05825 /* success_inbox_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = AF5EDEB829C30A5400D05825 /* success_inbox_empty.json */; };
+		AF9677FD29C86659008C80BC /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9677FC29C86659008C80BC /* Config.swift */; };
+		AF9677FF29CAE5FD008C80BC /* TestUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9677FE29CAE5FD008C80BC /* TestUtil.swift */; };
 		AFA6E8142987B03500111497 /* InboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6E8132987B03500111497 /* InboxSpec.swift */; };
 		AFA6E8162987CBD400111497 /* success_inbox.json in Resources */ = {isa = PBXBuildFile; fileRef = AFA6E8152987CBD400111497 /* success_inbox.json */; };
 		AFCAF2C4299F6809005B4DCC /* FetchMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */; };
@@ -1015,6 +1017,8 @@
 		AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMessagesRequestSpec.swift; sourceTree = "<group>"; };
 		AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMessagesRequest.swift; sourceTree = "<group>"; };
 		AF5EDEB829C30A5400D05825 /* success_inbox_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success_inbox_empty.json; sourceTree = "<group>"; };
+		AF9677FC29C86659008C80BC /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		AF9677FE29CAE5FD008C80BC /* TestUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtil.swift; sourceTree = "<group>"; };
 		AFA6E8132987B03500111497 /* InboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxSpec.swift; sourceTree = "<group>"; };
 		AFA6E8152987CBD400111497 /* success_inbox.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success_inbox.json; sourceTree = "<group>"; };
 		AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchMessagesRequestSpec.swift; sourceTree = "<group>"; };
@@ -2398,6 +2402,7 @@
 				AF0A5F30295475B300209D4E /* KarteInbox.m */,
 				AF0A5F2029546A6800209D4E /* Inbox.swift */,
 				AF0A5F2E29546BB000209D4E /* Logger+Tag.swift */,
+				AF9677FC29C86659008C80BC /* Config.swift */,
 			);
 			path = KarteInbox;
 			sourceTree = "<group>";
@@ -2427,6 +2432,7 @@
 			children = (
 				AFA6E8122987AFFF00111497 /* IntegrationTests */,
 				AF49FA9F296ED85A005A7575 /* UnitTests */,
+				AF9677FE29CAE5FD008C80BC /* TestUtil.swift */,
 			);
 			path = KarteInboxTests;
 			sourceTree = "<group>";
@@ -3307,6 +3313,7 @@
 				6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */,
 				0C6619CE299DBF08006FF9E1 /* TrackMessageOpenSpec.swift in Sources */,
 				0CE79311238653AD00F0D932 /* StubActionModule.swift in Sources */,
+				AF9677FF29CAE5FD008C80BC /* TestUtil.swift in Sources */,
 				0CD4847A2508716F007F52E1 /* MeasurementSpec.swift in Sources */,
 				AFA6E8142987B03500111497 /* InboxSpec.swift in Sources */,
 				0C83931C240838320014C2BF /* DefinitionMatchSpec.swift in Sources */,
@@ -3403,6 +3410,7 @@
 				AF0A5F2D29546B5B00209D4E /* FetchMessagesRequest.swift in Sources */,
 				AF0A5F2B29546B3500209D4E /* BaseAPIRequest.swift in Sources */,
 				AF0A5F2429546AB400209D4E /* InboxMessage.swift in Sources */,
+				AF9677FD29C86659008C80BC /* Config.swift in Sources */,
 				AF0A5F2F29546BB000209D4E /* Logger+Tag.swift in Sources */,
 				AF0A5F2129546A6800209D4E /* Inbox.swift in Sources */,
 				AF0A5F2929546AFC00209D4E /* Caller.swift in Sources */,

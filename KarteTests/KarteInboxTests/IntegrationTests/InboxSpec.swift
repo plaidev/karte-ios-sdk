@@ -24,7 +24,7 @@ final class InboxSpec: XCTestCase {
     func test_fetchMessagesShouldBeParsedWithoutError() async throws {
         let successResponse = StubBuilder(test: self, resource: .inbox_success).build()
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), successResponse)
-        guard let res = await Inbox.fetchMessages(by: "dummy_id") else {
+        guard let res = await Inbox.fetchMessages() else {
             XCTFail("Should never be executed")
             return
         }
@@ -56,47 +56,47 @@ final class InboxSpec: XCTestCase {
         let badResponse404 = StubBuilder(test: self, resource: .failure_invalid_request).build(status: 404)
 
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), badResponse400)
-        let res1 = await Inbox.fetchMessages(by: "dummy_id")
+        let res1 = await Inbox.fetchMessages()
         expect(res1).to(beNil())
 
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), badResponse401)
-        let res2 = await Inbox.fetchMessages(by: "dummy_id")
+        let res2 = await Inbox.fetchMessages()
         expect(res2).to(beNil())
 
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), badResponse403)
-        let res3 = await Inbox.fetchMessages(by: "dummy_id")
+        let res3 = await Inbox.fetchMessages()
         expect(res3).to(beNil())
 
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), badResponse404)
-        let res4 = await Inbox.fetchMessages(by: "dummy_id")
+        let res4 = await Inbox.fetchMessages()
         expect(res4).to(beNil())
     }
 
     func test_fetchMessagesShouldReturnNilwith500Error() async throws {
         let badResponse500 = StubBuilder(test: self, resource: .failure_server_error).build()
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), badResponse500)
-        let res = await Inbox.fetchMessages(by: "dummy_id")
+        let res = await Inbox.fetchMessages()
         expect(res).to(beNil())
     }
 
     func test_fetchMessagesShouldReturnNilWithInvalidData() async {
         let badResponse = "{ \"messages\": [{ \"wrong_key\": \"invalid value\"}] }".data(using: .utf8)!
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), jsonData(badResponse))
-        let res = await Inbox.fetchMessages(by: "dummy_id")
+        let res = await Inbox.fetchMessages()
         expect(res).to(beNil())
     }
 
     func test_openMessagesShouldReturnTrueIfResponseIsSuccess() async throws {
         let successResponse = StubBuilder(test: self, resource: .inbox_success_empty).build()
         stub(http(.post, uri: "/v2native/inbox/openMessages"), successResponse)
-        let res = await Inbox.openMessages(userId: "dummy", messageIds: [])
+        let res = await Inbox.openMessages(messageIds: [])
         expect(res).to(beTrue())
     }
 
     func test_openMessagesShouldReturnFalseIfResponseIsError() async throws {
         let badResponse = StubBuilder(test: self, resource: .failure_server_error).build()
         stub(http(.post, uri: "/v2native/inbox/openMessages"), badResponse)
-        let res = await Inbox.openMessages(userId: "dummy", messageIds: [])
+        let res = await Inbox.openMessages(messageIds: [])
         expect(res).to(beFalse())
     }
 }

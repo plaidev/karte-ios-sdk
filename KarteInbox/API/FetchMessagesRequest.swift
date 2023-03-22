@@ -20,14 +20,16 @@ import KarteUtilities
 struct FetchMessagesRequest: BaseAPIRequest {
     typealias Response = FetchMessagesResponse
 
-    let userId: String
+    let visitorId: String
     let limit: UInt?
     let latestMessageId: String?
+    let config: InboxConfig
 
-    init(userId: String, limit: UInt? = nil, latestMessageId: String? = nil) {
-        self.userId = userId
+    init(visitorId: String, limit: UInt? = nil, latestMessageId: String? = nil, config: InboxConfig) {
+        self.visitorId = visitorId
         self.limit = limit
         self.latestMessageId = latestMessageId
+        self.config = config
     }
 
     var method: HTTPMethod {
@@ -40,7 +42,7 @@ struct FetchMessagesRequest: BaseAPIRequest {
 
     var bodyParams: [String: Any]? {
         var body: [String: Any] = [
-            "userId": userId,
+            "visitorId": visitorId,
             "appType": "native_app",
             "os": "ios"
         ]

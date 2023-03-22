@@ -19,32 +19,33 @@ import Nimble
 @testable import KarteInbox
 
 final class FetchMessagesRequestSpec: QuickSpec {
-    private let userId = "Dummy"
+    private let visitorId = "Dummy"
+    private let config = DummyConfig()
 
     override func spec() {
         describe("a request") {
             describe("its init") {
                 context("when initialized with parameters") {
-                    it("has correspond userId in body") {
-                        let req = FetchMessagesRequest(userId: self.userId)
-                        expect(req.bodyParams?["userId"] as? String).to(equal(self.userId))
+                    it("has correspond visitorId in body") {
+                        let req = FetchMessagesRequest(visitorId: self.visitorId, config: self.config)
+                        expect(req.bodyParams?["visitorId"] as? String).to(equal(self.visitorId))
                     }
 
                     it("has correspond limit in body") {
-                        let req = FetchMessagesRequest(userId: self.userId, limit: 1)
+                        let req = FetchMessagesRequest(visitorId: self.visitorId, limit: 1, config: self.config)
                         expect(req.bodyParams?["limit"] as? UInt).to(equal(1))
                     }
 
                     it("has correspond latestMessageId in body") {
                         let dummy = "Dummy messageId"
-                        let req = FetchMessagesRequest(userId: self.userId, latestMessageId: dummy)
+                        let req = FetchMessagesRequest(visitorId: self.visitorId, latestMessageId: dummy, config: self.config)
                         expect(req.bodyParams?["latestMessageId"] as? String).to(equal(dummy))
                     }
                 }
 
                 context("when initialized without optional parameters") {
                     it("has nil for optional body parameters") {
-                        let req = FetchMessagesRequest(userId: self.userId)
+                        let req = FetchMessagesRequest(visitorId: self.visitorId, config: self.config)
                         let limit = req.bodyParams?["limit"]
                         let latestMessageId = req.bodyParams?["latestMessageId"]
                         expect(limit).to(beNil())

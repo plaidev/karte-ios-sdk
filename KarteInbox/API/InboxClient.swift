@@ -17,6 +17,8 @@
 import Foundation
 
 struct InboxClient {
+    private static let config = ProductionConfig()
+
     private static func call<Request: BaseAPIRequest>(_ request: Request) async -> Request.Response? {
         if #available(iOS 15.0, *) {
             let caller = NativeAsyncCaller()
@@ -29,14 +31,14 @@ struct InboxClient {
 }
 
 extension InboxClient {
-    static func fetchMessages(by userId: String, limit: UInt? = nil, latestMessageId: String? = nil) async -> [InboxMessage]? {
-        let req = FetchMessagesRequest(userId: userId, limit: limit, latestMessageId: latestMessageId)
+    static func fetchMessages(by visitorId: String, limit: UInt? = nil, latestMessageId: String? = nil) async -> [InboxMessage]? {
+        let req = FetchMessagesRequest(visitorId: visitorId, limit: limit, latestMessageId: latestMessageId, config: config)
         let res = await call(req)
         return res?.messages
     }
 
-    static func openMessages(userId: String, messageIds: [String]) async -> Bool {
-        let req = OpenMessagesRequest(userId: userId, messageIds: messageIds)
+    static func openMessages(for visitorId: String, messageIds: [String]) async -> Bool {
+        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: messageIds, config: config)
         let res = await call(req)
         return res?.success ?? false
     }

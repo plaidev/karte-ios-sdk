@@ -15,34 +15,19 @@
 //
 
 import Foundation
-import KarteUtilities
 
-struct OpenMessagesRequest: BaseAPIRequest {
-    typealias Response = OpenMessagesResponse
+protocol InboxConfig {
+    var baseUrl: URL { get }
+}
 
-    let visitorId: String
-    let messageIds: [String]
-    let config: InboxConfig
-
-    var method: HTTPMethod {
-        .post
-    }
-
-    var path: String {
-        "inbox/openMessages"
-    }
-
-    var bodyParams: [String: Any]? {
-        let body: [String: Any] = [
-            "visitorId": visitorId,
-            "appType": "native_app",
-            "os": "ios",
-            "messageIds": messageIds
-        ]
-        return body
+struct ProductionConfig: InboxConfig {
+    var baseUrl: URL {
+        URL(string: "https://api.karte.io")!
     }
 }
 
-struct OpenMessagesResponse: Decodable {
-    let success: Bool
+struct EvaluationConfig: InboxConfig {
+    var baseUrl: URL {
+        URL(string: "https://api-evaluation.dev-karte.com")!
+    }
 }

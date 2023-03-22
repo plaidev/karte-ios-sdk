@@ -24,7 +24,7 @@ final class CallerSpec: QuickSpec {
     @available(iOS 15.0, *)
     func testNativeAsyncCaller_shouldReturnNil_withInvalidUserId() async {
         let caller = NativeAsyncCaller()
-        let req = FetchMessagesRequest(userId: "Dummy userId")
+        let req = FetchMessagesRequest(visitorId: "Dummy visitorId", config: EvaluationConfig())
         let res = await caller(callee: req)
         expect(res).to(beNil())
     }
@@ -38,7 +38,7 @@ final class CallerSpec: QuickSpec {
 
     func testFallbackAsyncCaller_shouldReturnNil_withInvalidUserId() async {
         let caller = FallbackAsyncCaller()
-        let req = FetchMessagesRequest(userId: "Dummy userId")
+        let req = FetchMessagesRequest(visitorId: "Dummy visitorId", config: EvaluationConfig())
         let res = await caller(callee: req)
         expect(res).to(beNil())
     }
@@ -59,5 +59,9 @@ private struct DummyRequest: BaseAPIRequest {
 
     var path: String {
         "dummy-url"
+    }
+
+    var config: InboxConfig {
+        EvaluationConfig()
     }
 }

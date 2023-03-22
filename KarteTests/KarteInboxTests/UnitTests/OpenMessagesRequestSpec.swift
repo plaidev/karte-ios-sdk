@@ -19,20 +19,21 @@ import Nimble
 @testable import KarteInbox
 
 final class OpenMessagesRequestSpec: QuickSpec {
-    private let userId = "Dummy"
+    private let visitorId = "Dummy"
+    private let config = DummyConfig()
 
     override func spec() {
         describe("a request") {
             describe("its init") {
                 context("when initialized with parameters") {
-                    it("has correspond userId in body") {
-                        let req = OpenMessagesRequest(userId: self.userId, messageIds: [])
-                        expect(req.bodyParams?["userId"] as? String).to(equal(self.userId))
+                    it("has correspond visitorId in body") {
+                        let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: [], config: self.config)
+                        expect(req.bodyParams?["visitorId"] as? String).to(equal(self.visitorId))
                     }
 
                     it("has correspond messageIds in body") {
                         let targets = ["aaa", "bbb", "ccc"]
-                        let req = OpenMessagesRequest(userId: self.userId, messageIds: targets)
+                        let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: targets, config: self.config)
                         expect(req.bodyParams?["messageIds"] as? [String]).to(equal(targets))
                     }
                 }

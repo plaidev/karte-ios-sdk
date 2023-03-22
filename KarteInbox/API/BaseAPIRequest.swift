@@ -20,8 +20,8 @@ import KarteUtilities
 protocol BaseAPIRequest {
     associatedtype Response where Response: Decodable
 
-    var baseURL: URL { get }
     var apiKey: String { get }
+    var config: InboxConfig { get }
     var version: String { get }
     var method: HTTPMethod { get }
     var path: String { get }
@@ -31,10 +31,6 @@ protocol BaseAPIRequest {
 }
 
 extension BaseAPIRequest {
-    var baseURL: URL {
-        URL(string: "https://api.karte.io")!
-    }
-
     var apiKey: String {
         Inbox.currentApiKey
     }
@@ -59,7 +55,7 @@ extension BaseAPIRequest {
     }
 
     func asURLRequest() -> URLRequest {
-        var urlComponents = URLComponents(string: "\(baseURL.absoluteString)\(version)/\(path)")!
+        var urlComponents = URLComponents(string: "\(config.baseUrl.absoluteString)\(version)/\(path)")!
         urlComponents.queryItems = queryItems
         var req = URLRequest(url: urlComponents.url!)
         req.allHTTPHeaderFields = headers

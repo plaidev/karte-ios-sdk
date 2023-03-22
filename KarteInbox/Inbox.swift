@@ -38,19 +38,19 @@ public class Inbox: NSObject {
     }
 
     /// Push通知の送信履歴を取得します。エラー発生時はnilを返します。
-    /// - Parameter userId: 取得対象のユーザーのユーザーID。未Identify状態のユーザー（visitor）の履歴は取得できません。
     /// - Parameter limit: 最大取得件数を指定します。デフォルトは最新50件を取得します。
     /// - Parameter latestMessageId: この値で指定されたmessageIdより前の履歴を取得します。指定したmessageIdを持つ履歴は戻り値に含まれません。
-    public static func fetchMessages(by userId: String, limit: UInt? = nil, latestMessageId: String? = nil) async -> [InboxMessage]? {
-        return await InboxClient.fetchMessages(by: userId, limit: limit, latestMessageId: latestMessageId)
+    public static func fetchMessages(limit: UInt? = nil, latestMessageId: String? = nil) async -> [InboxMessage]? {
+        let visitorId = KarteApp.visitorId
+        return await InboxClient.fetchMessages(by: visitorId, limit: limit, latestMessageId: latestMessageId)
     }
 
     /// Push通知を指定して既読状態にします。
-    /// - Parameter userId: 既読状態にするPush通知が所属するユーザーのユーザーID。
     /// - Parameter messageIds: 既読状態にする対象のメッセージIDの配列。
     /// - Returns リクエスト成功時はtrue, エラー発生時はfalseを返します。
-    public static func openMessages(userId: String, messageIds: [String]) async -> Bool {
-        return await InboxClient.openMessages(userId: userId, messageIds: messageIds)
+    public static func openMessages(messageIds: [String]) async -> Bool {
+        let visitorId = KarteApp.visitorId
+        return await InboxClient.openMessages(for: visitorId, messageIds: messageIds)
     }
 }
 
