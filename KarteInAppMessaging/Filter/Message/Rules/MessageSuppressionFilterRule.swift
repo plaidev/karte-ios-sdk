@@ -24,7 +24,7 @@ internal struct MessageSuppressionFilterRule: MessageFilterRule {
         self.isSuppressed = isSuppressed
     }
 
-    func filter(_ message: TrackResponse.Response.Message) -> MessageFilterResult {
+    func filter(_ message: [String: JSONValue]) -> MessageFilterResult {
         if isSuppressed {
             return .exclude("The display is suppressed by suppress mode.")
         } else {

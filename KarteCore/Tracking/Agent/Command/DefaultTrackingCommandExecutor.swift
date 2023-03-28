@@ -100,10 +100,22 @@ private extension DefaultTrackingCommandExecutor {
             if case let .action(module) = module {
                 guard let queue = module.queue else {
                     module.receive(response: response, request: request)
+
+                    // TODO: To be removed in the next major version. (backward compatibility)
+                    // swiftlint:disable:previous todo
+                    if let deprecatedResponse = TrackResponse.Response.convert(response) {
+                        module.receive(response: deprecatedResponse, request: request)
+                    }
                     return
                 }
                 queue.async {
                     module.receive(response: response, request: request)
+
+                    // TODO: To be removed in the next major version. (backward compatibility)
+                    // swiftlint:disable:previous todo
+                    if let deprecatedResponse = TrackResponse.Response.convert(response) {
+                        module.receive(response: deprecatedResponse, request: request)
+                    }
                 }
             }
         }

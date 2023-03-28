@@ -64,7 +64,7 @@ internal struct VariableMessage: Codable {
         action.type == "control"
     }
 
-    static func from(message: TrackResponse.Response.Message) -> VariableMessage? {
+    static func from(message: [String: JSONValue]) -> VariableMessage? {
         guard let data = try? createJSONEncoder().encode(message) else {
             return nil
         }

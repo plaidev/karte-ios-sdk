@@ -14,6 +14,7 @@
 //  limitations under the License.
 //
 
+import KarteUtilities
 import KarteCore
 import UIKit
 import WebKit
@@ -29,7 +30,7 @@ internal class IAMWebView: WKWebView {
     var contentUrl: URL
     weak var delegate: IAMWebViewDelegate?
 
-    private var responses: [TrackResponse.Response] = []
+    private var responses: [[String: JSONValue]] = []
     private var state: IAMState = .waiting
 
     init(sceneId: SceneId, configuration: WKWebViewConfiguration, url: URL) {
@@ -80,7 +81,7 @@ internal class IAMWebView: WKWebView {
         super.removeFromSuperview()
     }
 
-    func handle(response: TrackResponse.Response) {
+    func handle(response: [String: JSONValue]) {
         switch state {
         case .waiting:
             responses.append(response)
@@ -90,13 +91,22 @@ internal class IAMWebView: WKWebView {
             responses.append(response)
 
         case .ready:
-            guard let value = response.base64EncodedString else {
+            guard let value = base64EncodedString(response: response) else {
                 return
             }
+
             let script = "tracker.handleResponseData('\(value)')"
             evaluateJavaScript(script, completionHandler: nil)
 
-            Logger.verbose(tag: .inAppMessaging, message: "Evaluate tracker.handleResponseData(), messages: \(response.descriptionMessages)")
+            let description = (response.jsonArray(forKey: "messages") ?? []).dictionaries.map { message in
+                return ["action": [
+                    "_id": message.string(forKeyPath: "action._id") ?? "",
+                    "shorten_id": message.string(forKeyPath: "action.shorten_id") ?? "",
+                    "campaign_id": message.string(forKeyPath: "campaign._id")
+                ]]
+            }.description
+
+            Logger.verbose(tag: .inAppMessaging, message: "Evaluate tracker.handleResponseData(), messages: \(description)")
         }
     }
 
@@ -205,6 +215,14 @@ internal class IAMWebView: WKWebView {
 }
 
 extension IAMWebView {
+    private func base64EncodedString(response: [String: JSONValue]) -> String? {
+        guard let data = try? createJSONEncoder().encode(response) else {
+            Logger.error(tag: .inAppMessaging, message: "Failed to construct JSON.")
+            return nil
+        }
+        return data.base64EncodedString(options: .endLineWithLineFeed)
+    }
+
     private func bindFor(window: UIWindow) -> Bool {
         if superview != nil {
             return false
@@ -386,11 +404,5 @@ extension IAMWebView {
     enum ResetMode {
         case soft
         case hard
-    }
-}
-
-private extension TrackResponse.Response {
-    var descriptionMessages: String {
-        messages.map { ["action": ["_id": $0.action.string(forKey: "_id") ?? "", "shorten_id": $0.action.string(forKey: "shorten_id") ?? ""], "campaign": ["_id": $0.campaign.string(forKey: "_id") ?? ""] ] }.description
     }
 }

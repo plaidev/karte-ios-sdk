@@ -133,13 +133,13 @@ extension Variables: ActionModule, UserModule {
         nil
     }
 
-    public func receive(response: TrackResponse.Response, request: TrackRequest) {
+    public func receive(response: [String: JSONValue], request: TrackRequest) {
         if request.contains(eventName: .fetchVariables) {
             UserDefaults.standard.removeObject(forNamespace: .variables)
         }
 
-        let messages = response.messages.compactMap { message -> VariableMessage? in
-            VariableMessage.from(message: message)
+        let messages = (response.jsonArray(forKey: "messages") ?? []).dictionaries.compactMap { message -> VariableMessage? in
+            return VariableMessage.from(message: message)
         }.filter { message -> Bool in
             message.isEnabled
         }.reversed()

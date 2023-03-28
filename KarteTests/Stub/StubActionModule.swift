@@ -122,7 +122,7 @@ extension StubActionModule: ActionModule {
         return nil
     }
     
-    func receive(response: TrackResponse.Response, request: TrackRequest) {
+    func receive(response: [String : JSONValue], request: TrackRequest) {
         guard let req = self.request, let body = req.trackBodyParameters() else {
             return
         }

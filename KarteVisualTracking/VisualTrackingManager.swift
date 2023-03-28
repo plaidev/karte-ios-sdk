@@ -96,7 +96,7 @@ extension VisualTrackingManager: ActionModule, DeepLinkModule, TrackModule {
         nil
     }
 
-    func receive(response: TrackResponse.Response, request: TrackRequest) {
+    func receive(response: [String: JSONValue], request: TrackRequest) {
         tracker?.refreshDefinitions(response: response)
     }
 

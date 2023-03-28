@@ -26,8 +26,8 @@ internal struct MessagePvIdFilterRule: MessageFilterRule {
         self.app = app
     }
 
-    func filter(_ message: TrackResponse.Response.Message) -> MessageFilterResult {
-        guard let isEnabled = message.campaign.bool(forKey: "native_app_display_limit_mode"), let pvService = app?.pvService, isEnabled else {
+    func filter(_ message: [String: JSONValue]) -> MessageFilterResult {
+        guard let isEnabled = message.bool(forKeyPath: "campaign.native_app_display_limit_mode"), let pvService = app?.pvService, isEnabled else {
             return .include
         }
         if pvService.pvId(forSceneId: request.sceneId) == request.pvId {

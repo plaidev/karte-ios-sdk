@@ -20,13 +20,14 @@ import KarteCore
 
 internal extension Tracker {
 
-    class func trackMessageSuppressed(message: TrackResponse.Response.Message, reason: String) {
-        guard let campaignId = message.action.string(forKey: "campaign_id") else {
+    class func trackMessageSuppressed(message: [String: JSONValue], reason: String) {
+        guard let campaignId = message.string(forKeyPath: "action.campaign_id") else {
             return
         }
-        guard let shortenId = message.action.string(forKey: "shorten_id") else {
+        guard let shortenId = message.string(forKeyPath: "action.shorten_id") else {
             return
         }
+
         let values = [
             "reason": reason
         ]

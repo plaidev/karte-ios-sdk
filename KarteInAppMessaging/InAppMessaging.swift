@@ -331,7 +331,7 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
         .main
     }
 
-    public func receive(response: TrackResponse.Response, request: TrackRequest) {
+    public func receive(response: [String: JSONValue], request: TrackRequest) {
         var response = response
 
         let process = pool.retrieveProcess(sceneId: request.sceneId)
@@ -341,7 +341,10 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
             .add(MessagePvIdFilterRule(request: request, app: app))
             .build()
 
-        response.messages = filter.filter(response.messages, exclude: Tracker.trackMessageSuppressed)
+        let messages = filter
+            .filter((response.jsonArray(forKey: "messages") ?? []).dictionaries, exclude: Tracker.trackMessageSuppressed)
+            .map(JSONValue.dictionary)
+        response["messages"] = .array(messages)
 
         if pool.canCreateProcess(sceneId: request.sceneId) {
             guard let window = WindowDetector.retrieveRelatedWindows(from: request.sceneId.identifier).first, let app = app else {

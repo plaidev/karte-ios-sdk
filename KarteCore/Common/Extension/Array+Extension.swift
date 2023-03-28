@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2023 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -15,8 +15,18 @@
 //
 
 import Foundation
-import KarteCore
 
-internal protocol MessageFilterRule {
-    func filter(_ message: [String: JSONValue]) -> MessageFilterResult
+extension Array where Element == JSONValue {
+
+    /// 配列要素の型を `JSONValue` から `[String: JSONValue]` にキャスト済みの配列を返す。
+    public var dictionaries: [[String: JSONValue]] {
+        compactMap { jsonValue in
+            switch jsonValue {
+            case .dictionary(let dictionary):
+                return dictionary
+            default:
+                return nil
+            }
+        }
+    }
 }

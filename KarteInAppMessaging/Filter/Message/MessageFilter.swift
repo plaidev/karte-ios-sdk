@@ -40,9 +40,9 @@ internal struct MessageFilter {
         self.rules = rules
     }
 
-    func filter(_ messages: [TrackResponse.Response.Message], exclude: ((TrackResponse.Response.Message, String) -> Void)? = nil) -> [TrackResponse.Response.Message] {
-        let messages = rules.reduce(messages) { messages, rule -> [TrackResponse.Response.Message] in
-            messages.filter { message -> Bool in
+    func filter(_ messages: [[String: JSONValue]], exclude: (([String: JSONValue], String) -> Void)? = nil) -> [[String: JSONValue]] {
+        let messages = rules.reduce(messages) { messages, rule in
+            messages.filter { message in
                 switch rule.filter(message) {
                 case .include:
                     return true

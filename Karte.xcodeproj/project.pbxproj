@@ -125,6 +125,7 @@
 		0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */; };
 		0C4B51B62492173B0075A67D /* OpacityDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B51B32492173B0075A67D /* OpacityDetector.swift */; };
 		0C50509229C17ECA007C5C9B /* JailbreakDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C50509129C17ECA007C5C9B /* JailbreakDetection.swift */; };
+		0C50509829C45369007C5C9B /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C50509729C45368007C5C9B /* Array+Extension.swift */; };
 		0C520BC8298CE6DB00480B77 /* success_variables_4.json in Resources */ = {isa = PBXBuildFile; fileRef = 0C520BC7298CE6DA00480B77 /* success_variables_4.json */; };
 		0C520BCA298CF68800480B77 /* TrackVariablesSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C520BC9298CF68800480B77 /* TrackVariablesSpec.swift */; };
 		0C520BCC2990995000480B77 /* JSONConvertibleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */; };
@@ -696,6 +697,7 @@
 		0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteViewDetector.swift; sourceTree = "<group>"; };
 		0C4B51B32492173B0075A67D /* OpacityDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpacityDetector.swift; sourceTree = "<group>"; };
 		0C50509129C17ECA007C5C9B /* JailbreakDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JailbreakDetection.swift; sourceTree = "<group>"; };
+		0C50509729C45368007C5C9B /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		0C520BC7298CE6DA00480B77 /* success_variables_4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_variables_4.json; sourceTree = "<group>"; };
 		0C520BC9298CF68800480B77 /* TrackVariablesSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackVariablesSpec.swift; sourceTree = "<group>"; };
 		0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONConvertibleSpec.swift; sourceTree = "<group>"; };
@@ -1603,6 +1605,7 @@
 			isa = PBXGroup;
 			children = (
 				0C8392992406C7010014C2BF /* Dictionary+Extension.swift */,
+				0C50509729C45368007C5C9B /* Array+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -3114,6 +3117,7 @@
 				0C0822C924E6329D0038EBDA /* CommandBundlerProxy.swift in Sources */,
 				0C69D3FF24EB9D9D00D75893 /* ReachabilitySubscriber.swift in Sources */,
 				0C0822DB24E67B3D0038EBDA /* TrackingCommand.swift in Sources */,
+				0C50509829C45369007C5C9B /* Array+Extension.swift in Sources */,
 				0C69D41024EB9DB200D75893 /* EmptyEventNameFilterRule.swift in Sources */,
 				777D605B2742217500339D7E /* InvalidEventNameFilterRule.swift in Sources */,
 				0C4B51B0249216F20075A67D /* WindowDetector.swift in Sources */,

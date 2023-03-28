@@ -34,3 +34,10 @@ public protocol TrackModule: ModuleBase {
     /// - Returns: フィルタリスト
     func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule]
 }
+
+public extension TrackModule {
+    // backward compatibility
+    func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
+        return []
+    }
+}

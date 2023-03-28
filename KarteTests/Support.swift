@@ -21,6 +21,11 @@ import XCTest
 
 let APP_KEY = "dummy_application_key_from_code_"
 
+let EMPTY_RESPONSE = {
+    let emptyResponse: [String: JSONConvertible] = ["status": 200, "events": [], "messages": [], "options": [:]]
+    return emptyResponse.mapValues { $0.jsonValue }
+}()
+
 extension URLRequest {
     
     func trackBodyParameters() -> TrackBodyParameters? {

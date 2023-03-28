@@ -38,7 +38,7 @@ class TrackDelegateSpec: QuickSpec {
         beforeSuite {
             delegate = TrackDelegate()
             builder = { (request) -> Response in
-                let response = TrackResponse(success: 1, status: 200, response: .emptyResponse, error: nil)
+                let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
                 let data = try! createJSONEncoder().encode(response)
                 return jsonData(data)(request)
             }
