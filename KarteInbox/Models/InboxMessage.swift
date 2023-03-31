@@ -44,6 +44,15 @@ public struct InboxMessage: Decodable {
     /// Push通知の既読状態を返します。
     public let isRead: Bool
 
+    /// Push通知に設定されたカスタムペイロードを返します。
+    public var customPayload: [String: Any?] {
+        _customPayload.value
+    }
+
+    // swiftlint:disable:next identifier_name
+    let _customPayload: CustomPayload
+
+    // swiftlint:disable identifier_name
     public init(
         timestamp: Date,
         title: String,
@@ -52,7 +61,8 @@ public struct InboxMessage: Decodable {
         attachmentUrl: String,
         campaignId: String,
         messageId: String,
-        isRead: Bool
+        isRead: Bool,
+        _customPayload: CustomPayload
     ) {
         self.timestamp = timestamp
         self.title = title
@@ -62,5 +72,85 @@ public struct InboxMessage: Decodable {
         self.campaignId = campaignId
         self.messageId = messageId
         self.isRead = isRead
+        self._customPayload = _customPayload
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case timestamp, title, body, linkUrl, attachmentUrl, campaignId, messageId, isRead
+        case _customPayload = "customPayload"
+    }
+
+    /// カスタムペイロードを表すタイプです。
+    /// **SDK内部で利用するタイプであり、通常のSDK利用でこちらのタイプを利用することはありません。**
+    public struct CustomPayload: Decodable {
+        fileprivate var value: [String: Any?] = [:]
+
+        // swiftlint:disable:next nesting
+        struct CodingKeys: CodingKey {
+            var stringValue: String
+            var intValue: Int?
+
+            init(stringValue: String) {
+                self.stringValue = stringValue
+            }
+
+            init?(intValue: Int) { return nil }
+        }
+
+        public init(from decoder: Decoder) throws {
+            if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+                self.value = decode(fromObject: container)
+            }
+        }
+
+        private func decode(fromObject container: KeyedDecodingContainer<CodingKeys>) -> [String: Any?] {
+            var result: [String: Any?] = [:]
+
+            for key in container.allKeys {
+                if let val = try? container.decode(Int.self, forKey: key) {
+                    result[key.stringValue] = val
+                } else if let val = try? container.decode(UInt.self, forKey: key) {
+                    result[key.stringValue] = val
+                } else if let val = try? container.decode(Double.self, forKey: key) {
+                    result[key.stringValue] = val
+                } else if let val = try? container.decode(String.self, forKey: key) {
+                    result[key.stringValue] = val
+                } else if let val = try? container.decode(Bool.self, forKey: key) {
+                    result[key.stringValue] = val
+                } else if let nestedContainer = try? container.nestedContainer(keyedBy: CodingKeys.self, forKey: key) {
+                    result[key.stringValue] = decode(fromObject: nestedContainer)
+                } else if var nestedArray = try? container.nestedUnkeyedContainer(forKey: key) {
+                    result[key.stringValue] = decode(fromArray: &nestedArray)
+                } else if (try? container.decodeNil(forKey: key)) == true {
+                    result.updateValue(nil, forKey: key.stringValue)
+                }
+            }
+            return result
+        }
+
+        private func decode(fromArray container: inout UnkeyedDecodingContainer) -> [Any?] {
+            var result: [Any?] = []
+
+            while !container.isAtEnd {
+                if let val = try? container.decode(String.self) {
+                    result.append(val)
+                } else if let value = try? container.decode(Int.self) {
+                    result.append(value)
+                } else if let val = try? container.decode(UInt.self) {
+                    result.append(val)
+                } else if let val = try? container.decode(Double.self) {
+                    result.append(val)
+                } else if let val = try? container.decode(Bool.self) {
+                    result.append(val)
+                } else if let nestedContainer = try? container.nestedContainer(keyedBy: CodingKeys.self) {
+                    result.append(decode(fromObject: nestedContainer))
+                } else if var nestedArray = try? container.nestedUnkeyedContainer() {
+                    result.append(decode(fromArray: &nestedArray))
+                } else if (try? container.decodeNil()) == true {
+                    result.append(nil)
+                }
+            }
+            return result
+        }
     }
 }

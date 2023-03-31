@@ -64,7 +64,7 @@ struct NativeAsyncCaller: Caller {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             return try decoder.decode(Request.Response.self, from: res)
         } catch {
-            Logger.error(tag: .inbox, message: error.localizedDescription)
+            Logger.error(tag: .inbox, message: "At line \(#line) of \(#file): \(error)")
             return nil
         }
     }

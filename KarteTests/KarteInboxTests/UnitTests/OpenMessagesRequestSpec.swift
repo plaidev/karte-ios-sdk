@@ -26,6 +26,16 @@ final class OpenMessagesRequestSpec: QuickSpec {
         describe("a request") {
             describe("its init") {
                 context("when initialized with parameters") {
+                    it("has proper URL with ProductionConfig") {
+                        let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: [], config: ProductionConfig())
+                        expect(req.asURLRequest().url?.absoluteString).to(equal("https://api.karte.io/v2native/inbox/openMessages"))
+                    }
+
+                    it("has proper URL with EvaluationConfig") {
+                        let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: [], config: EvaluationConfig())
+                        expect(req.asURLRequest().url?.absoluteString).to(equal("https://api-evaluation.dev-karte.com/v2native/inbox/openMessages"))
+                    }
+
                     it("has correspond visitorId in body") {
                         let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: [], config: self.config)
                         expect(req.bodyParams?["visitorId"] as? String).to(equal(self.visitorId))

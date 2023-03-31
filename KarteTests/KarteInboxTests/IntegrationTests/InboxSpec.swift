@@ -49,6 +49,32 @@ final class InboxSpec: XCTestCase {
         expect(res[1].isRead).to(beFalse())
     }
 
+    func test_customPayloadShouldBeParsedProperly() async throws {
+        let successResponse = StubBuilder(test: self, resource: .inbox_success).build()
+        stub(http(.post, uri: "/v2native/inbox/fetchMessages"), successResponse)
+        guard let res = await Inbox.fetchMessages(), res.count == 2 else {
+            XCTFail("Should never be executed")
+            return
+        }
+        
+        let m1 = res[0]
+        expect(m1.customPayload["keyStr"] as? String).to(equal("Dummy"))
+        expect(m1.customPayload["keyInt"] as? Int).to(equal(10))
+        expect(m1.customPayload["keyDouble"] as? Double).to(equal(1.11))
+        expect(m1.customPayload["keyArray"] as? Array).to(equal([1, 2, 3]))
+        expect(m1.customPayload["keyNull"]).to(beNil())
+        
+        guard let nestedMap = res[0].customPayload["keyMap"] as? Dictionary<String, Any> else {
+            XCTFail("Should never be executed: nestedMap in customPayload must be parsed: \(m1.customPayload)")
+            return
+        }
+        expect(nestedMap["prop1"] as? String).to(equal("hoge"))
+        expect(nestedMap["prop2"] as? Int).to(equal(0))
+
+        let m2 = res[1]
+        expect(m2.customPayload.count).to(equal(0))
+    }
+
     func test_fetchMessagesShouldReturnNilWith400Errors() async throws {
         let badResponse400 = StubBuilder(test: self, resource: .failure_invalid_request).build(status: 400)
         let badResponse401 = StubBuilder(test: self, resource: .failure_invalid_request).build(status: 401)
@@ -80,7 +106,13 @@ final class InboxSpec: XCTestCase {
     }
 
     func test_fetchMessagesShouldReturnNilWithInvalidData() async {
-        let badResponse = "{ \"messages\": [{ \"wrong_key\": \"invalid value\"}] }".data(using: .utf8)!
+        let badResponse = """
+        {
+            "messages": [
+                { "wrong_key": "invalid value" }
+            ]
+        }
+        """.data(using: .utf8)!
         stub(http(.post, uri: "/v2native/inbox/fetchMessages"), jsonData(badResponse))
         let res = await Inbox.fetchMessages()
         expect(res).to(beNil())
