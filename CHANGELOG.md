@@ -18,7 +18,8 @@
 ** 🎉 FEATURE**
 - KARTEプロジェクトのAPIキーをSDKに設定できるようになりました。
    - Inboxモジュールを使用する場合のみ設定が必要です。
-- サブモジュールと連携してイベントの送信を行う機構を追加しました。  
+- サブモジュールと連携してイベントの送信を行う機構を追加しました。
+- `JSONConvertibleConverter` に `[AnyHashable: Any]` を `[String: JSONConvertible]` に変換するメソッドを追加しました。  
 ** 🔨CHANGED**
 - identifyイベントのuser_idに明示的に空文字が指定された場合に警告だけ出力するように変更しました。
 - viewイベントのview_nameが空文字の場合に警告だけ出力するように変更しました。

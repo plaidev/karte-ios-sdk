@@ -39,6 +39,25 @@ public enum JSONConvertibleConverter {
     /// JSONConvertible型へ変換します。<br>
     /// なお変換不能な値は、nil値として取り扱います。
     ///
+    /// - Parameter value: 変換対象の辞書
+    /// - Returns: 変換済みの辞書を返します。
+    public static func convert(_ value: [AnyHashable: Any]) -> [String: JSONConvertible] {
+        value
+            .keys
+            .compactMap { $0 as? String }
+            .reduce([:]) { partialResult, key in
+                guard let val = value[key] else {
+                    return partialResult
+                }
+                var partialResult = partialResult
+                partialResult[key] = convert(val)
+                return partialResult
+            }
+    }
+
+    /// JSONConvertible型へ変換します。<br>
+    /// なお変換不能な値は、nil値として取り扱います。
+    ///
     /// - Parameter value: 変換対象の値
     /// - Returns: 変換済みの値を返します。
     public static func convert(_ value: Any) -> JSONConvertible {

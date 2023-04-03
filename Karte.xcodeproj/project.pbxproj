@@ -295,6 +295,7 @@
 		0C8976FA23801F1E00098CD8 /* PairingHeartbeatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976F923801F1E00098CD8 /* PairingHeartbeatRequest.swift */; };
 		0C8976FC2380206100098CD8 /* PairingHeartbeatRequestBodyParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976FB2380206000098CD8 /* PairingHeartbeatRequestBodyParameters.swift */; };
 		0C8976FE23802FE500098CD8 /* TraceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8976FD23802FE500098CD8 /* TraceRequest.swift */; };
+		0C991AE929D6AE96006EE781 /* JSONConvertibleConverterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C991AE829D6AE96006EE781 /* JSONConvertibleConverterSpec.swift */; };
 		0C9C6B00296E519200077D25 /* UIApplicationProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6AFC296E519200077D25 /* UIApplicationProxy.swift */; };
 		0C9C6B01296E519200077D25 /* UINavigationControllerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6AFD296E519200077D25 /* UINavigationControllerProxy.swift */; };
 		0C9C6B02296E519200077D25 /* UIViewControllerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6AFE296E519200077D25 /* UIViewControllerProxy.swift */; };
@@ -840,6 +841,7 @@
 		0C8976F923801F1E00098CD8 /* PairingHeartbeatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingHeartbeatRequest.swift; sourceTree = "<group>"; };
 		0C8976FB2380206000098CD8 /* PairingHeartbeatRequestBodyParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingHeartbeatRequestBodyParameters.swift; sourceTree = "<group>"; };
 		0C8976FD23802FE500098CD8 /* TraceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceRequest.swift; sourceTree = "<group>"; };
+		0C991AE829D6AE96006EE781 /* JSONConvertibleConverterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONConvertibleConverterSpec.swift; sourceTree = "<group>"; };
 		0C9C6AFC296E519200077D25 /* UIApplicationProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplicationProxy.swift; sourceTree = "<group>"; };
 		0C9C6AFD296E519200077D25 /* UINavigationControllerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationControllerProxy.swift; sourceTree = "<group>"; };
 		0C9C6AFE296E519200077D25 /* UIViewControllerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerProxy.swift; sourceTree = "<group>"; };
@@ -2304,6 +2306,7 @@
 			isa = PBXGroup;
 			children = (
 				0C520BCB2990995000480B77 /* JSONConvertibleSpec.swift */,
+				0C991AE829D6AE96006EE781 /* JSONConvertibleConverterSpec.swift */,
 				0C520BCF2990C50100480B77 /* JSONValueSpec.swift */,
 			);
 			path = Common;
@@ -3312,6 +3315,7 @@
 				0C83931A240838050014C2BF /* InspectorSpec.swift in Sources */,
 				0C839312240831B30014C2BF /* LifecycleEventSpec.swift in Sources */,
 				36AF0710264C835B00568FC6 /* RemoteNotificationSetupSpec.swift in Sources */,
+				0C991AE929D6AE96006EE781 /* JSONConvertibleConverterSpec.swift in Sources */,
 				777D6057273DA68300339D7E /* AttributeSpec.swift in Sources */,
 				0C068A9129A3C9280000560D /* ExpiredMessageOpenEventRejectionFilterRuleSpec.swift in Sources */,
 				6837631B252FDAE200E690CE /* SelectorDetectorMock.swift in Sources */,
