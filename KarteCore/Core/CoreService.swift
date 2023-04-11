@@ -70,6 +70,11 @@ internal class CoreService {
             return false
         }
 
+        guard !JailbreakDetection.isJailbroken else {
+            Logger.warn(tag: .core, message: "Cancel initialization because a device jailbreak has been detected.")
+            return false
+        }
+
         return true
     }
 

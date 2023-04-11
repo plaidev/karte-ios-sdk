@@ -46,7 +46,7 @@ internal struct Definition: Codable {
             var values: [String: JSONConvertible] = trigger.fields
             let window = WindowDetector.retrieveRelatedWindows().first
             if let dynamicValues = trigger.dynamicValues(window: window) {
-                values.merge(dynamicValues) { (values, _) in values }
+                values.mergeRecursive(dynamicValues)
             }
             let other: [String: JSONConvertible] = [
                 "_system": [
@@ -55,7 +55,7 @@ internal struct Definition: Codable {
             ]
             return Event(
                 eventName: eventName,
-                values: values.merging(other) { $1 }
+                values: values.mergingRecursive(other)
             )
         }
     }

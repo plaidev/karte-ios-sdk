@@ -54,16 +54,13 @@ class AttributeSpec: QuickSpec {
             describe("its attribute") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .attribute) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                    let event = Event(.attribute(values: values))
-                    Tracker.track(event: event)
+                    Tracker.track(event: Event(.attribute(values: values)))
                     
-                    module.wait()
+                    event = module.wait().event(.attribute)
                 }
                 
                 it("event name is `attribute`") {
@@ -110,15 +107,13 @@ class AttributeSpec: QuickSpec {
             describe("its attribute compatible") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .attribute) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                     Tracker.attribute(values)
                     
-                    module.wait()
+                    event = module.wait().event(.attribute)
                 }
                 
                 it("event name is `attribute`") {

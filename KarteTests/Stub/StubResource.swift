@@ -43,8 +43,11 @@ extension StubResource {
     static var variables1 = StubResource("success_variables_1.json")
     static var variables2 = StubResource("success_variables_2.json")
     static var variables3 = StubResource("success_variables_3.json")
+    static var variables4 = StubResource("success_variables_4.json")
     static var vt1 = StubResource("success_vt_1.json")
     static var vt2 = StubResource("success_vt_2.json")
     static var vt_definitions = StubResource("success_vt_definitions.json")
     static var vt_definitions_with_dynamic_fields = StubResource("success_vt_definitions_with_dynamic_fields.json")
+    static var inbox_success = StubResource("success_inbox.json")
+    static var inbox_success_empty = StubResource("success_inbox_empty.json")
 }

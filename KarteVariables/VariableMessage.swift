@@ -23,6 +23,16 @@ internal struct VariableMessage: Codable {
         var shortenId: String?
         var type: String?
         var content: Content?
+        var noAction: Bool?
+        var reason: String?
+        var responseTimestamp: String
+
+        var responseId: String? {
+            guard let shortenId = shortenId else {
+                return nil
+            }
+            return "\(responseTimestamp)_\(shortenId)"
+        }
     }
 
     struct Campaign: Codable {
@@ -30,8 +40,13 @@ internal struct VariableMessage: Codable {
         var serviceActionType: String?
     }
 
+    struct Trigger: Codable {
+        var eventHashes: String
+    }
+
     var action: Action
     var campaign: Campaign
+    var trigger: Trigger
 
     var isEnabled: Bool {
         guard campaign.campaignId != nil, action.shortenId != nil else {
@@ -49,7 +64,7 @@ internal struct VariableMessage: Codable {
         action.type == "control"
     }
 
-    static func from(message: TrackResponse.Response.Message) -> VariableMessage? {
+    static func from(message: [String: JSONValue]) -> VariableMessage? {
         guard let data = try? createJSONEncoder().encode(message) else {
             return nil
         }
@@ -59,9 +74,12 @@ internal struct VariableMessage: Codable {
 
 extension VariableMessage.Action {
     enum CodingKeys: String, CodingKey {
-        case shortenId = "shorten_id"
+        case shortenId          = "shorten_id"
         case type
         case content
+        case noAction           = "no_action"
+        case reason
+        case responseTimestamp  = "response_timestamp"
     }
 
     struct Content: Codable {
@@ -85,5 +103,11 @@ extension VariableMessage.Campaign {
     enum CodingKeys: String, CodingKey {
         case campaignId         = "_id"
         case serviceActionType  = "service_action_type"
+    }
+}
+
+extension VariableMessage.Trigger {
+    enum CodingKeys: String, CodingKey {
+        case eventHashes = "event_hashes"
     }
 }

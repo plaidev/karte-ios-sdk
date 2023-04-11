@@ -49,7 +49,7 @@ public class InAppMessaging: NSObject {
     var isSuppressed = false
     var app: KarteApp?
 
-    override private init() {
+    override internal init() {
         super.init()
         observeNotifications()
     }
@@ -136,10 +136,9 @@ public class InAppMessaging: NSObject {
         app.register(module: .user(self))
 
         IAMProxy.shared.swizzleMethods()
-        UINavigationController.krt_swizzleNavigationTransitionMethods()
-        UITabBarController.krt_swizzleTabBarTransitionMethods()
-        UIViewController.krt_swizzleTransitionMethods()
-        UIViewController.krt_swizzleLifecycleMethods()
+        UINavigationControllerProxy.shared.swizzleMethods()
+        UITabBarControllerProxy.shared.swizzleMethods()
+        UIViewControllerProxy.shared.swizzleMethods()
 
         checkInfoPlist()
     }
@@ -288,21 +287,6 @@ extension InAppMessaging {
         }
     }
 
-    private func trackMessageSuppressed(message: TrackResponse.Response.Message, reason: String) {
-        guard let campaignId = message.action.string(forKey: "campaign_id") else {
-            return
-        }
-        guard let shortenId = message.action.string(forKey: "shorten_id") else {
-            return
-        }
-        let values = [
-            "reason": reason
-        ]
-
-        let event = Event(.message(type: .suppressed, campaignId: campaignId, shortenId: shortenId, values: values))
-        Tracker.track(event: event)
-    }
-
     private func checkInfoPlist() {
         guard let domains = Bundle.main.object(forInfoDictionaryKey: "WKAppBoundDomains") as? [String] else {
             return
@@ -338,7 +322,7 @@ extension InAppMessaging: Library {
     }
 }
 
-extension InAppMessaging: ActionModule, UserModule {
+extension InAppMessaging: ActionModule, UserModule, TrackModule {
     public var name: String {
         String(describing: type(of: self))
     }
@@ -347,7 +331,7 @@ extension InAppMessaging: ActionModule, UserModule {
         .main
     }
 
-    public func receive(response: TrackResponse.Response, request: TrackRequest) {
+    public func receive(response: [String: JSONValue], request: TrackRequest) {
         var response = response
 
         let process = pool.retrieveProcess(sceneId: request.sceneId)
@@ -356,7 +340,11 @@ extension InAppMessaging: ActionModule, UserModule {
             .add(MessageSuppressionFilterRule(isSuppressed: isSuppressedInProcess || isSuppressed))
             .add(MessagePvIdFilterRule(request: request, app: app))
             .build()
-        response.messages = filter.filter(response.messages, exclude: trackMessageSuppressed)
+
+        let messages = filter
+            .filter((response.jsonArray(forKey: "messages") ?? []).dictionaries, exclude: Tracker.trackMessageSuppressed)
+            .map(JSONValue.dictionary)
+        response["messages"] = .array(messages)
 
         if pool.canCreateProcess(sceneId: request.sceneId) {
             guard let window = WindowDetector.retrieveRelatedWindows(from: request.sceneId.identifier).first, let app = app else {
@@ -392,6 +380,14 @@ extension InAppMessaging: ActionModule, UserModule {
             process.reload()
         }
         clearWkWebViewCookies()
+    }
+
+    public func intercept(urlRequest: URLRequest) throws -> URLRequest {
+        return urlRequest
+    }
+
+    public func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
+        return [ExpiredMessageOpenEventRejectionFilterRule()]
     }
 }
 

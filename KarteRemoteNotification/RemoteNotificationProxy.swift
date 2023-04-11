@@ -31,7 +31,12 @@ internal class RemoteNotificationProxy: NSObject {
     private let userNotificationCenterDidReceiveNotificationResponseWithCompletionHandlerSelectorString = "userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:"
     // swiftlint:enable identifier_name
 
-    private let label = "remote_notification"
+    private let scope = SafeSwizzler.scope { builder in
+        builder
+            .add(RemoteNotification.self)
+            .add(RemoteNotificationProxy.self)
+    }
+    //    private let label = "remote_notification"
 
     private var interceptorId: String?
     private var didSwizzleMethods = false
@@ -39,6 +44,10 @@ internal class RemoteNotificationProxy: NSObject {
 
     // KVO object
     private var userNotificationCenter: AnyObject?
+
+    private lazy var className: String = {
+        String(describing: type(of: self))
+    }()
 
     var canSwizzleMethods: Bool {
         guard NSClassFromString("FIRMessaging") != nil else {
@@ -61,14 +70,17 @@ internal class RemoteNotificationProxy: NSObject {
         swizzleUserNotificationCenterDelegateMethods()
 
         didSwizzleMethods = true
+
+        Logger.debug(tag: .notification, message: "\(className) executed method swizzling.")
     }
 
     func unswizzleMethods() {
         removeUserNotificationCenterDelegateObserver()
         unregisterAppDelegateInterceptorIfNeeded()
 
-        Swizzler.shared.unswizzle(label: label)
+        scope.unswizzle()
         didSwizzleMethods = false
+        Logger.debug(tag: .notification, message: "\(className) removed method swizzling.")
     }
 
     private func swizzleAppDelegateMethods() {
@@ -84,12 +96,10 @@ internal class RemoteNotificationProxy: NSObject {
             let block: @convention(block) (Any, UIApplication, [AnyHashable: Any], @escaping (UIBackgroundFetchResult) -> Void) -> Void = applicationDidReceiveRemoteNotificationFetchCompletionHandler
             let imp = imp_implementationWithBlock(block)
 
-            Swizzler.shared.swizzle(
-                label: label,
+            scope.swizzle(
                 cls: type(of: delegate).self,
                 name: applicationDidReceiveRemoteNotificationFetchCompletionHandlerSelector,
-                imp: imp,
-                proto: UIApplicationDelegate.self
+                imp: imp
             )
         }
     }
@@ -160,10 +170,6 @@ internal class RemoteNotificationProxy: NSObject {
             return
         }
 
-        guard let userNotificationCenterDelegate = NSProtocolFromString("UNUserNotificationCenterDelegate") else {
-            return
-        }
-
         let sel = NSSelectorFromString(userNotificationCenterDidReceiveNotificationResponseWithCompletionHandlerSelectorString)
         guard delegate.responds(to: sel) else {
             return
@@ -171,12 +177,11 @@ internal class RemoteNotificationProxy: NSObject {
 
         let block: @convention(block) (Any, AnyObject, AnyObject, @escaping () -> Void) -> Void = userNotificationCenterDidReceiveNotificationResponseWithCompletionHandler
         let imp = imp_implementationWithBlock(block)
-        Swizzler.shared.swizzle(
-            label: label,
+
+        scope.swizzle(
             cls: type(of: delegate).self,
             name: sel,
-            imp: imp,
-            proto: userNotificationCenterDelegate
+            imp: imp
         )
 
         self.currentUserNotificationCenterDelegate = delegate
@@ -192,7 +197,10 @@ internal class RemoteNotificationProxy: NSObject {
         }
 
         let sel = NSSelectorFromString(userNotificationCenterDidReceiveNotificationResponseWithCompletionHandlerSelectorString)
-        Swizzler.shared.unswizzle(label: label, cls: type(of: userNotificationCenterDelegate).self, name: sel)
+        scope.unswizzle(
+            cls: type(of: userNotificationCenterDelegate).self,
+            name: sel
+        )
 
         self.currentUserNotificationCenterDelegate = nil
     }
@@ -242,10 +250,19 @@ extension RemoteNotificationProxy {
 // MARK: - Swizzled implementations
 extension RemoteNotificationProxy {
     private func applicationDidReceiveRemoteNotificationFetchCompletionHandler(_ receiver: Any, app: UIApplication, userInfo: [AnyHashable: Any], handler: @escaping (UIBackgroundFetchResult) -> Void) {
+        Logger.debug(tag: .notification, message: "Invoked \(className).\(#function)")
+
         application(app, didReceiveRemoteNotification: userInfo) { _ in }
 
+        guard let delegate = UIApplication.shared.delegate, delegate.responds(to: applicationDidReceiveRemoteNotificationFetchCompletionHandlerSelector) else {
+            return
+        }
+
         let originalSelector = applicationDidReceiveRemoteNotificationFetchCompletionHandlerSelector
-        guard let originalImplementation = Swizzler.shared.originalImplementation(forName: originalSelector) else {
+        guard let originalImplementation = scope.originalImplementation(
+            cls: type(of: delegate).self,
+            name: originalSelector
+        ) else {
             handler(.newData)
             return
         }
@@ -258,9 +275,19 @@ extension RemoteNotificationProxy {
     }
 
     private func userNotificationCenterDidReceiveNotificationResponseWithCompletionHandler(_ receiver: Any, center: AnyObject, response: AnyObject, handler: @escaping () -> Void) {
+        Logger.debug(tag: .notification, message: "Invoked \(className).\(#function)")
+
         func callOriginalFunction() {
             let originalSelector = NSSelectorFromString(userNotificationCenterDidReceiveNotificationResponseWithCompletionHandlerSelectorString)
-            guard let originalImplementation = Swizzler.shared.originalImplementation(forName: originalSelector) else {
+
+            guard let userNotificationCenterDelegate = currentUserNotificationCenterDelegate else {
+                return
+            }
+
+            guard let originalImplementation = scope.originalImplementation(
+                cls: type(of: userNotificationCenterDelegate).self,
+                name: originalSelector
+            ) else {
                 return
             }
 

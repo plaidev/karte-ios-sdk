@@ -19,23 +19,21 @@ import Mockingjay
 @testable import KarteCore
 
 class StubActionModule {
+    typealias TrackResponseData = (request: URLRequest, body: TrackBodyParameters, event: Event)
+
     var exp: XCTestExpectation
     var spec: QuickSpec
-    var eventNames: [EventName]
-    var receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)?
     var stub: Stub?
 
     var request: URLRequest?
+    var responses: [String: TrackResponseData] = [:]
 
-    init(_ spec: QuickSpec, metadata: ExampleMetadata?, stub: Stub?, eventNames: [EventName], receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
+    init(_ spec: QuickSpec, metadata: ExampleMetadata?, stub: Stub?) {
         let metadataLabel = metadata?.example.name ?? "unknown"
-        let eventNamesLabel = eventNames.map({ $0.rawValue }).joined(separator: ", ")
         
-        self.exp = spec.expectation(description: "Wait for finish => \(metadataLabel) \(eventNamesLabel)")
+        self.exp = spec.expectation(description: "Wait for finish => \(metadataLabel)")
         self.spec = spec
         self.stub = stub
-        self.eventNames = eventNames
-        self.receiver = receiver
         
         NotificationCenter.default.addObserver(
             self,
@@ -47,12 +45,8 @@ class StubActionModule {
         KarteApp.shared.register(module: .action(self))
     }
     
-    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, stub: Stub?, eventName: EventName, receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
-        self.init(spec, metadata: metadata, stub: stub, eventNames: [eventName], receiver: receiver)
-    }
-    
-    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, path: String = "/v0/native/track", builder: @escaping Builder, eventNames: [EventName], receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
-        self.init(spec, metadata: metadata, stub: nil, eventNames: eventNames, receiver: receiver)
+    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, path: String = "/v0/native/track", builder: @escaping Builder) {
+        self.init(spec, metadata: metadata, stub: nil)
         
         self.stub = spec.stub(uri(path), { [weak self] (request) -> (Response) in
             self?.request = request
@@ -60,19 +54,19 @@ class StubActionModule {
         })
     }
 
-    convenience init(_ spec: QuickSpec, metadata: ExampleMetadata?, path: String = "/v0/native/track", builder: @escaping Builder, eventName: EventName, receiver: ((URLRequest, TrackBodyParameters, Event) -> Void)? = nil) {
-        self.init(spec, metadata: metadata, path: path, builder: builder, eventNames: [eventName], receiver: receiver)
-    }
-    
-    func wait(timeout: TimeInterval = 10) {
+    @discardableResult
+    func wait(timeout: TimeInterval = 10) -> StubActionModule {
         spec.wait(for: [self.exp], timeout: timeout)
+        return self
     }
     
-    func verify(timeout: TimeInterval = 10) {
+    @discardableResult
+    func verify(timeout: TimeInterval = 10) -> StubActionModule {
         DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(Int(timeout) - 1)) {
             self.finish()
         }
         spec.wait(for: [self.exp], timeout: timeout)
+        return self
     }
     
     func finish() {
@@ -85,6 +79,30 @@ class StubActionModule {
         )
         
         exp.fulfill()
+    }
+    
+    func responseData(_ eventName: EventName) -> TrackResponseData? {
+        return responses[eventName.rawValue]
+    }
+    
+    func responseDatas(_ eventNames: [EventName]) -> [TrackResponseData] {
+        return eventNames.compactMap { self.responses[$0.rawValue] }
+    }
+    
+    func request(_ eventName: EventName) -> URLRequest? {
+        return responses[eventName.rawValue]?.request
+    }
+    
+    func body(_ eventName: EventName) -> TrackBodyParameters? {
+        return responses[eventName.rawValue]?.body
+    }
+    
+    func event(_ eventName: EventName) -> Event? {
+        return responses[eventName.rawValue]?.event
+    }
+    
+    func events(_ eventNames: [EventName]) -> [Event] {
+        return eventNames.compactMap { self.responses[$0.rawValue]?.event }
     }
     
     @objc private func observeTrackingAgentHasNoCommandsNotification(_ notification: Notification) {
@@ -104,14 +122,15 @@ extension StubActionModule: ActionModule {
         return nil
     }
     
-    func receive(response: TrackResponse.Response, request: TrackRequest) {
+    func receive(response: [String : JSONValue], request: TrackRequest) {
         guard let req = self.request, let body = req.trackBodyParameters() else {
             return
         }
         
-        let events = eventNames.compactMap({ body.pick($0) })        
-        for event in events {
-            receiver?(req, body, event)
+        self.responses = body.events.reduce(responses) { dict, event in
+            var dict = dict
+            dict[event.eventName.rawValue] = (req, body, event)
+            return dict
         }
     }
     

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteVariables'
-  s.version                 = '2.4.1'
+  s.version                 = '2.5.0'
   s.summary                 = 'KARTE Variables SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -30,6 +30,6 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'VARIABLES_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteCore', '~> 2.0'
+  s.dependency 'KarteCore', '~> 2.22'
   s.dependency 'KarteUtilities', '~> 3.5'
 end

@@ -38,6 +38,7 @@ public struct TrackRequest: Request {
     var configuration: Configuration
     let commands: [TrackingCommand]
     let isRetry: Bool
+    let filter: TrackEventRejectionFilter
 
     public var baseURL: URL {
         configuration.baseURL
@@ -60,7 +61,9 @@ public struct TrackRequest: Request {
     }
 
     public var bodyParameters: BodyParameters? {
-        let events = commands.map { command -> Event in
+        let events = commands.filter { command in
+            return !filter.reject(event: command.event)
+        }.map { command -> Event in
             var event = command.event
             event.mergeAdditionalParameter(date: command.date, isRetry: command.isRetry)
             return event
@@ -87,7 +90,8 @@ public struct TrackRequest: Request {
     /// - Parameters:
     ///   - app: `KarteApp` インスタンス
     ///   - commands: トラッキングコマンド配列
-    init?(app: KarteApp, commands: [TrackingCommand]) {
+    ///   - filter: イベントフィルタ
+    init?(app: KarteApp, commands: [TrackingCommand], filter: TrackEventRejectionFilter) {
         guard let command = commands.first, let appInfo = app.appInfo else {
             return nil
         }
@@ -103,6 +107,7 @@ public struct TrackRequest: Request {
         self.configuration = app.configuration
         self.commands = commands
         self.isRetry = command.isRetry
+        self.filter = filter
     }
 
     public func intercept(urlRequest: URLRequest) throws -> URLRequest {

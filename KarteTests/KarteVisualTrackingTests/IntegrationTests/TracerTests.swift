@@ -115,7 +115,7 @@ class TracerTests: XCTestCase {
         VisualTracking.shared.delegate = visualTrackDelegate
         
         expect(VisualTracking.shared.isPaired).to(beFalse())
-        expect(self.visualTrackDelegate.countOfCall).to(be(0))
+        expect(self.visualTrackDelegate.countOfCall).to(equal(0))
         expect(self.visualTrackDelegate.isPaired).to(beFalse())
         
         let res = KarteApp.shared.application(UIApplication.shared, open: URL(string: "app://_krtp/dummy_account_id")!)
@@ -123,7 +123,7 @@ class TracerTests: XCTestCase {
 
         waitForExpectations(timeout: 10) { [weak self] (error) in
             expect(VisualTracking.shared.isPaired).to(beTrue())
-            expect(self?.visualTrackDelegate.countOfCall).to(be(1))
+            expect(self?.visualTrackDelegate.countOfCall).to(equal(1))
             expect(self?.visualTrackDelegate.isPaired).to(beTrue())
             
             self?.removeStub(pairingStub)

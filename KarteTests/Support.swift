@@ -19,7 +19,12 @@ import XCTest
 @testable import KarteVisualTracking
 @testable import KarteUtilities
 
-let APP_KEY = "dummy_application_key_0123456789"
+let APP_KEY = "dummy_application_key_from_code_"
+
+let EMPTY_RESPONSE = {
+    let emptyResponse: [String: JSONConvertible] = ["status": 200, "events": [], "messages": [], "options": [:]]
+    return emptyResponse.mapValues { $0.jsonValue }
+}()
 
 extension URLRequest {
     

@@ -2,14 +2,73 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.21.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.13.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.8.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.4.1 |
-| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.9.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.22.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.14.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.9.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.5.0 |
+| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.10.0 |
+| KarteInbox | Push通知の送信履歴を取得する機能を提供します（β版）。 | 0.1.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.5.0 |
-| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.7.0 |
+| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.8.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
+
+# Releases - 2023.04.11
+## Version 2.8.0
+
+### Core 2.22.0
+** 🎉 FEATURE**
+- KARTEプロジェクトのAPIキーをSDKに設定できるようになりました。
+   - Inboxモジュールを使用する場合のみ設定が必要です。
+- サブモジュールと連携してイベントの送信を行う機構を追加しました。
+- `JSONConvertibleConverter` に `[AnyHashable: Any]` を `[String: JSONConvertible]` に変換するメソッドを追加しました。  
+** 🔨CHANGED**
+- identifyイベントのuser_idに明示的に空文字が指定された場合に警告だけ出力するように変更しました。
+- viewイベントのview_nameが空文字の場合に警告だけ出力するように変更しました。
+- 脱獄済みデバイスではSDKが動作しないように変更しました。
+- ログの一時保持・収集機能を廃止しました。
+- `KarteApp.setLogEnabled()` を deprecated にし、代わりにログレベルOFFを追加しました。
+- サブモジュール連携用のインターフェース仕様を一部変更しました。
+- 依存する Utilities のバージョンを 3.8.0 に変更しました。  
+** 💊FIXED**
+- メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
+
+### InAppMessaging 2.14.0
+** 🔨CHANGED**
+- message_openイベントの送信仕様をWebの仕様に合わせるようにしました。
+- 依存する Core のバージョンを 2.22.0 に変更しました。
+- 依存する Utilities のバージョンを 3.8.0 に変更しました。  
+** 💊FIXED**
+- メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
+
+### RemoteNotification 2.9.0
+** 🔨CHANGED**
+- 依存する Utilities のバージョンを 3.8.0 に変更しました。  
+** 💊FIXED**
+- メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
+
+### Variables 2.5.0
+** 🔨CHANGED**
+- 効果測定用のイベントにフィールドを追加しました。
+- 依存する Core のバージョンを 2.22.0 に変更しました。  
+** 💊FIXED**
+- ユーザー情報変数の解決に失敗したアクションの場合に `_message_ready` イベントが送信されない問題を修正しました。
+
+### VisualTracking 2.10.0
+** 🔨CHANGED**
+- 依存する Core のバージョンを 2.22.0 に変更しました。
+- 依存する Utilities のバージョンを 3.8.0 に変更しました。  
+** 💊FIXED**
+- メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
+
+### Utilities 3.8.0
+** 🎉 FEATURE**
+- メソッド置換を安全に行うために改良したAPIを追加しました。
+- ISO8601形式の日時変換用のDateFormatterを返すAPIを追加しました。
+
+### Inbox 0.1.0
+** 🎉 FEATURE**
+- Push通知の送信履歴が取得できるモジュールをOSSとして公開しました（β版）。
+  - ご利用いただくには別途お手続きが必要です。
 
 # Releases - 2022.12.23
 ## Version 2.7.0

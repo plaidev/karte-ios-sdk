@@ -18,6 +18,7 @@ import Foundation
 import ObjectiveC
 
 /// このクラスは Method swizzling したメソッドのセレクタおよび実装ブロックを管理するためのクラスです。
+@available(*, deprecated, message: "Use SafeSwizzler instead.")
 public class Swizzler {
     /// シングルトンなインスタンスを返します。
     public static let shared = Swizzler()

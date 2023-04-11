@@ -124,8 +124,9 @@ public extension KarteApp {
     ///
     /// - Parameter isEnabled: ログ出力有無
     @objc
+    @available(*, deprecated, message: "setLogEnabled method is deprecated. It will be removed in the future. Use setLogLevel instead.")
     class func setLogEnabled(_ isEnabled: Bool) {
-        Logger.isEnabled = isEnabled
+        setLogLevel(isEnabled ? .error : .off)
     }
 
     /// オプトインします。
@@ -289,7 +290,7 @@ extension KarteApp {
     }
 
     func teardown() {
-        KarteApp.libraries.forEach { library in
+        KarteApp.libraries.reversed().forEach { library in
             library.unconfigure(app: self)
         }
 

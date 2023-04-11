@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>karte_app_key</key>
-	<string>dummy_application_key_0123456789</string>
+	<string>dummy_application_key_from_plist</string>
 </dict>
 </plist>

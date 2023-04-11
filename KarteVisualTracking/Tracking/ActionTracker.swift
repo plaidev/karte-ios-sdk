@@ -30,8 +30,8 @@ internal class ActionTracker {
         self.app = app
     }
 
-    func refreshDefinitions(response: TrackResponse.Response) {
-        guard let autoTrackDefinition = response.autoTrackDefinition else {
+    func refreshDefinitions(response: [String: JSONValue]) {
+        guard let autoTrackDefinition = response.jsonDictionary(forKey: "auto_track_definition") else {
             Logger.verbose(tag: .visualTracking, message: "VT definition is empty.")
             return
         }

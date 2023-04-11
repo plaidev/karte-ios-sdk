@@ -101,6 +101,22 @@ extension Dictionary where Key == String, Value == JSONValue {
 
     /// 指定されたキーパスに関連付けられた値にアクセスします。
     /// - Parameter keyPath: 辞書を検索するためのキーパス
+    /// - Returns: キーパスに関連付けられた配列値がある場合はそれを返し、ない場合は値型が配列型でない場合は nil を返します。
+    public func jsonArray(forKeyPath keyPath: String) -> [JSONValue]? {
+        guard let val = value(forKeyPath: keyPath) else {
+            return nil
+        }
+        switch val {
+        case .array(let array):
+            return array
+
+        default:
+            return nil
+        }
+    }
+
+    /// 指定されたキーパスに関連付けられた値にアクセスします。
+    /// - Parameter keyPath: 辞書を検索するためのキーパス
     /// - Returns: キーパスに関連付けられた辞書値がある場合はそれを返し、ない場合や値型が辞書型でない場合は nil を返します。
     public func dictionary(forKeyPath keyPath: String) -> [String: Any]? {
         guard let val = value(forKeyPath: keyPath) else {
@@ -109,6 +125,22 @@ extension Dictionary where Key == String, Value == JSONValue {
         switch val {
         case .dictionary(let dictionary):
             return dictionary.mapValues { $0.rawValue }
+
+        default:
+            return nil
+        }
+    }
+
+    /// 指定されたキーパスに関連付けられた値にアクセスします。
+    /// - Parameter keyPath: 辞書を検索するためのキーパス
+    /// - Returns: キーパスに関連付けられた辞書値がある場合はそれを返し、ない場合や値型が辞書型でない場合は nil を返します。
+    public func jsonDictionary(forKeyPath keyPath: String) -> [String: JSONValue]? {
+        guard let val = value(forKeyPath: keyPath) else {
+            return nil
+        }
+        switch val {
+        case .dictionary(let dictionary):
+            return dictionary
 
         default:
             return nil
@@ -167,9 +199,23 @@ extension Dictionary where Key == String, Value == JSONValue {
 
     /// 指定されたキーに関連付けられた値にアクセスします。
     /// - Parameter key: 辞書を検索するためのキー
+    /// - Returns: キーに関連付けられた配列値がある場合はそれを返し、ない場合や値型が配列型でない場合は nil を返します。
+    public func jsonArray(forKey key: String) -> [JSONValue]? {
+        jsonArray(forKeyPath: key)
+    }
+
+    /// 指定されたキーに関連付けられた値にアクセスします。
+    /// - Parameter key: 辞書を検索するためのキー
     /// - Returns: キーに関連付けられた辞書値がある場合はそれを返し、ない場合や値型が辞書型でない場合は nil を返します。
     public func dictionary(forKey key: String) -> [String: Any]? {
         dictionary(forKeyPath: key)
+    }
+
+    /// 指定されたキーに関連付けられた値にアクセスします。
+    /// - Parameter key: 辞書を検索するためのキー
+    /// - Returns: キーに関連付けられた辞書値がある場合はそれを返し、ない場合は値型が辞書型でない場合は nil を返します。
+    public func jsonDictionary(forKey key: String) -> [String: JSONValue]? {
+        jsonDictionary(forKeyPath: key)
     }
 
     private func value(forKey key: String, value: JSONValue?) -> JSONValue? {

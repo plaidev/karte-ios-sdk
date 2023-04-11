@@ -133,13 +133,13 @@ extension Variables: ActionModule, UserModule {
         nil
     }
 
-    public func receive(response: TrackResponse.Response, request: TrackRequest) {
+    public func receive(response: [String: JSONValue], request: TrackRequest) {
         if request.contains(eventName: .fetchVariables) {
             UserDefaults.standard.removeObject(forNamespace: .variables)
         }
 
-        let messages = response.messages.compactMap { message -> VariableMessage? in
-            VariableMessage.from(message: message)
+        let messages = (response.jsonArray(forKey: "messages") ?? []).dictionaries.compactMap { message -> VariableMessage? in
+            return VariableMessage.from(message: message)
         }.filter { message -> Bool in
             message.isEnabled
         }.reversed()
@@ -152,7 +152,7 @@ extension Variables: ActionModule, UserModule {
             }
 
             guard !message.isControlGroup else {
-                return [Variable(name: "unknown", campaignId: campaignId, shortenId: shortenId, value: nil)]
+                return []
             }
 
             let inlinedVariables = action.content?.inlinedVariables ?? []
@@ -161,14 +161,21 @@ extension Variables: ActionModule, UserModule {
                     return nil
                 }
 
-                let variable = Variable(name: name, campaignId: campaignId, shortenId: shortenId, value: value)
+                let variable = Variable(
+                    name: name,
+                    campaignId: campaignId,
+                    shortenId: shortenId,
+                    value: value,
+                    timestamp: message.action.responseTimestamp,
+                    eventHash: message.trigger.eventHashes
+                )
                 return variable
             }
             return variables
         }
-        bulkSave(variables: variables)
+        Variables.bulkSave(variables: variables)
 
-        Tracker.track(variables: variables, type: .ready, values: [:])
+        Tracker.trackReady(messages: Array(messages))
     }
 
     public func reset(sceneId: SceneId) {
@@ -199,7 +206,7 @@ extension Variables {
         }
     }
 
-    private func bulkSave(variables: [Variable]) {
+    class func bulkSave(variables: [Variable]) {
         let keyValue = variables.filter { $0.campaignId != nil && $0.shortenId != nil }.reduce(into: [String: Any?]()) { dict, variable in
             do {
                 let data = try JSONEncoder().encode(variable)

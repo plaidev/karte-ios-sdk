@@ -15,6 +15,7 @@
 //
 
 import KarteUtilities
+import KarteCore
 import UIKit
 
 internal class IAMProxy: NSObject {
@@ -23,8 +24,20 @@ internal class IAMProxy: NSObject {
     // swiftlint:disable:next identifier_name
     private let applicationSupportedInterfaceOrientationsForWindowSelector = #selector(UIApplicationDelegate.application(_:supportedInterfaceOrientationsFor:))
 
-    private let label = "in_app_messaging"
+    private let scope = SafeSwizzler.scope { builder in
+        builder
+            .add(InAppMessaging.self)
+            .add(IAMProxy.self)
+    }
     private var didSwizzleMethods = false
+
+    private lazy var className: String = {
+        String(describing: type(of: self))
+    }()
+
+    private override init() {
+        super.init()
+    }
 
     func swizzleMethods() {
         if didSwizzleMethods {
@@ -33,11 +46,14 @@ internal class IAMProxy: NSObject {
 
         swizzleAppDelegateMethods()
         didSwizzleMethods = true
+
+        Logger.debug(tag: .inAppMessaging, message: "\(className) executed method swizzling.")
     }
 
     func unswizzleMethods() {
-        Swizzler.shared.unswizzle(label: label)
+        scope.unswizzle()
         didSwizzleMethods = false
+        Logger.debug(tag: .inAppMessaging, message: "\(className) removed method swizzling.")
     }
 
     private func swizzleAppDelegateMethods() {
@@ -49,12 +65,10 @@ internal class IAMProxy: NSObject {
             let block: @convention(block) (Any, UIApplication, UIWindow?) -> UIInterfaceOrientationMask = applicationSupportedInterfaceOrientationsForWindow
             let imp = imp_implementationWithBlock(block)
 
-            Swizzler.shared.swizzle(
-                label: label,
+            scope.swizzle(
                 cls: type(of: delegate).self,
                 name: applicationSupportedInterfaceOrientationsForWindowSelector,
-                imp: imp,
-                proto: UIApplicationDelegate.self
+                imp: imp
             )
         }
     }
@@ -65,12 +79,20 @@ internal class IAMProxy: NSObject {
 
 extension IAMProxy {
     private func applicationSupportedInterfaceOrientationsForWindow(receiver: Any, app: UIApplication, window: UIWindow?) -> UIInterfaceOrientationMask {
+        Logger.debug(tag: .inAppMessaging, message: "Invoked \(className).\(#function)")
+
         if let window = window, window.isKind(of: IAMWindow.self) {
             return .all
         }
 
-        let originalSelector = applicationSupportedInterfaceOrientationsForWindowSelector
-        guard let originalImplementation = Swizzler.shared.originalImplementation(forName: originalSelector) else {
+        guard let delegate = UIApplication.shared.delegate, delegate.responds(to: applicationSupportedInterfaceOrientationsForWindowSelector) else {
+            return .all
+        }
+
+        guard let originalImplementation = scope.originalImplementation(
+            cls: type(of: delegate).self,
+            name: applicationSupportedInterfaceOrientationsForWindowSelector
+        ) else {
             return .all
         }
 

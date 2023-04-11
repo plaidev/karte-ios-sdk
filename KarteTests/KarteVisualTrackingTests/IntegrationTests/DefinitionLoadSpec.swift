@@ -38,14 +38,12 @@ class DefinitionLoadSpec: QuickSpec {
             
             beforeEachWithMetadata { (metadata) in
                 let eventName = EventName("foo")
-                let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: eventName) { (r, _, _) in
-                    request = r
-                }
+                let module = StubActionModule(self, metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                 Tracker.track(event: Event(eventName: eventName))
                 
-                module.wait()
+                request = module.wait().request(eventName)
             }
             
             describe("its request") {

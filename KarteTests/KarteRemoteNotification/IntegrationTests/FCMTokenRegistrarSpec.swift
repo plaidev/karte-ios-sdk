@@ -34,7 +34,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 configuration.isSendInitializationEventEnabled = false
             }
             builder = { (request) -> Response in
-                let response = TrackResponse(success: 1, status: 200, response: .emptyResponse, error: nil)
+                let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
                 let data = try! createJSONEncoder().encode(response)
                 return jsonData(data)(request)
             }
@@ -44,9 +44,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
             context("first time") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .pluginNativeAppIdentify) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     
@@ -57,7 +55,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                     let registrar = FCMTokenRegistrar(provider)
                     registrar.registerFCMToken()
                     
-                    module.wait()
+                    event = module.wait().event(.pluginNativeAppIdentify)
                 }
                 
                 it("event name is `plugin_native_app_identify`") {
@@ -79,7 +77,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 func runTest(metadata: ExampleMetadata?, fcmToken: String?, subscribe: Bool) -> StubActionModule {
                     event = nil
                     
-                    let module1 = StubActionModule(self, metadata: metadata, builder: builder, eventName: .pluginNativeAppIdentify)
+                    let module1 = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     
@@ -92,9 +90,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                     
                     module1.wait()
                     
-                    let module2 = StubActionModule(self, metadata: metadata, builder: builder, eventName: .pluginNativeAppIdentify) { (_, _, e) in
-                        event = e
-                    }
+                    let module2 = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     provider.fcmTokenResolver = { fcmToken }
                     provider.availabilityResolver = { subscribe }
@@ -106,7 +102,9 @@ class FCMTokenRegistrarSpec: QuickSpec {
 
                 context("when the token is updated") {
                     beforeEachWithMetadata { (metadata) in
-                        runTest(metadata: metadata, fcmToken: "dummy_fcm_token_2", subscribe: true).wait()
+                        event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token_2", subscribe: true)
+                            .wait()
+                            .event(.pluginNativeAppIdentify)
                     }
                     
                     it("event name is `plugin_native_app_identify`") {
@@ -124,7 +122,9 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 
                 context("when the subscribe is updated") {
                     beforeEachWithMetadata { (metadata) in
-                        runTest(metadata: metadata, fcmToken: "dummy_fcm_token", subscribe: false).wait()
+                        event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token", subscribe: false)
+                            .wait()
+                            .event(.pluginNativeAppIdentify)
                     }
                     
                     it("event name is `plugin_native_app_identify`") {
@@ -142,7 +142,9 @@ class FCMTokenRegistrarSpec: QuickSpec {
 
                 context("same settings as before") {
                     beforeEachWithMetadata { (metadata) in
-                        runTest(metadata: metadata, fcmToken: "dummy_fcm_token", subscribe: true).verify()
+                        event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token", subscribe: true)
+                            .verify()
+                            .event(.pluginNativeAppIdentify)
                     }
                     
                     it("event is nil") {

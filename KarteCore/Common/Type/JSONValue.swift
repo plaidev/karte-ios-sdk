@@ -211,3 +211,22 @@ extension JSONValue: Codable {
         }
     }
 }
+
+extension Dictionary where Key == String, Value == JSONValue {
+    mutating func mergeRecursive(_ other: [Key: Value]) {
+        merge(other, uniquingKeysWith: resolveConflict)
+    }
+
+    func mergingRecursive(_ other: [Key: Value]) -> [Key: Value] {
+        return merging(other, uniquingKeysWith: resolveConflict)
+    }
+
+    func resolveConflict(_ lhs: Value, _ rhs: Value) -> Value {
+        switch (lhs, rhs) {
+        case (.dictionary(let lhs), .dictionary(let rhs)):
+            return .dictionary(lhs.mergingRecursive(rhs))
+        default:
+            return rhs
+        }
+    }
+}

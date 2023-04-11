@@ -35,13 +35,11 @@ class LifecycleEventSpec: QuickSpec {
                     context("when after launch") {
                         var event: Event!
                         beforeEachWithMetadata { (metadata) in
-                            let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .nativeAppOpen) { (_, _, e) in
-                                event = e
-                            }
+                            let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                             KarteApp.setup(appKey: APP_KEY)
 
-                            module.wait()
+                            event = module.wait().event(.nativeAppOpen)
                         }
 
                         it("occurred native_app_open event") {
@@ -51,13 +49,11 @@ class LifecycleEventSpec: QuickSpec {
                     context("when after installation") {
                         var event: Event!
                         beforeEachWithMetadata { (metadata) in
-                            let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .nativeAppInstall) { (_, _, e) in
-                                event = e
-                            }
+                            let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                             KarteApp.setup(appKey: APP_KEY)
 
-                            module.wait()
+                            event = module.wait().event(.nativeAppInstall)
                         }
 
                         it("occurred native_app_install event") {
@@ -69,9 +65,7 @@ class LifecycleEventSpec: QuickSpec {
                         var versionRetriever: VersionRetrieverMock!
                         
                         beforeEachWithMetadata { (metadata) in
-                            let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .nativeAppUpdate) { (_, _, e) in
-                                event = e
-                            }
+                            let module = StubActionModule(self, metadata: metadata, builder: builder)
                             
                             versionRetriever = VersionRetrieverMock()
                             
@@ -85,7 +79,7 @@ class LifecycleEventSpec: QuickSpec {
                             
                             KarteApp.setup(appKey: APP_KEY)
                             
-                            module.wait()
+                            event = module.wait().event(.nativeAppUpdate)
                         }
                         
                         afterEach {
@@ -105,9 +99,7 @@ class LifecycleEventSpec: QuickSpec {
                         var versionRetriever: VersionRetrieverMock!
 
                         beforeEachWithMetadata { (metadata) in
-                            let module = StubActionModule(self, metadata: metadata, builder: builder, eventNames: [.nativeAppInstall, .nativeAppUpdate]) { (_, _, e) in
-                                events.append(e)
-                            }
+                            let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                             versionRetriever = VersionRetrieverMock()
 
@@ -121,7 +113,7 @@ class LifecycleEventSpec: QuickSpec {
 
                             KarteApp.setup(appKey: APP_KEY)
 
-                            module.wait()
+                            events.append(contentsOf: module.wait().events([.nativeAppInstall, .nativeAppUpdate]))
                         }
 
                         afterEach {

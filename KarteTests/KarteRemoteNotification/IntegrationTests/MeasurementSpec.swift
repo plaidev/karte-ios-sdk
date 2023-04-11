@@ -95,9 +95,7 @@ class MeasurementSpec: QuickSpec {
                     var event: Event!
                     
                     beforeEachWithMetadata { (metadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .messageClick) { (_, _, e) in
-                            event = e
-                        }
+                        let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         
@@ -105,7 +103,7 @@ class MeasurementSpec: QuickSpec {
                         let notification = RemoteNotification(userInfo: userInfo)!
                         notification.track()
                         
-                        module.wait()
+                        event = module.wait().event(.messageClick)
                     }
                     
                     it("event name is `message_click`") {
@@ -129,9 +127,7 @@ class MeasurementSpec: QuickSpec {
                     var event: Event!
                     
                     beforeEachWithMetadata { (metadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .massPushClick) { (_, _, e) in
-                            event = e
-                        }
+                        let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         
@@ -139,7 +135,7 @@ class MeasurementSpec: QuickSpec {
                         let notification = RemoteNotification(userInfo: userInfo)!
                         notification.track()
                         
-                        module.wait()
+                        event = module.wait().event(.massPushClick)
                     }
                     
                     it("event name is `mass_push_click`") {

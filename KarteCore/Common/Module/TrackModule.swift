@@ -27,4 +27,17 @@ public protocol TrackModule: ModuleBase {
     /// - Parameter urlRequest: リクエスト
     /// - Returns: 編集済みのリクエストを返します。
     func intercept(urlRequest: URLRequest) throws -> URLRequest
+
+    /// イベントの送信拒絶フィルタルールのリストを返す。
+    ///
+    /// ここで返したルールリストに基づきイベントの送信を拒絶することが可能です。
+    /// - Returns: フィルタリスト
+    func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule]
+}
+
+public extension TrackModule {
+    // backward compatibility
+    func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
+        return []
+    }
 }

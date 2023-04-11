@@ -42,10 +42,10 @@ internal class VisualTrackingManager {
 
         let config: VisualTrackingConfiguration = app.libraryConfiguration() ?? VisualTrackingConfiguration()
         if config.automaticallyCollectLogs {
-            UIApplication.krt_vt_swizzleApplicationMethods()
-            UIGestureRecognizer.krt_vt_swizzleGestureRecognizerMethods()
-            UINavigationController.krt_vt_swizzleNavigationControllerMethods()
-            UIViewController.krt_vt_swizzleViewControllerMethods()
+            UIApplicationProxy.shared.swizzleMethods()
+            UIGestureRecognizerProxy.shared.swizzleMethods()
+            UINavigationControllerProxy.shared.swizzleMethods()
+            UIViewControllerProxy.shared.swizzleMethods()
         }
 
         var token: NSObjectProtocol?
@@ -96,7 +96,7 @@ extension VisualTrackingManager: ActionModule, DeepLinkModule, TrackModule {
         nil
     }
 
-    func receive(response: TrackResponse.Response, request: TrackRequest) {
+    func receive(response: [String: JSONValue], request: TrackRequest) {
         tracker?.refreshDefinitions(response: response)
     }
 
@@ -119,5 +119,9 @@ extension VisualTrackingManager: ActionModule, DeepLinkModule, TrackModule {
             return urlRequest
         }
         return try tracker.intercept(urlRequest: urlRequest)
+    }
+
+    func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
+        return []
     }
 }

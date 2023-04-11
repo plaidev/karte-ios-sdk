@@ -55,9 +55,7 @@ class ViewSpec: QuickSpec {
                 describe("when view_id and title are not nil") {
                     var event: Event!
                     beforeEachWithMetadata { (metadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .view) { (_, _, e) in
-                            event = e
-                        }
+                        let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         
@@ -67,7 +65,7 @@ class ViewSpec: QuickSpec {
                             values: values.merging(["view_id": "view_id"]) { $1 }
                         )
 
-                        module.wait()
+                        event = module.wait().event(.view)
                     }
                     
                     it("event name is `test`") {
@@ -126,15 +124,13 @@ class ViewSpec: QuickSpec {
                 describe("when view_id and title are nil") {
                     var event: Event!
                     beforeEachWithMetadata { (metadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .view) { (_, _, e) in
-                            event = e
-                        }
+                        let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         
                         Tracker.view("view_name", title: nil, values: values)
                         
-                        module.wait()
+                        event = module.wait().event(.view)
                     }
                     
                     it("values.view_name is `view_name`") {
@@ -154,16 +150,14 @@ class ViewSpec: QuickSpec {
             xdescribe("its view compatible") {
                 var event: Event!
                 beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: .view) { (_, _, e) in
-                        event = e
-                    }
+                    let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                     
                     Tracker.track("test", values: values)
                     
-                    module.wait()
+                    event = module.wait().event(.view)
                 }
                 
                 it("event name is `test`") {

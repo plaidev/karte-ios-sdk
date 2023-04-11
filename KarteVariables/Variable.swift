@@ -27,6 +27,8 @@ public class Variable: NSObject, Codable {
         case shortenId
         case name
         case value
+        case timestamp
+        case eventHash
     }
 
     /// キャンペーンIDを返します。<br>
@@ -43,6 +45,9 @@ public class Variable: NSObject, Codable {
     /// 設定値を返します。<br>
     /// 設定値が未定義の場合は `nil` を返します。
     var value: String?
+
+    var timestamp: String?
+    var eventHash: String?
 
     /// 設定値が定義済みであるかどうか返します。<br>
     /// 定義済みの場合は `true` を、未定義の場合は `false` を返します。
@@ -105,6 +110,8 @@ public class Variable: NSObject, Codable {
                 self.campaignId = variable.campaignId
                 self.shortenId = variable.shortenId
                 self.value = variable.value
+                self.timestamp = variable.timestamp
+                self.eventHash = variable.eventHash
             } catch {
                 Logger.verbose(tag: .variables, message: "Failed to decode JSON. \(error)")
             }
@@ -114,11 +121,13 @@ public class Variable: NSObject, Codable {
         super.init()
     }
 
-    init(name: String, campaignId: String, shortenId: String, value: String?) {
+    init(name: String, campaignId: String, shortenId: String, value: String?, timestamp: String?, eventHash: String?) {
         self.name = name
         self.campaignId = campaignId
         self.shortenId = shortenId
         self.value = value
+        self.timestamp = timestamp
+        self.eventHash = eventHash
         super.init()
     }
 

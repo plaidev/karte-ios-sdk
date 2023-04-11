@@ -37,7 +37,7 @@ class DefinitionMatchSpec: QuickSpec {
             beforeEachWithMetadata { (metadata) in
                 func step1() {
                     let builder1 = StubBuilder(spec: self, resource: .vt1).build()
-                    let module1 = StubActionModule(self, metadata: metadata, builder: builder1, eventName: .view)
+                    let module1 = StubActionModule(self, metadata: metadata, builder: builder1)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     Tracker.track(event: Event(.view(viewName: "dummy", title: "dummy", values: [:])))
@@ -47,14 +47,12 @@ class DefinitionMatchSpec: QuickSpec {
                 
                 func step2() {
                     let builder2 = StubBuilder(spec: self, resource: .empty).build()
-                    let module2 = StubActionModule(self, metadata: metadata, builder: builder2, eventName: .view) { (_, _, e) in
-                        event = e
-                    }
+                    let module2 = StubActionModule(self, metadata: metadata, builder: builder2)
                     
                     let action = UIKitAction("dummy", view: UIButton(), viewController: nil, targetText: "購入")
                     VisualTrackingManager.shared.dispatch(action: action)
                     
-                    module2.wait()
+                    event = module2.wait().event(.view)
                 }
                 
                 step1()

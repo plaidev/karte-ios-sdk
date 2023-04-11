@@ -5,7 +5,7 @@ source "https://rubygems.org"
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 group :development do
-  gem 'cocoapods'
+  gem 'cocoapods', '~> 1.12'
   gem 'fastlane'
 end
 

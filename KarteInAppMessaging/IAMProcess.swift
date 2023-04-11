@@ -51,7 +51,7 @@ internal class IAMProcess: NSObject {
         self.webView = nil
     }
 
-    func handle(response: TrackResponse.Response) {
+    func handle(response: [String: JSONValue]) {
         setWindowFocus(response: response)
         webView?.handle(response: response)
     }
@@ -157,12 +157,15 @@ extension IAMProcess {
         }
     }
 
-    private func setWindowFocus(response: TrackResponse.Response) {
-        guard !response.messages.isEmpty else {
+    private func setWindowFocus(response: [String: JSONValue]) {
+        let messages = response.jsonArray(forKey: "messages") ?? []
+        guard !messages.isEmpty else {
             return
         }
 
-        let focusables = response.messages.map { $0.action.bool(forKey: "native_app_window_focusable") ?? false }
+        let focusables = messages.dictionaries.map {
+            $0.bool(forKeyPath: "action.native_app_window_focusable") ?? false
+        }
         self.isWindowFucus = focusables.contains(true)
     }
 
@@ -234,12 +237,7 @@ extension IAMProcess {
     }
 
     private func handleJsMessageEvent(_ data: JsMessage.EventData) {
-        let event = Event(
-            eventName: data.eventName,
-            values: data.values.mapValues { $0.rawValue }
-        )
-        Tracker(view: window).track(event: event)
-
+        Tracker.track(view: window, data: data)
         notifyCampaignOpenOrClose(data)
     }
 

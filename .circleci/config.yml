@@ -7,10 +7,10 @@ version: 2.1
 parameters:
   os:
     type: string
-    default: "14.5"
+    default: "15.5"
   device:
     type: string
-    default: "iPhone 11"
+    default: "iPhone 13"
 
 orbs:
   slack: circleci/slack@3.4.2
@@ -18,9 +18,9 @@ orbs:
 
 executors:
   build:
-    resource_class: medium
+    resource_class: macos.x86.medium.gen2
     macos:
-      xcode: "12.5.1"
+      xcode: "14.1.0"
     shell: /bin/bash --login -eo pipefail
     working_directory: /Users/distiller/project
     environment:

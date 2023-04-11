@@ -36,7 +36,7 @@ class TrackCallbackSpec: QuickSpec {
                     var result: Bool!
                     beforeEachWithMetadata { (metadata) in
                         let builder = StubBuilder(spec: self, resource: .empty).build()
-                        let module = StubActionModule(self, metadata: metadata, builder: builder, eventName: EventName("test"))
+                        let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
@@ -60,8 +60,7 @@ class TrackCallbackSpec: QuickSpec {
                         let module = StubActionModule(
                             self,
                             metadata: metadata,
-                            stub: self.stub(uri("/v0/native/track"), http(500)),
-                            eventName: .fetchVariables
+                            stub: self.stub(uri("/v0/native/track"), http(500))
                         )
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)

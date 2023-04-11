@@ -41,17 +41,10 @@ function archive() {
 
 function create_xcframework() {
     local target=$1
-
-    local dwarfdump_result=$(dwarfdump -u archives/${target}.xcarchive/Products/Library/Frameworks/${target}.framework/${target})
-    local debug_symbols_param
-    for uuid in `echo $dwarfdump_result | awk '{ print $2 }'`; do
-      debug_symbols_param="${debug_symbols_param} -debug-symbols ${PWD}/archives/${target}.xcarchive/BCSymbolMaps/${uuid}.bcsymbolmap"
-    done
     
     xcodebuild -create-xcframework \
         -framework $PWD/archives/${target}.xcarchive/Products/Library/Frameworks/${target}.framework \
         -debug-symbols $PWD/archives/${target}.xcarchive/dSYMs/${target}.framework.dSYM \
-        `echo $debug_symbols_param` \
         -framework $PWD/archives/${target}-Simulator.xcarchive/Products/Library/Frameworks/${target}.framework \
         -debug-symbols $PWD/archives/${target}-Simulator.xcarchive/dSYMs/${target}.framework.dSYM \
         -output $PWD/xcframeworks/${target}.xcframework    

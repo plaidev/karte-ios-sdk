@@ -121,6 +121,7 @@ included:
   - KarteInAppMessaging
   - KarteRemoteNotification
   - KarteVariables
+  - KarteInbox
   - KarteVisualTracking
   - KarteCrashReporting
   - KarteNotificationServiceExtension
@@ -145,3 +146,6 @@ type_name:
   min_length: 3
   max_length: 50
 
+file_length:
+  - 500 # warning
+  - 1000 # error

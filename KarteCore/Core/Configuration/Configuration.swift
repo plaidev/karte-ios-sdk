@@ -24,6 +24,8 @@ public class Configuration: NSObject, NSCopying, Codable {
     enum CodingKeys: String, CodingKey {
         case _appKey = "karte_app_key"
         // swiftlint:disable:previous identifier_name
+        case _apiKey = "karte_api_key"
+        // swiftlint:disable:previous identifier_name
     }
 
     /// プロジェクト直下の  Karte-Info.plist をロードしてデフォルト値で初期化された設定インスタンスを返します。
@@ -55,6 +57,21 @@ public class Configuration: NSObject, NSCopying, Codable {
         }
         set {
             _appKey = AppKey(newValue)
+        }
+    }
+
+    internal var _apiKey = ApiKey("")
+    // swiftlint:disable:previous identifier_name
+
+    /// APIキーの取得・設定を行います。
+    ///
+    /// 設定ファイルから自動でロードされるAPIキー以外を利用したい場合にのみ設定します。
+    public var apiKey: String {
+        get {
+            _apiKey.value
+        }
+        set {
+            _apiKey = ApiKey(newValue)
         }
     }
 
@@ -129,6 +146,10 @@ public class Configuration: NSObject, NSCopying, Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self._appKey = try container.decode(AppKey.self, forKey: ._appKey)
+        // v2では後方互換のためにoptionalとする
+        if container.contains(._apiKey) {
+            self._apiKey = try container.decode(ApiKey.self, forKey: ._apiKey)
+        }
     }
 
     /// SDK設定インスタンスを plist ファイルからロードします。
@@ -162,6 +183,7 @@ public class Configuration: NSObject, NSCopying, Codable {
     public func copy(with zone: NSZone? = nil) -> Any {
         let configuration = Configuration()
         configuration._appKey = _appKey
+        configuration._apiKey = _apiKey
         configuration.baseURL = baseURL
         configuration.overlayBaseURL = overlayBaseURL
         configuration.isDryRun = isDryRun

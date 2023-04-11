@@ -55,7 +55,7 @@ public struct Logger {
 
     var level: LogLevel = .error
     var isEnabled = true
-    let appenders: [LogAppender] = [ConsoleLogAppender(), FileLogAppender()]
+    let appenders: [LogAppender] = [ConsoleLogAppender()]
 
     private init() {
     }
@@ -73,12 +73,13 @@ extension Logger {
     }
 
     /// ログ出力有無の取得および設定を行います。
+    @available(*, deprecated, message: "isEnabled property is deprecated. It will be removed in the future. Use LogLevel.off instead.")
     public static var isEnabled: Bool {
         get {
-            shared.isEnabled
+            shared.level != .off
         }
         set {
-            shared.isEnabled = newValue
+            shared.level = newValue ? .error : .off
         }
     }
 

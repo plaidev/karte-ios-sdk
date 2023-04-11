@@ -29,6 +29,14 @@ class ConfigurationSpec: QuickSpec {
                     configuration = KarteCore.Configuration.defaultConfiguration
                 }
                 
+                it("appKey is empty text") {
+                    expect(configuration.appKey).to(beEmpty())
+                }
+                
+                it("apiKey is empty text") {
+                    expect(configuration.apiKey).to(beEmpty())
+                }
+                
                 it("baseURL is `https://api.karte.io`") {
                     expect(configuration.baseURL.absoluteString).to(equal("https://api.karte.io"))
                 }
@@ -69,6 +77,8 @@ class ConfigurationSpec: QuickSpec {
                 beforeSuite {
                     idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
                     configuration = KarteCore.Configuration { (configuration) in
+                        configuration.appKey = "dummy_application_key"
+                        configuration.apiKey = "dummy_api_key"
                         configuration.baseURL = URL(string: "https://example.com")!
                         configuration.overlayBaseURL = URL(string: "https://example.com")!
                         configuration.logCollectionURL = URL(string: "https://example.com")!
@@ -78,6 +88,14 @@ class ConfigurationSpec: QuickSpec {
                         configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
                         configuration.idfaDelegate = idfa
                     }
+                }
+                
+                it("appKey is `dummy_application_key`") {
+                    expect(configuration.appKey).to(equal("dummy_application_key"))
+                }
+                
+                it("apiKey is `dummy_api_key`") {
+                    expect(configuration.apiKey).to(equal("dummy_api_key"))
                 }
                 
                 it("baseURL is `https://example.com`") {

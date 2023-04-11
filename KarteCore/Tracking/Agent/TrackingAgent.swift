@@ -42,15 +42,27 @@ internal class TrackingAgent {
         self.repository = repository
         self.circuitBreaker = Resolver.resolve()
 
+        var filter = TrackEventRejectionFilter()
+        app.modules.flatMap { module -> [TrackEventRejectionFilterRule] in
+            guard case let .track(module) = module else {
+                return []
+            }
+            return module.provideEventRejectionFilterRules()
+        }.forEach { rule in
+            filter.add(rule: rule)
+        }
+
         self.defaultTrackingCommandExecutor = DefaultTrackingCommandExecutor(
             app: app,
             queue: queue,
-            repository: repository
+            repository: repository,
+            filter: filter
         )
         self.retryTrackingCommandExecutor = RetryTrackingCommandExecutor(
             app: app,
             queue: queue,
-            repository: repository
+            repository: repository,
+            filter: filter
         )
         self.backgroundTask = BackgroundTask()
 

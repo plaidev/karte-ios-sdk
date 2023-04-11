@@ -43,21 +43,26 @@ public struct Event: Codable {
     /// * `Dictionary`
     public var values: [String: JSONValue]
 
+    /// イベント発生源のライブラリ名
+    public var libraryName: String?
+
     var isRetryable: Bool {
         eventName.isRetryable
     }
 
-    public init(eventName: EventName, values: [String: JSONConvertible] = [:]) {
+    public init(eventName: EventName, values: [String: JSONConvertible] = [:], libraryName: String? = nil) {
         self.eventName = eventName
         self.values = values.mapValues { $0.jsonValue }
+        self.libraryName = libraryName
     }
 
-    public init(_ alias: Alias) {
+    public init(_ alias: Alias, libraryName: String? = nil) {
         (eventName, values) = alias.build()
+        self.libraryName = libraryName
     }
 
     public mutating func merge(_ other: [String: JSONConvertible]) {
-        values.merge(other.mapValues { $0.jsonValue }) { $1 }
+        values.mergeRecursive(other.mapValues { $0.jsonValue })
     }
 
     mutating func mergeAdditionalParameter(date: Date, isRetry: Bool) {
@@ -114,14 +119,14 @@ public extension Event {
                     field(.title): title
                 ]
                 name = .view
-                vals = values.merging(other) { $1 }
+                vals = values.mergingRecursive(other)
 
             case let .identify(userId: userId, values: values):
                 let other: [String: JSONConvertible] = [
                     field(.userId): userId
                 ]
                 name = .identify
-                vals = values.merging(other) { $1 }
+                vals = values.mergingRecursive(other)
 
             case let .attribute(values: values):
                 name = .attribute
@@ -159,7 +164,7 @@ public extension Event {
                     ]
                 ]
                 name = type.eventName
-                vals = values.merging(other) { $1 }
+                vals = values.mergingRecursive(other)
 
             case let .renewVisitorId(old: old, new: new):
                 var values = [String: JSONConvertible]()
@@ -249,5 +254,6 @@ private extension Event {
     enum CodingKeys: String, CodingKey {
         case eventName = "event_name"
         case values
+        case libraryName
     }
 }
