@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteVisualTracking'
-  s.version                 = '2.10.0'
+  s.version                 = '2.11.0'
   s.summary                 = 'KARTE Visual tracking SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
