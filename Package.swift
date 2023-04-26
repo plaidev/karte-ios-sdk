@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "Karte",
     platforms: [
-        .iOS(.v9)
+        .iOS(.v11)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -45,7 +45,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name: "PLCrashReporter", url: "https://github.com/plaidev/PLCrashReporter.git", from: "1.8.2-spm")
+        .package(name: "PLCrashReporter", url: "https://github.com/plaidev/PLCrashReporter.git", from: "1.11.0-patch")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
