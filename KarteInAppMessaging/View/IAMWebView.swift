@@ -31,6 +31,7 @@ internal class IAMWebView: WKWebView {
     weak var delegate: IAMWebViewDelegate?
 
     private var responses: [[String: JSONValue]] = []
+    private var views: [[String: JSONValue]] = []
     private var state: IAMState = .waiting
 
     init(sceneId: SceneId, configuration: WKWebViewConfiguration, url: URL) {
@@ -76,6 +77,7 @@ internal class IAMWebView: WKWebView {
         if state != .ready {
             self.state = .waiting
             self.responses.removeAll()
+            self.views.removeAll()
         }
 
         super.removeFromSuperview()
@@ -115,6 +117,23 @@ internal class IAMWebView: WKWebView {
         Logger.verbose(tag: .inAppMessaging, message: "Evaluate handleChangePv()")
     }
 
+    func handleView(values: [String: JSONValue]) {
+        switch state {
+        case .waiting:
+            views.append(values)
+            loadRequestIfNeeded()
+
+        case .loading:
+            views.append(values)
+
+        case .ready:
+            let viewName = convertStringOrUndefined(values.string(forKey: "view_name"))
+            let title = convertStringOrUndefined(values.string(forKey: "title"))
+            evaluateJavaScript("tracker.handleView(\(viewName),\(title))", completionHandler: nil)
+            Logger.verbose(tag: .inAppMessaging, message: "Evaluate handleView(\(viewName),\(title))")
+        }
+    }
+
     func changeJavaScript(state: JsState?) {
         guard let state = state else {
             Logger.debug(tag: .inAppMessaging, message: "Js state is unknown.")
@@ -131,6 +150,10 @@ internal class IAMWebView: WKWebView {
                 self?.handle(response: response)
             }
             responses.removeAll()
+            views.forEach { [weak self] values in
+                self?.handleView(values: values)
+            }
+            views.removeAll()
 
         case .error:
             Logger.error(tag: .inAppMessaging, message: "Js state is error.")
@@ -221,6 +244,13 @@ extension IAMWebView {
             return nil
         }
         return data.base64EncodedString(options: .endLineWithLineFeed)
+    }
+
+    private func convertStringOrUndefined(_ string: String?) -> String {
+        if let string = string {
+            return "'\(string)'"
+        }
+        return "undefined"
     }
 
     private func bindFor(window: UIWindow) -> Bool {

@@ -15,6 +15,8 @@
 # Releases - xxxx.xx.xx
 
 ### Core 2.23.0
+** 🎉 FEATURE**
+- サブモジュールがイベントを編集できる機能を追加しました。
 ** 🔨CHANGED**
 - Deployment Targetの変更 iOS10 → iOS11
 - Cocoapodsの下限バージョンを1.10.0に変更しました。
@@ -23,6 +25,9 @@
 ** 🔨CHANGED**
 - Deployment Targetの変更 iOS10 → iOS11
 - Cocoapodsの下限バージョンを1.10.0に変更しました。
+- タグv2利用時に、Viewイベントをアクション側に連携する機能を追加しました。
+** 💊FIXED**
+- 2.14.0におけるmessage_openイベントの送信仕様変更が、適用されていなかった不具合を修正しました。
 
 ### RemoteNotification 2.10.0
 ** 🔨CHANGED**

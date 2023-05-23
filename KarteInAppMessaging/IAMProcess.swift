@@ -60,6 +60,10 @@ internal class IAMProcess: NSObject {
         webView?.handleChangePv()
     }
 
+    func handleView(values: [String: JSONValue]) {
+        webView?.handleView(values: values)
+    }
+
     func activate() {
         if webView == nil {
             setupWebView()
