@@ -11,6 +11,11 @@ parameters:
   device:
     type: string
     default: "iPhone 13"
+  context:
+    description: Specify running context. Default is CI but theare are 2 options for manual release.
+    type: enum
+    enum: [ci, manual, dry_run]
+    default: ci
 
 orbs:
   slack: circleci/slack@3.4.2
@@ -25,10 +30,6 @@ executors:
     working_directory: /Users/distiller/project
     environment:
       FL_OUTPUT_DIR: output
-
-  classic:
-    machine:
-      image: circleci/classic:201808-01
 
 commands:
   git_clone:
@@ -68,6 +69,12 @@ commands:
           name: Saving pod cache
           key: v1-pod-{{ checksum "Podfile.lock" }}
           paths: Pods
+
+  lint_podspecs:
+    steps:
+      - run:
+          name: Execute lint for all podspecs
+          command: bundle exec pod lib lint
 
 jobs:
   build:
@@ -204,9 +211,30 @@ jobs:
       - slack/status:
           fail_only: true
 
+  dry_run:
+    executor:
+      name: build
+    steps:
+      - git_clone
+      - setup_gems
+      - setup_pods
+      - lint_podspecs
+      - slack/status:
+          fail_only: true
+
+  echo_context:
+    executor:
+      name: build
+    steps:
+      - run:
+          name: Show current context
+          command: echo << pipeline.parameters.context >>
+
 workflows:
   version: 2
   build_and_deploy:
+    when:
+      equal: [ ci, << pipeline.parameters.context >> ]
     jobs:
       - build
       - generate_docs:
@@ -238,3 +266,35 @@ workflows:
             branches:
               only:
                 - master
+
+  manual_deploy:
+    when:
+      equal: [ manual, << pipeline.parameters.context >> ]
+    jobs:
+      - echo_context
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+      - test:
+          requires:
+            - build
+      - ui_test:
+          requires:
+            - build
+      - spm_test:
+          requires:
+            - build
+      - publish_pods:
+          requires:
+            - test
+            - ui_test
+            - spm_test
+
+  dry_run:
+    when:
+      equal: [ dry_run, << pipeline.parameters.context >> ]
+    jobs:
+      - dry_run
+
