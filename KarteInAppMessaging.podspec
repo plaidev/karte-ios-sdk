@@ -30,6 +30,6 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'IN_APP_MESSAGING_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteCore', '~> 2.22'
+  s.dependency 'KarteCore', '~> 2.23'
   s.dependency 'KarteUtilities', '~> 3.8'
 end
