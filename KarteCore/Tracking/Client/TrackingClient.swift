@@ -22,6 +22,18 @@ internal class TrackingClient {
     private var coreService: CoreService
     private var agent: TrackingAgent
     private var lifecycleObserver: ApplicationLifecycleObserver
+    lazy var eventRejectionFilter: TrackEventRejectionFilter = {
+        var filter = TrackEventRejectionFilter()
+        KarteApp.shared.modules.flatMap { module -> [TrackEventRejectionFilterRule] in
+            guard case let .track(module) = module else {
+                return []
+            }
+            return module.provideEventRejectionFilterRules()
+        }.forEach { rule in
+            filter.add(rule: rule)
+        }
+        return filter
+    }()
 
     init(app: KarteApp, core: CoreService) {
         self.agent = TrackingAgent(app: app)
@@ -102,6 +114,12 @@ private extension TrackingClient {
 
         let pvService = coreService.pvService
         let sceneId = SceneId(view: task.view)
+        task.event = KarteApp.shared.modules.reduce(task.event) { event, module -> Event in
+            if case let .track(module) = module {
+                return module.prepare(event: event, sceneId: sceneId)
+            }
+            return event
+        }
         changePvIfNeeded(task: task, pvService: pvService, sceneId: sceneId)
 
         let command = newCommand(task: task, pvService: pvService, sceneId: sceneId)

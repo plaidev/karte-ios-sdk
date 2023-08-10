@@ -49,8 +49,8 @@ internal class CommandBundle {
         isFrozen = true
     }
 
-    func newRequest(app: KarteApp, filter: TrackEventRejectionFilter) -> TrackRequest? {
-        TrackRequest(app: app, commands: commands, filter: filter)
+    func newRequest(app: KarteApp) -> TrackRequest? {
+        TrackRequest(app: app, commands: commands)
     }
 
     deinit {

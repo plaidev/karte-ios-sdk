@@ -27,6 +27,8 @@ internal class VisualTrackingManager {
         tracer?.pairingClient?.isPaired ?? false
     }
 
+    private var notificationObserverToken: NSObjectProtocol?
+
     init() {
     }
 
@@ -48,15 +50,14 @@ internal class VisualTrackingManager {
             UIViewControllerProxy.shared.swizzleMethods()
         }
 
-        var token: NSObjectProtocol?
-        token = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { _ in
+        notificationObserverToken = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { [weak self] _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {[weak self] in
                 if let config = self?.tracker?.app.configuration as? ExperimentalConfiguration, config.operationMode == OperationMode.ingest {
                     self?.tracker?.refreshDefinitions()
                 }
             }
-            if let token = token {
-                NotificationCenter.default.removeObserver(token)
+            if let notificationObserverToken = self?.notificationObserverToken {
+                NotificationCenter.default.removeObserver(notificationObserverToken)
             }
         }
     }

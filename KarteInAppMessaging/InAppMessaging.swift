@@ -134,6 +134,7 @@ public class InAppMessaging: NSObject {
 
         app.register(module: .action(self))
         app.register(module: .user(self))
+        app.register(module: .track(self))
 
         IAMProxy.shared.swizzleMethods()
         UINavigationControllerProxy.shared.swizzleMethods()
@@ -146,6 +147,7 @@ public class InAppMessaging: NSObject {
     func unconfigure(app: KarteApp) {
         app.unregister(module: .action(self))
         app.unregister(module: .user(self))
+        app.unregister(module: .track(self))
 
         IAMProxy.shared.unswizzleMethods()
     }
@@ -380,6 +382,15 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
             process.reload()
         }
         clearWkWebViewCookies()
+    }
+
+    public func prepare(event: Event, sceneId: SceneId) -> Event {
+        if event.eventName == .view {
+            if let process = pool.retrieveProcess(sceneId: sceneId) {
+                process.handleView(values: event.values)
+            }
+        }
+        return event
     }
 
     public func intercept(urlRequest: URLRequest) throws -> URLRequest {

@@ -62,4 +62,5 @@ jobs:
         curl -u ${{ secrets.CIRCLECI_KEY }} \
           -d build_parameters[CIRCLE_JOB]=release \
           -d build_parameters[RELEASE_BRANCH]=release/${{ steps.date.outputs.date }} \
+          -d build_parameters[RELEASE_TARGET]=KarteTracker \
           ${{ secrets.UI_TEST_ENDPOINT }}

@@ -2,15 +2,66 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.22.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.14.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.9.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.5.0 |
-| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.10.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.23.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.15.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.10.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.6.0 |
+| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.11.0 |
 | KarteInbox | Push通知の送信履歴を取得する機能を提供します（β版）。 | 0.1.0 |
-| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.5.0 |
-| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.8.0 |
-| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.0.0 |
+| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.6.0 |
+| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.9.0 |
+| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.1.0 |
+
+# Releases - 2023.08.11
+## Version 2.9.0
+
+### Core 2.23.0
+** 🎉 FEATURE**
+- サブモジュールがイベントを編集できる機能を追加しました。
+** 🔨CHANGED**
+- Deployment Targetの変更 iOS10 → iOS11
+- Cocoapodsの下限バージョンを1.10.0に変更しました。
+
+### InAppMessaging 2.15.0
+** 🔨CHANGED**
+- Deployment Targetの変更 iOS10 → iOS11
+- Cocoapodsの下限バージョンを1.10.0に変更しました。
+- タグv2利用時に、Viewイベントをアクション側に連携する機能を追加しました。
+** 💊FIXED**
+- 2.14.0におけるmessage_openイベントの送信仕様変更が、適用されていなかった不具合を修正しました。
+
+### RemoteNotification 2.10.0
+** 🔨CHANGED**
+- Deployment Targetの変更 iOS10 → iOS11
+- Cocoapodsの下限バージョンを1.10.0に変更しました。
+
+### Variables 2.6.0
+** 🔨CHANGED**
+- Deployment Targetの変更 iOS10 → iOS11
+- Cocoapodsの下限バージョンを1.10.0に変更しました。
+
+### VisualTracking 2.11.0
+** 🔨CHANGED**
+- Deployment Targetの変更 iOS10 → iOS11
+- Cocoapodsの下限バージョンを1.10.0に変更しました。
+** 💊FIXED**
+- Swift5.5以降でビルドする際にSendableのWarningが出る問題を修正しました。
+
+### CrashReporting 2.6.0
+** 🔨CHANGED**
+- Deployment Targetの変更 iOS10 → iOS11
+- Cocoapodsの下限バージョンを1.10.0に変更しました。
+- 依存する CrashReporter SDK をバージョンアップしました。
+
+### Utilities 3.9.0
+** 🔨CHANGED**
+- Deployment Targetの変更 iOS10 → iOS11
+- Cocoapodsの下限バージョンを1.10.0に変更しました。
+
+### KarteNotificationServiceExtension 1.1.0
+** 🔨CHANGED**
+- Deployment Targetの変更 iOS10 → iOS11
+- Cocoapodsの下限バージョンを1.10.0に変更しました。
 
 # Releases - 2023.04.11
 ## Version 2.8.0

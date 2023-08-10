@@ -20,6 +20,14 @@ import Foundation
 ///
 /// **サブモジュールと連携するために用意している機能であり、通常利用で使用することはありません。**
 public protocol TrackModule: ModuleBase {
+    /// イベントに紐付けるカスタムオブジェクトの生成処理に割り込みます。
+    ///
+    /// 編集済みのイベントを返すことで、イベントの内容を編集することが可能です。
+    ///
+    /// - Parameter event: イベント
+    /// - Returns: 編集済みのイベントを返します。
+    func prepare(event: Event, sceneId: SceneId) -> Event
+
     /// リクエスト処理に割り込みます。
     ///
     /// 編集済みのリクエストを返すことで、リクエスト内容を編集することが可能です。
@@ -39,5 +47,9 @@ public extension TrackModule {
     // backward compatibility
     func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
         return []
+    }
+    // backward compatibility
+    func prepare(event: Event, sceneId: SceneId) -> Event {
+        return event
     }
 }

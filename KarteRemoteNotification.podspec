@@ -8,19 +8,19 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteRemoteNotification'
-  s.version                 = '2.9.0'
+  s.version                 = '2.10.0'
   s.summary                 = 'KARTE Remote notification SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
   s.documentation_url       = 'https://developers.karte.io/docs/ios-sdk'
   s.license                 = { :type => 'Apache', :file => 'LICENSE' }
 
-  s.cocoapods_version       = '>= 1.7.0'
+  s.cocoapods_version       = '>= 1.10.0'
   s.swift_versions          = [5.1]
   s.static_framework        = true
 
   s.platform                = :ios
-  s.ios.deployment_target   = '10.0'
+  s.ios.deployment_target   = '11.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "RemoteNotification-#{s.version}" }
   s.source_files            = 'KarteRemoteNotification/**/*.{swift,h,m}'

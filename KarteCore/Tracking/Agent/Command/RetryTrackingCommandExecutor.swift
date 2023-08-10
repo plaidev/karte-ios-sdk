@@ -23,9 +23,8 @@ internal class RetryTrackingCommandExecutor: TrackingCommandExecutor {
 
     private var app: KarteApp
     private var bundler: CommandBundlerProxy
-    private var filter: TrackEventRejectionFilter
 
-    init(app: KarteApp, queue: DispatchQueue, repository: TrackingCommandRepository, filter: TrackEventRejectionFilter) {
+    init(app: KarteApp, queue: DispatchQueue, repository: TrackingCommandRepository) {
         let timeWindowBundleRule = TimeWindowBundleRule(queue: queue, interval: .seconds(1))
         TrackClient.shared.addObserver(timeWindowBundleRule)
 
@@ -37,7 +36,6 @@ internal class RetryTrackingCommandExecutor: TrackingCommandExecutor {
         self.bundler = ThroughCommandBundlerProxy(bundler: bundler)
         self.repository = repository
         self.app = app
-        self.filter = filter
 
         bundler.delegate = self
     }
@@ -55,7 +53,7 @@ internal class RetryTrackingCommandExecutor: TrackingCommandExecutor {
 
 private extension RetryTrackingCommandExecutor {
     func request(bundle: CommandBundle) {
-        guard let request = bundle.newRequest(app: app, filter: filter) else {
+        guard let request = bundle.newRequest(app: app) else {
             return
         }
 
