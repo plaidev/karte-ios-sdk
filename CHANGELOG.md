@@ -3,7 +3,7 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.23.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.15.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.16.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.10.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.6.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.11.0 |
@@ -11,6 +11,12 @@
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.6.0 |
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.9.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.1.0 |
+
+# Releases - xxxx.xx.xx
+
+### InAppMessaging 2.16.0
+** 💊FIXED**
+- ImagePickerやKeyboardを開くと不要なWebViewが生成されてしまう問題を修正しました。
 
 # Releases - 2023.08.11
 ## Version 2.9.0

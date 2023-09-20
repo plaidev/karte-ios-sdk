@@ -237,6 +237,11 @@ extension InAppMessaging {
             return
         }
 
+        if let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow"),
+           window.isKind(of: keyboardWindowClass) {
+            return
+        }
+
         let process = IAMProcess(view: window, configuration: IAMProcessConfiguration(app: app))
         pool.storeProcess(process)
     }
