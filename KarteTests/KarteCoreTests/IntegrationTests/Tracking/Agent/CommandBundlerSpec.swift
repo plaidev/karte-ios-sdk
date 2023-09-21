@@ -229,7 +229,7 @@ class CommandBundlerSpec: QuickSpec {
                     beforeEachWithMetadata { (metadata) in
                         spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 2)
                         
-                        let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(100))
+                        let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(1000))
                         let bundler = CommandBundler(
                             beforeBundleRules: [],
                             afterBundleRules: [],
@@ -242,18 +242,18 @@ class CommandBundlerSpec: QuickSpec {
                                 bundler.addCommand(buildCommand())
                                 bundler.addCommand(buildCommand())
                             }
-                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(120)) {
+                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(1200)) {
                                 bundler.addCommand(buildCommand())
                                 bundler.addCommand(buildCommand())
                                 bundler.addCommand(buildCommand())
                             }
-                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(150)) {
+                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(1500)) {
                                 timeWindowBundleRule.isImmediatelyBundlable = false
                             }
-                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(240)) {
+                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(2400)) {
                                 bundler.addCommand(buildCommand())
                             }
-                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(400)) {
+                            spy.queue.asyncAfter(deadline: .now() + .milliseconds(4000)) {
                                 timeWindowBundleRule.isImmediatelyBundlable = true
                             }
                         }
