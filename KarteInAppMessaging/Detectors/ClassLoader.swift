@@ -25,6 +25,10 @@ internal struct ClassLoader {
         load("X1VJUmVtb3RlVmlldw==")
     }
 
+    static var remoteKeyboardWindowClass: AnyClass? {
+        load("VUlSZW1vdGVLZXlib2FyZFdpbmRvdw==")
+    }
+
     static func load(_ name: String) -> AnyClass? {
         Data(base64Encoded: name, options: .ignoreUnknownCharacters).flatMap {
             String(data: $0, encoding: .utf8)

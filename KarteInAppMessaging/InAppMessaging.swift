@@ -237,8 +237,8 @@ extension InAppMessaging {
             return
         }
 
-        if let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow"),
-           window.isKind(of: keyboardWindowClass) {
+        if let cls = ClassLoader.remoteKeyboardWindowClass,
+           window.isKind(of: cls) {
             return
         }
 
