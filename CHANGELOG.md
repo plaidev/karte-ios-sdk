@@ -17,6 +17,7 @@
 ### InAppMessaging 2.16.0
 ** 💊FIXED**
 - ImagePickerやKeyboardを開くと不要なWebViewが生成されてしまう問題を修正しました。
+- タグv2利用時に、エレメントビルダー（β版）で作成した接客アクションで「アプリで確認」機能が動かない問題を修正しました。
 
 # Releases - 2023.08.11
 ## Version 2.9.0
