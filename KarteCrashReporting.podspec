@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "CrashReporting-#{s.version}" }
   s.source_files            = 'KarteCrashReporting/**/*.{swift,h,m}'
   s.exclude_files           = 'KarteCrashReporting/PLCrashReporter'
+  s.resource_bundles        = { 'KarteCrashReporting' => ['KarteCrashReporting/PrivacyInfo.xcprivacy'] }
   
   s.requires_arc            = true
   s.pod_target_xcconfig     = {

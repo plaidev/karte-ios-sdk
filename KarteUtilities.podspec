@@ -32,6 +32,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'standard' do |ss|
     ss.source_files = 'KarteUtilities/**/*.{swift,h,m}'
+    ss.resource_bundles        = { 'KarteUtilities' => ['KarteUtilities/PrivacyInfo.xcprivacy'] }
     ss.library = 'sqlite3'
   end
 

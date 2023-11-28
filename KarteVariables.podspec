@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Variables-#{s.version}" }
   s.source_files            = 'KarteVariables/**/*.{swift,h,m}'
+  s.resource_bundles        = { 'KarteVariables' => ['KarteVariables/PrivacyInfo.xcprivacy'] }
 
   s.requires_arc            = true
   s.pod_target_xcconfig     = {

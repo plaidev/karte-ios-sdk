@@ -14,15 +14,17 @@
 
 # Releases - xxxx.xx.xx
 
+### Core 2.24.0
+** 🎉 FEATURE**
+- Privacy manifestを追加しました。
+
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+
 ### InAppMessaging 2.17.0
 ** 🎉 FEATURE**
 - WKWebView配下のRemoteView検出をスキップするオプションを追加しました（通常の利用では本オプションの設定は必要ありません）
 
-### Core 2.24.0
-** 🔨CHANGED**
-- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
-
-### InAppMessaging 2.16.0
 ** 💊FIXED**
 - ImagePickerやKeyboardを開くと不要なWebViewが生成されてしまう問題を修正しました。
 - タグv2利用時に、エレメントビルダー（β版）で作成した接客アクションで「アプリで確認」機能が動かない問題を修正しました。
@@ -36,6 +38,9 @@
 - Deployment Targetを変更しました(iOS11.0 → iOS12.0)
 
 ### Variables 2.7.0
+** 🎉 FEATURE**
+- Privacy manifestを追加しました。
+
 ** 🔨CHANGED**
 - Deployment Targetを変更しました(iOS11.0 → iOS12.0)
 
@@ -44,10 +49,16 @@
 - Deployment Targetを変更しました(iOS11.0 → iOS12.0)
 
 ### CrashReporting 2.7.0
+** 🎉 FEATURE**
+- Privacy manifestを追加しました。
+
 ** 🔨CHANGED**
 - Deployment Targetを変更しました(iOS11.0 → iOS12.0)
 
 ### Utilities 3.10.0
+** 🎉 FEATURE**
+- Privacy manifestを追加しました。
+
 ** 🔨CHANGED**
 - Deployment Targetを変更しました(iOS11.0 → iOS12.0)
 

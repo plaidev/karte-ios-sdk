@@ -417,6 +417,10 @@
 		777D605B2742217500339D7E /* InvalidEventNameFilterRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777D605A2742217500339D7E /* InvalidEventNameFilterRule.swift */; };
 		777D605D274267FC00339D7E /* InvalidEventFieldNameFilterRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777D605C274267FC00339D7E /* InvalidEventFieldNameFilterRule.swift */; };
 		77DFA95D274630B70093FB65 /* AttributeEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DFA95C274630B70093FB65 /* AttributeEventSpec.swift */; };
+		8424E2562AFC653C003AC32E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8424E2552AFC653C003AC32E /* PrivacyInfo.xcprivacy */; };
+		843BC1052AF314F300D1C0A0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 843BC1042AF314F300D1C0A0 /* PrivacyInfo.xcprivacy */; };
+		843BC1072AF316ED00D1C0A0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 843BC1062AF316ED00D1C0A0 /* PrivacyInfo.xcprivacy */; };
+		843BC1092AF3173C00D1C0A0 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 843BC1082AF3173C00D1C0A0 /* PrivacyInfo.xcprivacy */; };
 		93E00F8E28745FF500116B5B /* IAMProcessPoolSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E00F8D28745FF500116B5B /* IAMProcessPoolSpec.swift */; };
 		AF0A5F1C2954674500209D4E /* KarteInbox.h in Headers */ = {isa = PBXBuildFile; fileRef = AF0A5F192954674500209D4E /* KarteInbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AF0A5F2129546A6800209D4E /* Inbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A5F2029546A6800209D4E /* Inbox.swift */; };
@@ -1006,6 +1010,10 @@
 		777D605A2742217500339D7E /* InvalidEventNameFilterRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvalidEventNameFilterRule.swift; sourceTree = "<group>"; };
 		777D605C274267FC00339D7E /* InvalidEventFieldNameFilterRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvalidEventFieldNameFilterRule.swift; sourceTree = "<group>"; };
 		77DFA95C274630B70093FB65 /* AttributeEventSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeEventSpec.swift; sourceTree = "<group>"; };
+		8424E2552AFC653C003AC32E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		843BC1042AF314F300D1C0A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		843BC1062AF316ED00D1C0A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		843BC1082AF3173C00D1C0A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
 		93E00F8D28745FF500116B5B /* IAMProcessPoolSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMProcessPoolSpec.swift; sourceTree = "<group>"; };
 		AF0A5F172954674500209D4E /* KarteInbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteInbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1121,6 +1129,7 @@
 				0C060E9A2384D76C006AF974 /* KarteUtilities.h */,
 				0C49FE7423C84E88004B6F2C /* KarteUtilities.m */,
 				0C060E9B2384D76C006AF974 /* Info.plist */,
+				843BC1082AF3173C00D1C0A0 /* PrivacyInfo.xcprivacy */,
 			);
 			path = KarteUtilities;
 			sourceTree = "<group>";
@@ -1362,6 +1371,7 @@
 				0C49FE6B23C82563004B6F2C /* KarteCrashReporting.m */,
 				0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */,
 				0C2B3C6F2382684D008A2708 /* Info.plist */,
+				8424E2552AFC653C003AC32E /* PrivacyInfo.xcprivacy */,
 			);
 			path = KarteCrashReporting;
 			sourceTree = "<group>";
@@ -1705,6 +1715,7 @@
 				0C8974322379040800098CD8 /* KarteCore.h */,
 				0C49FE4723C5C4FA004B6F2C /* KarteCore.m */,
 				0C8974332379040800098CD8 /* Info.plist */,
+				843BC1042AF314F300D1C0A0 /* PrivacyInfo.xcprivacy */,
 			);
 			path = KarteCore;
 			sourceTree = "<group>";
@@ -1747,6 +1758,7 @@
 				500813C42703EC8000805FA7 /* ObjcCompatibleScope.swift */,
 				500813C62703ED3100805FA7 /* KRTTracker+Variables.h */,
 				500813C72703ED3100805FA7 /* KRTTracker+Variables.m */,
+				843BC1062AF316ED00D1C0A0 /* PrivacyInfo.xcprivacy */,
 			);
 			path = KarteVariables;
 			sourceTree = "<group>";
@@ -2836,6 +2848,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				843BC1092AF3173C00D1C0A0 /* PrivacyInfo.xcprivacy in Resources */,
 				0C8392622406C4A30014C2BF /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2844,6 +2857,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8424E2562AFC653C003AC32E /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2851,6 +2865,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				843BC1052AF314F300D1C0A0 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2865,6 +2880,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				843BC1072AF316ED00D1C0A0 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

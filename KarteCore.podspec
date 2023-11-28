@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Core-#{s.version}" }
   s.source_files            = 'KarteCore/**/*.{swift,h,m}'
+  s.resource_bundles        = { 'KarteCore' => ['KarteCore/PrivacyInfo.xcprivacy'] }
   
   s.requires_arc            = true
   s.pod_target_xcconfig     = {
