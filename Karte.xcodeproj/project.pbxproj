@@ -307,6 +307,7 @@
 		0C9C6B0D296E623C00077D25 /* SafeSwizzlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9C6B0C296E623C00077D25 /* SafeSwizzlerTests.swift */; };
 		0CB10A1023B216F20086D603 /* TrackerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB10A0F23B216F20086D603 /* TrackerDelegate.swift */; };
 		0CBE6288239902BF00BDD6CF /* KarteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBE6287239902BF00BDD6CF /* KarteApp.swift */; };
+		0CC4BF9B2B144A190019EDF4 /* InAppMessagingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC4BF9A2B144A190019EDF4 /* InAppMessagingConfiguration.swift */; };
 		0CC648B0238A15BD009EB5DF /* success_variables_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648AF238A15BD009EB5DF /* success_variables_1.json */; };
 		0CC648B6238CB77B009EB5DF /* success_variables_2.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CC648B5238CB77B009EB5DF /* success_variables_2.json */; };
 		0CC648B8238CCFC3009EB5DF /* StubBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC648B7238CCFC3009EB5DF /* StubBuilder.swift */; };
@@ -866,6 +867,7 @@
 		0CA6D441238EC5AD00583E5C /* TracerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracerTests.swift; sourceTree = "<group>"; };
 		0CB10A0F23B216F20086D603 /* TrackerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerDelegate.swift; sourceTree = "<group>"; };
 		0CBE6287239902BF00BDD6CF /* KarteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KarteApp.swift; sourceTree = "<group>"; };
+		0CC4BF9A2B144A190019EDF4 /* InAppMessagingConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppMessagingConfiguration.swift; sourceTree = "<group>"; };
 		0CC648AF238A15BD009EB5DF /* success_variables_1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success_variables_1.json; sourceTree = "<group>"; };
 		0CC648B5238CB77B009EB5DF /* success_variables_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_variables_2.json; sourceTree = "<group>"; };
 		0CC648B7238CCFC3009EB5DF /* StubBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubBuilder.swift; sourceTree = "<group>"; };
@@ -1717,6 +1719,7 @@
 				0C8975F0237AE27C00098CD8 /* Swizzlers */,
 				0C8976BC237E617800098CD8 /* View */,
 				0C897603237AE27D00098CD8 /* InAppMessaging.swift */,
+				0CC4BF9A2B144A190019EDF4 /* InAppMessagingConfiguration.swift */,
 				0C8975FA237AE27D00098CD8 /* InAppMessagingDelegate.swift */,
 				0C897602237AE27D00098CD8 /* InAppMessagingLoader.m */,
 				0C6A5192241B990B00BA0F5E /* IAMProcessConfiguration.swift */,
@@ -3198,6 +3201,7 @@
 				0C89761D237AE27D00098CD8 /* IAMProcess.swift in Sources */,
 				0C4945C123B9E35900804700 /* PreviewLoader.m in Sources */,
 				0C5A7D2E24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift in Sources */,
+				0CC4BF9B2B144A190019EDF4 /* InAppMessagingConfiguration.swift in Sources */,
 				0C4B51B52492173B0075A67D /* RemoteViewDetector.swift in Sources */,
 				0C9C6B08296E51AA00077D25 /* UINavigationControllerProxy.swift in Sources */,
 				0C897614237AE27D00098CD8 /* IAMState.swift in Sources */,
@@ -3891,7 +3895,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.16.0;
+				MARKETING_VERSION = 2.17.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3924,7 +3928,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.16.0;
+				MARKETING_VERSION = 2.17.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

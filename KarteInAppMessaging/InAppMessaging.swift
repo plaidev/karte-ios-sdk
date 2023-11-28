@@ -48,6 +48,7 @@ public class InAppMessaging: NSObject {
     private let pool = IAMProcessPool()
     var isSuppressed = false
     var app: KarteApp?
+    var config: InAppMessagingConfiguration?
 
     override internal init() {
         super.init()
@@ -135,6 +136,10 @@ public class InAppMessaging: NSObject {
         app.register(module: .action(self))
         app.register(module: .user(self))
         app.register(module: .track(self))
+
+        if let config: InAppMessagingConfiguration = app.libraryConfiguration() {
+            self.config = config
+        }
 
         IAMProxy.shared.swizzleMethods()
         UINavigationControllerProxy.shared.swizzleMethods()
