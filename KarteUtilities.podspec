@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteUtilities'
-  s.version                 = '3.9.0'
+  s.version                 = '3.10.0'
   s.summary                 = 'KARTE Utilities SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.swift_versions          = [5.1]
 
   s.platform                = :ios
-  s.ios.deployment_target   = '11.0'
+  s.ios.deployment_target   = '12.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Utilities-#{s.version}" }
   s.default_subspec  = 'standard'
