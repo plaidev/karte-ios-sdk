@@ -3,7 +3,7 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.24.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.17.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.16.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.7.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
@@ -21,7 +21,7 @@
 ** 🔨CHANGED**
 - Deployment Targetを変更しました(iOS11.0 → iOS12.0)
 
-### InAppMessaging 2.17.0
+### InAppMessaging 2.16.0
 ** 🎉 FEATURE**
 - WKWebView配下のRemoteView検出をスキップするオプションを追加しました（通常の利用では本オプションの設定は必要ありません）
 
