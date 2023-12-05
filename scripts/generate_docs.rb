@@ -213,7 +213,7 @@ class Command
     
     Fastlane.load_actions
 
-    podspecs = ['Core', 'InAppMessaging', 'RemoteNotification', 'Variables', 'VisualTracking', 'CrashReporting'].map do |name|
+    podspecs = ['Core', 'InAppMessaging', 'RemoteNotification', 'Variables', 'VisualTracking', 'Inbox', 'CrashReporting'].map do |name|
         File.join("../Karte#{name}.podspec")
     end
     podspecs.each do |podspec|

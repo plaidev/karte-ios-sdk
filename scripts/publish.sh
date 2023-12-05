@@ -14,13 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+PODSPECS=("KarteUtilities.podspec" "KarteCore.podspec" "KarteInAppMessaging.podspec" "KarteRemoteNotification.podspec" "KarteVariables.podspec" "KarteVisualTracking.podspec" "KarteInbox.podspec" "KarteCrashReporting.podspec" "KarteNotificationServiceExtension.podspec")
+
 ##################################################
 # Functions (Sub command functions)
 ##################################################
 
 function set_remote_repository() {
   EXIST_REMOTE_REPO=$(git remote | grep -q sync_repo; echo $?)
-  if [ $EXIST_REMOTE_REPO -eq 0 ]; then
+  if [ $EXIST_REMOTE_REPO -ne 0 ]; then
     git remote add sync_repo ${GITHUB_REMOTE_ADDRESS}
     git fetch sync_repo
   fi
@@ -29,8 +31,15 @@ function set_remote_repository() {
 function set_tag() {
   local TAG=$1
   git tag $TAG
-  git push origin $TAG  
+  git push origin $TAG
   git push sync_repo $TAG
+}
+
+function delete_tag() {
+  local TAG=$1
+  git tag -d $TAG
+  git push -d origin $TAG
+  git push -d sync_repo $TAG
 }
 
 function has_tag() {
@@ -44,6 +53,7 @@ function has_tag() {
   return 0
 }
 
+# tag用文字列の取得
 function get_tag_version_from_podspec() {
   if echo $1 | grep -q .podspec; then
     local TARGET=${1/.podspec/}
@@ -51,45 +61,69 @@ function get_tag_version_from_podspec() {
   fi
 }
 
+# versionのみ取得
+function get_version_from_podspec() {
+  if echo $1 | grep -q .podspec; then
+    local TARGET=${1/.podspec/}
+    echo $(ruby scripts/bump_version.rb current-version -p Karte.xcodeproj -t $TARGET -c)
+  fi
+}
+
+# pod infoで該当バージョンの存在確認
+function is_pod_already_released() {
+  local PODSPEC=$1
+  local VERSION=$2
+  local TARGET=${1/.podspec/}
+  bundle exec pod trunk info $TARGET | grep -q -w $VERSION
+  return $? # 0: released, 1: not released
+}
+
 function sync_repository() {
   git push -f sync_repo master
 }
 
+# 未リリースのpodをpublishする
 function publish() {
-  local TARGET_PODSPECS=($@)
-  if [ ${#TARGET_PODSPECS[*]} -eq 0 ]; then
-    echo "Podspec is not updated"
-    exit 1
-  fi
-
-  local PODSPECS=("KarteUtilities.podspec" "KarteCore.podspec" "KarteInAppMessaging.podspec" "KarteRemoteNotification.podspec" "KarteVariables.podspec" "KarteVisualTracking.podspec" "KarteInbox.podspec" "KarteCrashReporting.podspec" "KarteNotificationServiceExtension.podspec")
   local SORTED_PODSPECS=()
   for PODSPEC in ${PODSPECS[@]}; do
-    for TARGET_PODSPEC in ${TARGET_PODSPECS[@]}; do
-      if [[ $PODSPEC == $TARGET_PODSPEC ]]; then
-        # タグが存在しない場合のみPublish対象に加える
-        has_tag $(get_tag_version_from_podspec $TARGET_PODSPEC)
-        if [ $? - eq 0 ]; then
-          SORTED_PODSPECS+=($PODSPEC)
-        else
-          echo "Skipped pod: $PODSPEC"
-        fi
-      fi
-    done
+    local POD_VERSION=$(get_version_from_podspec $PODSPEC)
+    # 未リリースのpodのみPublish対象に加える
+    is_pod_already_released $PODSPEC $POD_VERSION
+    if [ $? -eq 1 ]; then
+      echo "Add release targets: $PODSPEC $POD_VERSION"
+      SORTED_PODSPECS+=($PODSPEC)
+    else
+      echo "Skipped pod, already released: $PODSPEC $POD_VERSION"
+    fi
   done
 
-  echo ${SORTED_PODSPECS[@]}
+  echo "Release targets: ${SORTED_PODSPECS[@]}"
 
-  # Publish pods and set tag
+  # Set tag and publish pods
   for PODSPEC in ${SORTED_PODSPECS[@]}; do
+    # tagを付与. pod trunk前にtagをつける必要がある
+    local TAG_VERSION=$(get_tag_version_from_podspec $PODSPEC)
+    has_tag $TAG_VERSION
+    if [ $? -eq 1 ]; then
+      # タグが付与済みなら中止する
+      echo "This tag is already exist: $TAG_VERSION, release stopped."
+      exit 1
+    else
+      set_tag $TAG_VERSION
+    fi
+
+    # pod trunk
     publish_pod $PODSPEC
     local RESULT=$?
     post_slack_message $PODSPEC $RESULT
 
     if [ $RESULT -eq 0 ]; then
-      set_tag $(get_tag_version_from_podspec $PODSPEC)
+      echo "Success to publish $PODSPEC"
     else
       # Exit if failed to publish any pod
+      echo "Failed to publish $PODSPEC"
+      # 失敗時にはtagを削除する
+      delete_tag $TAG_VERSION
       exit 1
     fi
   done
@@ -111,9 +145,8 @@ function publish_pod() {
     return 0
   else
     return 1
-  }
+  fi
 }
-
 
 function publish_spm() {
   TAG_VERSION=`cat .spm-version`
@@ -238,14 +271,9 @@ if [ -z $PODSPEC_ONLY ]; then
   git config --global user.email "${GITHUB_USER_EMAIL}"
 
   set_remote_repository
-
-  DIFF_TARGETS=(`git diff --name-only sync_repo/master | grep podspec`)
-  publish ${DIFF_TARGETS[@]}
-  
-  # Synchronize published changes to public repository.
-  if [ $? -eq 0 ]; then
-    sync_repository
-  fi
+  # pod trunk前にsyncする必要がある
+  sync_repository
+  publish
 else
   # For manual trigger
   if [ -z "$PODSPECS" ]; then

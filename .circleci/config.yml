@@ -7,10 +7,10 @@ version: 2.1
 parameters:
   os:
     type: string
-    default: "15.5"
+    default: "17.0.1"
   device:
     type: string
-    default: "iPhone 13"
+    default: "iPhone 15"
   context:
     description: Specify running context. Default is CI but theare are 2 options for manual release.
     type: enum
@@ -23,9 +23,9 @@ orbs:
 
 executors:
   build:
-    resource_class: macos.x86.medium.gen2
+    resource_class: macos.m1.medium.gen1
     macos:
-      xcode: "14.1.0"
+      xcode: "15.0.1"
     shell: /bin/bash --login -eo pipefail
     working_directory: /Users/distiller/project
     environment:
@@ -76,6 +76,14 @@ commands:
           name: Execute lint for all podspecs
           command: bundle exec pod lib lint
 
+  setup_legacy_xcode_toolchain:
+    steps:
+      - run:
+          name: Copy Libarclite Files
+          command: |
+            sudo mkdir /Applications/Xcode-15.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
+            sudo cp legacy_xcbuildtools/*.a /Applications/Xcode-15.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
+
 jobs:
   build:
     executor:
@@ -111,6 +119,7 @@ jobs:
             cp -r /tmp/workspace DerivedData
       - setup_gems
       - setup_pods
+      - setup_legacy_xcode_toolchain
       - run:
           name: Podspec lint
           command: bundle exec pod spec lint *.podspec --quick
@@ -190,6 +199,7 @@ jobs:
       - git_clone
       - setup_gems
       - setup_pods
+      - setup_legacy_xcode_toolchain
       - run:
           name: Publish
           command: bash ./scripts/publish.sh
@@ -203,6 +213,7 @@ jobs:
       - git_clone
       - setup_gems
       - setup_pods
+      - setup_legacy_xcode_toolchain
       - run:
           name: Publish Pods
           command: bash ./scripts/publish.sh
@@ -218,6 +229,7 @@ jobs:
       - git_clone
       - setup_gems
       - setup_pods
+      - setup_legacy_xcode_toolchain
       - lint_podspecs
       - slack/status:
           fail_only: true

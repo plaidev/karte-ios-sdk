@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteVisualTracking'
-  s.version                 = '2.11.0'
+  s.version                 = '2.12.0'
   s.summary                 = 'KARTE Visual tracking SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.static_framework        = true
 
   s.platform                = :ios
-  s.ios.deployment_target   = '11.0'
+  s.ios.deployment_target   = '12.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "VisualTracking-#{s.version}" }
   s.source_files            = 'KarteVisualTracking/**/*.{swift,h,m}'

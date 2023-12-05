@@ -2,15 +2,74 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.23.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.15.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.10.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.6.0 |
-| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.11.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.24.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.16.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.7.0 |
+| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
 | KarteInbox | Push通知の送信履歴を取得する機能を提供します（β版）。 | 0.1.0 |
-| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.6.0 |
-| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.9.0 |
-| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.1.0 |
+| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.7.0 |
+| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.10.0 |
+| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
+
+# Releases - 2023.12.05
+## Version 2.10.0
+
+### Core 2.24.0
+** 🎉 FEATURE**
+- Privacy manifestを追加しました。
+
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+
+### InAppMessaging 2.16.0
+** 🎉 FEATURE**
+- WKWebView配下のRemoteView検出をスキップするオプションを追加しました（通常の利用では本オプションの設定は必要ありません）
+
+** 💊FIXED**
+- ImagePickerやKeyboardを開くと不要なWebViewが生成されてしまう問題を修正しました。
+- タグv2利用時に、エレメントビルダー（β版）で作成した接客アクションで「アプリで確認」機能が動かない問題を修正しました。
+
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+- サポート改善のため、接客表示失敗時のログを追加しました。
+
+### RemoteNotification 2.11.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+
+### Variables 2.7.0
+** 🎉 FEATURE**
+- Privacy manifestを追加しました。
+
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+
+### VisualTracking 2.12.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+
+** 💊FIXED**
+- iOS17でDeprecatedになったAPI(UIGraphicsBeginImageContextWithOptions(_:_:_:))を使用しないように修正しました。
+
+### CrashReporting 2.7.0
+** 🎉 FEATURE**
+- Privacy manifestを追加しました。
+
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+
+### Utilities 3.10.0
+** 🎉 FEATURE**
+- Privacy manifestを追加しました。
+
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+- iOS17で導入されたURL初期化時の挙動変更の影響を受けないように対応しました。
+
+### KarteNotificationServiceExtension 1.2.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS11.0 → iOS12.0)
 
 # Releases - 2023.08.11
 ## Version 2.9.0

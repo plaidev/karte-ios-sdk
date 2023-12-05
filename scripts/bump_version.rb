@@ -115,7 +115,7 @@ class Command < BaseCommand
   end
 
   def define_version(opt)
-    opt.version = '0.0.1'
+    opt.version = '0.0.2'
   end
 
   def define_examples(opt)
@@ -259,6 +259,12 @@ end
 class CurrentVersionCommand < VersionCommand
   def initialize
     super('current-version')
+    @cocoapods_version = false
+  end
+
+  def define_specific_options(opt)
+    super(opt)
+    opt.on('-c', '--cocoapods-version', 'Output only cocoapods podspec version') { |v| @cocoapods_version = true }
   end
 
   def run(argv = ARGV)
@@ -272,14 +278,24 @@ class CurrentVersionCommand < VersionCommand
     end
 
     Fastlane.load_actions
+    if @cocoapods_version
+      podspecs.each do |podspec|
+        current_podspec_version(podspec, true)
+      end
+      return
+    end
     targets.zip(podspecs).each do |pack|
       current_podspec_version(pack[1])
       current_xcode_build_settings_version(pack[0])
     end
   end
 
-  def current_podspec_version(podspec)
+  def current_podspec_version(podspec, version_only=false)
     version = Fastlane::Actions::VersionGetPodspecAction.run(path: podspec)
+    if version_only
+      puts version
+      return
+    end
     puts "   [COCOAPODS_PODSPEC] Current version for #{File.basename(podspec)}: #{version}"
   end
 

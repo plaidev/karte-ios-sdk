@@ -29,6 +29,7 @@ public let iso8601DateTimeFormatter: DateFormatter = {
 public func createJSONEncoder() -> JSONEncoder {
     let encoder = JSONEncoder()
     encoder.dateEncodingStrategy = .secondsSince1970
+    encoder.outputFormatting = [.sortedKeys]
     return encoder
 }
 
@@ -45,8 +46,14 @@ public func createJSONDecoder() -> JSONDecoder {
 /// - Parameter urlString: 変換するURL文字列
 /// - Returns: `URL` を返します。
 public func conformToRFC2396(urlString: String) -> URL? {
-    if let url = URL(string: urlString) {
-        return url
+    if #available(iOS 17.0, *) {
+        if let url = URL(string: urlString, encodingInvalidCharacters: false) {
+            return url
+        }
+    } else {
+        if let url = URL(string: urlString) {
+            return url
+        }
     }
 
     var characterSets = CharacterSet.urlHostAllowed

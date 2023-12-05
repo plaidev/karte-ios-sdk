@@ -416,6 +416,10 @@ extension IAMWebView: WKNavigationDelegate {
         Logger.error(tag: .inAppMessaging, message: "WebView did fail navigation: \(error.localizedDescription)")
     }
 
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        Logger.error(tag: .inAppMessaging, message: "WebView did fail provisional navigation: \(error.localizedDescription)")
+    }
+
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         Logger.verbose(tag: .inAppMessaging, message: "WebView web content process did terminate.")
         self.state = .waiting

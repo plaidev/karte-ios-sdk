@@ -35,8 +35,8 @@ class CircuitBreakerMock : CircuitBreaker {
     }
     var disable = false
     override func countFailure() {
-        counter += 1
         super.countFailure()
+        counter += 1
     }
     
     override var canRequest: Bool {

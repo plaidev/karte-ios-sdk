@@ -16,6 +16,7 @@
 
 import KarteCore
 import UIKit
+import WebKit
 
 internal struct RemoteViewDetector {
     static func detect(lessThanWindowLevel windowLevel: UIWindow.Level, scenePersistentIdentifier: String? = nil) -> Bool {
@@ -65,6 +66,10 @@ extension RemoteViewDetector {
     }
 
     private static func detect(view: UIView, cls: AnyClass) -> Bool {
+        if let config = InAppMessaging.shared.config, config.isSkipRemoteViewDetectionInWebView, view is WKWebView {
+            return false
+        }
+
         if view.isKind(of: cls) {
             return true
         }

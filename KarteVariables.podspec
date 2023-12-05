@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteVariables'
-  s.version                 = '2.6.0'
+  s.version                 = '2.7.0'
   s.summary                 = 'KARTE Variables SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -20,10 +20,11 @@ Pod::Spec.new do |s|
   s.static_framework        = true
   
   s.platform                = :ios
-  s.ios.deployment_target   = '11.0'
+  s.ios.deployment_target   = '12.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Variables-#{s.version}" }
   s.source_files            = 'KarteVariables/**/*.{swift,h,m}'
+  s.resource_bundles        = { 'KarteVariables' => ['KarteVariables/PrivacyInfo.xcprivacy'] }
 
   s.requires_arc            = true
   s.pod_target_xcconfig     = {

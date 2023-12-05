@@ -21,10 +21,12 @@ internal struct PreviewURL {
     var app: KarteApp
     var opts: Opts
     var appInfo: AppInfo
+    var krtActionPreview: String
 
     init(app: KarteApp, previewId: String, previewToken: String, appInfo: AppInfo) {
         self.app = app
         self.opts = Opts(previewId: previewId, previewToken: previewToken)
+        self.krtActionPreview = previewToken
         self.appInfo = appInfo
     }
 
@@ -39,7 +41,8 @@ internal struct PreviewURL {
             URLQueryItem(name: "app_key", value: app.appKey),
             URLQueryItem(name: "_k_vid", value: app.visitorId),
             URLQueryItem(name: "_k_app_prof", value: appInfo),
-            URLQueryItem(name: "__karte_opts", value: opts)
+            URLQueryItem(name: "__karte_opts", value: opts),
+            URLQueryItem(name: "__krtactionpreview", value: krtActionPreview)
         ]
         return component.url(relativeTo: app.configuration.baseURL)
     }
