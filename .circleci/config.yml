@@ -265,8 +265,6 @@ workflows:
               only:
                 - develop
       - publish:
-          requires:
-            - test
           filters:
             branches:
               only:
@@ -300,7 +298,6 @@ workflows:
             - build
       - publish_pods:
           requires:
-            - test
             - ui_test
             - spm_test
 
