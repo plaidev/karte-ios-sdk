@@ -62,13 +62,13 @@ internal enum Inspector {
         }
 
         func draw(with view: UIView) -> UIImage? {
-            defer {
-                UIGraphicsEndImageContext()
+            let format = UIGraphicsImageRendererFormat.default()
+            format.opaque = view.isOpaque
+            format.scale = 0.0
+            let image = UIGraphicsImageRenderer(size: view.bounds.size).image { _ in
+                view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
             }
-
-            UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
-            view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
-            return UIGraphicsGetImageFromCurrentImageContext()
+            return image
         }
 
         func cropping(originView: UIView, renderingView: UIView, image: UIImage) -> UIImage? {

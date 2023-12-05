@@ -48,6 +48,9 @@
 ** 🔨CHANGED**
 - Deployment Targetを変更しました(iOS11.0 → iOS12.0)
 
+** 💊FIXED**
+- iOS17でDeprecatedになったAPI(UIGraphicsBeginImageContextWithOptions(_:_:_:))を使用しないように修正しました。
+
 ### CrashReporting 2.7.0
 ** 🎉 FEATURE**
 - Privacy manifestを追加しました。
@@ -61,6 +64,7 @@
 
 ** 🔨CHANGED**
 - Deployment Targetを変更しました(iOS11.0 → iOS12.0)
+- iOS17で導入されたURL初期化時の挙動変更の影響を受けないように対応しました。
 
 ### KarteNotificationServiceExtension 1.2.0
 ** 🔨CHANGED**
