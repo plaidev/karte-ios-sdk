@@ -138,7 +138,8 @@ function publish() {
 function publish_pod() {
   local PODSPEC=$1
 
-  bundle exec pod trunk push $PODSPEC $PODSPEC_OPTS --synchronous
+  # FIXME: Xcode15対応のため一時的にwarningを許容する
+  bundle exec pod trunk push $PODSPEC $PODSPEC_OPTS --allow-warnings --synchronous
 
   if [ $? -eq 0 ]; then
     # Success case
