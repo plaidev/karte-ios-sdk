@@ -42,7 +42,7 @@ jobs:
     - name: Push release branch
       run: git push origin -u release/${{ steps.date.outputs.date }}
     - name: Pull Request Action
-      uses: vsoch/pull-request-action@1.0.18
+      uses: vsoch/pull-request-action@1.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         PULL_REQUEST_BRANCH: master
