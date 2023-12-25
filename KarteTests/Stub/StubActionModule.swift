@@ -68,7 +68,7 @@ class StubActionModule {
         spec.wait(for: [self.exp], timeout: timeout)
         return self
     }
-    
+
     func finish() {
         spec.removeStub(stub!)
         KarteApp.shared.unregister(module: .action(self))
@@ -77,7 +77,7 @@ class StubActionModule {
             self, name: TrackingAgent.trackingAgentHasNoCommandsNotification,
             object: nil
         )
-        
+
         exp.fulfill()
     }
     

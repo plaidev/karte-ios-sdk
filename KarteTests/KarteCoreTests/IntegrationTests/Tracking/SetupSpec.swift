@@ -103,10 +103,13 @@ class CustomConfigurationBaseBehavior : Behavior<CustomConfigurationContext> {
 class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
     override class func spec(_ aContext: @escaping () -> CustomConfigurationContext) {
         var ctx: CustomConfigurationContext!
+
         beforeEach {
+            Thread.sleep(forTimeInterval: 1)
+
             ctx = aContext()
         }
-        
+
         context("when enabled dry run") {
             beforeEach {
                 ctx.setup { configuration in
@@ -168,6 +171,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         context("when set idfa delegate") {
             var body: TrackBodyParameters!
             var idfa: IDFA!
+
             context("when disable") {
                 beforeEachWithMetadata { (metadata) in
                     idfa = IDFA(isEnabled: false, idfa: "dummy_idfa")

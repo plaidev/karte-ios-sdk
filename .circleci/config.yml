@@ -23,7 +23,7 @@ orbs:
 
 executors:
   build:
-    resource_class: macos.m1.medium.gen1
+    resource_class: macos.m1.large.gen1
     macos:
       xcode: "15.0.1"
     shell: /bin/bash --login -eo pipefail

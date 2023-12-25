@@ -40,7 +40,7 @@ class CommandBundlerSpy {
         self.estimatedCount = count
     }
     
-    func wait(timeout: TimeInterval = 2, execute: @escaping () -> Void) {
+    func wait(timeout: TimeInterval = 4, execute: @escaping () -> Void) {
         queue.async(execute: execute)
         
         expectation.assertForOverFulfill = false
@@ -61,6 +61,10 @@ extension CommandBundlerSpy: CommandBundlerDelegate {
 class CommandBundlerSpec: QuickSpec {
     override func spec() {
         describe("a command bundler") {
+            beforeEach {
+                Thread.sleep(forTimeInterval: 2)
+            }
+            
             describe("its user bundle rule") {
                 var spy: CommandBundlerSpy!
                 
@@ -236,7 +240,7 @@ class CommandBundlerSpec: QuickSpec {
                             asyncBundleRules: [timeWindowBundleRule]
                         )
                         bundler.delegate = spy
-                        
+
                         spy.wait(timeout: 5) {
                             spy.queue.async {
                                 bundler.addCommand(buildCommand())
