@@ -32,6 +32,10 @@ class FindMyselfSpec: QuickSpec {
             builder = StubBuilder(spec: self, resource: .empty).build()
         }
         
+        beforeEach {
+            Thread.sleep(forTimeInterval: 1)
+        }
+        
         describe("a find myself") {
             context("when host is not `karte.io`") {
                 var url: URL!

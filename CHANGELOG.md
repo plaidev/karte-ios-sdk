@@ -2,17 +2,36 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.24.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.24.1 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.16.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.7.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.7.1 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
 | KarteInbox | Push通知の送信履歴を取得する機能を提供します（β版）。 | 0.1.0 |
-| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.7.0 |
-| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.10.0 |
+| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.7.1 |
+| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.10.1 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
 
-# Releases - 2023.12.05
+# Releases - 2023.12.25
+## Version 2.10.1
+
+### Core 2.24.1
+** 🔨CHANGED**
+- Privacy manifestの設定を変更しました
+
+### Variables 2.7.1
+** 💊FIXED**
+- プライバシーレポート出力時にエラーになる問題を修正しました。
+
+### CrashReporting 2.7.1
+** 🔨CHANGED**
+- Privacy manifestの設定を変更しました
+
+### Utilities 3.10.1
+** 💊FIXED**
+- プライバシーレポート出力時にエラーになる問題を修正しました。
+
+# Releases - 2023.12.06
 ## Version 2.10.0
 
 ### Core 2.24.0

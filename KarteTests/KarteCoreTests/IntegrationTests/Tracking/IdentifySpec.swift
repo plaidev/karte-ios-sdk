@@ -50,7 +50,11 @@ class IdentifySpec: QuickSpec {
             }
             builder = StubBuilder(spec: self, resource: .empty).build()
         }
-        
+
+        beforeEach {
+            Thread.sleep(forTimeInterval: 2)
+        }
+
         describe("a tracker") {
             describe("its identify") {
                 var event: Event!

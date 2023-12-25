@@ -50,6 +50,10 @@ class AttributeSpec: QuickSpec {
             builder = StubBuilder(spec: self, resource: .empty).build()
         }
         
+        beforeEach {
+            Thread.sleep(forTimeInterval: 1)
+        }
+        
         describe("a tracker") {
             describe("its attribute") {
                 var event: Event!
