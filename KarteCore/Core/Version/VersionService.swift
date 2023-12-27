@@ -21,9 +21,6 @@ internal class VersionService {
     @Injected(name: "version_service.repository")
     var repository: Repository
 
-    @Injected(name: "version_service.migration")
-    var migration: Migration
-
     @Injected(name: "version_service.current_version_retriever")
     var currentVersionRetriever: VersionRetriever
 
@@ -44,7 +41,6 @@ internal class VersionService {
     }
 
     init() {
-        migrateIfNeeded()
         load()
     }
 
@@ -91,18 +87,6 @@ private extension VersionService {
             Logger.error(tag: .core, message: "Failed to write version to file. \(error)")
         }
     }
-
-    func migrateIfNeeded() {
-        guard migration.isNeedMigrate else {
-            return
-        }
-
-        do {
-            try migration.migrate()
-        } catch {
-            Logger.error(tag: .core, message: "Failed to migrate of version file. \(error)")
-        }
-    }
 }
 
 extension Resolver {
@@ -116,7 +100,6 @@ extension Resolver {
             create: false
         )
         let fileURL = url.appendingPathComponent("karte.app.json")
-        let legacyFileURL = url.appendingPathComponent("karte.app.plist")
 
         register(name: "version_service.current_version_retriever") {
             DefaultVersionRetriever() as VersionRetriever
@@ -127,14 +110,8 @@ extension Resolver {
         register(name: "version_service.data_source") {
             FileSource(resolve(name: "version_service.file_url")) as DataSource
         }.scope(cached)
-        register(name: "version_service.migration") {
-            VersionMigration() as Migration
-        }
         register(name: "version_service.file_url") {
             fileURL
-        }.scope(cached)
-        register(name: "version_service.legacy_file_url") {
-            legacyFileURL
         }.scope(cached)
     }
 }
