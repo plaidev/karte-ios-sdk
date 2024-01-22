@@ -6,5 +6,9 @@
 	<string>dummy_application_key_customized</string>
 	<key>karte_api_key</key>
 	<string>dummy_karte_api_key</string>
+	<key>karte_base_url</key>
+	<string>https://b-jp.karte.io</string>
+	<key>karte_data_location</key>
+	<string>jp</string>
 </dict>
 </plist>

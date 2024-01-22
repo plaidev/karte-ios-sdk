@@ -37,16 +37,16 @@ class ConfigurationSpec: QuickSpec {
                     expect(configuration.apiKey).to(beEmpty())
                 }
                 
-                it("baseURL is `https://api.karte.io`") {
-                    expect(configuration.baseURL.absoluteString).to(equal("https://api.karte.io"))
+                it("baseURL is `https://b.karte.io`") {
+                    expect(configuration.baseURL.absoluteString).to(equal("https://b.karte.io"))
+                }
+                
+                it("dataLocation is `tw`") {
+                    expect(configuration.dataLocation).to(equal("tw"))
                 }
                 
                 it("overlayBaseURL is `https://cf-native.karte.io`") {
                     expect(configuration.overlayBaseURL.absoluteString).to(equal("https://cf-native.karte.io"))
-                }
-                
-                it("logCollectionURL is `https://us-central1-production-debug-log-collector.cloudfunctions.net/nativeAppLogUrl`") {
-                    expect(configuration.logCollectionURL.absoluteString).to(equal("https://us-central1-production-debug-log-collector.cloudfunctions.net/nativeAppLogUrl"))
                 }
                 
                 it("isDryRun is false") {
@@ -80,8 +80,8 @@ class ConfigurationSpec: QuickSpec {
                         configuration.appKey = "dummy_application_key"
                         configuration.apiKey = "dummy_api_key"
                         configuration.baseURL = URL(string: "https://example.com")!
+                        configuration.dataLocation = "jp"
                         configuration.overlayBaseURL = URL(string: "https://example.com")!
-                        configuration.logCollectionURL = URL(string: "https://example.com")!
                         configuration.isDryRun = true
                         configuration.isOptOut = true
                         configuration.isSendInitializationEventEnabled = false
@@ -102,12 +102,12 @@ class ConfigurationSpec: QuickSpec {
                     expect(configuration.baseURL.absoluteString).to(equal("https://example.com"))
                 }
                 
-                it("overlayBaseURL is `https://example.com`") {
-                    expect(configuration.overlayBaseURL.absoluteString).to(equal("https://example.com"))
+                it("dataLocation is `jp`") {
+                    expect(configuration.dataLocation).to(equal("jp"))
                 }
                 
-                it("logCollectionURL is `https://example.com`") {
-                    expect(configuration.logCollectionURL.absoluteString).to(equal("https://example.com"))
+                it("overlayBaseURL is `https://example.com`") {
+                    expect(configuration.overlayBaseURL.absoluteString).to(equal("https://example.com"))
                 }
                 
                 it("isDryRun is true") {
@@ -136,6 +136,55 @@ class ConfigurationSpec: QuickSpec {
                 
                 it("advertisingIdentifierString is `dummy_idfa`") {
                     expect(configuration.idfaDelegate!.advertisingIdentifierString).to(equal("dummy_idfa"))
+                }
+            }
+            
+            context("when read from plist") {
+                var configuration: KarteCore.Configuration!
+                
+                beforeSuite {
+                    let path = Bundle(for: SetupSpec.self).path(forResource: "Karte-custom-Info", ofType: "plist")
+                    configuration = KarteCore.Configuration.from(plistPath: path!)
+                }
+                
+                it("appKey is `dummy_application_key_customized`") {
+                    expect(configuration.appKey).to(equal("dummy_application_key_customized"))
+                }
+                
+                it("apiKey is `dummy_karte_api_key`") {
+                    expect(configuration.apiKey).to(equal("dummy_karte_api_key"))
+                }
+                
+                it("baseURL is `https://b-jp.karte.io`") {
+                    expect(configuration.baseURL.absoluteString).to(equal("https://b-jp.karte.io"))
+                }
+                
+                it("dataLocation is `jp`") {
+                    expect(configuration.dataLocation).to(equal("jp"))
+                }
+                
+                it("overlayBaseURL is `https://cf-native.karte.io`") {
+                    expect(configuration.overlayBaseURL.absoluteString).to(equal("https://cf-native.karte.io"))
+                }
+                
+                it("isDryRun is false") {
+                    expect(configuration.isDryRun).to(beFalse())
+                }
+                
+                it("isOptOut is false") {
+                    expect(configuration.isOptOut).to(beFalse())
+                }
+                
+                it("isEnabledSendInitializationEvent is true") {
+                    expect(configuration.isSendInitializationEventEnabled).to(beTrue())
+                }
+                
+                it("libraryConfigrations is empty") {
+                    expect(configuration.libraryConfigurations).to(beEmpty())
+                }
+                
+                it("IDFADelegate is nil") {
+                    expect(configuration.idfaDelegate).to(beNil())
                 }
             }
         }

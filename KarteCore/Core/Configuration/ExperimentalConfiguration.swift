@@ -83,6 +83,7 @@ public class ExperimentalConfiguration: Configuration {
         configuration._appKey = _appKey
         configuration._apiKey = _apiKey
         configuration.baseURL = baseURL
+        configuration.dataLocation = dataLocation
         configuration.overlayBaseURL = overlayBaseURL
         configuration.isDryRun = isDryRun
         configuration.isOptOut = isOptOut

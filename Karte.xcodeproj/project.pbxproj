@@ -344,6 +344,7 @@
 		0CFD001D24ECF8BB00598C8C /* TrackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001C24ECF8BB00598C8C /* TrackClientTests.swift */; };
 		0CFD001F24ED08E800598C8C /* ReachabilityServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001E24ED08E800598C8C /* ReachabilityServiceMock.swift */; };
 		1E9A3C652949BBFD006B54D3 /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9A3C642949BBFD006B54D3 /* ApiKey.swift */; };
+		1ECAFE542B5D3608003638E8 /* DecodingError+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAFE532B5D3608003638E8 /* DecodingError+Extension.swift */; };
 		1EE766B7297546440040278E /* Karte-custom-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1EE766B6297544B60040278E /* Karte-custom-Info.plist */; };
 		363F25F12582A1EB007E6E4B /* DefinitionsRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363F25F02582A1EB007E6E4B /* DefinitionsRequestSpec.swift */; };
 		363F26172582B028007E6E4B /* success_vt_definitions.json in Resources */ = {isa = PBXBuildFile; fileRef = 363F260D2582AE60007E6E4B /* success_vt_definitions.json */; };
@@ -931,6 +932,7 @@
 		0CFD001C24ECF8BB00598C8C /* TrackClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackClientTests.swift; sourceTree = "<group>"; };
 		0CFD001E24ED08E800598C8C /* ReachabilityServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityServiceMock.swift; sourceTree = "<group>"; };
 		1E9A3C642949BBFD006B54D3 /* ApiKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
+		1ECAFE532B5D3608003638E8 /* DecodingError+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DecodingError+Extension.swift"; sourceTree = "<group>"; };
 		1EE766B6297544B60040278E /* Karte-custom-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Karte-custom-Info.plist"; sourceTree = "<group>"; };
 		2A57DE35F7357D0077E4FCF1 /* Pods-Karte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.release.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.release.xcconfig"; sourceTree = "<group>"; };
 		2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1611,6 +1613,7 @@
 			children = (
 				0C8392992406C7010014C2BF /* Dictionary+Extension.swift */,
 				0C50509729C45368007C5C9B /* Array+Extension.swift */,
+				1ECAFE532B5D3608003638E8 /* DecodingError+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -3159,6 +3162,7 @@
 				0C69D3F824EB9D9D00D75893 /* TrackError.swift in Sources */,
 				0C83928A2406C6AA0014C2BF /* VisitorIdService.swift in Sources */,
 				0C69D41324EB9DB200D75893 /* ApplicationLifecycleObserver.swift in Sources */,
+				1ECAFE542B5D3608003638E8 /* DecodingError+Extension.swift in Sources */,
 				0CE33A0423F4008500E2EB98 /* UserSync.swift in Sources */,
 				36404EB6247D5E8400F35ECB /* DeepLinkEvent.swift in Sources */,
 				0C8392B62406C7010014C2BF /* DeepLinkModule.swift in Sources */,
@@ -3892,7 +3896,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.16.0;
+				MARKETING_VERSION = 2.17.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3925,7 +3929,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.16.0;
+				MARKETING_VERSION = 2.17.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

@@ -3,7 +3,7 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.25.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.16.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.17.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.7.1 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
@@ -15,8 +15,16 @@
 # Releases - xxxx.xx.xx
 
 ### Core 2.25.0
+** 🔨CHANGED**
+- KARTEのベースURLを Info.plist ファイルから自動で読みこむ機能を追加しました。
+- KARTEプロジェクトのデータロケーション設定を追加しました。
+
 ** 💊FIXED**
 - Xcode14以降でビルド時に発生するwarningを修正しました。
+
+### InAppMessaging 2.17.0
+** 🔨CHANGED**
+- 接客表示用のhtmlを、KARTEプロジェクトのデータロケーションに対応しました。
 
 ### Utilities 3.10.1
 ** 💊FIXED**

@@ -35,8 +35,8 @@ class ResolvedConfigurationBehavior : Behavior<ResolvedConfigurationContext> {
             expect(ctx.request.allHTTPHeaderFields!["Content-Encoding"]!).to(equal("gzip"))
         }
         
-        it("Request URL is `https://api.karte.io/v0/native/track`") {
-            expect(ctx.request.url!.absoluteString).to(equal("https://api.karte.io/v0/native/track"))
+        it("Request URL is `https://b.karte.io/v0/native/track`") {
+            expect(ctx.request.url!.absoluteString).to(equal("https://b.karte.io/v0/native/track"))
         }
         
         it("occurred native_app_open event") {
@@ -145,6 +145,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
                 let module = StubActionModule(ctx.spec, metadata: metadata, path: "/v0/native/ingest", builder: ctx.builder)
                 ctx.setupExp { configuration in
                     configuration.operationMode = .ingest
+                    configuration.baseURL = URL(string: "https://api.karte.io")!
                 }
                 
                 request = module.wait().request(.nativeAppOpen)
