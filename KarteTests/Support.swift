@@ -15,6 +15,7 @@
 //
 
 import XCTest
+import Quick
 @testable import KarteCore
 @testable import KarteVisualTracking
 @testable import KarteUtilities
@@ -127,5 +128,37 @@ class IDFA: IDFADelegate {
     
     var advertisingIdentifierString: String? {
         return idfa
+    }
+}
+
+//Trackのコマンドが規定数送信するまで待つための機能を持ったクラス。TrackClientSessionMockと同時に使用する必要がある
+class CommandCountObserver {
+    private var expectedCommandCount: Int
+    private var commandCount = 0
+    private var token: NSObjectProtocol?
+    private var exp: XCTestExpectation
+    private var spec: QuickSpec
+
+    init(spec: QuickSpec, expectedCommandCount: Int = 2) {
+        self.spec = spec
+        self.expectedCommandCount = expectedCommandCount
+        exp = self.spec.expectation(description: "Waiting for track commands to be sent.")
+        token = NotificationCenter.test.addObserver(forName: TrackClientSessionMock.requestSentNotification, object: nil, queue: nil) { [weak self] (note) in
+            guard let self = self else { return }
+
+            if let count = note.object as? Int {
+                self.commandCount += count
+            } else {
+                self.commandCount += 1
+            }
+            if self.commandCount == self.expectedCommandCount {
+                exp.fulfill()
+                NotificationCenter.test.removeObserver(self.token!)
+            }
+        }
+    }
+
+    func wait(timeout: TimeInterval = 10) {
+        self.spec.wait(for:[self.exp], timeout: timeout)
     }
 }

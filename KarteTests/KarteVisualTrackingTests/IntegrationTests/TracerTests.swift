@@ -21,7 +21,6 @@ import KarteUtilities
 @testable import KarteCore
 @testable import KarteVisualTracking
 
-
 class VisualTrackDelegate: VisualTrackingDelegate {
     var countOfCall = 0
     var isPaired = false

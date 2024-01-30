@@ -18,6 +18,7 @@ import Quick
 import Nimble
 import Mockingjay
 @testable import KarteCore
+import KarteUtilities
 import Foundation
 
 typealias ResolvedConfigurationContext = (request: URLRequest, body: TrackBodyParameters, events: [Event])
@@ -103,11 +104,11 @@ class CustomConfigurationBaseBehavior : Behavior<CustomConfigurationContext> {
 class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
     override class func spec(_ aContext: @escaping () -> CustomConfigurationContext) {
         var ctx: CustomConfigurationContext!
+        var commandCountObserver: CommandCountObserver!
 
         beforeEach {
-            Thread.sleep(forTimeInterval: 1)
-
             ctx = aContext()
+
         }
 
         context("when enabled dry run") {
@@ -142,6 +143,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         context("when mode is ingest") {
             var request: URLRequest!
             beforeEachWithMetadata { (metadata) in
+                commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
                 let module = StubActionModule(ctx.spec, metadata: metadata, path: "/v0/native/ingest", builder: ctx.builder)
                 ctx.setupExp { configuration in
                     configuration.operationMode = .ingest
@@ -149,6 +151,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
                 }
                 
                 request = module.wait().request(.nativeAppOpen)
+                commandCountObserver.wait()
             }
             
             it("Request URL is `https://api.karte.io/v0/native/ingest`") {
@@ -158,9 +161,11 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         
         context("when library config is added") {
             beforeEachWithMetadata { (metadata) in
+                commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
                 ctx.setup { configuration in
                     configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
                 }
+                commandCountObserver.wait()
             }
             
             it("libraryConfigurations is not empty") {
@@ -168,7 +173,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
                 expect(dummy).toNot(beNil())
             }
         }
-        
+
         context("when set idfa delegate") {
             var body: TrackBodyParameters!
             var idfa: IDFA!
@@ -176,19 +181,21 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
             context("when disable") {
                 beforeEachWithMetadata { (metadata) in
                     idfa = IDFA(isEnabled: false, idfa: "dummy_idfa")
+                    commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
                     let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
                     ctx.setup { configuration in
                         configuration.idfaDelegate = idfa
                     }
                     
                     body = module.wait().body(.nativeAppOpen)
+                    commandCountObserver.wait()
                 }
                 
                 it("idfa is nil") {
                     expect(body.appInfo.systemInfo.idfa).to(beNil())
                 }
             }
-            
+
             context("when enable") {
                 beforeEachWithMetadata { (metadata) in
                     idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
@@ -196,10 +203,10 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
                     ctx.setup { configuration in
                         configuration.idfaDelegate = idfa
                     }
-                    
+
                     body = module.wait().body(.nativeAppOpen)
                 }
-                
+
                 it("idfa is `dummy_idfa`") {
                     expect(body.appInfo.systemInfo.idfa).to(equal("dummy_idfa"))
                 }
@@ -215,12 +222,25 @@ let API_KEY = "dummy_api_key"
 let API_KEY_FROM_CUSTOM = "dummy_karte_api_key"
 
 class SetupSpec: QuickSpec {
-    
+    var session: TrackClientSessionMock!
+
     override func spec() {
         var builder: Builder!
-        
-        beforeSuite {
+
+        beforeEach {
+            let session = TrackClientSessionMock()
+            self.session = session
+
+            Resolver.root = Resolver.submock
+            Resolver.root.register {
+                session as TrackClientSession
+            }
+
             builder = StubBuilder(spec: self, resource: .empty).build()
+        }
+
+        afterEach {
+            Resolver.root = Resolver.mock
         }
 
         describe("a karte app") {
@@ -233,7 +253,7 @@ class SetupSpec: QuickSpec {
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                         KarteApp.setup(appKey: APP_KEY)
-                        
+
                         module.wait().responseDatas([.nativeAppOpen, .nativeAppInstall]).forEach { data in
                             request = data.request
                             body = data.body
@@ -242,7 +262,7 @@ class SetupSpec: QuickSpec {
                     }
                     itBehavesLike(ResolvedConfigurationBehavior.self) { (request, body, events) }
                 }
-                
+
                 context("when use custom config from default plist") {
                     let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
                         let config = Configuration.default!
@@ -256,7 +276,7 @@ class SetupSpec: QuickSpec {
                     itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                     itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
                 }
-                
+
                 context("when use custom config from custom plist") {
                     let path = Bundle(for: SetupSpec.self).path(forResource: "Karte-custom-Info", ofType: "plist")
                     let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
@@ -271,7 +291,7 @@ class SetupSpec: QuickSpec {
                     itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                     itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
                 }
-                
+
                 context("when use custom config without plist") {
                     context("without appkey") {
                         let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
@@ -286,6 +306,7 @@ class SetupSpec: QuickSpec {
                         itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                         itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
                     }
+
                     context("with appkey by setter") {
                         let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
                             let config = Configuration()
@@ -297,7 +318,7 @@ class SetupSpec: QuickSpec {
                         }, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: API_KEY) }
                         itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                     }
-                    
+
                     context("with appkey by configurator") {
                         let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
                             let config = Configuration { (configuration) in
@@ -309,7 +330,7 @@ class SetupSpec: QuickSpec {
                         }, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: "") }
                         itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                     }
-                    
+
                     context("with appkey by initializer") {
                         let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
                             let config = Configuration(appKey: APP_KEY)
@@ -330,7 +351,7 @@ class SetupSpec: QuickSpec {
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                         KarteApp.setup()
-                        
+
                         module.wait().responseDatas([.nativeAppOpen, .nativeAppInstall]).forEach { data in
                             request = data.request
                             body = data.body
@@ -339,7 +360,7 @@ class SetupSpec: QuickSpec {
                     }
                     itBehavesLike(ResolvedConfigurationBehavior.self) { (request, body, events) }
                 }
-                
+
                 context("when use custom config from default plist") {
                     let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
                         let config = Configuration.default!
@@ -353,7 +374,7 @@ class SetupSpec: QuickSpec {
                     itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                     itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
                 }
-                
+
                 context("when use custom config from custom plist") {
                     let path = Bundle(for: SetupSpec.self).path(forResource: "Karte-custom-Info", ofType: "plist")
                     let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
@@ -368,14 +389,14 @@ class SetupSpec: QuickSpec {
                     itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                     itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
                 }
-                
+
                 context("when use custom config without plist") {
                     context("without appkey") {
                         it("throw assertion") {
                             expect { KarteApp.setup(configuration: Configuration()) }.to(throwAssertion())
                         }
                     }
-                    
+
                     context("with appkey by setter") {
                         let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
                             let config = Configuration()
@@ -387,7 +408,7 @@ class SetupSpec: QuickSpec {
                         }, expectAppKey: APP_KEY, expectApiKey: API_KEY) }
                         itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                     }
-                    
+
                     context("with appkey by configurator") {
                         let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
                             let config = Configuration { (configuration) in
@@ -399,7 +420,7 @@ class SetupSpec: QuickSpec {
                         }, expectAppKey: APP_KEY, expectApiKey: "") }
                         itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
                     }
-                    
+
                     context("with appkey by initializer") {
                         let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
                             let config = Configuration(appKey: APP_KEY)

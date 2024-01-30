@@ -18,7 +18,13 @@ import Foundation
 @testable import KarteCore
 @testable import KarteUtilities
 
+public extension NotificationCenter {
+    static let test = NotificationCenter()
+}
+
 class TrackClientSessionMock: TrackClientSession {
+    static let requestSentNotification = Notification.Name("io.karte.test.trackClientSession.requestSent")
+
     struct Task {
         var request: TrackRequest
         var callbackQueue: CallbackQueue?
@@ -29,7 +35,6 @@ class TrackClientSessionMock: TrackClientSession {
     var tasks = [Task]()
     
     func send(_ request: TrackRequest, callbackQueue: CallbackQueue?, handler: @escaping (Result<TrackRequest.Response, SessionTaskError>) -> Void) -> SessionTask? {
-        
         let task = Task(request: request, callbackQueue: callbackQueue, handler: handler)
         if isAutoFlush {
             return send(task: task)
@@ -48,6 +53,7 @@ class TrackClientSessionMock: TrackClientSession {
     
     @discardableResult
     func send(task: Task) -> SessionTask? {
-        Session.send(task.request, callbackQueue: task.callbackQueue, handler: task.handler)
+        NotificationCenter.test.post(name: TrackClientSessionMock.requestSentNotification, object: task.request.commands.count)
+        return Session.send(task.request, callbackQueue: task.callbackQueue, handler: task.handler)
     }
 }
