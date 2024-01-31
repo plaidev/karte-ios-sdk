@@ -12,7 +12,8 @@
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.11.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
 
-# Releases - xxxx.xx.xx
+# Releases - 2024.01.31
+## Version 2.11.0
 
 ### Core 2.25.0
 ** 🔨CHANGED**
@@ -26,7 +27,7 @@
 ** 🔨CHANGED**
 - 接客表示用のhtmlを、KARTEプロジェクトのデータロケーションに対応しました。
 
-### Utilities 3.10.1
+### Utilities 3.11.0
 ** 💊FIXED**
 - Xcode14以降でビルド時に発生するwarningを修正しました。
 
