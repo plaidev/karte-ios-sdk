@@ -51,13 +51,13 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .binaryTarget(
-            name: "KarteUtilities", url: "https://sdk.karte.io/ios/swiftpm/Utilities-3.10.1/KarteUtilities.xcframework.zip", checksum: "b7c5f4cfd6d678f4a726ab14603589c8393adbdf799469bab6732073af1454cf"
+            name: "KarteUtilities", url: "https://sdk.karte.io/ios/swiftpm/Utilities-3.11.0/KarteUtilities.xcframework.zip", checksum: "f41934a65e04e7196b315fffcd526746822c1131cb2a35ddf5e9e0f4627fb318"
         ),
         .binaryTarget(
-            name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.24.1/KarteCore.xcframework.zip", checksum: "69466f270db1e0cf3004381541b4170e50dc5de12194bbe97986e8e6aef4537b"
+            name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.25.0/KarteCore.xcframework.zip", checksum: "6d4a44697ae182c584b781343d1890064cb3b9eaa4c90de74b616000d6d86dde"
         ),
         .binaryTarget(
-            name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.16.0/KarteInAppMessaging.xcframework.zip", checksum: "bc9cbd169afaa81e9fcf18c0da6be2a2554e0f01fd51d63c9cee33db28562314"
+            name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.17.0/KarteInAppMessaging.xcframework.zip", checksum: "6052ca06bc00607c8602677edcc1d30a717da2da867321e86e9b7b43299c7063"
         ),
         .binaryTarget(
             name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.7.1/KarteVariables.xcframework.zip", checksum: "5a3f0f8605be51a08cb54e9abeda229e42da81b71ec05cca886d47d96e3719ad"
