@@ -27,7 +27,7 @@
 ** 🔨CHANGED**
 - 接客表示用のhtmlを、KARTEプロジェクトのデータロケーションに対応しました。
 
-### Utilities 3.10.1
+### Utilities 3.11.0
 ** 💊FIXED**
 - Xcode14以降でビルド時に発生するwarningを修正しました。
 
