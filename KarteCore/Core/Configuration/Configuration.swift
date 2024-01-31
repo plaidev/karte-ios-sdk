@@ -26,6 +26,8 @@ public class Configuration: NSObject, NSCopying, Codable {
         // swiftlint:disable:previous identifier_name
         case _apiKey = "karte_api_key"
         // swiftlint:disable:previous identifier_name
+        case baseURL = "karte_base_url"
+        case dataLocation = "karte_data_location"
     }
 
     /// プロジェクト直下の  Karte-Info.plist をロードしてデフォルト値で初期化された設定インスタンスを返します。
@@ -78,19 +80,18 @@ public class Configuration: NSObject, NSCopying, Codable {
     /// ベースURLの取得・設定を行います。
     ///
     /// **SDK内部で利用するプロパティであり、通常のSDK利用でこちらのプロパティを利用することはありません。**
-    public var baseURL = URL(string: "https://api.karte.io")!
+    public var baseURL = URL(string: "https://b.karte.io")!
     // swiftlint:disable:previous force_unwrapping
+
+    /// KARTEプロジェクトのデータロケーションの取得・設定を行います。
+    ///
+    /// **SDK内部で利用するプロパティであり、通常のSDK利用でこちらのプロパティを利用することはありません。**
+    public var dataLocation = "tw"
 
     /// overlayベースURLの取得・設定を行います。
     ///
     /// **SDK内部で利用するプロパティであり、通常のSDK利用でこちらのプロパティを利用することはありません。**
     public var overlayBaseURL = URL(string: "https://cf-native.karte.io")!
-    // swiftlint:disable:previous force_unwrapping
-
-    /// log収集URLの取得・設定を行います。
-    ///
-    /// **SDK内部で利用するプロパティであり、通常のSDK利用でこちらのプロパティを利用することはありません。**
-    var logCollectionURL = URL(string: "https://us-central1-production-debug-log-collector.cloudfunctions.net/nativeAppLogUrl")!
     // swiftlint:disable:previous force_unwrapping
 
     /// ドライランの利用有無の取得・設定を行います。<br>
@@ -150,6 +151,16 @@ public class Configuration: NSObject, NSCopying, Codable {
         if container.contains(._apiKey) {
             self._apiKey = try container.decode(ApiKey.self, forKey: ._apiKey)
         }
+        if container.contains(.baseURL) {
+            if let baseUrl = URL(string: try container.decode(String.self, forKey: .baseURL)) {
+                self.baseURL = baseUrl
+            } else {
+                throw DecodingError.dataCorruptedError(forKey: .baseURL, in: container, debugDescription: "")
+            }
+        }
+        if container.contains(.dataLocation) {
+            self.dataLocation = try container.decode(String.self, forKey: .dataLocation)
+        }
     }
 
     /// SDK設定インスタンスを plist ファイルからロードします。
@@ -163,7 +174,13 @@ public class Configuration: NSObject, NSCopying, Codable {
             let data = try Data(contentsOf: URL(fileURLWithPath: plistPath))
             return try decoder.decode(Self.self, from: data)
         } catch {
-            let errorMessage = "Decode configuration from plist failed: \(error.localizedDescription)"
+            let msg: String
+            if let error = error as? DecodingError {
+                msg = error.messageWithKey
+            } else {
+                msg = error.localizedDescription
+            }
+            let errorMessage = "Decode configuration from plist failed: \(msg)"
             assertionFailure(errorMessage)
             Logger.error(tag: .core, message: errorMessage)
             return nil
@@ -185,6 +202,7 @@ public class Configuration: NSObject, NSCopying, Codable {
         configuration._appKey = _appKey
         configuration._apiKey = _apiKey
         configuration.baseURL = baseURL
+        configuration.dataLocation = dataLocation
         configuration.overlayBaseURL = overlayBaseURL
         configuration.isDryRun = isDryRun
         configuration.isOptOut = isOptOut

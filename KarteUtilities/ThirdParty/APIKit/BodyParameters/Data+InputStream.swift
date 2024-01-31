@@ -2,7 +2,7 @@ import Foundation
 
 enum InputStreamError: Error {
     case invalidDataCapacity(Int)
-    case unreadableStream(InputStream)
+    case unreadableStream
 }
 
 extension Data {
@@ -22,7 +22,7 @@ extension Data {
                 data.append(buffer, count: readSize)
 
             case let x where x < 0:
-                throw InputStreamError.unreadableStream(inputStream)
+                throw InputStreamError.unreadableStream
 
             default:
                 break

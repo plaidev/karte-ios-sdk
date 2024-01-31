@@ -27,10 +27,13 @@ class UpdateEventSpec: QuickSpec {
             var event: Event!
             
             var versionRetriever: VersionRetrieverMock!
-            
-            beforeSuite {
+
+            afterEach {
+                service.clean()
+                Resolver.root = Resolver.mock
+            }
+            beforeEach {
                 versionRetriever = VersionRetrieverMock()
-                
                 Resolver.root = Resolver.submock
                 Resolver.root.register(name: "version_service.current_version_retriever") {
                     versionRetriever as VersionRetriever
@@ -40,14 +43,6 @@ class UpdateEventSpec: QuickSpec {
                 
                 versionRetriever.ver = "1.0.1"
                 service = VersionService()
-            }
-            
-            afterSuite {
-                service.clean()
-                Resolver.root = Resolver.mock
-            }
-            
-            beforeEach {
                 event = Event(.update(version: service.previousVersion))
             }
             

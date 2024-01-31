@@ -2,22 +2,41 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.24.1 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.16.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.25.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.17.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.7.1 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
 | KarteInbox | Push通知の送信履歴を取得する機能を提供します（β版）。 | 0.1.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.7.1 |
-| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.10.1 |
+| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.11.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
+
+# Releases - 2024.01.31
+## Version 2.11.0
+
+### Core 2.25.0
+** 🔨CHANGED**
+- KARTEのベースURLを Info.plist ファイルから自動で読みこむ機能を追加しました。
+- KARTEプロジェクトのデータロケーション設定を追加しました。
+
+** 💊FIXED**
+- Xcode14以降でビルド時に発生するwarningを修正しました。
+
+### InAppMessaging 2.17.0
+** 🔨CHANGED**
+- 接客表示用のhtmlを、KARTEプロジェクトのデータロケーションに対応しました。
+
+### Utilities 3.11.0
+** 💊FIXED**
+- Xcode14以降でビルド時に発生するwarningを修正しました。
 
 # Releases - 2023.12.25
 ## Version 2.10.1
 
 ### Core 2.24.1
 ** 🔨CHANGED**
-- Privacy manifestの設定を変更しました
+- Privacy manifestの設定を変更しました。
 
 ### Variables 2.7.1
 ** 💊FIXED**
@@ -25,7 +44,7 @@
 
 ### CrashReporting 2.7.1
 ** 🔨CHANGED**
-- Privacy manifestの設定を変更しました
+- Privacy manifestの設定を変更しました。
 
 ### Utilities 3.10.1
 ** 💊FIXED**
@@ -96,6 +115,7 @@
 ### Core 2.23.0
 ** 🎉 FEATURE**
 - サブモジュールがイベントを編集できる機能を追加しました。
+
 ** 🔨CHANGED**
 - Deployment Targetの変更 iOS10 → iOS11
 - Cocoapodsの下限バージョンを1.10.0に変更しました。
@@ -105,6 +125,7 @@
 - Deployment Targetの変更 iOS10 → iOS11
 - Cocoapodsの下限バージョンを1.10.0に変更しました。
 - タグv2利用時に、Viewイベントをアクション側に連携する機能を追加しました。
+
 ** 💊FIXED**
 - 2.14.0におけるmessage_openイベントの送信仕様変更が、適用されていなかった不具合を修正しました。
 
@@ -122,6 +143,7 @@
 ** 🔨CHANGED**
 - Deployment Targetの変更 iOS10 → iOS11
 - Cocoapodsの下限バージョンを1.10.0に変更しました。
+
 ** 💊FIXED**
 - Swift5.5以降でビルドする際にSendableのWarningが出る問題を修正しました。
 
@@ -150,6 +172,7 @@
    - Inboxモジュールを使用する場合のみ設定が必要です。
 - サブモジュールと連携してイベントの送信を行う機構を追加しました。
 - `JSONConvertibleConverter` に `[AnyHashable: Any]` を `[String: JSONConvertible]` に変換するメソッドを追加しました。  
+
 ** 🔨CHANGED**
 - identifyイベントのuser_idに明示的に空文字が指定された場合に警告だけ出力するように変更しました。
 - viewイベントのview_nameが空文字の場合に警告だけ出力するように変更しました。
@@ -158,6 +181,7 @@
 - `KarteApp.setLogEnabled()` を deprecated にし、代わりにログレベルOFFを追加しました。
 - サブモジュール連携用のインターフェース仕様を一部変更しました。
 - 依存する Utilities のバージョンを 3.8.0 に変更しました。  
+
 ** 💊FIXED**
 - メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
 
@@ -166,12 +190,14 @@
 - message_openイベントの送信仕様をWebの仕様に合わせるようにしました。
 - 依存する Core のバージョンを 2.22.0 に変更しました。
 - 依存する Utilities のバージョンを 3.8.0 に変更しました。  
+
 ** 💊FIXED**
 - メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
 
 ### RemoteNotification 2.9.0
 ** 🔨CHANGED**
 - 依存する Utilities のバージョンを 3.8.0 に変更しました。  
+
 ** 💊FIXED**
 - メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
 
@@ -179,6 +205,7 @@
 ** 🔨CHANGED**
 - 効果測定用のイベントにフィールドを追加しました。
 - 依存する Core のバージョンを 2.22.0 に変更しました。  
+
 ** 💊FIXED**
 - ユーザー情報変数の解決に失敗したアクションの場合に `_message_ready` イベントが送信されない問題を修正しました。
 
@@ -186,6 +213,7 @@
 ** 🔨CHANGED**
 - 依存する Core のバージョンを 2.22.0 に変更しました。
 - 依存する Utilities のバージョンを 3.8.0 に変更しました。  
+
 ** 💊FIXED**
 - メソッド置換処理を改善し、一部のサードパーティ製SDKとコンフリクトする問題を解消しました。
 

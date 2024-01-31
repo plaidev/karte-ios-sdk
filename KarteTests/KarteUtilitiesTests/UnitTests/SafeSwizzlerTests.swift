@@ -23,32 +23,32 @@ class SafeSwizzlerTests: XCTestCase {
         let proxy2 = CounterProxy2()
 
         proxy1.swizzle()
-        
+
         let counter = Counter()
         counter.increment()
         XCTAssertEqual(counter.count, 2)
-        
+
         counter.decrement()
         XCTAssertEqual(counter.count, 1)
-        
+
         proxy2.swizzle()
-        
+
         counter.increment()
         XCTAssertEqual(counter.count, 5)
         
         counter.decrement()
         XCTAssertEqual(counter.count, 2)
-        
+
         proxy2.unswizzle()
-        
+
         counter.increment()
         XCTAssertEqual(counter.count, 4)
-        
+
         counter.decrement()
         XCTAssertEqual(counter.count, 3)
-        
+
         proxy1.unswizzle()
-        
+
         counter.increment()
         XCTAssertEqual(counter.count, 4)
 
@@ -74,22 +74,22 @@ extension SafeSwizzlerTests {
         let scope = SafeSwizzler.scope { builder in
             builder.add(CounterProxy1.self)
         }
-        
+
         func swizzle() {
             let block: @convention(block) (Any) -> Void = increment
             scope.swizzle(cls: Counter.self, name: #selector(Counter.increment), imp: imp_implementationWithBlock(block))
         }
-        
+
         func unswizzle() {
             scope.unswizzle(cls: Counter.self, name: #selector(Counter.increment))
         }
-        
+
         func increment(receiver: Any) {
             guard let receiver = receiver as? Counter else {
                 return
             }
             receiver.count += 1
-            
+
             let imp = scope.originalImplementation(cls: Counter.self, name: #selector(Counter.increment))
             let f = unsafeBitCast(imp, to: (@convention(c) (Any, Selector) -> Void).self)
             f(receiver, #selector(Counter.increment))
@@ -100,7 +100,7 @@ extension SafeSwizzlerTests {
         let scope = SafeSwizzler.scope { builder in
             builder.add(CounterProxy2.self)
         }
-        
+
         func swizzle() {
             let incrementBlock: @convention(block) (Any) -> Void = increment
             scope.swizzle(cls: Counter.self, name: #selector(Counter.increment), imp: imp_implementationWithBlock(incrementBlock))
@@ -108,7 +108,7 @@ extension SafeSwizzlerTests {
             let decrementBlock: @convention(block) (Any) -> Void = decrement
             scope.swizzle(cls: Counter.self, name: #selector(Counter.decrement), imp: imp_implementationWithBlock(decrementBlock))
         }
-        
+
         func unswizzle() {
             scope.unswizzle()
         }
@@ -123,7 +123,7 @@ extension SafeSwizzlerTests {
             let f = unsafeBitCast(imp, to: (@convention(c) (Any, Selector) -> Void).self)
             f(receiver, #selector(Counter.increment))
         }
-        
+
         func decrement(receiver: Any) {
             guard let receiver = receiver as? Counter else {
                 return

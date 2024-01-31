@@ -43,7 +43,8 @@ internal struct IAMProcessConfiguration {
         components?.queryItems = [
             URLQueryItem(name: "app_key", value: app.appKey),
             URLQueryItem(name: "_k_vid", value: app.visitorId),
-            URLQueryItem(name: "_k_app_prof", value: appInfoString)
+            URLQueryItem(name: "_k_app_prof", value: appInfoString),
+            URLQueryItem(name: "location", value: app.configuration.dataLocation)
         ]
         return components?.url(relativeTo: app.configuration.overlayBaseURL)
     }

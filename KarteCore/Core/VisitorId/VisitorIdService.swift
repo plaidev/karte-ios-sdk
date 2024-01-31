@@ -24,9 +24,6 @@ internal class VisitorIdService {
     @Injected(name: "visitor_id_service.repository")
     var repository: Repository
 
-    @Injected(name: "visitor_id_service.migration")
-    var migration: Migration
-
     @Injected(name: "visitor_id_service.file_url")
     var fileURL: URL
 
@@ -37,10 +34,6 @@ internal class VisitorIdService {
             return visId
         }
         return generate()
-    }
-
-    init() {
-        migrateIfNeeded()
     }
 
     func renew() {
@@ -105,18 +98,6 @@ private extension VisitorIdService {
             Logger.error(tag: .core, message: "Failed to write visitor id. \(error)")
         }
     }
-
-    func migrateIfNeeded() {
-        guard migration.isNeedMigrate else {
-            return
-        }
-
-        do {
-            try migration.migrate()
-        } catch {
-            Logger.error(tag: .core, message: "Failed to migrate of visitor id file. \(error)")
-        }
-    }
 }
 
 extension Resolver {
@@ -130,7 +111,6 @@ extension Resolver {
             create: false
         )
         let fileURL = url.appendingPathComponent("karte.user.json")
-        let legacyFileURL = url.appendingPathComponent("karte.user.plist")
 
         register(name: "visitor_id_service.generator") {
             VisitorIdGenerator() as IdGenerator
@@ -141,14 +121,8 @@ extension Resolver {
         register(name: "visitor_id_service.data_source") {
             FileSource(resolve(name: "visitor_id_service.file_url")) as DataSource
         }.scope(cached)
-        register(name: "visitor_id_service.migration") {
-            VisitorIdMigration() as Migration
-        }
         register(name: "visitor_id_service.file_url") {
             fileURL
-        }.scope(cached)
-        register(name: "visitor_id_service.legacy_file_url") {
-            legacyFileURL
         }.scope(cached)
     }
 }
