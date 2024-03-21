@@ -51,16 +51,16 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .binaryTarget(
-            name: "KarteUtilities", url: "https://sdk.karte.io/ios/swiftpm/Utilities-3.11.0/KarteUtilities.xcframework.zip", checksum: "bc8859026c3d90fff05fff8f79ef898a37509579582de920b4f5fe939c06d6f0"
+            name: "KarteUtilities", url: "https://sdk.karte.io/ios/swiftpm/Utilities-3.12.0/KarteUtilities.xcframework.zip", checksum: "850abc71a8bc28e415f4b11e3072ff741a1d908c13b951a4676bc2e675eaf634"
         ),
         .binaryTarget(
-            name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.25.0/KarteCore.xcframework.zip", checksum: "3ff03b3618ddf871ee5ec0f0e3f19ca1e4e6a9e3b43e6a7790968bc630d33db5"
+            name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.26.0/KarteCore.xcframework.zip", checksum: "dfde8c87cac44f7121ae462383f338ab45b980fab2bc35f667f03fad1f2e25ba"
         ),
         .binaryTarget(
             name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.17.0/KarteInAppMessaging.xcframework.zip", checksum: "a4c9bf7c72902d69801026bdc47351f21690b8c6168d29b2bc2d3f9babd46dc9"
         ),
         .binaryTarget(
-            name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.7.1/KarteVariables.xcframework.zip", checksum: "5a3f0f8605be51a08cb54e9abeda229e42da81b71ec05cca886d47d96e3719ad"
+            name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.8.0/KarteVariables.xcframework.zip", checksum: "2bc86b4bd691e7231bc46cdd76bf1969c50470a0c577051aa8a996bac97aa45d"
         ),
         .binaryTarget(
             name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.12.0/KarteVisualTracking.xcframework.zip", checksum: "03364a75282667223acd96c4132afd173e12cf6da6f87a98855842d5e8d2c605"
