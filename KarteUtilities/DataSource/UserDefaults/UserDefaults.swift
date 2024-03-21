@@ -64,6 +64,14 @@ extension UserDefaults {
         return root[key.key]
     }
 
+    /// 指定されたネームスペースに関連付けられた全てのキーを取得します。
+    /// - Parameter namespace: `UserDefaults` を検索するためのネームスペースキー
+    /// - Returns: キーの一覧
+    public func getAllKeys(forNamespace namespace: UserDefaultsNamespace) -> [String] {
+        let root = loadRootObject(forNamespace: namespace)
+        return [String](root.keys)
+    }
+
     /// 指定されたキーに関連付けられた値の有無を確認します。
     /// - Parameter key: `UserDefaults` を検索するためのキー
     /// - Returns: キーに関連付けられた値がある場合は `true` を返し、ない場合は `false` を返します。

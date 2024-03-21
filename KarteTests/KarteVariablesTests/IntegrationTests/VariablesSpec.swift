@@ -175,7 +175,18 @@ class VariablesSpec: QuickSpec {
                     
                     StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait()
                 }
-                
+
+                describe("get All Keys") {
+                    it ("get all keys") {
+                        let keys = Variables.getAllKeys()
+                        expect(keys.contains("var1")).to(beTrue())
+                        expect(keys.contains("var2")).to(beTrue())
+                        expect(keys.contains("var3")).to(beTrue())
+                        expect(keys.contains("var4")).to(beFalse())
+                    }
+                }
+
+
                 describe("retrieve variable") {
                     it("var1 is not nil") {
                         let variable = Variable(name: "var1")

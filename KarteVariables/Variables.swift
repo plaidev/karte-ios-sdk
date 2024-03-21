@@ -96,6 +96,15 @@ public class Variables: NSObject {
         Variable(name: key)
     }
 
+    /// 全ての設定値のキーの一覧を取得します。<br>
+    /// なお事前に `Variables.fetch(completion:)` を呼び出しておく必要があります。
+    ///
+    /// - Returns: 全ての設定値のキーの一覧を返します。
+    @objc
+    public class func getAllKeys() -> [String] {
+        return UserDefaults.standard.getAllKeys(forNamespace: .variables)
+    }
+
     deinit {
     }
 }
