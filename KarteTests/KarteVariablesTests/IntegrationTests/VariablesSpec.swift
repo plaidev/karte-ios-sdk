@@ -186,6 +186,26 @@ class VariablesSpec: QuickSpec {
                     }
                 }
 
+                describe("clear All Cache") {
+                    it ("clear All Cache") {
+                        Variables.clearCacheAll()
+                        let variable1 = Variable(name: "var1")
+                        let variable2 = Variable(name: "var2")
+                        expect(variable1.value).to(beNil())
+                        expect(variable2.value).to(beNil())
+                    }
+                }
+
+                describe("clear Cache By Key") {
+                    it ("clear Cache By Key") {
+                        Variables.clearCache(forKey: "var1")
+                        let variable1 = Variable(name: "var1")
+                        let variable2 = Variable(name: "var2")
+                        expect(variable1.value).to(beNil())
+                        expect(variable2.value).toNot(beNil())
+                    }
+                }
+
 
                 describe("retrieve variable") {
                     it("var1 is not nil") {
