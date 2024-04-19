@@ -105,6 +105,20 @@ public class Variables: NSObject {
         return UserDefaults.standard.getAllKeys(forNamespace: .variables)
     }
 
+    /// 指定した設定値のキーのキャッシュを削除します<br>
+    ///
+    /// - Parameter key: 検索するためのキー
+    @objc
+    public class func clearCache(forKey key: String) {
+        return UserDefaults.standard.removeObject(forKey: UserDefaultsKey(key, forNamespace: .variables))
+    }
+
+    /// 全ての設定値のキーのキャッシュを削除します<br>
+    @objc
+    public class func clearCacheAll() {
+        return UserDefaults.standard.removeObject(forNamespace: .variables)
+    }
+
     deinit {
     }
 }
