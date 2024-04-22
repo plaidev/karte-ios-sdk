@@ -102,7 +102,10 @@ public class Variables: NSObject {
     /// - Returns: 全ての設定値のキーの一覧を返します。
     @objc
     public class func getAllKeys() -> [String] {
-        return UserDefaults.standard.getAllKeys(forNamespace: .variables)
+        return UserDefaults.standard.getAllKeys(forNamespace: .variables).filter {
+            // こちらの２つはシステムで利用している値なので除外する
+            !["lastFetchTime", "lastFetchStatus"].contains($0)
+        }
     }
 
     /// 指定した設定値のキーのキャッシュを削除します<br>

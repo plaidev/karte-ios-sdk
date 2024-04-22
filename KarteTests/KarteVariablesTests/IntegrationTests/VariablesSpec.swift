@@ -183,6 +183,8 @@ class VariablesSpec: QuickSpec {
                         expect(keys.contains("var2")).to(beTrue())
                         expect(keys.contains("var3")).to(beTrue())
                         expect(keys.contains("var4")).to(beFalse())
+                        expect(keys.contains("lastFetchTime")).to(beFalse())
+                        expect(keys.contains("lastFetchStatus")).to(beFalse())
                     }
                 }
 
