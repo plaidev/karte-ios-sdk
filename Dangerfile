@@ -13,7 +13,7 @@ $is_hotfix_pr = (github.branch_for_base == "master" || github.branch_for_base ==
 #
 github.dismiss_out_of_range_messages
 swiftlint.config_file = '.swiftlint.yml'
-swiftlint.binary_path = '/usr/local/bin/swiftlint'
+swiftlint.binary_path = '/opt/homebrew/bin/swiftlint'
 swiftlint.lint_files inline_mode: true
 
 # 

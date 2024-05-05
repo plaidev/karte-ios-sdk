@@ -58,9 +58,16 @@ jobs:
           ### Update
           ${{ steps.find-release-targets.outputs.targets }}
     - name: Request beta release
-      run : |
-        curl -u ${{ secrets.CIRCLECI_KEY }} \
-          -d build_parameters[CIRCLE_JOB]=release \
-          -d build_parameters[RELEASE_BRANCH]=release/${{ steps.date.outputs.date }} \
-          -d build_parameters[RELEASE_TARGET]=KarteTracker \
-          ${{ secrets.UI_TEST_ENDPOINT }}
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.SHARED_GITHUB_ACCESS_TOKEN }}
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: 'plaidev',
+            repo: '${{vars.UITEST_REPO}}',
+            workflow_id: 'release-test-app.yml',
+            ref: 'master',
+            inputs: {
+              sdkBranch: 'release/${{ steps.date.outputs.date }}',
+            },
+          })
