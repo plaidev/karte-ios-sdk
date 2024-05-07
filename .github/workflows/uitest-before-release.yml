@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ vars.UITEST_REPO }}
     steps:
-      - name: Invoke workflow in another repo with inputs
+      - name: Kick UI Test and wait
         uses: aurelien-baudet/workflow-dispatch@v2
         with:
           workflow: uitest.yml
           repo: plaidev/${{vars.UITEST_REPO}}
           token: ${{ secrets.SHARED_GITHUB_ACCESS_TOKEN }}
           ref: master
-          inputs: '{ "slackChannel": "${{vars.SLACK_CHANNEL}}", "notifyOnlyFail": true }'
+          inputs: '{ "sdkBranch": "${{github.head_ref}}", "slackChannel": "${{vars.SLACK_CHANNEL}}", "notifyOnlyFail": true }'
