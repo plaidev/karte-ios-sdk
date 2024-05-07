@@ -16,6 +16,9 @@
 # Release - xxxx.xx.xx
 
 ### Veriables 2.10.0
+** 🔨CHANGED**
+- 特定の条件にマッチする変数オブジェクトをリスト形式で取得できるメソッドを追加しました。 
+
 ** 💊FIXED**
 - getAllKeysでシステムが利用しているlastFetchTimeとlastFetchStatusが返されるのを修正しました
 
