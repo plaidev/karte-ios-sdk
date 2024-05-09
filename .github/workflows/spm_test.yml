@@ -1,0 +1,21 @@
+name: "SPM Test"
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  kick_spm_link_test:
+    runs-on: ubuntu-latest
+    if: ${{ vars.UITEST_REPO }}
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.SHARED_GITHUB_ACCESS_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'plaidev',
+              repo: '${{vars.UITEST_REPO}}',
+              workflow_id: 'spm-link-test.yml',
+              ref: 'master',
+            })

@@ -183,6 +183,8 @@ class VariablesSpec: QuickSpec {
                         expect(keys.contains("var2")).to(beTrue())
                         expect(keys.contains("var3")).to(beTrue())
                         expect(keys.contains("var4")).to(beFalse())
+                        expect(keys.contains("lastFetchTime")).to(beFalse())
+                        expect(keys.contains("lastFetchStatus")).to(beFalse())
                     }
                 }
 
@@ -206,6 +208,23 @@ class VariablesSpec: QuickSpec {
                     }
                 }
 
+                describe("filter") {
+                    it ("return matched variables") {
+                        let filteredVariables = Variables.filter {
+                            $0.hasPrefix("var")
+                        }.sorted { $0.name < $1.name }
+                        expect(filteredVariables.count).to(equal(3))
+                        expect(filteredVariables[0].string).to(equal("変数1"))
+                        expect(filteredVariables[1].string).to(equal("変数2a"))
+                        expect(filteredVariables[2].string).to(equal("変数3a"))
+                    }
+                    it("won't return when not matched") {
+                        let filteredVariables = Variables.filter {
+                            $0.hasPrefix("let")
+                        }
+                        expect(filteredVariables.count).to(equal(0))
+                    }
+                }
 
                 describe("retrieve variable") {
                     it("var1 is not nil") {

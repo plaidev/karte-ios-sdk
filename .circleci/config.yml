@@ -147,33 +147,6 @@ jobs:
       - slack/status:
           fail_only: true
 
-  ui_test:
-    executor:
-      name: build
-    steps:
-      - run:
-          name: Request Ui Test
-          command: |
-            if [ $EXEC_ENV = 'private' ]; then
-              curl -f -u ${CIRCLECI_KEY} \
-                    -d build_parameters[CIRCLE_JOB]=e2e_test \
-                    -d build_parameters[RELEASE_BRANCH]=${CIRCLE_BRANCH} \
-                    ${UI_TEST_ENDPOINT}
-            fi
-
-  spm_test:
-    executor:
-      name: build
-    steps:
-      - run:
-          name: Request Swift-PM link Test
-          command: |
-            if [ $EXEC_ENV = 'private' ]; then
-              curl -f -u ${CIRCLECI_KEY} \
-                    -d build_parameters[CIRCLE_JOB]=spm_link_test \
-                    ${UI_TEST_ENDPOINT}
-            fi
-
   generate_docs:
     executor:
       name: build
@@ -259,19 +232,7 @@ workflows:
       - test:
           requires:
             - build
-      - ui_test:
-          filters:
-            branches:
-              only:
-                - develop
       - publish:
-          filters:
-            branches:
-              only:
-                - master
-      - spm_test:
-          requires:
-            - build
           filters:
             branches:
               only:
@@ -290,16 +251,9 @@ workflows:
       - test:
           requires:
             - build
-      - ui_test:
-          requires:
-            - build
-      - spm_test:
-          requires:
-            - build
       - publish_pods:
           requires:
-            - ui_test
-            - spm_test
+            - test
 
   dry_run:
     when:

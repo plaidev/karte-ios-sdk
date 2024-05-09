@@ -1,0 +1,20 @@
+name: "UI Test before release"
+on:
+  pull_request:
+    types: [opened, reopend]
+    branches:
+      - 'master'
+
+jobs:
+  wait_uitest:
+    runs-on: ubuntu-latest
+    if: ${{ vars.UITEST_REPO }}
+    steps:
+      - name: Kick UI Test and wait
+        uses: aurelien-baudet/workflow-dispatch@v2
+        with:
+          workflow: uitest.yml
+          repo: plaidev/${{vars.UITEST_REPO}}
+          token: ${{ secrets.SHARED_GITHUB_ACCESS_TOKEN }}
+          ref: master
+          inputs: '{ "sdkBranch": "${{github.head_ref}}", "slackChannel": "${{vars.SLACK_CHANNEL}}", "notifyOnlyFail": true }'

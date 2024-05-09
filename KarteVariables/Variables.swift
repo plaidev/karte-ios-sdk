@@ -102,7 +102,22 @@ public class Variables: NSObject {
     /// - Returns: 全ての設定値のキーの一覧を返します。
     @objc
     public class func getAllKeys() -> [String] {
-        return UserDefaults.standard.getAllKeys(forNamespace: .variables)
+        return UserDefaults.standard.getAllKeys(forNamespace: .variables).filter {
+            // こちらの２つはシステムで利用している値なので除外する
+            !["lastFetchTime", "lastFetchStatus"].contains($0)
+        }
+    }
+
+    /// キーに特定の文字列を持つVariableのリスト取得します。<br>
+    /// なお事前に `Variables.fetch(completion:)` を呼び出しておく必要があります。
+    ///
+    /// - Parameter forPredicate: キーマッチ用のブロック
+    /// - Returns: マッチしたRegexの一覧を返します。
+    @objc
+    public class func filter(usingPredicate predicate: (String) -> Bool) -> [Variable] {
+        let allKeys = Variables.getAllKeys()
+        let filteredKeys = allKeys.filter(predicate)
+        return filteredKeys.map { Variable(name: $0) }
     }
 
     /// 指定した設定値のキーのキャッシュを削除します<br>

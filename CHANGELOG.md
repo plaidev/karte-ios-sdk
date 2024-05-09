@@ -2,15 +2,30 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.26.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.27.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.17.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.9.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.10.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
 | KarteInbox | Push通知の送信履歴を取得する機能を提供します（β版）。 | 0.1.0 |
 | KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.7.1 |
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.12.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
+
+
+# Releases - 2024.05.09
+## Version 2.14.0
+
+### Core 2.27.0
+** 🔨CHANGED**
+- サポート改善のため、ログにタイムスタンプを出力するようにしました。
+
+### Veriables 2.10.0
+** 🔨CHANGED**
+- 特定の条件にマッチする変数オブジェクトをリスト形式で取得できるメソッドを追加しました。 
+
+** 💊FIXED**
+- getAllKeysでシステムが利用しているlastFetchTimeとlastFetchStatusが返されるのを修正しました
 
 # Releases - 2024.04.18
 ## Version 2.13.0

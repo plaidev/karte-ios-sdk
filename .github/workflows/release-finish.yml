@@ -14,7 +14,7 @@ jobs:
       completed: ${{ steps.check_completion.outputs.completed }}
     steps:
     - name: Cancel Previous Runs
-      uses: styfle/cancel-workflow-action@0.9.1
+      uses: styfle/cancel-workflow-action@0.12.1
       with:
         access_token: ${{ secrets.GH_ACCESS_TOKEN }}
         all_but_latest: true
