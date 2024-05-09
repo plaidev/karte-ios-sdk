@@ -16,20 +16,29 @@
 
 import Foundation
 
-internal protocol LogLayout {
-    func layout(_ log: Logger.Log) -> String
+internal class LogLayout {
+    private static let dateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yyyyMMddHHmmssSSS", options: 0, locale: nil)
+        return formatter
+    }()
+    final var timestamp: String {
+        Self.dateFormatter.string(for: Date()) ?? ""
+    }
+    func layout(_ log: Logger.Log) -> String { "" }
+    deinit {}
 }
 
 internal class DevelopmentLogLayout: LogLayout {
-    func layout(_ log: Logger.Log) -> String {
-        "\(log.tag.version) - \(log.level.identifier)/KARTE \(log.file):\(log.line) \(log.function) [\(log.tag.rawValue)] \(log.message)"
+    override func layout(_ log: Logger.Log) -> String {
+        "\(timestamp) - \(log.tag.version) - \(log.level.identifier)/KARTE \(log.file):\(log.line) \(log.function) [\(log.tag.rawValue)] \(log.message)"
     }
     deinit {}
 }
 
-internal class ProductionLogLayout {
-    func layout(_ log: Logger.Log) -> String {
-        "\(log.tag.version) - \(log.level.identifier)/KARTE [\(log.tag.rawValue)] \(log.message)"
+internal class ProductionLogLayout: LogLayout {
+    override func layout(_ log: Logger.Log) -> String {
+        "\(timestamp) - \(log.tag.version) - \(log.level.identifier)/KARTE [\(log.tag.rawValue)] \(log.message)"
     }
     deinit {}
 }
