@@ -13,7 +13,8 @@
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
 
 
-# Releases - xxxx.xx.xx
+# Releases - 2024.05.09
+## Version 2.14.0
 
 ### Core 2.27.0
 ** 🔨CHANGED**
