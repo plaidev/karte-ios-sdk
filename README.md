@@ -20,7 +20,6 @@ The API references are located at
 - [KarteRemoteNotification](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteRemoteNotification/index.html)
 - [KarteVariables](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteVariables/index.html)
 - [KarteVisualTracking](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteVisualTracking/index.html)
-- [KarteInbox](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteInbox/index.html)
 - [KarteCrashReporting](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteCrashReporting/index.html)
 
 ## Getting Help
