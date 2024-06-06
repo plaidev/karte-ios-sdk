@@ -140,7 +140,10 @@ extension UIViewControllerProxy {
         )
         originalFunction(receiver, viewDidAppearSelector, animated)
 
-        let window = receiver.view.window
+        guard let window = receiver.view?.window else {
+            Logger.warn(tag: .inAppMessaging, message: "The view is nil and the window not found")
+            return
+        }
         let process = InAppMessaging.shared.retrieveProcess(window: window)
         process?.viewDidAppearFromViewController(receiver)
     }
