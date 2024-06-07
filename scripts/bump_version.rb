@@ -155,7 +155,7 @@ class VersionCommand < BaseCommand
     if @project.nil?
       $stderr.puts '-p or --project options are required.'
       exit 1
-    elsif not File.exists?(@project)
+    elsif not File.exist?(@project)
       $stderr.puts 'xcodeproj file is not exist.'
       exit 1
     end
