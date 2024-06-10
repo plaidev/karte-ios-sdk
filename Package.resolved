@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "PLCrashReporter",
+        "repositoryURL": "https://github.com/plaidev/PLCrashReporter.git",
+        "state": {
+          "branch": null,
+          "revision": "38ccdc7b4b2710147a2abd39dc684523d6624148",
+          "version": "1.11.0-patch"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
