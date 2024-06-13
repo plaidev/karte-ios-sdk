@@ -7,14 +7,18 @@
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.10.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
-| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.7.1 |
+| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.8.0 |
 | KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.12.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
 
-# Releases - 2024.06.03
-## Version 2.14.0
+# Releases - 2024.06.13
+## Version 2.15.0
 
-### InAppMessaging  2.27.0
+### CrashReporting 2.8.0
+** 🔨CHANGED**
+- Privacy manifestの設定を更新しました。
+
+### InAppMessaging  2.17.1
 ** 💊FIXED**
 - 一部の別ライブラリと併用した場合にcrashする不具合を修正しました。
 
