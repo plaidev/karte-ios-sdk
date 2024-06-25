@@ -16,6 +16,7 @@
 
 import KarteUtilities
 import UIKit
+import AppTrackingTransparency
 
 /// KARTE SDKのエントリポイントであると共に、SDKの構成および依存ライブラリ等の管理を行うクラスです。
 ///
@@ -162,6 +163,18 @@ public extension KarteApp {
     @objc
     class func renewVisitorId() {
         shared.renewVisitorId()
+    }
+
+    /// AppTrackingTransparencyの許諾状況をKARTE側に送信します。
+    ///
+    /// att_status_updatedというイベント経由で送信許諾状況を送信しています。
+    ///
+    /// - Parameters:
+    ///   - attStatus: `ATTrackingManager.AuthorizationStatus`
+    @available(iOS 14, *)
+    @objc
+    class func sendATTStatus(attStatus: ATTrackingManager.AuthorizationStatus) {
+        shared.sendATTStatus(attStatus: attStatus)
     }
 
     /// KARTE SDKの機能に関連するカスタムURLスキームを処理します。
@@ -315,6 +328,11 @@ extension KarteApp {
 
     func renewVisitorId() {
         coreService?.renewVisitorId()
+    }
+
+    @available(iOS 14, *)
+    func sendATTStatus(attStatus: ATTrackingManager.AuthorizationStatus) {
+        coreService?.sendATTStatus(attStatus: attStatus)
     }
 
     func application(_ app: UIApplication, open url: URL) -> Bool {
