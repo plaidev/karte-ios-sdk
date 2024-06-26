@@ -106,6 +106,8 @@ public extension Event {
         case pluginNativeAppIdentify(subscribe: Bool, fcmToken: String?)
         /// `_fetch_variables` イベント
         case fetchVariables
+        /// `att_status_updated`イベント
+        case attStatusUpdated(attStatus: String)
 
         /// 列挙子に応じた `イベント名` および `オブジェクト` を返します。
         func build() -> (EventName, [String: JSONValue]) {
@@ -183,6 +185,14 @@ public extension Event {
                     field(.fcmToken): fcmToken
                 ]
                 name = .pluginNativeAppIdentify
+                vals = values.compactMapValues { $0 }
+
+            case let .attStatusUpdated(attStatus: attStatus):
+                let values: [String: JSONConvertible?] = [
+                    field(.attStatus): attStatus
+                ]
+
+                name = .attStatusUpdated
                 vals = values.compactMapValues { $0 }
 
             case .fetchVariables:

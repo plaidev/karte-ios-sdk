@@ -50,7 +50,8 @@ public struct EventName: Codable {
              .messageReady, .messageOpen, .messageClick, .messageClose, .messageSuppressed,
              .massPushClick,
              .pluginNativeAppIdentify,
-             .fetchVariables:
+             .fetchVariables,
+             .attStatusUpdated:
             return false
         default:
             return true
@@ -122,4 +123,6 @@ public extension EventName {
     static let pluginNativeAppIdentify   = EventName("plugin_native_app_identify")
     /// _fetch_variables イベント
     static let fetchVariables            = EventName("_fetch_variables")
+    /// att_status_updated イベント
+    static let attStatusUpdated            = EventName("att_status_updated")
 }

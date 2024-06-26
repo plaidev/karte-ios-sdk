@@ -16,11 +16,13 @@
 
 import Foundation
 import KarteUtilities
+import AppTrackingTransparency
 
 internal class CoreService {
     lazy var appInfo: AppInfo = {
         AppInfo()
     }()
+
     lazy var pvService: PvService = {
         PvService()
     }()
@@ -114,6 +116,11 @@ internal class CoreService {
 
     func renewVisitorId() {
         visitorIdService.renew()
+    }
+
+    @available(iOS 14, *)
+    func sendATTStatus(attStatus: ATTrackingManager.AuthorizationStatus) {
+        ATTService.sendATTStatus(attStatus: attStatus)
     }
 
     func teardown() {

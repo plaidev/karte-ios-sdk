@@ -343,6 +343,9 @@
 		0CFD001924ECF53100598C8C /* TrackClientSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001824ECF53100598C8C /* TrackClientSessionMock.swift */; };
 		0CFD001D24ECF8BB00598C8C /* TrackClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001C24ECF8BB00598C8C /* TrackClientTests.swift */; };
 		0CFD001F24ED08E800598C8C /* ReachabilityServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001E24ED08E800598C8C /* ReachabilityServiceMock.swift */; };
+		142B4AEA2C2551DD0090ADDD /* ATTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142B4AE92C2551DD0090ADDD /* ATTService.swift */; };
+		142B4AEC2C25542C0090ADDD /* ATTStatusUpdatedSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142B4AEB2C25542C0090ADDD /* ATTStatusUpdatedSpec.swift */; };
+		142B4AEE2C2554D00090ADDD /* ATTServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142B4AED2C2554D00090ADDD /* ATTServiceSpec.swift */; };
 		1E9A3C652949BBFD006B54D3 /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9A3C642949BBFD006B54D3 /* ApiKey.swift */; };
 		1ECAFE542B5D3608003638E8 /* DecodingError+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECAFE532B5D3608003638E8 /* DecodingError+Extension.swift */; };
 		1EE766B7297546440040278E /* Karte-custom-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1EE766B6297544B60040278E /* Karte-custom-Info.plist */; };
@@ -931,6 +934,9 @@
 		0CFD001824ECF53100598C8C /* TrackClientSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackClientSessionMock.swift; sourceTree = "<group>"; };
 		0CFD001C24ECF8BB00598C8C /* TrackClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackClientTests.swift; sourceTree = "<group>"; };
 		0CFD001E24ED08E800598C8C /* ReachabilityServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityServiceMock.swift; sourceTree = "<group>"; };
+		142B4AE92C2551DD0090ADDD /* ATTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATTService.swift; sourceTree = "<group>"; };
+		142B4AEB2C25542C0090ADDD /* ATTStatusUpdatedSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATTStatusUpdatedSpec.swift; sourceTree = "<group>"; };
+		142B4AED2C2554D00090ADDD /* ATTServiceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATTServiceSpec.swift; sourceTree = "<group>"; };
 		1E9A3C642949BBFD006B54D3 /* ApiKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		1ECAFE532B5D3608003638E8 /* DecodingError+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DecodingError+Extension.swift"; sourceTree = "<group>"; };
 		1EE766B6297544B60040278E /* Karte-custom-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Karte-custom-Info.plist"; sourceTree = "<group>"; };
@@ -1814,6 +1820,7 @@
 				683762F8252F201D00E690CE /* SelectorDetector.swift */,
 				0C50509129C17ECA007C5C9B /* JailbreakDetection.swift */,
 				0C8392C02406C7750014C2BF /* CoreService.swift */,
+				142B4AE82C2551C90090ADDD /* ATT */,
 				0C8392582406C4260014C2BF /* AppInfo */,
 				1E9A3C632949BBFD006B54D3 /* ApiKey */,
 				0CE339AF23F39C9300E2EB98 /* AppKey */,
@@ -2157,6 +2164,7 @@
 				0CE792FF238653AD00F0D932 /* PluginNativeAppIdentifyEventSpec.swift */,
 				0CE79300238653AD00F0D932 /* ViewEventSpec.swift */,
 				0CE79301238653AD00F0D932 /* FetchVariablesEventSpec.swift */,
+				142B4AEB2C25542C0090ADDD /* ATTStatusUpdatedSpec.swift */,
 				0CE79302238653AD00F0D932 /* EventSpec.swift */,
 				0CE79303238653AD00F0D932 /* EventFieldNameSpec.swift */,
 				0CE79304238653AD00F0D932 /* IdentifyEventSpec.swift */,
@@ -2236,6 +2244,7 @@
 			isa = PBXGroup;
 			children = (
 				0CA52D5C2387BE9E00A575BC /* ConfigurationTests.swift */,
+				142B4AED2C2554D00090ADDD /* ATTServiceSpec.swift */,
 				6807B2AA251D80C900CDAB43 /* ExperimentalConfigurationTests.swift */,
 				0CA52D582387BE4C00A575BC /* OptOutConfigSpec.swift */,
 				0CA52D682387CC4D00A575BC /* VersionServiceSpec.swift */,
@@ -2274,6 +2283,14 @@
 				0CA52D6D2388CB8000A575BC /* IntegrationTests */,
 			);
 			path = KarteVariablesTests;
+			sourceTree = "<group>";
+		};
+		142B4AE82C2551C90090ADDD /* ATT */ = {
+			isa = PBXGroup;
+			children = (
+				142B4AE92C2551DD0090ADDD /* ATTService.swift */,
+			);
+			path = ATT;
 			sourceTree = "<group>";
 		};
 		1E9A3C632949BBFD006B54D3 /* ApiKey */ = {
@@ -3106,6 +3123,7 @@
 				0C69D41524EB9DC600D75893 /* TrackingTask.swift in Sources */,
 				0CE339EC23F39C9300E2EB98 /* AppKey.swift in Sources */,
 				36F3BC7824F8DAC1002D4382 /* LogAppender.swift in Sources */,
+				142B4AEA2C2551DD0090ADDD /* ATTService.swift in Sources */,
 				0C8392652406C54E0014C2BF /* SystemInfo.swift in Sources */,
 				0C8392BB2406C7010014C2BF /* JSONConvertible.swift in Sources */,
 				0C75093925007A7500624E3C /* OperationMode.swift in Sources */,
@@ -3316,6 +3334,7 @@
 				0C8392FD240822A40014C2BF /* EventNameSpec.swift in Sources */,
 				0CFD001D24ECF8BB00598C8C /* TrackClientTests.swift in Sources */,
 				0C69D41824EBA34500D75893 /* RegisterPushCommandSpec.swift in Sources */,
+				142B4AEC2C25542C0090ADDD /* ATTStatusUpdatedSpec.swift in Sources */,
 				0CFD001124EBD2DC00598C8C /* TrackCallbackSpec.swift in Sources */,
 				0C83931A240838050014C2BF /* InspectorSpec.swift in Sources */,
 				0C839312240831B30014C2BF /* LifecycleEventSpec.swift in Sources */,
@@ -3343,6 +3362,7 @@
 				68BBBCD524BB5156009A1CE0 /* IAMProcessSpec.swift in Sources */,
 				0CE79326238653AD00F0D932 /* Support.swift in Sources */,
 				680C29B52446B99200FB1363 /* TrackBodyParametersSpec.swift in Sources */,
+				142B4AEE2C2554D00090ADDD /* ATTServiceSpec.swift in Sources */,
 				0C8392F02407BF370014C2BF /* VisitorIdGeneratorMock.swift in Sources */,
 				0C8393112408319F0014C2BF /* IdentifySpec.swift in Sources */,
 				0CCFA7BB24A5D8D500E0F184 /* NotificationSettingsProviderMock.swift in Sources */,
@@ -3828,7 +3848,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.27.0;
+				MARKETING_VERSION = 2.28.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3863,7 +3883,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.27.0;
+				MARKETING_VERSION = 2.28.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
