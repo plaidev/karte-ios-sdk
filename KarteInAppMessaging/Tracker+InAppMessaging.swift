@@ -27,6 +27,9 @@ internal extension Tracker {
         guard let shortenId = message.string(forKeyPath: "action.shorten_id") else {
             return
         }
+        if message.string(forKeyPath: "campaign.service_action_type") == "remote_config" {
+            return
+        }
 
         let values = [
             "reason": reason
