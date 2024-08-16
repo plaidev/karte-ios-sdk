@@ -142,7 +142,7 @@ public class InAppMessaging: NSObject {
         }
 
         IAMProxy.shared.swizzleMethods()
-        
+
         let isAutoScreenBoundaryEnabled = config?.isAutoScreenBoundaryEnabled ?? true
         if isAutoScreenBoundaryEnabled {
             UINavigationControllerProxy.shared.swizzleMethods()

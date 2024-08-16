@@ -19,6 +19,7 @@
 
 ** 💊FIXED**
 - suppressed状態で設定値配信を取得した場合に_message_suppressedが発生しないように変更しました。
+- UIActivityViewControllerなどのシェア機能と接客の同時表示時にタップできない領域が発生していたため、当該状況では接客を非表示にするよう修正しました。
 
 # Releases - 2024.06.25
 ## Version 2.16.0
