@@ -111,14 +111,8 @@ private extension TrackClient {
             }
 
             Logger.debug(tag: .track, message: "Request start. request_id=\(task.request.requestId) retry=\(task.request.isRetry)")
-            for command in task.request.commands {
-                let reqId = task.request.requestId
-                let cmdId = command.identifier
-                let name = command.event.eventName.rawValue
 
-                let message = "Event included in the request. request_id=\(reqId) command_id=\(cmdId) event_name=\(name)"
-                Logger.verbose(tag: .track, message: message)
-            }
+            self?.logRequestDetails(of: task.request)
 
             let session = Resolver.resolve(TrackClientSession.self)
             session.send(task.request, callbackQueue: .dispatchQueue(callbackQueue)) { result in
@@ -165,6 +159,36 @@ private extension TrackClient {
         observers.map { observer -> ObjectIdentifier in
             ObjectIdentifier(observer)
         }.contains(ObjectIdentifier(observer))
+    }
+
+    private func logRequestDetails(of request: TrackRequest) {
+        for command in request.commands {
+            let reqId = request.requestId
+            let cmdId = command.identifier
+            let visitorId = command.visitorId
+            let eventName = command.event.eventName
+            let keyValues = command.event.values.map { "\($0)=\($1.rawValue)" }.joined(separator: " ")
+
+            let message = "Event included in the request. request_id=\(reqId) command_id=\(cmdId) visitor_id=\(visitorId) event_name=\(eventName.rawValue) \(keyValues)"
+            Logger.verbose(tag: .track, message: message)
+
+            switch eventName {
+            case .view:
+                let viewName = command.event.values.string(forKey: field(.viewName)) ?? ""
+                let title = command.event.values.string(forKey: field(.title)) ?? ""
+                Logger.info(tag: .track, message: "Event included in the request. request_id=\(reqId) command_id=\(cmdId) visitor_id=\(visitorId) view_name=\(viewName) title=\(title)")
+            case .messageOpen,
+                    .messageClick,
+                    .messageClose,
+                    .messageReady,
+                    .messageSuppressed:
+                let campaignId = command.event.values.string(forKeyPath: "message.campaign_id") ?? ""
+                let shortenId = command.event.values.string(forKeyPath: "message.shorten_id") ?? ""
+                Logger.info(tag: .track, message: "Event included in the request. request_id=\(reqId) command_id=\(cmdId) visitor_id=\(visitorId) campaign_id=\(campaignId) shorten_id=\(shortenId)")
+            default:
+                break
+            }
+        }
     }
 }
 
