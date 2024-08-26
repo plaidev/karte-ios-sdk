@@ -54,10 +54,10 @@ let package = Package(
             name: "KarteUtilities", url: "https://sdk.karte.io/ios/swiftpm/Utilities-3.12.0/KarteUtilities.xcframework.zip", checksum: "850abc71a8bc28e415f4b11e3072ff741a1d908c13b951a4676bc2e675eaf634"
         ),
         .binaryTarget(
-            name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.28.0/KarteCore.xcframework.zip", checksum: "535947825797d5f339c814e308a21b0ff2980b32f1a8fcba7c0ef1ad54413256"
+            name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.29.0/KarteCore.xcframework.zip", checksum: "5b4c1f3e7157a95e9fa6ff2227854a1c5cec76fb4b1571db787b1345e7efde61"
         ),
         .binaryTarget(
-            name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.17.1/KarteInAppMessaging.xcframework.zip", checksum: "ece8b3cadb4956b2c8951486bb9e51c20f1a2abef6e3d3ccb8c548f42bcb724e"
+            name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.18.0/KarteInAppMessaging.xcframework.zip", checksum: "d1625e74bac54bd63744c6297b742bb781ea1ab0bf4a4f652fd765245094ffcf"
         ),
         .binaryTarget(
             name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.10.0/KarteVariables.xcframework.zip", checksum: "19665bf1c9eb5e04719b660839de4ca1145589a62669de6f12efb38fc39a4aad"
