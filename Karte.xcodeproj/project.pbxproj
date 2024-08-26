@@ -434,6 +434,8 @@
 		AF0A5F2F29546BB000209D4E /* Logger+Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0A5F2E29546BB000209D4E /* Logger+Tag.swift */; };
 		AF0A5F31295475B300209D4E /* KarteInbox.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A5F30295475B300209D4E /* KarteInbox.m */; };
 		AF0A5F352959986F00209D4E /* InboxLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A5F342959986F00209D4E /* InboxLoader.m */; };
+		AF38FD9E2C7C7313009C1C20 /* RequestATTCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF38FD9D2C7C7313009C1C20 /* RequestATTCommand.swift */; };
+		AF38FDA02C7C8108009C1C20 /* RequestATTCommandSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF38FD9F2C7C8108009C1C20 /* RequestATTCommandSpec.swift */; };
 		AF49FAA1296ED953005A7575 /* CallerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF49FAA0296ED953005A7575 /* CallerSpec.swift */; };
 		AF5EDEB329C1C49000D05825 /* OpenMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */; };
 		AF5EDEB529C1C5A600D05825 /* OpenMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */; };
@@ -1031,6 +1033,8 @@
 		AF0A5F2E29546BB000209D4E /* Logger+Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Tag.swift"; sourceTree = "<group>"; };
 		AF0A5F30295475B300209D4E /* KarteInbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteInbox.m; sourceTree = "<group>"; };
 		AF0A5F342959986F00209D4E /* InboxLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InboxLoader.m; sourceTree = "<group>"; };
+		AF38FD9D2C7C7313009C1C20 /* RequestATTCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestATTCommand.swift; sourceTree = "<group>"; };
+		AF38FD9F2C7C8108009C1C20 /* RequestATTCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestATTCommandSpec.swift; sourceTree = "<group>"; };
 		AF49FAA0296ED953005A7575 /* CallerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallerSpec.swift; sourceTree = "<group>"; };
 		AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMessagesRequestSpec.swift; sourceTree = "<group>"; };
 		AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMessagesRequest.swift; sourceTree = "<group>"; };
@@ -2255,6 +2259,7 @@
 				0CE33A0523F40C2200E2EB98 /* UserSyncParameterSpec.swift */,
 				681E83982483B54800A95083 /* RequestReviewCommandSpec.swift */,
 				681E839A2483B5C800A95083 /* OpenSettingsCommandSpec.swift */,
+				AF38FD9F2C7C8108009C1C20 /* RequestATTCommandSpec.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -2383,6 +2388,7 @@
 				681E83942482A90E00A95083 /* OpenSettingsCommand.swift */,
 				680DB3C72480F74E00AE6800 /* Command.swift */,
 				681E838C248246B700A95083 /* RequestReviewCommand.swift */,
+				AF38FD9D2C7C7313009C1C20 /* RequestATTCommand.swift */,
 				681E838E2482510200A95083 /* CommandHandler.swift */,
 				681E8390248252EE00A95083 /* CommandHandlerLoader.m */,
 			);
@@ -3112,6 +3118,7 @@
 				777D605D274267FC00339D7E /* InvalidEventFieldNameFilterRule.swift in Sources */,
 				0C69D40F24EB9DB200D75893 /* InitializationEventFilterRule.swift in Sources */,
 				0C0822FB24EA615C0038EBDA /* CommandBundlerApplicationStateProvider.swift in Sources */,
+				AF38FD9E2C7C7313009C1C20 /* RequestATTCommand.swift in Sources */,
 				0C83928F2406C6AA0014C2BF /* InstallationStatus.swift in Sources */,
 				0C69D3FC24EB9D9D00D75893 /* TrackClientState.swift in Sources */,
 				0C8392B72406C7010014C2BF /* Module.swift in Sources */,
@@ -3380,6 +3387,7 @@
 				0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */,
 				0CC648B8238CCFC3009EB5DF /* StubBuilder.swift in Sources */,
 				0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */,
+				AF38FDA02C7C8108009C1C20 /* RequestATTCommandSpec.swift in Sources */,
 				0C839316240838050014C2BF /* ActionAppropriateViewDetectorSpec.swift in Sources */,
 				363F25F12582A1EB007E6E4B /* DefinitionsRequestSpec.swift in Sources */,
 				0C520BCC2990995000480B77 /* JSONConvertibleSpec.swift in Sources */,
@@ -3852,7 +3860,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.29.0;
+				MARKETING_VERSION = 2.30.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3887,7 +3895,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.29.0;
+				MARKETING_VERSION = 2.30.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
