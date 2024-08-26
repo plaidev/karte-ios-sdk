@@ -27,6 +27,9 @@ internal extension Tracker {
         guard let shortenId = message.string(forKeyPath: "action.shorten_id") else {
             return
         }
+        if message.string(forKeyPath: "campaign.service_action_type") == "remote_config" {
+            return
+        }
 
         let values = [
             "reason": reason
@@ -37,9 +40,17 @@ internal extension Tracker {
     }
 
     class func track(view: UIView?, data: JsMessage.EventData) {
+        var values = data.values.mapValues { $0.rawValue }
+
+        let config = KarteApp.configuration.libraryConfigurations.first { $0 is InAppMessagingConfiguration } as? InAppMessagingConfiguration
+
+        if let isEnabled = config?.isAutoScreenBoundaryEnabled {
+            values["_is_auto_screen_boundary_enabled"] = isEnabled
+        }
+
         let event = Event(
             eventName: data.eventName,
-            values: data.values.mapValues { $0.rawValue },
+            values: values,
             libraryName: InAppMessaging.name
         )
         Tracker(view: view).track(event: event)

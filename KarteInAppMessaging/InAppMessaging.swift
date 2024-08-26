@@ -142,9 +142,13 @@ public class InAppMessaging: NSObject {
         }
 
         IAMProxy.shared.swizzleMethods()
-        UINavigationControllerProxy.shared.swizzleMethods()
-        UITabBarControllerProxy.shared.swizzleMethods()
-        UIViewControllerProxy.shared.swizzleMethods()
+
+        let isAutoScreenBoundaryEnabled = config?.isAutoScreenBoundaryEnabled ?? true
+        if isAutoScreenBoundaryEnabled {
+            UINavigationControllerProxy.shared.swizzleMethods()
+            UITabBarControllerProxy.shared.swizzleMethods()
+            UIViewControllerProxy.shared.swizzleMethods()
+        }
 
         checkInfoPlist()
     }

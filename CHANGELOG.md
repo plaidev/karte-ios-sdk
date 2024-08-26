@@ -2,14 +2,29 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.28.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.17.1 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.29.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.18.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.10.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
-| KarteCrashReporting  |  クラッシュイベントのトラッキング機能を提供します。 | 2.8.0 |
-| KarteUtilities |  KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.12.0 |
+| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.8.0 |
+| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.12.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
+
+# Releases - 2024.08.26
+## Version 2.17.0
+
+### Core 2.29.0
+** 🔨CHANGED**
+- イベント送信のログにイベント内容を付与しました。
+
+### InAppMessaging 2.18.0
+** 🔨CHANGED**
+- InAppMessagingの画面境界の自動判定のOn/Offを切り替え可能にしました
+
+** 💊FIXED**
+- suppressed状態で設定値配信を取得した場合に_message_suppressedが発生しないように変更しました。
+- UIActivityViewControllerなどのシェア機能と接客の同時表示時にタップできない領域が発生していたため、当該状況では接客を非表示にするよう修正しました。
 
 # Releases - 2024.06.25
 ## Version 2.16.0
@@ -25,7 +40,7 @@
 ** 🔨CHANGED**
 - Privacy manifestの設定を更新しました。
  
-### InAppMessaging  2.17.1
+### InAppMessaging 2.17.1
 ** 💊FIXED**
 - 一部の別ライブラリと併用した場合にcrashする不具合を修正しました。
 

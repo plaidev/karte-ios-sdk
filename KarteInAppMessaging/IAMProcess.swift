@@ -105,6 +105,11 @@ extension IAMProcess {
             Logger.debug(tag: .inAppMessaging, message: "Detected the remote view: \(viewController)")
             webView?.reset(mode: .hard)
         }
+
+        if ShareActivityDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
+            Logger.debug(tag: .inAppMessaging, message: "Detected the share activity: \(viewController)")
+            webView?.reset(mode: .hard)
+        }
     }
 
     func presentViewController(_ viewController: UIViewController, in window: UIWindow?) {
@@ -317,6 +322,11 @@ extension IAMProcess: IAMWebViewDelegate {
 
         if RemoteViewDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
             Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected remote view.")
+            return false
+        }
+
+        if ShareActivityDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
+            Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected share activity.")
             return false
         }
 
