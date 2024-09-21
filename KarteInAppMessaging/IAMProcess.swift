@@ -247,7 +247,13 @@ extension IAMProcess {
 
     private func handleJsMessageEvent(_ data: JsMessage.EventData) {
         Tracker.track(view: window, data: data)
-        notifyCampaignOpenOrClose(data)
+        if Thread.isMainThread {
+            notifyCampaignOpenOrClose(data)
+        } else {
+            DispatchQueue.main.async {
+                self.notifyCampaignOpenOrClose(data)
+            }
+        }
     }
 
     private func handleJsMessageOpenURL(_ data: JsMessage.OpenURLData) {
@@ -347,6 +353,7 @@ extension IAMProcess: IAMWebViewDelegate {
         return true
     }
 
+    @MainActor
     func inAppMessagingWebView(_ webView: IAMWebView, shouldOpenURL url: URL) -> Bool {
         let iam = InAppMessaging.shared
         guard let delegate = iam.delegate else {

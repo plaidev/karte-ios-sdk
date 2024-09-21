@@ -172,33 +172,35 @@ internal class IAMWebView: WKWebView {
     }
 
     func openURL(_ url: URL?, isReset: Bool) {
-        guard let url = url else {
-            Logger.debug(tag: .inAppMessaging, message: "Can't open URL because URL is nil.")
-            return
-        }
+        DispatchQueue.main.async {
+            guard let url = url else {
+                Logger.debug(tag: .inAppMessaging, message: "Can't open URL because URL is nil.")
+                return
+            }
 
-        if isReset {
-            reset(mode: .soft)
-        }
+            if isReset {
+                self.reset(mode: .soft)
+            }
 
-        if let delegate = delegate, !delegate.inAppMessagingWebView(self, shouldOpenURL: url) {
-            Logger.info(tag: .inAppMessaging, message: "SDK delegates openURL to client app. URL=\(url)")
-            return
-        }
+            if let delegate = self.delegate, !delegate.inAppMessagingWebView(self, shouldOpenURL: url) {
+                Logger.info(tag: .inAppMessaging, message: "SDK delegates openURL to client app. URL=\(url)")
+                return
+            }
 
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url, options: [:]) { successful in
-                if successful {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:]) { successful in
+                    if successful {
+                        Logger.info(tag: .inAppMessaging, message: "Success to open URL: \(url)")
+                    } else {
+                        Logger.error(tag: .inAppMessaging, message: "Failed to open URL: \(url)")
+                    }
+                }
+            } else {
+                if UIApplication.shared.openURL(url) {
                     Logger.info(tag: .inAppMessaging, message: "Success to open URL: \(url)")
                 } else {
                     Logger.error(tag: .inAppMessaging, message: "Failed to open URL: \(url)")
                 }
-            }
-        } else {
-            if UIApplication.shared.openURL(url) {
-                Logger.info(tag: .inAppMessaging, message: "Success to open URL: \(url)")
-            } else {
-                Logger.error(tag: .inAppMessaging, message: "Failed to open URL: \(url)")
             }
         }
     }
