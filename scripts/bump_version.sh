@@ -11,7 +11,6 @@ MODULES=(
   "KarteCrashReporting"
   "KarteVariables"
   "KarteVisualTracking"
-  "KarteInbox"
   "KarteUtilities"
   "KarteNotificationServiceExtension"
 )

@@ -36,7 +36,6 @@ Please fill in as much of the template below as you can.
 - KarteRemoteNotification x.x.x
 - KarteVariables x.x.x
 - KarteVisualTracking x.x.x
-- KarteInbox x.x.x
 - KarteUtilities x.x.x
 - KarteNotificationServiceExtension x.x.x
 

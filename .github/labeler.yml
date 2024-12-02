@@ -12,8 +12,6 @@
   - KarteVariables/**
 'Module:VT':
   - KarteVisualTracking/**
-'Module:Inbox':
-  - KarteInbox/**
 'Module:Detectors':
   - KarteDetectors/**
 'Module:Utilities':

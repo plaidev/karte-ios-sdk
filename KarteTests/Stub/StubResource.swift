@@ -48,6 +48,4 @@ extension StubResource {
     static var vt2 = StubResource("success_vt_2.json")
     static var vt_definitions = StubResource("success_vt_definitions.json")
     static var vt_definitions_with_dynamic_fields = StubResource("success_vt_definitions_with_dynamic_fields.json")
-    static var inbox_success = StubResource("success_inbox.json")
-    static var inbox_success_empty = StubResource("success_inbox_empty.json")
 }
