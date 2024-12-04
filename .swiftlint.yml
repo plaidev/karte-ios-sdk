@@ -121,6 +121,7 @@ included:
   - KarteInAppMessaging
   - KarteRemoteNotification
   - KarteVariables
+  - KarteInbox
   - KarteVisualTracking
   - KarteCrashReporting
   - KarteNotificationServiceExtension

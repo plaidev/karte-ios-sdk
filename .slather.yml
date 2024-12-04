@@ -9,6 +9,7 @@ binary_basename:
   - KarteRemoteNotification
   - KarteVisualTracking
   - KarteVariables
+  - KarteInbox
   - KarteCrashReporting
   - KarteUtilities
   - KarteNotificationServiceExtension

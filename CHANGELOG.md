@@ -13,10 +13,6 @@
 
 # Releases - xxxx.xx.xx
 
-### Inbox
-** 🔨CHANGED**
-- Inboxモジュール（β版）の公開を停止しました。
-
 ### Core 2.30.0
 ** 🎉 FEATURE**
 - Native機能呼び出しにATT許諾ダイアログ表示を追加しました。
