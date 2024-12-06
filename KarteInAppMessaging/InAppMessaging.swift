@@ -222,7 +222,7 @@ extension InAppMessaging {
         }
     }
 
-    @objc
+    @MainActor @objc
     private func observeWindowDidBecomeVisibleNotification(_ notification: Notification) {
         guard let window = notification.object as? UIWindow else {
             return
@@ -255,7 +255,7 @@ extension InAppMessaging {
         pool.storeProcess(process)
     }
 
-    @objc
+    @MainActor @objc
     private func observeWindowDidBecomeHiddenNotification(_ notification: Notification) {
         guard let window = notification.object as? UIWindow else {
             return

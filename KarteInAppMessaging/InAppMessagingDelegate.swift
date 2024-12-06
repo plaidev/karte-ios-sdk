@@ -17,7 +17,7 @@
 import UIKit
 
 /// アプリ内メッセージで発生するイベントを委譲するためのタイプです。
-@objc(KRTInAppMessagingDelegate)
+@preconcurrency @MainActor @objc(KRTInAppMessagingDelegate)
 public protocol InAppMessagingDelegate: AnyObject {
     /// アプリ内メッセージ用のWindowが表示されたことを通知します。
     ///

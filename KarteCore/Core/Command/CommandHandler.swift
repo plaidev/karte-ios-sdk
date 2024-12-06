@@ -62,7 +62,8 @@ extension CommandHandler: DeepLinkModule {
     public func handle(app: UIApplication, open url: URL) -> Bool {
         let commands: [Command] = [
             RequestReviewCommand(),
-            OpenSettingsCommand()
+            OpenSettingsCommand(),
+            RequestATTCommand()
         ]
         return commands.map { $0.run(url: url) }.contains(true)
     }
