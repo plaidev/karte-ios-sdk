@@ -1,7 +1,7 @@
 name: "UI Test before release"
 on:
   pull_request:
-    types: [opened, reopend]
+    types: [opened, reopened]
     branches:
       - 'master'
 
@@ -11,7 +11,7 @@ jobs:
     if: ${{ vars.UITEST_REPO }}
     steps:
       - name: Kick UI Test and wait
-        uses: aurelien-baudet/workflow-dispatch@v2
+        uses: the-actions-org/workflow-dispatch@v4
         with:
           workflow: uitest.yml
           repo: plaidev/${{vars.UITEST_REPO}}
