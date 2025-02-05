@@ -72,7 +72,7 @@ let package = Package(
             name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.11.0/KarteRemoteNotification.xcframework.zip", checksum: "58bde3ca6ff813de18787b9dbe3b3b4e3ff9ddbe1713fb941b6be6d34a196ef6"
         ),
         .binaryTarget(
-            name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.8.0/KarteCrashReporting.xcframework.zip", checksum: "8e39bea6055373b080f6258ccf600f3a2d7f8a2b99c80598731d1cc90ee5b990"
+            name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.9.0/KarteCrashReporting.xcframework.zip", checksum: "0983cf2d936162325bee0de863172a9b7900124d28adcdd3445b8e9de876aa9b"
         ),
         .target(
             name: "KarteCrashReportingTarget", 
