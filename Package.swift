@@ -45,7 +45,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name: "PLCrashReporter", url: "https://github.com/plaidev/PLCrashReporter.git", from: "1.11.0-patch")
+        .package(name: "KarteCrashReporter", url: "https://github.com/plaidev/KartePLCrashReporter.git", from: "1.12.0-patch")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -72,11 +72,11 @@ let package = Package(
             name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.11.0/KarteRemoteNotification.xcframework.zip", checksum: "58bde3ca6ff813de18787b9dbe3b3b4e3ff9ddbe1713fb941b6be6d34a196ef6"
         ),
         .binaryTarget(
-            name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.8.0/KarteCrashReporting.xcframework.zip", checksum: "8e39bea6055373b080f6258ccf600f3a2d7f8a2b99c80598731d1cc90ee5b990"
+            name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.9.0/KarteCrashReporting.xcframework.zip", checksum: "583ce6969d60f8b5c543e21a8d08461b83c3e59d3d941499df03ddd2bc697b97"
         ),
         .target(
             name: "KarteCrashReportingTarget", 
-            dependencies: ["PLCrashReporter", "KarteCrashReporting"],
+            dependencies: ["KarteCrashReporter", "KarteCrashReporting"],
             path: "KarteCrashReporting/SwiftPM"
         ),
         .binaryTarget(
