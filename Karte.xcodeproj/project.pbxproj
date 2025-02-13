@@ -2958,7 +2958,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AF2E4BB52D58A2F30061B1F1 /* PBXTargetDependency */,
 				AF939A562CCF383D00CD038E /* PBXTargetDependency */,
 			);
 			name = KarteInAppFrame;
@@ -3799,10 +3798,6 @@
 			isa = PBXTargetDependency;
 			target = 0C060E972384D76C006AF974 /* KarteUtilities */;
 			targetProxy = 0CFB1F56243636AD00BC8757 /* PBXContainerItemProxy */;
-		};
-		AF2E4BB52D58A2F30061B1F1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = AF2E4BB42D58A2F30061B1F1 /* SwiftLintBuildToolPlugin */;
 		};
 		AF49FAA3296EDA60005A7575 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4873,14 +4868,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		AF2E4BB42D58A2F30061B1F1 /* SwiftLintBuildToolPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = AF2E4BB32D58A1960061B1F1 /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = "plugin:SwiftLintBuildToolPlugin";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0C6FE20D22F3F41C00F2FD28 /* Project object */;
 }
