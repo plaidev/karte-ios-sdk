@@ -5,11 +5,24 @@
 | KarteCore | イベントトラッキング機能を提供します。 | 2.30.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.19.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.10.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.11.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
+| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.1.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.9.0 |
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.12.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
+
+# Releases - 2025.02.12
+## Version 2.19.0
+
+### InAppFrame 0.1.0
+** 🎉 FEATURE**
+- アプリ内に管理画面で設定したネイティブコンポーネントを追加できるモジュールをOSSとして公開しました（β版）。
+  - ご利用いただくには別途お手続きが必要です。
+
+### Variables 2.11.0
+** 🔨CHANGED**
+- 一部のプロパティの可視性をpublicに変更しました。
 
 # Releases - 2025.02.12
 ## Version 2.19.0

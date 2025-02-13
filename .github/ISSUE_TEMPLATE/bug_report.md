@@ -37,6 +37,7 @@ Please fill in as much of the template below as you can.
 - KarteVariables x.x.x
 - KarteVisualTracking x.x.x
 - KarteInbox x.x.x
+- KarteInAppFrame x.x.x
 - KarteUtilities x.x.x
 - KarteNotificationServiceExtension x.x.x
 

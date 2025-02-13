@@ -1,0 +1,23 @@
+{
+    "version": "v1",
+    "componentType": "iafCarousel",
+    "content": {
+        "data": [
+            {
+                "imageUrl":"https://img-cf.karte.io/image/66d54af9319d1f76df2f9ee8::icon.jpg",
+                "linkUrl":"https://example.com",
+                "index":0
+            }
+        ],
+        "config": {
+            "ratio":100,
+            "radius":8,
+            "paddingTop":20,
+            "paddingBottom":20,
+            "paddingStart":10,
+            "paddingEnd":10,
+            "templateType":"simpleBanner"
+        }
+    }
+}
+

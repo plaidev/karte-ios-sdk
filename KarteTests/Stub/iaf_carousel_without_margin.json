@@ -1,0 +1,41 @@
+{
+    "version": "v1",
+    "componentType": "iafCarousel",
+    "content": {
+         "data": [
+            {
+                "imageUrl":"https://dummyimage.com/700x400/0ff/fff",
+                "linkUrl":"https://example.com",
+                "index":0
+            },
+            {
+                "imageUrl":"https://dummyimage.com/700x400/00f/fff",
+                "linkUrl":"",
+                "index":1
+            },
+            {
+                "imageUrl":"https://dummyimage.com/700x400/fdf/fff",
+                "linkUrl":"karte-tracker-sample://simplepage",
+                "index":2
+            },
+            {
+                "imageUrl":"https://dummyimage.com/700x400/f0f/fff",
+                "linkUrl":"instagram://app",
+                "index":3
+            },
+            {
+                "imageUrl":"https://dummyimage.com/700x400/eff/fff",
+                "linkUrl":"https://example.com",
+                "index":4
+            }
+        ],
+        "config": {
+            "ratio":120,
+            "paddingTop": 20,
+            "paddingBottom":20,
+            "radius":8,
+            "autoplaySpeed": 5,
+            "templateType":"carouselWithoutMargin"
+        }
+    }
+}

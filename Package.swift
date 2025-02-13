@@ -30,6 +30,10 @@ let package = Package(
             targets: ["KarteInbox", "KarteCore", "KarteUtilities"]
         ),
         .library(
+            name: "KarteInAppFrame",
+            targets: ["KarteInAppFrame", "KarteCore", "KarteVariables", "KarteUtilities"]
+        ),
+        .library(
             name: "KarteRemoteNotification",
             targets: ["KarteRemoteNotification", "KarteCore", "KarteUtilities"]
         ),
@@ -41,7 +45,7 @@ let package = Package(
         .library(
             name: "KarteNotificationServiceExtension",
             targets: ["KarteNotificationServiceExtension"]
-        )
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -67,6 +71,9 @@ let package = Package(
         ),
         .binaryTarget(
             name: "KarteInbox", url: "https://sdk.karte.io/ios/swiftpm/Inbox-0.1.0/KarteInbox.xcframework.zip", checksum: "09850b4f66bca44e95e6cd3f15cd42a56137d6b4143108a8ac33b6b49aff3920"
+        ),
+        .binaryTarget(
+            name: "KarteInAppFrame", url: "https://sdk.karte.io/ios/swiftpm/InAppFrame-0.1.0/KarteInAppFrame.xcframework.zip", checksum: "TO_BE_REPLACED"
         ),
         .binaryTarget(
             name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.11.0/KarteRemoteNotification.xcframework.zip", checksum: "58bde3ca6ff813de18787b9dbe3b3b4e3ff9ddbe1713fb941b6be6d34a196ef6"

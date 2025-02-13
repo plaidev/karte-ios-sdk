@@ -50,4 +50,5 @@ extension StubResource {
     static var vt_definitions_with_dynamic_fields = StubResource("success_vt_definitions_with_dynamic_fields.json")
     static var inbox_success = StubResource("success_inbox.json")
     static var inbox_success_empty = StubResource("success_inbox_empty.json")
+    static var inappframe_carousel_without_margin = StubResource("iaf_carousel_without_margin.json")
 }

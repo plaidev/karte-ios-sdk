@@ -10,6 +10,7 @@ binary_basename:
   - KarteVisualTracking
   - KarteVariables
   - KarteInbox
+  - KarteInAppFrame
   - KarteCrashReporting
   - KarteUtilities
   - KarteNotificationServiceExtension

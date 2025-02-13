@@ -12,6 +12,7 @@ MODULES=(
   "KarteVariables"
   "KarteVisualTracking"
   "KarteInbox"
+  "KarteInAppFrame"
   "KarteUtilities"
   "KarteNotificationServiceExtension"
 )

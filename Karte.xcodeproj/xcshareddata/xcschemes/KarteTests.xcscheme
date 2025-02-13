@@ -79,6 +79,13 @@
             BlueprintName = "KarteVisualTracking"
             ReferencedContainer = "container:Karte.xcodeproj">
          </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "AFC90A5A2C9C2B220018E6FE"
+            BuildableName = "KarteInAppFrame.framework"
+            BlueprintName = "KarteInAppFrame"
+            ReferencedContainer = "container:Karte.xcodeproj">
+         </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
