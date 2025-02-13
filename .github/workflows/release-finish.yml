@@ -24,9 +24,9 @@ jobs:
         body=$(echo '${{ github.event.pull_request.body }}')
         incomplete_task=$(echo $body | sed -n "/\- \[ \]/ p")
         if [ -z $incomplete_task ]; then
-            echo "::set-output name=completed::true"
+            echo "completed=true" >> $GITHUB_OUTPUT
         else
-            echo "::set-output name=completed::false"
+            echo "completed=false" >> $GITHUB_OUTPUT
         fi
 
   perform_merge:
