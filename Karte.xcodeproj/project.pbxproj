@@ -465,6 +465,7 @@
 		AFC90A812C9C916B0018E6FE /* iaf_carousel_without_margin.json in Resources */ = {isa = PBXBuildFile; fileRef = AFC90A802C9C916B0018E6FE /* iaf_carousel_without_margin.json */; };
 		AFCAF2C4299F6809005B4DCC /* FetchMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */; };
 		AFD9D7EE2D5357E400A63977 /* IAFCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9D7ED2D5357E400A63977 /* IAFCarousel.swift */; };
+		AFEDE0ED2D5E547200F1CE01 /* LoadingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEDE0EC2D5E547200F1CE01 /* LoadingDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1105,6 +1106,7 @@
 		AFC90A802C9C916B0018E6FE /* iaf_carousel_without_margin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = iaf_carousel_without_margin.json; sourceTree = "<group>"; };
 		AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchMessagesRequestSpec.swift; sourceTree = "<group>"; };
 		AFD9D7ED2D5357E400A63977 /* IAFCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAFCarousel.swift; sourceTree = "<group>"; };
+		AFEDE0EC2D5E547200F1CE01 /* LoadingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDelegate.swift; sourceTree = "<group>"; };
 		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BFF77FFF3DF47D9011A20C08 /* Pods-Karte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.debug.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2540,6 +2542,7 @@
 			isa = PBXGroup;
 			children = (
 				AF145C712CE34B8100724FFB /* Carousel */,
+				AFEDE0EC2D5E547200F1CE01 /* LoadingDelegate.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -3694,6 +3697,7 @@
 				AF145C732CE3B6A500724FFB /* InAppFrameFactory.swift in Sources */,
 				AFC90A672C9C2BFC0018E6FE /* KarteInAppFrame.m in Sources */,
 				AFC90A732C9C3A9E0018E6FE /* InAppCarouselViewModel.swift in Sources */,
+				AFEDE0ED2D5E547200F1CE01 /* LoadingDelegate.swift in Sources */,
 				AFC90A692C9C2C5D0018E6FE /* InAppFrameLoader.m in Sources */,
 				AFD9D7EE2D5357E400A63977 /* IAFCarousel.swift in Sources */,
 				AFC90A6B2C9C2CB40018E6FE /* InAppFrame.swift in Sources */,

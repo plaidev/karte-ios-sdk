@@ -20,8 +20,8 @@ import KarteCore
 class InAppCarouselViewModel {
     private(set) var model: InAppCarouselModel
     private(set) var imageData: [ParsedImageData] = []
-    private(set) var loadingState: InAppFrame.LoadingState = .initialized
-    weak var loadingDelegate: InAppFrame.LoadingDelegate?
+    private(set) var loadingState: LoadingState = .initialized
+    weak var loadingDelegate: LoadingDelegate?
 
     var templateType: InAppCarouselModel.TemplateType {
         model.config.templateType

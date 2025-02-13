@@ -52,19 +52,7 @@ public final class InAppFrame: NSObject {
         }
     }
 
-    public enum LoadingState {
-        case initialized
-        case loading
-        case completed
-        case failed
-    }
-
     public typealias ItemTapListener = (URL) -> Bool
-
-    @MainActor
-    public protocol LoadingDelegate: AnyObject {
-        func didChangeLoadingState(to state: LoadingState)
-    }
 
     @MainActor
     public static func setLoadingDelegate(_ delegate: LoadingDelegate?) {

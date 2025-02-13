@@ -22,7 +22,7 @@ struct InAppFrameFactory {
     private init() {}
 
     static func create(for arg: InAppFrameArg,
-                       loadingDelegate: InAppFrame.LoadingDelegate? = nil,
+                       loadingDelegate: LoadingDelegate? = nil,
                        itemTapListener: InAppFrame.ItemTapListener? = nil
     ) async -> UIView? {
         switch arg.componentType {

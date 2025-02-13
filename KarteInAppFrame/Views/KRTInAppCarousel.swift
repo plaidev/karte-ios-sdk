@@ -43,7 +43,7 @@ final class KRTInAppCarousel: UIView {
     }
 
     init(for key: String, model: InAppCarouselModel,
-         loadingDelegate: InAppFrame.LoadingDelegate? = nil,
+         loadingDelegate: LoadingDelegate? = nil,
          itemTapListener: InAppFrame.ItemTapListener? = nil
     ) {
         self.key = key
