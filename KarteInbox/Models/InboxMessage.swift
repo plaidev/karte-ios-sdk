@@ -85,7 +85,6 @@ public struct InboxMessage: Decodable {
     public struct CustomPayload: Decodable {
         fileprivate var value: [String: Any?] = [:]
 
-        // swiftlint:disable:next nesting
         struct CodingKeys: CodingKey {
             var stringValue: String
             var intValue: Int?

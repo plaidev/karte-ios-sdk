@@ -23,7 +23,7 @@ import KarteVariables
 @objc(KRTInAppFrame)
 public final class InAppFrame: NSObject {
     @objc public static let shared = InAppFrame()
-    private(set) var loadingDelegate: LoadingDelegate?
+    private(set) weak var loadingDelegate: LoadingDelegate?
     private(set) var itemTapListener: ItemTapListener?
 
     override private init() {}
@@ -62,7 +62,7 @@ public final class InAppFrame: NSObject {
     public typealias ItemTapListener = (URL) -> Bool
 
     @MainActor
-    public protocol LoadingDelegate {
+    public protocol LoadingDelegate: AnyObject {
         func didChangeLoadingState(to state: LoadingState)
     }
 

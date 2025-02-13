@@ -21,7 +21,7 @@ class InAppCarouselViewModel {
     private(set) var model: InAppCarouselModel
     private(set) var imageData: [ParsedImageData] = []
     private(set) var loadingState: InAppFrame.LoadingState = .initialized
-    var loadingDelegate: InAppFrame.LoadingDelegate?
+    weak var loadingDelegate: InAppFrame.LoadingDelegate?
 
     var templateType: InAppCarouselModel.TemplateType {
         model.config.templateType
@@ -72,7 +72,7 @@ class InAppCarouselViewModel {
         case .carouselWithMargin, .carouselWithoutPaging:
             height = CGFloat(model.config.bannerHeight ?? 0)
         case .simpleBanner:
-             guard getImageRatio() > 0 else {
+            guard getImageRatio() > 0 else {
                 Logger.warn(tag: .inAppFrame, message: "Failed to compute image ratio, getImageRatio returns 0")
                 return 0
             }
