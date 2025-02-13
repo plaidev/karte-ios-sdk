@@ -3802,7 +3802,7 @@
 		};
 		AF2E4BB52D58A2F30061B1F1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = AF2E4BB42D58A2F30061B1F1 /* plugin:SwiftLintBuildToolPlugin */;
+			productRef = AF2E4BB42D58A2F30061B1F1 /* SwiftLintBuildToolPlugin */;
 		};
 		AF49FAA3296EDA60005A7575 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4653,7 +4653,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = M3LJ3SDTT4;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -4700,7 +4700,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = M3LJ3SDTT4;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -4875,7 +4875,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AF2E4BB42D58A2F30061B1F1 /* plugin:SwiftLintBuildToolPlugin */ = {
+		AF2E4BB42D58A2F30061B1F1 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AF2E4BB32D58A1960061B1F1 /* XCRemoteSwiftPackageReference "SwiftLint" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
