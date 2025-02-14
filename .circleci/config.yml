@@ -97,7 +97,9 @@ jobs:
             xcodebuild -workspace Karte.xcworkspace \
                        -scheme Build \
                        -destination "${DESTINATION}" \
-                       -derivedDataPath DerivedData
+                       -derivedDataPath DerivedData \
+                       -skipPackagePluginValidation \
+                       -skipMacroValidation
       - persist_to_workspace:
           root: DerivedData
           paths:
@@ -131,7 +133,9 @@ jobs:
                             -scheme KarteTests \
                             -destination "${DESTINATION}" \
                             -derivedDataPath DerivedData \
-                            -resultBundlePath "output/KarteTests_<< pipeline.parameters.os >>.xcresult"
+                            -resultBundlePath "output/KarteTests_<< pipeline.parameters.os >>.xcresult" \
+                            -skipPackagePluginValidation \
+                            -skipMacroValidation
             bundle exec slather
       - codecov/upload:
           xtra_args: -f ./cobertura.xml -X coveragepy -X gcov -X xcode -build_directory "output/KarteTests_<< pipeline.parameters.os >>.xcresult"

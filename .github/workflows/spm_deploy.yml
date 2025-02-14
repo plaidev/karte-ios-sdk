@@ -61,14 +61,15 @@ jobs:
             fi
           done
           echo "::set-output name=targets::${RELEASE_TARGETS}"
+          echo "TARGETS=${RELEASE_TARGETS}" >> $GITHUB_OUTPUT
       - name: Create XCFrameworks
         run: |
-          ./scripts/create_xcframeworks.sh ${{ steps.find-release-targets.outputs.targets }}
+          ./scripts/create_xcframeworks.sh ${{ steps.find-release-targets.outputs.TARGETS }}
       - name: Upload xcframeworks to aws s3
         run: |
           aws sts get-caller-identity
           aws s3 ls s3://production-native-sdk/
-          for TARGET in ${{ steps.find-release-targets.outputs.targets }}; do
+          for TARGET in ${{ steps.find-release-targets.outputs.TARGETS }}; do
             TAG=`ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t ${TARGET}`
             aws s3 cp ./xcframeworks/${TARGET}.xcframework.zip s3://production-native-sdk/ios/swiftpm/${TAG}/ --acl public-read
           done

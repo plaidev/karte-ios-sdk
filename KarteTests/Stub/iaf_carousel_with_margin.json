@@ -1,0 +1,43 @@
+{
+    "version": "v1",
+    "componentType": "iafCarousel",
+    "content": {
+        "data": [
+            {
+                "imageUrl":"https://img-cf.karte.io/image/66d54af9319d1f76df2f9ee8::icon.jpg",
+                "linkUrl":"https://example.com",
+                "index":0
+            },
+            {
+                "imageUrl":"https://dummyimage.com/700x400/eff/fff",
+                "linkUrl":"",
+                "index":1
+            },
+            {
+                "imageUrl":"https://img-cf.karte.io/image/66d54b48319d1f76df2f9f22::genba.png",
+                "linkUrl":"karte-tracker-sample://simplepage",
+                "index":2
+            },
+            {
+                "imageUrl":"https://dummyimage.com/700x400/f0f/fff",
+                "linkUrl":"instagram://app",
+                "index":3
+            },
+            {
+                "imageUrl":"https://dummyimage.com/700x400/fdf/fff",
+                "linkUrl":"https://example.com",
+                "index":4
+            }
+        ],
+        "config": {
+            "ratio":120,
+            "bannerHeight":180,
+            "radius":8,
+            "spacing":24,
+            "paddingTop":14,
+            "paddingBottom":14,
+            "autoplaySpeed":5,
+            "templateType":"carouselWithMargin"
+        }
+    }
+}

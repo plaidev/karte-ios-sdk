@@ -26,7 +26,9 @@ function archive() {
         -destination="generic/platform=iOS" \
         -derivedDataPath DerivedData \
         -archivePath "archives/$scheme" \
-        -sdk iphoneos
+        -sdk iphoneos \
+        -skipPackagePluginValidation \
+        -skipMacroValidation
 
     xcodebuild archive \
         SKIP_INSTALL=NO \
@@ -36,7 +38,9 @@ function archive() {
         -destination="generic/platform=iOS Simulator" \
         -derivedDataPath DerivedData \
         -archivePath "archives/${scheme}-Simulator" \
-        -sdk iphonesimulator
+        -sdk iphonesimulator \
+        -skipPackagePluginValidation \
+        -skipMacroValidation
 }
 
 function create_xcframework() {

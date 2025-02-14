@@ -123,6 +123,7 @@ included:
   - KarteVariables
   - KarteInbox
   - KarteVisualTracking
+  - KarteInAppFrame
   - KarteCrashReporting
   - KarteNotificationServiceExtension
 
@@ -136,6 +137,13 @@ identifier_name:
     - os
     - eq
     - ne
+    - ip
+    - iv
+    - cv
+    - vm
+    - v
+    - i
+    - v1
     - _krt_load()
 
 line_length:
@@ -149,3 +157,6 @@ type_name:
 file_length:
   - 500 # warning
   - 1000 # error
+
+nesting:
+  type_level: 2

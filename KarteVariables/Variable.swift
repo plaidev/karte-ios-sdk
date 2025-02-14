@@ -46,8 +46,8 @@ public class Variable: NSObject, Codable {
     /// 設定値が未定義の場合は `nil` を返します。
     var value: String?
 
-    var timestamp: String?
-    var eventHash: String?
+    @objc public var timestamp: String?
+    @objc public var eventHash: String?
 
     /// 設定値が定義済みであるかどうか返します。<br>
     /// 定義済みの場合は `true` を、未定義の場合は `false` を返します。
