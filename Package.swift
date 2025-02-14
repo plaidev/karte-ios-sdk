@@ -64,7 +64,7 @@ let package = Package(
             name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.19.0/KarteInAppMessaging.xcframework.zip", checksum: "b87a10043ac75d9c7ced8f7493bd8c8e8d4f590facc7dd51f843675157ecfad9"
         ),
         .binaryTarget(
-            name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.10.0/KarteVariables.xcframework.zip", checksum: "19665bf1c9eb5e04719b660839de4ca1145589a62669de6f12efb38fc39a4aad"
+            name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.11.0/KarteVariables.xcframework.zip", checksum: "3306f5daca3f1d89f71cf9e9ae726efb31f2e64aba70a0a44c3b793b9af7eda3"
         ),
         .binaryTarget(
             name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.12.0/KarteVisualTracking.xcframework.zip", checksum: "03364a75282667223acd96c4132afd173e12cf6da6f87a98855842d5e8d2c605"
@@ -73,7 +73,7 @@ let package = Package(
             name: "KarteInbox", url: "https://sdk.karte.io/ios/swiftpm/Inbox-0.1.0/KarteInbox.xcframework.zip", checksum: "09850b4f66bca44e95e6cd3f15cd42a56137d6b4143108a8ac33b6b49aff3920"
         ),
         .binaryTarget(
-            name: "KarteInAppFrame", url: "https://sdk.karte.io/ios/swiftpm/InAppFrame-0.1.0/KarteInAppFrame.xcframework.zip", checksum: "TO_BE_REPLACED"
+            name: "KarteInAppFrame", url: "https://sdk.karte.io/ios/swiftpm/InAppFrame-0.1.0/KarteInAppFrame.xcframework.zip", checksum: "42bb6c75be53eb4d23c8d0a11726df41f418204eae57fe350f5b4a11e0622508"
         ),
         .binaryTarget(
             name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.11.0/KarteRemoteNotification.xcframework.zip", checksum: "58bde3ca6ff813de18787b9dbe3b3b4e3ff9ddbe1713fb941b6be6d34a196ef6"
