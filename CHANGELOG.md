@@ -7,10 +7,16 @@
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.11.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
-| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.1.0 |
+| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.1.1 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.9.0 |
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.12.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
+
+# Releases - xxxx.xx.xx
+
+### InAppFrame 0.1.1
+** 💊FIXED**
+- SwiftPackageManagerでインストールした際にビルドエラーになる問題を修正しました。
 
 # Releases - 2025.02.14
 ## Version 2.20.0
