@@ -95,6 +95,7 @@ final class KRTInAppCarousel: UIView {
 
                 setupDataSource()
                 collectionView.isHidden = false
+                collectionView.backgroundColor = .clear
                 setupAutoplayTimerIfNeeded()
 
                 let v = Variables.variable(forKey: key)
