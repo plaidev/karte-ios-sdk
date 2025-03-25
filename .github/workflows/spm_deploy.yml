@@ -16,11 +16,11 @@ jobs:
         with:
           access_token: ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Checkout master
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: master
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: 'true'
       - name: Configure Git
@@ -33,7 +33,7 @@ jobs:
           aws-region: ap-northeast-1
           role-to-assume: arn:aws:iam::161473449094:role/ProductionNativeSdkRole
           role-session-name: MySessionName
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
@@ -75,7 +75,7 @@ jobs:
       - name: Backup Swift-PM manifest file
         run: cp Package.swift Package.swift.back
       - name: Checkout Head Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{github.event.pull_request.head.ref}}
           clean: 'false'
