@@ -34,7 +34,10 @@ struct InAppFrameFactory {
                     return nil
                 }
                 return await KRTInAppCarousel(
-                    for: arg.keyName, model: model, loadingDelegate: loadingDelegate, itemTapListener: itemTapListener
+                    for: arg.keyName,
+                    model: model,
+                    loadingDelegate: loadingDelegate,
+                    itemTapListener: itemTapListener
                 )
             }
         }

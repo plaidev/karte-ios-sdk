@@ -22,7 +22,6 @@ import KarteVariables
 final class KRTInAppCarousel: UIView {
     private let key: String
     private let vm: InAppCarouselViewModel
-
     private var itemTapListener: InAppFrame.ItemTapListener?
     private var loadingTask: Task<Void, Error>?
     private var autoplayTimer: Timer?
@@ -72,6 +71,14 @@ final class KRTInAppCarousel: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        if let width = self.superview?.frame.width {
+            vm.setBaseImageWidth(width)
+            let layout = createLayout()
+            collectionView.collectionViewLayout = layout
+        }
     }
 
     override public func didAddSubview(_ subview: UIView) {

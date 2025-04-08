@@ -39,8 +39,11 @@ public final class InAppFrame: NSObject {
         guard let arg = VariableParser.parse(for: variableKey) else {
             return nil
         }
+
         return await InAppFrameFactory.create(
-            for: arg, loadingDelegate: Self.shared.loadingDelegate, itemTapListener: Self.shared.itemTapListener
+            for: arg,
+            loadingDelegate: Self.shared.loadingDelegate,
+            itemTapListener: Self.shared.itemTapListener
         )
     }
 
