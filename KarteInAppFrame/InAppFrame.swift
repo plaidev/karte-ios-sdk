@@ -23,8 +23,8 @@ import KarteVariables
 @objc(KRTInAppFrame)
 public final class InAppFrame: NSObject {
     @objc public static let shared = InAppFrame()
+    @objc public weak var delegate: InAppFrameDelegate?
     private(set) weak var loadingDelegate: LoadingDelegate?
-    private(set) var itemTapListener: ItemTapListener?
 
     override private init() {}
 
@@ -42,8 +42,7 @@ public final class InAppFrame: NSObject {
 
         return await InAppFrameFactory.create(
             for: arg,
-            loadingDelegate: Self.shared.loadingDelegate,
-            itemTapListener: Self.shared.itemTapListener
+            loadingDelegate: Self.shared.loadingDelegate
         )
     }
 
@@ -55,21 +54,15 @@ public final class InAppFrame: NSObject {
         }
     }
 
-    public typealias ItemTapListener = (URL) -> Bool
-
     @MainActor
     public static func setLoadingDelegate(_ delegate: LoadingDelegate?) {
         Self.shared.loadingDelegate = delegate
     }
 
-    public static func setItemTapListener(_ listener: ItemTapListener?) {
-        Self.shared.itemTapListener = listener
-    }
-
     @MainActor
     public static func reset() {
         Self.shared.loadingDelegate = nil
-        Self.shared.itemTapListener = nil
+        Self.shared.delegate = nil
     }
 }
 

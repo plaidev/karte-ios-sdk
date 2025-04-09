@@ -449,6 +449,7 @@
 		AF5EDEB329C1C49000D05825 /* OpenMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */; };
 		AF5EDEB529C1C5A600D05825 /* OpenMessagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */; };
 		AF5EDEB929C30CE700D05825 /* success_inbox_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = AF5EDEB829C30A5400D05825 /* success_inbox_empty.json */; };
+		AF94DC132DA50BDE00CEC946 /* InAppFrameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF94DC122DA50BDE00CEC946 /* InAppFrameDelegate.swift */; };
 		AF9677FD29C86659008C80BC /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9677FC29C86659008C80BC /* Config.swift */; };
 		AF9677FF29CAE5FD008C80BC /* TestUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9677FE29CAE5FD008C80BC /* TestUtil.swift */; };
 		AFA6E8142987B03500111497 /* InboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA6E8132987B03500111497 /* InboxSpec.swift */; };
@@ -1089,6 +1090,7 @@
 		AF5EDEB229C1C49000D05825 /* OpenMessagesRequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMessagesRequestSpec.swift; sourceTree = "<group>"; };
 		AF5EDEB429C1C5A600D05825 /* OpenMessagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMessagesRequest.swift; sourceTree = "<group>"; };
 		AF5EDEB829C30A5400D05825 /* success_inbox_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success_inbox_empty.json; sourceTree = "<group>"; };
+		AF94DC122DA50BDE00CEC946 /* InAppFrameDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppFrameDelegate.swift; sourceTree = "<group>"; };
 		AF9677FC29C86659008C80BC /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		AF9677FE29CAE5FD008C80BC /* TestUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtil.swift; sourceTree = "<group>"; };
 		AFA6E8132987B03500111497 /* InboxSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxSpec.swift; sourceTree = "<group>"; };
@@ -2599,6 +2601,7 @@
 				AFC90A6D2C9C39EC0018E6FE /* Views */,
 				AFC90A6C2C9C39BC0018E6FE /* Models */,
 				AFC90A6A2C9C2CB40018E6FE /* InAppFrame.swift */,
+				AF94DC122DA50BDE00CEC946 /* InAppFrameDelegate.swift */,
 				AFC90A5D2C9C2B220018E6FE /* KarteInAppFrame.h */,
 				AFC90A662C9C2BFC0018E6FE /* KarteInAppFrame.m */,
 				AFC90A682C9C2C5D0018E6FE /* InAppFrameLoader.m */,
@@ -3689,6 +3692,7 @@
 				AFC90A752C9C3AB70018E6FE /* ImageLoader.swift in Sources */,
 				AF145C6B2CE3410300724FFB /* InAppCarouselModel.swift in Sources */,
 				AFC90A712C9C3A7C0018E6FE /* KRTInAppCarousel.swift in Sources */,
+				AF94DC132DA50BDE00CEC946 /* InAppFrameDelegate.swift in Sources */,
 				AF145C792D02ED1F00724FFB /* Tracker+InAppFrame.swift in Sources */,
 				AF145C6F2CE3482F00724FFB /* InAppFrameModel.swift in Sources */,
 				AF145C592CD0BA5400724FFB /* VariableParser.swift in Sources */,
@@ -4670,7 +4674,7 @@
 					"@loader_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.2.0;
+				MARKETING_VERSION = 0.3.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppFrame;
@@ -4714,7 +4718,7 @@
 					"@loader_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.2.0;
+				MARKETING_VERSION = 0.3.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppFrame;

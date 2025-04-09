@@ -21,10 +21,7 @@ import KarteCore
 struct InAppFrameFactory {
     private init() {}
 
-    static func create(for arg: InAppFrameArg,
-                       loadingDelegate: LoadingDelegate? = nil,
-                       itemTapListener: InAppFrame.ItemTapListener? = nil
-    ) async -> UIView? {
+    static func create(for arg: InAppFrameArg, loadingDelegate: LoadingDelegate? = nil) async -> UIView? {
         switch arg.componentType {
         case .iafCarousel:
             switch arg.version {
@@ -36,8 +33,7 @@ struct InAppFrameFactory {
                 return await KRTInAppCarousel(
                     for: arg.keyName,
                     model: model,
-                    loadingDelegate: loadingDelegate,
-                    itemTapListener: itemTapListener
+                    loadingDelegate: loadingDelegate
                 )
             }
         }
