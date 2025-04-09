@@ -26,6 +26,15 @@ class InAppCarouselViewModel {
     var templateType: InAppCarouselModel.TemplateType {
         model.config.templateType
     }
+    private var _width: CGFloat?
+    var width: CGFloat {
+        if let _width = _width {
+            return _width
+        } else if let windowWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds.width {
+            return windowWidth
+        }
+        return 0.0
+    }
 
     init(model: InAppCarouselModel, imageData: [ParsedImageData] = []) {
         self.model = model
@@ -56,6 +65,10 @@ class InAppCarouselViewModel {
         await self.loadingDelegate?.didChangeLoadingState(to: .failed)
     }
 
+    func setBaseImageWidth(_ width: CGFloat) {
+        self._width = width
+    }
+
     func getImageWidth() -> CGFloat {
         floor(CGFloat(getImageHeidht() * getImageRatio()))
     }
@@ -68,7 +81,7 @@ class InAppCarouselViewModel {
                 Logger.warn(tag: .inAppFrame, message: "Failed to compute image ratio, getImageRatio returns 0")
                 return 0
             }
-            height = UIScreen.main.bounds.width / getImageRatio()
+            height = width / getImageRatio()
         case .carouselWithMargin, .carouselWithoutPaging:
             height = CGFloat(model.config.bannerHeight ?? 0)
         case .simpleBanner:
@@ -78,7 +91,7 @@ class InAppCarouselViewModel {
             }
             let paddingStart = CGFloat(model.config.paddingStart ?? 0)
             let paddingEnd = CGFloat(model.config.paddingEnd ?? 0)
-            height = (UIScreen.main.bounds.width - (paddingStart + paddingEnd)) / getImageRatio()
+            height = (width - (paddingStart + paddingEnd)) / getImageRatio()
         }
         return height
     }

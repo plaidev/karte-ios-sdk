@@ -22,8 +22,6 @@ import KarteVariables
 final class KRTInAppCarousel: UIView {
     private let key: String
     private let vm: InAppCarouselViewModel
-
-    private var itemTapListener: InAppFrame.ItemTapListener?
     private var loadingTask: Task<Void, Error>?
     private var autoplayTimer: Timer?
     private lazy var collectionView = setupCollectionView()
@@ -42,14 +40,10 @@ final class KRTInAppCarousel: UIView {
         case main
     }
 
-    init(for key: String, model: InAppCarouselModel,
-         loadingDelegate: LoadingDelegate? = nil,
-         itemTapListener: InAppFrame.ItemTapListener? = nil
-    ) {
+    init(for key: String, model: InAppCarouselModel, loadingDelegate: LoadingDelegate? = nil) {
         self.key = key
         self.vm = InAppCarouselViewModel(model: model)
         self.vm.loadingDelegate = loadingDelegate
-        self.itemTapListener = itemTapListener
         super.init(frame: .zero)
 
         addSubview(collectionView)
@@ -72,6 +66,14 @@ final class KRTInAppCarousel: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        if let width = self.superview?.frame.width {
+            vm.setBaseImageWidth(width)
+            let layout = createLayout()
+            collectionView.collectionViewLayout = layout
+        }
     }
 
     override public func didAddSubview(_ subview: UIView) {
@@ -199,7 +201,6 @@ final class KRTInAppCarousel: UIView {
                 width: self.vm.getImageWidth(),
                 height: self.vm.getImageHeidht(),
                 imageData: self.vm.imageData[indexPath.row],
-                tapListener: self.itemTapListener,
                 config: self.vm.model.config
             )
         }
@@ -220,7 +221,6 @@ final class KRTInAppCarousel: UIView {
         let templateType: InAppCarouselModel.TemplateType
         let width: CGFloat
         let height: CGFloat
-        let tapListener: InAppFrame.ItemTapListener?
 
         var configuration: any UIContentConfiguration {
             didSet {
@@ -235,14 +235,16 @@ final class KRTInAppCarousel: UIView {
             return min(shorterSide / 2, radius)
         }
 
-        init(variable: Variable, templateType: InAppCarouselModel.TemplateType, width: CGFloat, height: CGFloat,
-             tapListener: InAppFrame.ItemTapListener?, configuration: some UIContentConfiguration
+        init(variable: Variable,
+             templateType: InAppCarouselModel.TemplateType,
+             width: CGFloat,
+             height: CGFloat,
+             configuration: some UIContentConfiguration
         ) {
             self.variable = variable
             self.templateType = templateType
             self.width = width
             self.height = height
-            self.tapListener = tapListener
             self.configuration = configuration
             super.init(frame: .zero)
         }
@@ -279,9 +281,6 @@ final class KRTInAppCarousel: UIView {
 
         @objc
         private func imageTapped(_ sender: UrlLinkedTapGestureRecognizer) {
-            let consumeEvent = tapListener?(sender.linkUrl) ?? false
-            if consumeEvent { return }
-
             if variable.isDefined {
                 let values: [String: JSONConvertible] = [
                     "url": JSONConvertibleConverter.convert(sender.linkUrl.absoluteString),
@@ -291,6 +290,13 @@ final class KRTInAppCarousel: UIView {
                     ]
                 ]
                 Tracker.trackClick(variable: variable, values: values)
+            }
+
+            if let delegate = InAppFrame.shared.delegate {
+                let shouldOpenURL = delegate.inAppFrame?(InAppFrame.shared, shouldOpenURL: sender.linkUrl) ?? true
+                if !shouldOpenURL {
+                    return
+                }
             }
 
             if UIApplication.shared.canOpenURL(sender.linkUrl) {
@@ -317,12 +323,15 @@ final class KRTInAppCarousel: UIView {
         let width: CGFloat
         let height: CGFloat
         let imageData: ParsedImageData
-        let tapListener: InAppFrame.ItemTapListener?
         let config: InAppCarouselModel.Config?
 
         func makeContentView() -> any UIView & UIContentView {
-            KRTCarouselCell(variable: variable, templateType: templateType,
-                            width: width, height: height, tapListener: tapListener, configuration: self)
+            KRTCarouselCell(variable: variable,
+                            templateType: templateType,
+                            width: width,
+                            height: height,
+                            configuration: self
+            )
         }
 
         func updated(for state: any UIConfigurationState) -> CellConfiguration {

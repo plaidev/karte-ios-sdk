@@ -145,6 +145,8 @@ identifier_name:
     - i
     - v1
     - _krt_load()
+  allowed_symbols:
+    - _
 
 line_length:
   - 250 # warning

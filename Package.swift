@@ -73,7 +73,7 @@ let package = Package(
             name: "KarteInbox", url: "https://sdk.karte.io/ios/swiftpm/Inbox-0.1.0/KarteInbox.xcframework.zip", checksum: "09850b4f66bca44e95e6cd3f15cd42a56137d6b4143108a8ac33b6b49aff3920"
         ),
         .binaryTarget(
-            name: "KarteInAppFrame", url: "https://sdk.karte.io/ios/swiftpm/InAppFrame-0.2.0/KarteInAppFrame.xcframework.zip", checksum: "fe4ddd12a5ea7b34edbd592cc8e4275e7dddf29887322b8d036da7a507015da4"
+            name: "KarteInAppFrame", url: "https://sdk.karte.io/ios/swiftpm/InAppFrame-0.3.0/KarteInAppFrame.xcframework.zip", checksum: "86a9f00ece14022f94b0af9b1995542e4483b1e92dd065027b26a382848d7395"
         ),
         .binaryTarget(
             name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.11.0/KarteRemoteNotification.xcframework.zip", checksum: "58bde3ca6ff813de18787b9dbe3b3b4e3ff9ddbe1713fb941b6be6d34a196ef6"

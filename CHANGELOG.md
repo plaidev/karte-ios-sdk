@@ -7,10 +7,20 @@
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.11.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.12.0 |
-| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.2.0 |
+| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.3.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.9.0 |
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.12.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
+
+# Releases - 2025.04.09
+## Version 2.22.0
+
+### InAppFrame 0.3.0
+** 💊FIXED**
+- カルーセルが任意の横幅の場合でも見切れず表示されるように修正しました。
+
+** 🔨CHANGED**
+- カルーセルタップ時の処理を行うコンポーネントをItemTapListenerからInAppFrameDelegateに変更しました。
 
 # Releases - 2025.03.25
 ## Version 2.21.0
