@@ -69,11 +69,10 @@ final class KRTInAppCarousel: UIView {
     }
 
     override func layoutSubviews() {
-        if let width = self.superview?.frame.width {
-            vm.setBaseImageWidth(width)
-            let layout = createLayout()
-            collectionView.collectionViewLayout = layout
-        }
+        let width = self.frame.width
+        vm.setComponentWidth(width)
+        let layout = createLayout()
+        collectionView.collectionViewLayout = layout
     }
 
     override public func didAddSubview(_ subview: UIView) {
@@ -174,7 +173,7 @@ final class KRTInAppCarousel: UIView {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let width = vm.getImageWidth()
-        let height = vm.getImageHeidht()
+        let height = vm.getImageHeight()
         let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(width),
                                                heightDimension: .estimated(height))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -199,7 +198,7 @@ final class KRTInAppCarousel: UIView {
                 variable: v,
                 templateType: self.vm.templateType,
                 width: self.vm.getImageWidth(),
-                height: self.vm.getImageHeidht(),
+                height: self.vm.getImageHeight(),
                 imageData: self.vm.imageData[indexPath.row],
                 config: self.vm.model.config
             )
@@ -337,5 +336,13 @@ final class KRTInAppCarousel: UIView {
         func updated(for state: any UIConfigurationState) -> CellConfiguration {
             return self
         }
+    }
+}
+
+extension KRTInAppCarousel: InAppFrameView {
+    func getCalculatedSize() -> CGSize {
+        let w = vm.getComponentWidth()
+        let h = vm.getImageHeight() + vm.getTopMargin() + vm.getBottomMargin()
+        return CGSize(width: w, height: h)
     }
 }

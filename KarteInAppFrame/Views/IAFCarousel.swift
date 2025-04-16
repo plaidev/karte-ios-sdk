@@ -32,6 +32,15 @@ public struct IAFCarousel: View {
 
 private struct WrappedCarousel: UIViewRepresentable {
     let variableKey: String
+    @State private var calculatedSize: CGSize?
+
+    @available(iOS 16.0, *)
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: UIStackView, context: Context) -> CGSize? {
+        let calculated = CGSize(width: calculatedSize?.width ?? 0, height: calculatedSize?.height ?? 0)
+        let proposed = CGSize(width: proposal.width ?? 0, height: proposal.height ?? 0)
+        let displaySize = CGSize(width: min(calculated.width, proposed.width), height: min(calculated.height, proposed.height))
+        return displaySize
+    }
 
     func makeUIView(context: Context) -> UIStackView {
         return UIStackView()
@@ -46,6 +55,7 @@ private struct WrappedCarousel: UIViewRepresentable {
             guard let iaf = await InAppFrame.loadContent(for: variableKey) else {
                 return
             }
+            calculatedSize = iaf.getCalculatedSize()
             uiView.addArrangedSubview(iaf)
         }
     }

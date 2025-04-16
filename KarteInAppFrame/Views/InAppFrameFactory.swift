@@ -21,7 +21,7 @@ import KarteCore
 struct InAppFrameFactory {
     private init() {}
 
-    static func create(for arg: InAppFrameArg, loadingDelegate: LoadingDelegate? = nil) async -> UIView? {
+    static func create(for arg: InAppFrameArg, loadingDelegate: LoadingDelegate? = nil) async -> InAppFrameView? {
         switch arg.componentType {
         case .iafCarousel:
             switch arg.version {
