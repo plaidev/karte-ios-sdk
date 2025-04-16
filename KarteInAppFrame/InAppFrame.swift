@@ -35,7 +35,7 @@ public final class InAppFrame: NSObject {
         KarteApp.register(library: self)
     }
 
-    public static func loadContent(for variableKey: String) async -> UIView? {
+    public static func loadContent(for variableKey: String) async -> InAppFrameView? {
         guard let arg = VariableParser.parse(for: variableKey) else {
             return nil
         }

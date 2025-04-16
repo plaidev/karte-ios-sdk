@@ -143,6 +143,8 @@ identifier_name:
     - vm
     - v
     - i
+    - w
+    - h
     - v1
     - _krt_load()
   allowed_symbols:

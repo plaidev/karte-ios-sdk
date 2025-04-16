@@ -65,15 +65,19 @@ class InAppCarouselViewModel {
         await self.loadingDelegate?.didChangeLoadingState(to: .failed)
     }
 
-    func setBaseImageWidth(_ width: CGFloat) {
+    func setComponentWidth(_ width: CGFloat) {
         self._width = width
     }
 
-    func getImageWidth() -> CGFloat {
-        floor(CGFloat(getImageHeidht() * getImageRatio()))
+    func getComponentWidth() -> CGFloat {
+        self.width
     }
 
-    func getImageHeidht() -> CGFloat {
+    func getImageWidth() -> CGFloat {
+        floor(CGFloat(getImageHeight() * getImageRatio()))
+    }
+
+    func getImageHeight() -> CGFloat {
         let height: CGFloat
         switch model.config.templateType {
         case .carouselWithoutMargin:
