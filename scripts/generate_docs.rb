@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # Copyright 2020 PLAID, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -213,7 +214,7 @@ class Command
     
     Fastlane.load_actions
 
-    podspecs = ['Core', 'InAppMessaging', 'RemoteNotification', 'Variables', 'VisualTracking', 'InAppFrame', 'CrashReporting'].map do |name|
+    podspecs = ['Core', 'InAppMessaging', 'RemoteNotification', 'Variables', 'VisualTracking', 'InAppFrame', 'CrashReporting', 'Debugger'].map do |name|
         File.join("../Karte#{name}.podspec")
     end
     podspecs.each do |podspec|

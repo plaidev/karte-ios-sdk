@@ -22,5 +22,7 @@
   - KarteUtilities/**
 'Module:NotificationServiceExtension':
   - KarteNotificationServiceExtension/**
+'Module:Debugger':
+  - KarteDebugger/**
 'Test':
   - KarteTests/**

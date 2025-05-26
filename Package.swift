@@ -46,6 +46,10 @@ let package = Package(
             name: "KarteNotificationServiceExtension",
             targets: ["KarteNotificationServiceExtension"]
         ),
+        .library(
+            name: "KarteDebugger",
+            targets: ["KarteDebugger", "KarteCore", "KarteUtilities"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -88,6 +92,9 @@ let package = Package(
         ),
         .binaryTarget(
             name: "KarteNotificationServiceExtension", url: "https://sdk.karte.io/ios/swiftpm/NotificationServiceExtension-1.2.0/KarteNotificationServiceExtension.xcframework.zip", checksum: "6810dc9af039b44c84d2ef2535cc6050ed0917a57d236e7a7d0dddae6e9d15b4"
+        ),
+        .binaryTarget(
+            name: "KarteDebugger", url: "https://sdk.karte.io/ios/swiftpm/Debugger-1.0.0/KarteDebugger.xcframework.zip", checksum: "32743826471f9252e6069415b0218bccacccf70d3af842841cf83dba4dacbfbe"
         ),
     ]
 )
