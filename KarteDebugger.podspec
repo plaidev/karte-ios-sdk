@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteDebugger'
-  s.version                 = '0.1.0'
+  s.version                 = '1.0.0'
   s.summary                 = 'KARTE Debugger SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
