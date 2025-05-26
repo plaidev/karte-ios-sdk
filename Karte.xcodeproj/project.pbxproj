@@ -636,6 +636,13 @@
 			remoteGlobalIDString = 0C897449237904F700098CD8;
 			remoteInfo = KarteVariables;
 		};
+		AF9F81BB2DE4134F008CB1AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C6FE20D22F3F41C00F2FD28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0C89742F2379040700098CD8;
+			remoteInfo = KarteCore;
+		};
 		AFFED73B2976AE0400189320 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0C6FE20D22F3F41C00F2FD28 /* Project object */;
@@ -3004,6 +3011,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AF9F81BC2DE4134F008CB1AD /* PBXTargetDependency */,
 			);
 			name = KarteDebugger;
 			productName = KarteEventViewer;
@@ -3908,6 +3916,11 @@
 			isa = PBXTargetDependency;
 			target = 0C897449237904F700098CD8 /* KarteVariables */;
 			targetProxy = AF939A552CCF383D00CD038E /* PBXContainerItemProxy */;
+		};
+		AF9F81BC2DE4134F008CB1AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0C89742F2379040700098CD8 /* KarteCore */;
+			targetProxy = AF9F81BB2DE4134F008CB1AD /* PBXContainerItemProxy */;
 		};
 		AFFED73C2976AE0400189320 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
