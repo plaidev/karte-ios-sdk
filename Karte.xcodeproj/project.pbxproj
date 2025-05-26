@@ -443,6 +443,10 @@
 		AF145C6F2CE3482F00724FFB /* InAppFrameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF145C6E2CE3482F00724FFB /* InAppFrameModel.swift */; };
 		AF145C732CE3B6A500724FFB /* InAppFrameFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF145C722CE3B6A500724FFB /* InAppFrameFactory.swift */; };
 		AF145C792D02ED1F00724FFB /* Tracker+InAppFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF145C782D02ED1F00724FFB /* Tracker+InAppFrame.swift */; };
+		AF24DA392C994009003F43F5 /* KarteDebugger.h in Headers */ = {isa = PBXBuildFile; fileRef = AF24DA382C994009003F43F5 /* KarteDebugger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AF24DA3E2C994086003F43F5 /* KarteDebugger.m in Sources */ = {isa = PBXBuildFile; fileRef = AF24DA3D2C994086003F43F5 /* KarteDebugger.m */; };
+		AF24DA402C994236003F43F5 /* KarteDebugger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF24DA3F2C994236003F43F5 /* KarteDebugger.swift */; };
+		AF24DA422C994381003F43F5 /* KarteDebuggerLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = AF24DA412C994381003F43F5 /* KarteDebuggerLoader.m */; };
 		AF38FD9E2C7C7313009C1C20 /* RequestATTCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF38FD9D2C7C7313009C1C20 /* RequestATTCommand.swift */; };
 		AF38FDA02C7C8108009C1C20 /* RequestATTCommandSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF38FD9F2C7C8108009C1C20 /* RequestATTCommandSpec.swift */; };
 		AF49FAA1296ED953005A7575 /* CallerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF49FAA0296ED953005A7575 /* CallerSpec.swift */; };
@@ -1085,6 +1089,11 @@
 		AF145C6E2CE3482F00724FFB /* InAppFrameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppFrameModel.swift; sourceTree = "<group>"; };
 		AF145C722CE3B6A500724FFB /* InAppFrameFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppFrameFactory.swift; sourceTree = "<group>"; };
 		AF145C782D02ED1F00724FFB /* Tracker+InAppFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tracker+InAppFrame.swift"; sourceTree = "<group>"; };
+		AF24DA362C994009003F43F5 /* KarteDebugger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteDebugger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF24DA382C994009003F43F5 /* KarteDebugger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KarteDebugger.h; sourceTree = "<group>"; };
+		AF24DA3D2C994086003F43F5 /* KarteDebugger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteDebugger.m; sourceTree = "<group>"; };
+		AF24DA3F2C994236003F43F5 /* KarteDebugger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KarteDebugger.swift; sourceTree = "<group>"; };
+		AF24DA412C994381003F43F5 /* KarteDebuggerLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteDebuggerLoader.m; sourceTree = "<group>"; };
 		AF38FD9D2C7C7313009C1C20 /* RequestATTCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestATTCommand.swift; sourceTree = "<group>"; };
 		AF38FD9F2C7C8108009C1C20 /* RequestATTCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestATTCommandSpec.swift; sourceTree = "<group>"; };
 		AF49FAA0296ED953005A7575 /* CallerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallerSpec.swift; sourceTree = "<group>"; };
@@ -1182,6 +1191,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AF0A5F142954674500209D4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF24DA332C994009003F43F5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1573,6 +1589,7 @@
 				0C89768B237BBA5300098CD8 /* KarteRemoteNotification */,
 				0C89744B237904F700098CD8 /* KarteVariables */,
 				0C8974582379050600098CD8 /* KarteVisualTracking */,
+				AF24DA372C994009003F43F5 /* KarteDebugger */,
 				AFC90A5C2C9C2B220018E6FE /* KarteInAppFrame */,
 				0C2B3C6D2382684C008A2708 /* KarteCrashReporting */,
 				0C060E992384D76C006AF974 /* KarteUtilities */,
@@ -1598,6 +1615,7 @@
 				0CE792E323862C9C00F0D932 /* KarteTests.xctest */,
 				5013526C277AB8E60026E1F9 /* KarteNotificationServiceExtension.framework */,
 				AF0A5F172954674500209D4E /* KarteInbox.framework */,
+				AF24DA362C994009003F43F5 /* KarteDebugger.framework */,
 				AFC90A5B2C9C2B220018E6FE /* KarteInAppFrame.framework */,
 			);
 			name = Products;
@@ -2567,6 +2585,17 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		AF24DA372C994009003F43F5 /* KarteDebugger */ = {
+			isa = PBXGroup;
+			children = (
+				AF24DA382C994009003F43F5 /* KarteDebugger.h */,
+				AF24DA3D2C994086003F43F5 /* KarteDebugger.m */,
+				AF24DA3F2C994236003F43F5 /* KarteDebugger.swift */,
+				AF24DA412C994381003F43F5 /* KarteDebuggerLoader.m */,
+			);
+			path = KarteDebugger;
+			sourceTree = "<group>";
+		};
 		AF49FA9E296ED81D005A7575 /* KarteInboxTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2743,6 +2772,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF0A5F1C2954674500209D4E /* KarteInbox.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF24DA312C994009003F43F5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF24DA392C994009003F43F5 /* KarteDebugger.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2955,6 +2992,24 @@
 			productReference = AF0A5F172954674500209D4E /* KarteInbox.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AF24DA352C994009003F43F5 /* KarteDebugger */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF24DA3C2C994009003F43F5 /* Build configuration list for PBXNativeTarget "KarteDebugger" */;
+			buildPhases = (
+				AF24DA312C994009003F43F5 /* Headers */,
+				AF24DA322C994009003F43F5 /* Sources */,
+				AF24DA332C994009003F43F5 /* Frameworks */,
+				AF24DA342C994009003F43F5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KarteDebugger;
+			productName = KarteEventViewer;
+			productReference = AF24DA362C994009003F43F5 /* KarteDebugger.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		AFC90A5A2C9C2B220018E6FE /* KarteInAppFrame */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AFC90A5F2C9C2B220018E6FE /* Build configuration list for PBXNativeTarget "KarteInAppFrame" */;
@@ -3029,6 +3084,10 @@
 						CreatedOnToolsVersion = 14.2;
 						LastSwiftMigration = 1420;
 					};
+					AF24DA352C994009003F43F5 = {
+						CreatedOnToolsVersion = 15.0;
+						LastSwiftMigration = 1500;
+					};
 					AFC90A5A2C9C2B220018E6FE = {
 						CreatedOnToolsVersion = 15.0;
 						LastSwiftMigration = 1500;
@@ -3055,6 +3114,7 @@
 				0C897689237BBA5300098CD8 /* KarteRemoteNotification */,
 				AFC90A5A2C9C2B220018E6FE /* KarteInAppFrame */,
 				AF0A5F162954674500209D4E /* KarteInbox */,
+				AF24DA352C994009003F43F5 /* KarteDebugger */,
 				0C2B3C6B2382684C008A2708 /* KarteCrashReporting */,
 				0C060E972384D76C006AF974 /* KarteUtilities */,
 				5013526B277AB8E60026E1F9 /* KarteNotificationServiceExtension */,
@@ -3160,6 +3220,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AF24DA342C994009003F43F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AFC90A592C9C2B220018E6FE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3213,9 +3280,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-KarteTests/Pods-KarteTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-KarteTests/Pods-KarteTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3685,6 +3756,16 @@
 				AF0A5F31295475B300209D4E /* KarteInbox.m in Sources */,
 				AF0A5F2729546AE300209D4E /* InboxClient.swift in Sources */,
 				AF5EDEB529C1C5A600D05825 /* OpenMessagesRequest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF24DA322C994009003F43F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF24DA422C994381003F43F5 /* KarteDebuggerLoader.m in Sources */,
+				AF24DA402C994236003F43F5 /* KarteDebugger.swift in Sources */,
+				AF24DA3E2C994086003F43F5 /* KarteDebugger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4647,6 +4728,97 @@
 			};
 			name = Release;
 		};
+		AF24DA3A2C994009003F43F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = M3LJ3SDTT4;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUGGER_VERSION=$(MARKETING_VERSION)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 PLAID, inc. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteDebugger;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AF24DA3B2C994009003F43F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = M3LJ3SDTT4;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUGGER_VERSION=$(MARKETING_VERSION)";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 PLAID, inc. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteDebugger;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		AFC90A602C9C2B220018E6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4852,6 +5024,15 @@
 			buildConfigurations = (
 				AF0A5F1D2954674500209D4E /* Debug */,
 				AF0A5F1E2954674500209D4E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF24DA3C2C994009003F43F5 /* Build configuration list for PBXNativeTarget "KarteDebugger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF24DA3A2C994009003F43F5 /* Debug */,
+				AF24DA3B2C994009003F43F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

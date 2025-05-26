@@ -96,3 +96,5 @@ vendor
 ## Make xcframework script
 archives/
 xcframeworks/
+
+.DS_STORE

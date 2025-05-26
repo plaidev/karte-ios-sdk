@@ -15,6 +15,7 @@ MODULES=(
   "KarteInAppFrame"
   "KarteUtilities"
   "KarteNotificationServiceExtension"
+  "KarteDebugger"
 )
 
 ##################################################

@@ -14,3 +14,4 @@ binary_basename:
   - KarteCrashReporting
   - KarteUtilities
   - KarteNotificationServiceExtension
+  - KarteDebugger
