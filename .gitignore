@@ -97,4 +97,5 @@ vendor
 archives/
 xcframeworks/
 
-.DS_STORE
+.DS_Store
+**/.DS_Store

@@ -11,11 +11,11 @@
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.9.0 |
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.12.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
-| KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 0.1.0 |
+| KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.0.0 |
 
 # Releases - xxxx.xx.xx
 
-### Debugger 0.1.0
+### Debugger 1.0.0
 ** 🎉 FEATURE**
 - デバッグ用のモジュールを追加しました。
 
