@@ -18,8 +18,8 @@ import XCTest
 @testable import KarteCore
 
 class DictionaryExtensionTests: XCTestCase {
-    let date1 = Date()
-    let date2 = Date()
+    let date1 = Date(timeIntervalSince1970: 770190002.218596)
+    let date2 = Date(timeIntervalSince1970: 770190002.218596)
     var dictionary: [String: JSONValue]!
     
     override func setUp() {
