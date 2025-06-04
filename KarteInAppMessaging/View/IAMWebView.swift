@@ -344,7 +344,7 @@ extension IAMWebView {
 }
 
 extension IAMWebView: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping @MainActor (WKNavigationResponsePolicy) -> Void) {
         if let response = navigationResponse.response as? HTTPURLResponse, 200..<300 ~= response.statusCode {
             decisionHandler(.allow)
             return
@@ -352,7 +352,7 @@ extension IAMWebView: WKNavigationDelegate {
         decisionHandler(.cancel)
     }
 
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping @MainActor (WKNavigationActionPolicy) -> Void) {
         let navigationActionPolicy: WKNavigationActionPolicy
         defer {
             decisionHandler(navigationActionPolicy)
