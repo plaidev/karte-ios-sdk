@@ -34,15 +34,15 @@ internal class TrackClient {
         qos: .utility
     )
 
-    private (set) var state = TrackClientState.waiting
-    private (set) var tasks = [Task]()
-    private (set) var observers = [TrackClientObserver]()
+    private(set) var state = TrackClientState.waiting
+    private(set) var tasks = [Task]()
+    private(set) var observers = [TrackClientObserver]()
 
-    private (set) var reachability: ReachabilityService?
-    private (set) var isReachable = true
-    private (set) var isSending = false
+    private(set) var reachability: ReachabilityService?
+    private(set) var isReachable = true
+    private(set) var isSending = false
 
-    private (set) var callbackQueue = DispatchQueue.main
+    private(set) var callbackQueue = DispatchQueue.main
 
     private init() {
     }
