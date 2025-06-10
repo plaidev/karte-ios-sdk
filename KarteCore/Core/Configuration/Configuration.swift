@@ -23,9 +23,7 @@ import KarteUtilities
 public class Configuration: NSObject, NSCopying, Codable {
     enum CodingKeys: String, CodingKey {
         case _appKey = "karte_app_key"
-        // swiftlint:disable:previous identifier_name
         case _apiKey = "karte_api_key"
-        // swiftlint:disable:previous identifier_name
         case baseURL = "karte_base_url"
         case dataLocation = "karte_data_location"
     }
@@ -48,7 +46,6 @@ public class Configuration: NSObject, NSCopying, Codable {
     }
 
     internal var _appKey = AppKey("")
-    // swiftlint:disable:previous identifier_name
 
     /// アプリケーションキーの取得・設定を行います。
     ///
@@ -63,7 +60,6 @@ public class Configuration: NSObject, NSCopying, Codable {
     }
 
     internal var _apiKey = ApiKey("")
-    // swiftlint:disable:previous identifier_name
 
     /// APIキーの取得・設定を行います。
     ///

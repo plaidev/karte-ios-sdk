@@ -73,10 +73,8 @@ extension RemoteViewDetector {
         if view.isKind(of: cls) {
             return true
         }
-        for subview in view.subviews {
-            if detect(view: subview, cls: cls) {
-                return true
-            }
+        for subview in view.subviews where detect(view: subview, cls: cls) {
+            return true
         }
         return false
     }
