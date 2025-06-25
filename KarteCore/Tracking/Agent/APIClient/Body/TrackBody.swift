@@ -17,14 +17,10 @@
 import Foundation
 import KarteUtilities
 
-internal struct TrackBodyParameters: BodyParameters, Codable {
+internal struct TrackBody: Codable {
     var appInfo: AppInfo
     var events: [Event]
     var keys: Keys
-
-    var contentType: String {
-        "application/json"
-    }
 
     init(appInfo: AppInfo, events: [Event], keys: Keys) {
         self.appInfo = appInfo
@@ -32,19 +28,19 @@ internal struct TrackBodyParameters: BodyParameters, Codable {
         self.keys = keys
     }
 
-    func buildEntity() throws -> RequestBodyEntity {
+    func asData() throws -> Data {
         let data = try createJSONEncoder().encode(self)
         do {
             let gzippedData = try gzipped(data)
-            return .data(gzippedData)
+            return gzippedData
         } catch {
             Logger.verbose(tag: .track, message: "\(error)")
-            return .data(data)
+            return data
         }
     }
 }
 
-extension TrackBodyParameters {
+extension TrackBody {
     enum CodingKeys: String, CodingKey {
         case appInfo = "app_info"
         case events
@@ -58,7 +54,7 @@ extension TrackBodyParameters {
     }
 }
 
-extension TrackBodyParameters.Keys {
+extension TrackBody.Keys {
     enum CodingKeys: String, CodingKey {
         case visitorId      = "visitor_id"
         case pvId           = "pv_id"

@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2025 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -13,26 +13,21 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
+//  NOTE: The Implementation was inspired by APIKit.
 
 import Foundation
-import KarteUtilities
 
-internal protocol TrackClientSession {
-    @discardableResult
-    func send(
-        _ request: TrackRequest,
-        handler: @escaping (Result<TrackRequest.Response, NetworkingError>) -> Void
-    ) -> URLSessionTask?
+public enum NetworkingError: Error {
+    case invalidURL(URL)
+    case requestBuildFailed(Error)
+    case requestFailed(Error)
+    case responseError(Error)
+    case noData
+    case invalidResponse(URLResponse?)
+    case invalidStatusCode(Int)
+    case unexpectedObject(Any)
 }
 
-internal class DefaultTrackClientSession: TrackClientSession {
-    func send(
-        _ request: TrackRequest,
-        handler: @escaping (Result<TrackRequest.Response, NetworkingError>) -> Void
-    ) -> URLSessionTask? {
-        return Session.send(request, handler: handler)
-    }
-
-    deinit {
-    }
+public enum ResponseParserError: Error {
+    case invalidData(Data)
 }

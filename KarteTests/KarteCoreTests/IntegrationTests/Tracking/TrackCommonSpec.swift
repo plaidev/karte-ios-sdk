@@ -37,7 +37,7 @@ class TrackCommonSpec: QuickSpec {
         
         describe("a tracker") {
             describe("its track common") {
-                var body: TrackBodyParameters!
+                var body: TrackBody!
                 beforeEachWithMetadata { (metadata) in
                     let module = StubActionModule(self, metadata: metadata, builder: builder)
                     

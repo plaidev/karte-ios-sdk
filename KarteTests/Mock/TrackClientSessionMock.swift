@@ -27,15 +27,14 @@ class TrackClientSessionMock: TrackClientSession {
 
     struct Task {
         var request: TrackRequest
-        var callbackQueue: CallbackQueue?
-        var handler: (Result<TrackRequest.Response, SessionTaskError>) -> Void
+        var handler: (Result<TrackRequest.Response, NetworkingError>) -> Void
     }
     
     var isAutoFlush = true
     var tasks = [Task]()
     
-    func send(_ request: TrackRequest, callbackQueue: CallbackQueue?, handler: @escaping (Result<TrackRequest.Response, SessionTaskError>) -> Void) -> SessionTask? {
-        let task = Task(request: request, callbackQueue: callbackQueue, handler: handler)
+    func send(_ request: TrackRequest, handler: @escaping (Result<TrackRequest.Response, NetworkingError>) -> Void) -> URLSessionTask? {
+        let task = Task(request: request, handler: handler)
         if isAutoFlush {
             return send(task: task)
         } else {
@@ -52,8 +51,8 @@ class TrackClientSessionMock: TrackClientSession {
     }
     
     @discardableResult
-    func send(task: Task) -> SessionTask? {
+    func send(task: Task) -> URLSessionTask? {
         NotificationCenter.test.post(name: TrackClientSessionMock.requestSentNotification, object: task.request.commands.count)
-        return Session.send(task.request, callbackQueue: task.callbackQueue, handler: task.handler)
+        return Session.send(task.request, handler: task.handler)
     }
 }

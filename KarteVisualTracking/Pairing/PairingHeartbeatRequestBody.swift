@@ -17,12 +17,23 @@
 import Foundation
 import KarteUtilities
 
-internal struct RawDataParser: DataParser {
-    var contentType: String? {
-        nil
+internal struct PairingHeartbeatRequestBody: Codable {
+    var os: String
+    var visitorId: String
+
+    init(visitorId: String) {
+        self.os = "iOS"
+        self.visitorId = visitorId
     }
 
-    func parse(data: Data) throws -> Any {
-        data
+    func asData() throws -> Data {
+        return try createJSONEncoder().encode(self)
+    }
+}
+
+extension PairingHeartbeatRequestBody {
+    enum CodingKeys: String, CodingKey {
+        case os
+        case visitorId = "visitor_id"
     }
 }

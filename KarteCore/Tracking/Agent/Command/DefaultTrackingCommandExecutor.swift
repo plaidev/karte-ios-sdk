@@ -83,7 +83,7 @@ private extension DefaultTrackingCommandExecutor {
         delegate?.trackingCommandExecutorDidExecuteCommands(self)
     }
 
-    func handleFailure(request: TrackRequest, error: SessionTaskError, bundle: CommandBundle) {
+    func handleFailure(request: TrackRequest, error: NetworkingError, bundle: CommandBundle) {
         for command in bundle.commands {
             delegate?.trackingCommandExecutor(self, didFailCommand: command)
         }

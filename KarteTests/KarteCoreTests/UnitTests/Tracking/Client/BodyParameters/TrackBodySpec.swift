@@ -19,40 +19,43 @@ import Nimble
 @testable import KarteUtilities
 @testable import KarteCore
 
-func getBodyParameters() -> TrackBodyParameters {
+func getBody() -> TrackBody {
     let appInfo = AppInfo()
     Resolver.registerAppInfo()
-    return TrackBodyParameters(
+    return TrackBody(
         appInfo: appInfo,
         events: [Event(.foreground)],
-        keys: TrackBodyParameters.Keys(
+        keys: TrackBody.Keys(
             visitorId: "dummy_vis_id",
             pvId: PvId(UUID().uuidString),
             originalPvId: PvId(UUID().uuidString)))
 }
 
-class TrackBodyParametersSpec: QuickSpec {
+class TrackBodySpec: QuickSpec {
     
     override func spec() {
         describe("a track body parameters") {
-            var bodyParameters: TrackBodyParameters!
+            var body: TrackBody!
             
             beforeEach {
-                bodyParameters = getBodyParameters()
+                body = getBody()
             }
             
-            describe("its contentType") {
-                it("is application/json") {
-                    expect(bodyParameters.contentType).to(equal("application/json"))
+            describe("its build") {
+                it("is gzipped") {
+                    let data = try! body.asData()
+                    expect(data.isGzipped).to(beTrue())
                 }
             }
-            
-            describe("its buildEntity") {
-                it("is gzipped") {
-                    let entity = try! bodyParameters.buildEntity()
-                    if case let .data(d) = entity {
-                        expect(d.isGzipped).to(beTrue())
-                    }
+
+            describe("its encoding") {
+                it("uses correct coding keys") {
+                    let encodedData = try! createJSONEncoder().encode(body)
+                    let jsonObject = try! JSONSerialization.jsonObject(with: encodedData, options: []) as! [String: Any]
+                    
+                    expect(jsonObject["app_info"]).toNot(beNil())
+                    expect(jsonObject["events"]).toNot(beNil())
+                    expect(jsonObject["keys"]).toNot(beNil())
                 }
             }
         }

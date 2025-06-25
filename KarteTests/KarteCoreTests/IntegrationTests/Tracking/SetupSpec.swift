@@ -21,7 +21,7 @@ import Mockingjay
 import KarteUtilities
 import Foundation
 
-typealias ResolvedConfigurationContext = (request: URLRequest, body: TrackBodyParameters, events: [Event])
+typealias ResolvedConfigurationContext = (request: URLRequest, body: TrackBody, events: [Event])
 class ResolvedConfigurationBehavior : Behavior<ResolvedConfigurationContext> {
     override class func spec(_ context: @escaping () -> ResolvedConfigurationContext) {
         var ctx: ResolvedConfigurationContext!
@@ -175,7 +175,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         }
 
         context("when set idfa delegate") {
-            var body: TrackBodyParameters!
+            var body: TrackBody!
             var idfa: IDFA!
 
             context("when disable") {
@@ -247,7 +247,7 @@ class SetupSpec: QuickSpec {
             describe("its setup with appKey param") {
                 context("when use default config(from resolver)") {
                     var request: URLRequest!
-                    var body: TrackBodyParameters!
+                    var body: TrackBody!
                     var events: [Event] = []
                     beforeEachWithMetadata { (metadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
@@ -345,7 +345,7 @@ class SetupSpec: QuickSpec {
             describe("its setup without appKey param") {
                 context("when use default config(from resolver)") {
                     var request: URLRequest!
-                    var body: TrackBodyParameters!
+                    var body: TrackBody!
                     var events: [Event] = []
                     beforeEachWithMetadata { (metadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: builder)

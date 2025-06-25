@@ -24,7 +24,7 @@ internal protocol TrackClientObserver: AnyObject {
 internal class TrackClient {
     struct Task {
         var request: TrackRequest
-        var completion: (Result<TrackRequest.Response, SessionTaskError>) -> Void
+        var completion: (Result<TrackRequest.Response, NetworkingError>) -> Void
     }
 
     static let shared = TrackClient()
@@ -70,7 +70,7 @@ internal class TrackClient {
         self.callbackQueue = callbackQueue
     }
 
-    func enqueue(request: TrackRequest, completion: @escaping (Result<TrackRequest.Response, SessionTaskError>) -> Void) {
+    func enqueue(request: TrackRequest, completion: @escaping (Result<TrackRequest.Response, NetworkingError>) -> Void) {
         let task = Task(request: request, completion: completion)
         tasks.append(task)
 
@@ -105,22 +105,20 @@ internal class TrackClient {
 private extension TrackClient {
     func send(task: Task) {
         self.isSending = true
-        clientQueue.async { [weak self] in
-            guard let callbackQueue = self?.callbackQueue else {
-                return
-            }
-
+        clientQueue.async {
             Logger.debug(tag: .track, message: "Request start. request_id=\(task.request.requestId) retry=\(task.request.isRetry)")
 
-            self?.logRequestDetails(of: task.request)
+            self.logRequestDetails(of: task.request)
 
             let session = Resolver.resolve(TrackClientSession.self)
-            session.send(task.request, callbackQueue: .dispatchQueue(callbackQueue)) { result in
-                Logger.debug(tag: .track, message: "Request end. request_id=\(task.request.requestId)")
-                self?.isSending = false
+            session.send(task.request) { result in
+                self.callbackQueue.async {
+                    Logger.debug(tag: .track, message: "Request end. request_id=\(task.request.requestId)")
+                    self.isSending = false
 
-                self?.dequeue()
-                task.completion(result)
+                    self.dequeue()
+                    task.completion(result)
+                }
             }
         }
     }

@@ -49,7 +49,7 @@ internal class PairingClient {
         guard let request = PairingRequest(app: app, account: account) else {
             return
         }
-        Session.send(request, callbackQueue: .sessionQueue) { [weak self] result in
+        Session.send(request) { [weak self] result in
             switch result {
             case .success:
                 Logger.info(tag: .visualTracking, message: "Pairing was successful.")
@@ -103,7 +103,7 @@ internal class PairingClient {
 
     private func heartbeat() {
         let request = PairingHeartbeatRequest(app: app, account: account)
-        Session.send(request, callbackQueue: .sessionQueue) { [weak self] result in
+        Session.send(request) { [weak self] result in
             switch result {
             case .success:
                 Logger.verbose(tag: .visualTracking, message: "Heartbeat was successful.")

@@ -45,9 +45,7 @@ internal struct DefinitionsRequest: Request {
         ]
     }
 
-    var dataParser: DataParser {
-        StringDataParser()
-    }
+    var contentType: String { "" } // bodyなしのため不要
 
     init(app: KarteApp, definitionsLastModified: Int) {
         self.configuration = app.configuration
@@ -55,25 +53,21 @@ internal struct DefinitionsRequest: Request {
         self.definitionsLastModified = definitionsLastModified
     }
 
-    func intercept(urlRequest: URLRequest) throws -> URLRequest {
-        var urlRequest = urlRequest
-        urlRequest.timeoutInterval = 10.0
-        return urlRequest
+    func buildBody() throws -> Data? {
+        nil
     }
 
-    func response(from object: Any, urlResponse: HTTPURLResponse) throws -> DefinitionsResponse {
-        guard let str = object as? String, let data = str.data(using: .utf8)  else {
-            throw ResponseError.unexpectedObject(object)
+    func parse(data: Data, urlResponse: HTTPURLResponse) throws -> Response {
+        guard String(data: data, encoding: .utf8) != nil else {
+            throw ResponseParserError.invalidData(data)
         }
         return try createJSONDecoder().decode(DefinitionsResponse.self, from: data)
     }
 }
 
-extension DefinitionsRequest {
-    struct DefinitionsResponse: Codable {
-        var success: Int
-        var status: Int
-        var response: AutoTrackDefinition?
-        var error: String?
-    }
+internal struct DefinitionsResponse: Codable {
+    var success: Int
+    var status: Int
+    var response: AutoTrackDefinition?
+    var error: String?
 }

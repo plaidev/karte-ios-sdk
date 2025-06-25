@@ -48,27 +48,18 @@ internal struct TraceRequest: Request {
         ]
     }
 
-    var bodyParameters: BodyParameters? {
-        var parts: [MultipartFormDataBodyParameters.Part] = []
+    private let boundary: String
 
-        if let data = try? createJSONEncoder().encode(PartData(action: action, appInfo: appInfo, visitorId: visitorId)) {
-            let part = MultipartFormDataBodyParameters.Part(data: data, name: "trace")
-            parts.append(part)
-        }
-
-        if let image = image {
-            let part = MultipartFormDataBodyParameters.Part(data: image, name: "image", mimeType: "image/jpeg", fileName: "image")
-            parts.append(part)
-        }
-
-        return MultipartFormDataBodyParameters(parts: parts)
+    public var contentType: String {
+        return "multipart/form-data; boundary=\(boundary)"
     }
 
-    var dataParser: DataParser {
-        StringDataParser()
-    }
-
-    init?(app: KarteApp, account: Account, action: ActionProtocol, image: Data?) {
+    init?(
+        app: KarteApp,
+        account: Account,
+        action: ActionProtocol,
+        image: Data?
+    ) {
         guard let appInfo = app.appInfo else {
             return nil
         }
@@ -79,19 +70,37 @@ internal struct TraceRequest: Request {
         self.account = account
         self.action = action
         self.image = image
+        self.boundary = String(
+            format: "%08x%08x",
+            UInt32.random(in: 0...UInt32.max),
+            UInt32.random(in: 0...UInt32.max)
+        )
     }
 
-    func intercept(urlRequest: URLRequest) throws -> URLRequest {
-        var urlRequest = urlRequest
-        urlRequest.timeoutInterval = 10.0
-        return urlRequest
-    }
+    func buildBody() throws -> Data? {
+        var parts: [MultipartFormDataBody.Part] = []
 
-    func response(from object: Any, urlResponse: HTTPURLResponse) throws -> String {
-        guard let status = object as? String else {
-            return ""
+        do {
+            let data = try createJSONEncoder().encode(PartData(action: action, appInfo: appInfo, visitorId: visitorId))
+            let part = MultipartFormDataBody.Part(data: data, name: "trace")
+            parts.append(part)
+        } catch {
+            Logger.error(tag: .visualTracking, message: "Failed to encode JSON body for trace request: \(error)")
         }
-        return status
+
+        if let image = image {
+            let part = MultipartFormDataBody.Part(data: image, name: "image", mimeType: .imageJpeg, fileName: "image")
+            parts.append(part)
+        }
+
+        return try MultipartFormDataBody(parts: parts, boundary: boundary).asData()
+    }
+
+    func parse(data: Data, urlResponse: HTTPURLResponse) throws -> Response {
+        guard let response = String(data: data, encoding: .utf8) else {
+            throw ResponseParserError.invalidData(data)
+        }
+        return response
     }
 }
 
