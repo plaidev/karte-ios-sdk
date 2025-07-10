@@ -12,15 +12,15 @@ jobs:
       id-token: write
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
+        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
         with:
           access_token: ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Checkout master
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: master
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           submodules: 'true'
       - name: Configure Git
@@ -28,12 +28,12 @@ jobs:
           git config user.email "git@users.noreply.github.com"
           git config user.name "github actions"
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v4.0.2
         with:
           aws-region: ap-northeast-1
           role-to-assume: arn:aws:iam::161473449094:role/ProductionNativeSdkRole
           role-session-name: MySessionName
-      - uses: actions/cache@v4
+      - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
@@ -75,7 +75,7 @@ jobs:
       - name: Backup Swift-PM manifest file
         run: cp Package.swift Package.swift.back
       - name: Checkout Head Branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{github.event.pull_request.head.ref}}
           clean: 'false'

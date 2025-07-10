@@ -12,7 +12,7 @@ jobs:
       pull-requests: write
     steps:
     - name: Checkout develop
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         ref: develop
     - name: Configure Git
@@ -42,7 +42,7 @@ jobs:
     - name: Push release branch
       run: git push origin -u release/${{ steps.date.outputs.date }}
     - name: Pull Request Action
-      uses: vsoch/pull-request-action@1.1.0
+      uses: vsoch/pull-request-action@0969c26295afdeffaab628fee287a98b27eca529 # 1.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         PULL_REQUEST_BRANCH: master
@@ -60,7 +60,7 @@ jobs:
           ### Update
           ${{ steps.find-release-targets.outputs.TARGETS }}
     - name: Request beta release
-      uses: actions/github-script@v7
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
       with:
         github-token: ${{ secrets.SHARED_GITHUB_ACCESS_TOKEN }}
         script: |
