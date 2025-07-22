@@ -4,8 +4,8 @@
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.31.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.19.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.11.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.11.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.12.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.12.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.13.0 |
 | KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.4.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.9.0 |
@@ -26,6 +26,14 @@
 ## Visual Tracking 2.13.0
 ** 🔨CHANGED**
 - API通信実装変更に伴う変更を行いました。
+
+## RemoteNotification 2.12.0
+** 🔨CHANGED**
+- Objective-C++との相互運用性を改善しました
+
+## Variables 2.12.0
+** 🔨CHANGED**
+- Objective-C++との相互運用性を改善しました
 
 # Releases - 2025.05.26
 ## Version 2.24.0

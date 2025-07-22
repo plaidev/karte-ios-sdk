@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteVariables'
-  s.version                 = '2.11.0'
+  s.version                 = '2.12.0'
   s.summary                 = 'KARTE Variables SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }

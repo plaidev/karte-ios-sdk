@@ -14,7 +14,12 @@
 //  limitations under the License.
 //
 
-@import KarteCore;
+#if __has_feature(modules)
+  @import KarteCore;
+#else
+  #import <AppTrackingTransparency/ATTrackingManager.h>
+  #import <KarteCore/KarteCore-Swift.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
