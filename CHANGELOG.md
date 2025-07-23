@@ -3,7 +3,7 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.31.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.19.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.20.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.12.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.12.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.13.0 |
@@ -14,6 +14,10 @@
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.0.0 |
 
 # Releases - xxxx.xx.xx
+
+## KarteInAppMessaging 2.20.0
+** 💊FIXED**
+- ランドスケープ時のアプリ内メッセージ表示時のアニメーションを改善しました。
 
 ## Utilities 3.13.0
 ** 🔨CHANGED**
