@@ -21,10 +21,6 @@ import KarteUtilities
 internal struct IAMProcessConfiguration {
     var app: KarteApp
 
-    init(app: KarteApp) {
-        self.app = app
-    }
-
     func generateOverlayURL() -> URL? {
         guard let appInfo = app.appInfo else {
             Logger.error(tag: .inAppMessaging, message: "SDK is not initialized.")

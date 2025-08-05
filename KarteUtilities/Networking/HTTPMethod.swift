@@ -1,5 +1,5 @@
 //
-//  Copyright 2021 PLAID, Inc.
+//  Copyright 2025 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -13,25 +13,11 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
+//  NOTE: The Implementation was inspired by APIKit.
 
-#if __has_feature(modules)
-  @import KarteCore;
-#else
-  #import <AppTrackingTransparency/ATTrackingManager.h>
-  #import <KarteCore/KarteCore-Swift.h>
-#endif
+import Foundation
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface KRTApp (RemoteNotification)
-
-/// FCM（Firebase Cloud Messaging）トークンを登録します。
-///
-/// なお初期化が行われていない状態で呼び出した場合は登録処理は行われません。
-///
-/// - Parameter fcmToken: FCMトークン
-+(void)registerFCMToken:(nullable NSString *)fcmToken;
-
-@end
-
-NS_ASSUME_NONNULL_END
+public enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+}

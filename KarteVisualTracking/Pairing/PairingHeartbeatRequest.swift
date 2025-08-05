@@ -45,12 +45,8 @@ internal struct PairingHeartbeatRequest: Request {
         ]
     }
 
-    var bodyParameters: BodyParameters? {
-        PairingHeartbeatRequestBodyParameters(visitorId: visitorId)
-    }
-
-    var dataParser: DataParser {
-        StringDataParser()
+    var contentType: String {
+        "application/json"
     }
 
     init(app: KarteApp, account: Account) {
@@ -60,16 +56,14 @@ internal struct PairingHeartbeatRequest: Request {
         self.account = account
     }
 
-    func intercept(urlRequest: URLRequest) throws -> URLRequest {
-        var urlRequest = urlRequest
-        urlRequest.timeoutInterval = 10.0
-        return urlRequest
+    func buildBody() throws -> Data? {
+        try PairingHeartbeatRequestBody(visitorId: visitorId).asData()
     }
 
-    func response(from object: Any, urlResponse: HTTPURLResponse) throws -> String {
-        guard let status = object as? String else {
-            return ""
+    func parse(data: Data, urlResponse: HTTPURLResponse) throws -> Response {
+        guard let response = String(data: data, encoding: .utf8) else {
+            throw ResponseParserError.invalidData(data)
         }
-        return status
+        return response
     }
 }

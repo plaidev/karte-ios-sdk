@@ -55,7 +55,7 @@ extension ActionTracer {
         guard let request = TraceRequest(app: app, account: account, action: action, image: data) else {
             return
         }
-        Session.send(request, callbackQueue: .sessionQueue) { result in
+        Session.send(request) { result in
             switch result {
             case .success:
                 Logger.verbose(tag: .visualTracking, message: "Trace was successful.")

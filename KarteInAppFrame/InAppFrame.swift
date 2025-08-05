@@ -31,7 +31,7 @@ public final class InAppFrame: NSObject {
     /// ローダークラスが Objective-Cランライムに追加されたタイミングで呼び出されるメソッドです。
     /// 本メソッドが呼び出されたタイミングで、`KarteApp` クラスに本クラスをライブラリとして登録します。
     @objc
-    public class func _krt_load() {
+    public static func _krt_load() {
         KarteApp.register(library: self)
     }
 

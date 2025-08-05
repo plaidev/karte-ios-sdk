@@ -15,30 +15,29 @@
 //
 
 import Foundation
+import KarteCore
 import KarteUtilities
 
-internal struct PairingHeartbeatRequestBodyParameters: BodyParameters, Codable {
+internal struct PairingRequestBody: Codable {
     var os: String
     var visitorId: String
+    var appInfo: AppInfo
 
-    var contentType: String {
-        "application/json"
-    }
-
-    init(visitorId: String) {
+    init(visitorId: String, appInfo: AppInfo) {
         self.os = "iOS"
         self.visitorId = visitorId
+        self.appInfo = appInfo
     }
 
-    func buildEntity() throws -> RequestBodyEntity {
-        let body = try createJSONEncoder().encode(self)
-        return .data(body)
+    func asData() throws -> Data {
+        return try createJSONEncoder().encode(self)
     }
 }
 
-extension PairingHeartbeatRequestBodyParameters {
+extension PairingRequestBody {
     enum CodingKeys: String, CodingKey {
         case os
         case visitorId = "visitor_id"
+        case appInfo = "app_info"
     }
 }

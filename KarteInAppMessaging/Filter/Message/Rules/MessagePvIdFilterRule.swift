@@ -21,11 +21,6 @@ internal struct MessagePvIdFilterRule: MessageFilterRule {
     var request: TrackRequest
     var app: KarteApp?
 
-    init(request: TrackRequest, app: KarteApp?) {
-        self.request = request
-        self.app = app
-    }
-
     func filter(_ message: [String: JSONValue]) -> MessageFilterResult {
         guard let isEnabled = message.bool(forKeyPath: "campaign.native_app_display_limit_mode"), let pvService = app?.pvService, isEnabled else {
             return .include

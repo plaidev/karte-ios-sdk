@@ -78,9 +78,9 @@ struct FallbackAsyncCaller: Caller {
                 do {
                     guard let data = data, let response = response else {
                         if let status = (response as? HTTPURLResponse)?.statusCode {
-                            throw ResponseError.unacceptableStatusCode(status)
+                            throw NetworkingError.invalidStatusCode(status)
                         } else {
-                            throw ResponseError.nonHTTPURLResponse(response)
+                            throw NetworkingError.invalidResponse(response)
                         }
                     }
 

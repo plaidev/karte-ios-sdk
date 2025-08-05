@@ -19,7 +19,7 @@ import Mockingjay
 @testable import KarteCore
 
 class StubActionModule {
-    typealias TrackResponseData = (request: URLRequest, body: TrackBodyParameters, event: Event)
+    typealias TrackResponseData = (request: URLRequest, body: TrackBody, event: Event)
 
     var exp: XCTestExpectation
     var spec: QuickSpec
@@ -93,7 +93,7 @@ class StubActionModule {
         return responses[eventName.rawValue]?.request
     }
     
-    func body(_ eventName: EventName) -> TrackBodyParameters? {
+    func body(_ eventName: EventName) -> TrackBody? {
         return responses[eventName.rawValue]?.body
     }
     
@@ -123,7 +123,7 @@ extension StubActionModule: ActionModule {
     }
     
     func receive(response: [String : JSONValue], request: TrackRequest) {
-        guard let req = self.request, let body = req.trackBodyParameters() else {
+        guard let req = self.request, let body = req.trackBody() else {
             return
         }
         

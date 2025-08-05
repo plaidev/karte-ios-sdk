@@ -17,8 +17,8 @@
 import Foundation
 
 internal class CommandBundle {
-    private (set) var commands = [TrackingCommand]()
-    private (set) var isFrozen = false
+    private(set) var commands = [TrackingCommand]()
+    private(set) var isFrozen = false
 
     var isEmpty: Bool {
         commands.isEmpty

@@ -20,10 +20,6 @@ import KarteCore
 internal struct MessageSuppressionFilterRule: MessageFilterRule {
     var isSuppressed: Bool
 
-    init(isSuppressed: Bool) {
-        self.isSuppressed = isSuppressed
-    }
-
     func filter(_ message: [String: JSONValue]) -> MessageFilterResult {
         if isSuppressed {
             return .exclude("The display is suppressed by suppress mode.")

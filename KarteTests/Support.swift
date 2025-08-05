@@ -29,33 +29,33 @@ let EMPTY_RESPONSE = {
 
 extension URLRequest {
     
-    func trackBodyParameters() -> TrackBodyParameters? {
+    func trackBody() -> TrackBody? {
         guard let data = httpBodyStream?.readfully() else {
             return nil
         }
         if data.isGzipped, let gunzipped = try? data.gunzipped() {
-            return try? createJSONDecoder().decode(TrackBodyParameters.self, from: gunzipped)
+            return try? createJSONDecoder().decode(TrackBody.self, from: gunzipped)
         }
 
-        return try? createJSONDecoder().decode(TrackBodyParameters.self, from: data)
+        return try? createJSONDecoder().decode(TrackBody.self, from: data)
     }
     
-    func pairingRequestBodyParameters() -> PairingRequestBodyParameters? {
+    func pairingRequestBody() -> PairingRequestBody? {
         guard let data = httpBodyStream?.readfully() else {
             return nil
         }        
-        return try? createJSONDecoder().decode(PairingRequestBodyParameters.self, from: data)
+        return try? createJSONDecoder().decode(PairingRequestBody.self, from: data)
     }
     
-    func pairingHeartbeatRequestBodyParameters() -> PairingHeartbeatRequestBodyParameters? {
+    func pairingHeartbeatRequestBody() -> PairingHeartbeatRequestBody? {
         guard let data = httpBodyStream?.readfully() else {
             return nil
         }
-        return try? createJSONDecoder().decode(PairingHeartbeatRequestBodyParameters.self, from: data)
+        return try? createJSONDecoder().decode(PairingHeartbeatRequestBody.self, from: data)
     }
 }
 
-extension TrackBodyParameters {
+extension TrackBody {
     
     func pick(_ eventName: EventName) -> Event? {
         return events.first { (event) -> Bool in
@@ -64,8 +64,8 @@ extension TrackBodyParameters {
     }
 }
 
-func decodeResponseBodyData(_ data: Data) -> TrackBodyParameters? {
-    return try? createJSONDecoder().decode(TrackBodyParameters.self, from: data)
+func decodeResponseBodyData(_ data: Data) -> TrackBody? {
+    return try? createJSONDecoder().decode(TrackBody.self, from: data)
 }
 
 func buildCommand(event: Event = Event(eventName: EventName("test")), visitorId: String = "dummy-vis-id", pvId: PvId = PvId("dummy-pv-id"), sceneId: SceneId = SceneId("dummy-scene-id")) -> TrackingCommand {

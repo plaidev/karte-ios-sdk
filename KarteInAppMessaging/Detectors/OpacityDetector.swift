@@ -17,10 +17,7 @@
 import UIKit
 
 internal struct OpacityDetector {
-    var cache = Cache()
-
-    init() {
-    }
+    private var cache = Cache()
 
     mutating func detectAtPoint(_ point: CGPoint, view: UIView, event: UIEvent?) -> Bool {
         // Determine if the place you tap is opaque.

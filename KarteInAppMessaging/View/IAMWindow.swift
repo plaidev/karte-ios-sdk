@@ -92,6 +92,6 @@ extension IAMWindow {
     private func initialize() {
         self.windowLevel = type(of: self).windowLevel
         self.backgroundColor = .clear
-        self.isHidden = false
+        self.isHidden = true
     }
 }

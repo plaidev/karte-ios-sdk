@@ -76,14 +76,6 @@ commands:
           name: Execute lint for all podspecs
           command: bundle exec pod lib lint
 
-  setup_legacy_xcode_toolchain:
-    steps:
-      - run:
-          name: Copy Libarclite Files
-          command: |
-            sudo mkdir /Applications/Xcode-16.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
-            sudo cp legacy_xcbuildtools/*.a /Applications/Xcode-16.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
-
 jobs:
   build:
     executor:
@@ -121,7 +113,6 @@ jobs:
             cp -r /tmp/workspace DerivedData
       - setup_gems
       - setup_pods
-      - setup_legacy_xcode_toolchain
       - run:
           name: Podspec lint
           command: bundle exec pod spec lint *.podspec --quick
@@ -176,7 +167,6 @@ jobs:
       - git_clone
       - setup_gems
       - setup_pods
-      - setup_legacy_xcode_toolchain
       - run:
           name: Publish
           command: bash ./scripts/publish.sh
@@ -190,7 +180,6 @@ jobs:
       - git_clone
       - setup_gems
       - setup_pods
-      - setup_legacy_xcode_toolchain
       - run:
           name: Publish Pods
           command: bash ./scripts/publish.sh
@@ -206,7 +195,6 @@ jobs:
       - git_clone
       - setup_gems
       - setup_pods
-      - setup_legacy_xcode_toolchain
       - lint_podspecs
       - slack/status:
           fail_only: true

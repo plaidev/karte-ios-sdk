@@ -22,7 +22,6 @@ import KarteUtilities
 /// **SDK内部で利用するタイプであり、通常のSDK利用でこちらのタイプを利用することはありません。**
 public struct TrackRequest: Request {
     public typealias Response = TrackResponse
-
     /// ビジターID
     public let visitorId: String
     /// シーンID
@@ -60,7 +59,11 @@ public struct TrackRequest: Request {
         nil
     }
 
-    public var bodyParameters: BodyParameters? {
+    public var contentType: String {
+        "application/json"
+    }
+
+    public func buildBody() throws -> Data? {
         let events = commands.filter { command in
             return !(filter?.reject(event: command.event) ?? false)
         }.map { command -> Event in
@@ -68,21 +71,17 @@ public struct TrackRequest: Request {
             event.mergeAdditionalParameter(date: command.date, isRetry: command.isRetry)
             return event
         }
-        return TrackBodyParameters(
+        return try TrackBody(
             appInfo: appInfo,
             events: events,
-            keys: TrackBodyParameters.Keys(visitorId: visitorId, pvId: pvId, originalPvId: originalPvId)
-        )
+            keys: TrackBody.Keys(visitorId: visitorId, pvId: pvId, originalPvId: originalPvId)
+        ).asData()
     }
 
     public var headerFields: [String: String] {
         [
             "X-KARTE-App-Key": appKey
         ]
-    }
-
-    public var dataParser: DataParser {
-        RawDataParser()
     }
 
     /// 構造体の初期化をします。
@@ -109,9 +108,8 @@ public struct TrackRequest: Request {
         self.filter = app.trackingClient?.eventRejectionFilter
     }
 
-    public func intercept(urlRequest: URLRequest) throws -> URLRequest {
-        var urlRequest = urlRequest
-        urlRequest.timeoutInterval = 10.0
+    public func buildURLRequest() throws -> URLRequest {
+        var urlRequest = try buildBaseURLRequest()
 
         if urlRequest.httpBody.map({ isGzipped($0) }) ?? false {
             urlRequest.addValue("gzip", forHTTPHeaderField: "Content-Encoding")
@@ -126,7 +124,18 @@ public struct TrackRequest: Request {
         return urlRequest
     }
 
-    public func intercept(object: Any, urlResponse: HTTPURLResponse) throws -> Any {
+    /// リクエストに指定されたイベントが含まれているかチェックする。
+    ///
+    /// - Parameter eventName: イベント名
+    /// - Returns: 指定されたイベント名が含まれる場合は `true` を返し、含まれない場合は `false` を返します。
+    public func contains(eventName: EventName) -> Bool {
+        commands.contains { command -> Bool in
+            let ret = command.event.eventName == eventName
+            return ret
+        }
+    }
+
+    public func statusCodeCheck(urlResponse: HTTPURLResponse) throws {
         let statusCode = urlResponse.statusCode
         if 200..<300 ~= statusCode {
             Logger.verbose(tag: .track, message: "The server returned a normal response: \(statusCode)")
@@ -138,24 +147,9 @@ public struct TrackRequest: Request {
             Logger.error(tag: .track, message: "The server returned an error response: \(statusCode)")
             throw TrackError.serverErrorOccurred
         }
-        return object
     }
 
-    public func response(from object: Any, urlResponse: HTTPURLResponse) throws -> TrackResponse {
-        guard let data = object as? Data else {
-            throw TrackError.emptyResponse
-        }
+    public func parse(data: Data, urlResponse: HTTPURLResponse) throws -> TrackResponse {
         return try createJSONDecoder().decode(TrackResponse.self, from: data)
-    }
-
-    /// リクエストに指定されたイベントが含まれているかチェックする。
-    ///
-    /// - Parameter eventName: イベント名
-    /// - Returns: 指定されたイベント名が含まれる場合は `true` を返し、含まれない場合は `false` を返します。
-    public func contains(eventName: EventName) -> Bool {
-        commands.contains { command -> Bool in
-            let ret = command.event.eventName == eventName
-            return ret
-        }
     }
 }

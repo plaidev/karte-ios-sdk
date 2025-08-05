@@ -19,12 +19,18 @@ import KarteUtilities
 
 internal protocol TrackClientSession {
     @discardableResult
-    func send(_ request: TrackRequest, callbackQueue: CallbackQueue?, handler: @escaping (Result<TrackRequest.Response, SessionTaskError>) -> Void) -> SessionTask?
+    func send(
+        _ request: TrackRequest,
+        handler: @escaping (Result<TrackRequest.Response, NetworkingError>) -> Void
+    ) -> URLSessionTask?
 }
 
 internal class DefaultTrackClientSession: TrackClientSession {
-    func send(_ request: TrackRequest, callbackQueue: CallbackQueue?, handler: @escaping (Result<TrackRequest.Response, SessionTaskError>) -> Void) -> SessionTask? {
-        Session.send(request, callbackQueue: callbackQueue, handler: handler)
+    func send(
+        _ request: TrackRequest,
+        handler: @escaping (Result<TrackRequest.Response, NetworkingError>) -> Void
+    ) -> URLSessionTask? {
+        return Session.send(request, handler: handler)
     }
 
     deinit {

@@ -53,7 +53,7 @@ class TracerTests: XCTestCase {
         }
 
         let pairingStub = stub(uri("/v0/native/auto-track/pairing-start")) { (request) -> (Response) in
-            let body = request.pairingRequestBodyParameters()!
+            let body = request.pairingRequestBody()!
 
             expect(request.allHTTPHeaderFields?["X-KARTE-App-Key"]).to(equal(APP_KEY))
             expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-Account-Id"]).to(equal("dummy_account_id"))
@@ -76,7 +76,7 @@ class TracerTests: XCTestCase {
 
         var pass = false
         let heartbeatStub = stub(uri("/v0/native/auto-track/pairing-heartbeat")) { (request) -> (Response) in
-            let body = request.pairingHeartbeatRequestBodyParameters()!
+            let body = request.pairingHeartbeatRequestBody()!
             if pass {
                 return buildContent()(request)
             }
