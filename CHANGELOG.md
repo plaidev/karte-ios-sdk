@@ -7,7 +7,7 @@
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.12.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.12.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.13.0 |
-| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.4.0 |
+| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.5.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.9.0 |
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.13.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
@@ -15,29 +15,33 @@
 
 # Releases - xxxx.xx.xx
 
-## KarteInAppMessaging 2.20.0
-** 💊FIXED**
-- ランドスケープ時のアプリ内メッセージ表示時のアニメーションを改善しました。
-
-## Utilities 3.13.0
-** 🔨CHANGED**
-- 一部のAPI通信の実装を3rd partyライブラリから内製のコードに置き換えました。
-
 ### Core 2.31.0
 ** 🔨CHANGED**
 - API通信実装変更に伴う変更を行いました。
 
-## Visual Tracking 2.13.0
+### InAppMessaging 2.20.0
+** 💊FIXED**
+- ランドスケープ時のアプリ内メッセージ表示時のアニメーションを改善しました。
+
+### RemoteNotification 2.12.0
+** 🔨CHANGED**
+- Objective-C++との相互運用性を改善しました。
+
+### Variables 2.12.0
+** 🔨CHANGED**
+- Objective-C++との相互運用性を改善しました。
+
+### VisualTracking 2.13.0
 ** 🔨CHANGED**
 - API通信実装変更に伴う変更を行いました。
 
-## RemoteNotification 2.12.0
+### InAppFrame 0.5.0
 ** 🔨CHANGED**
-- Objective-C++との相互運用性を改善しました
+- LintのWarningを修正しました。
 
-## Variables 2.12.0
+### Utilities 3.13.0
 ** 🔨CHANGED**
-- Objective-C++との相互運用性を改善しました
+- 一部のAPI通信の実装を3rd partyライブラリから内製のコードに置き換えました。
 
 # Releases - 2025.05.26
 ## Version 2.24.0
