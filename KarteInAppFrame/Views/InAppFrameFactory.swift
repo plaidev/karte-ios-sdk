@@ -17,7 +17,6 @@
 import UIKit
 import KarteCore
 
-@available(iOS 14.0, *)
 struct InAppFrameFactory {
     private init() {}
 

@@ -26,14 +26,10 @@ internal class IAMWindow: UIWindow {
     var detector = OpacityDetector()
 
     init?(sceneId: SceneId) {
-        if #available(iOS 13.0, *) {
-            guard let windowScene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) else {
-                return nil
-            }
-            super.init(windowScene: windowScene)
-        } else {
-            super.init(frame: UIScreen.main.bounds)
+        guard let windowScene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) else {
+            return nil
         }
+        super.init(windowScene: windowScene)
         initialize()
     }
 

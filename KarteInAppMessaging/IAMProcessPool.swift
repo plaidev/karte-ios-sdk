@@ -28,12 +28,7 @@ internal class IAMProcessPool {
         guard retrieveProcess(sceneId: sceneId) == nil else {
             return false
         }
-
-        if #available(iOS 13.0, *) {
-            return WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) != nil
-        } else {
-            return true
-        }
+        return WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) != nil
     }
 
     func retrieveProcess(sceneId: SceneId) -> IAMProcess? {

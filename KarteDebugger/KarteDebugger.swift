@@ -19,7 +19,6 @@ import UIKit
 import KarteCore
 import KarteUtilities
 
-@available(iOS 13.0, *)
 @objc(KRTDebugger)
 public class KarteDebugger: NSObject {
     private static let userDefaultsKey = "krt_debugger_key"
@@ -39,7 +38,6 @@ public class KarteDebugger: NSObject {
     }
 }
 
-@available(iOS 13.0, *)
 extension KarteDebugger: Library {
     public static var name: String {
         "karte_debugger"
@@ -67,7 +65,6 @@ extension KarteDebugger: Library {
     }
 }
 
-@available(iOS 13.0, *)
 extension KarteDebugger: TrackModule {
     static let path = "v0/native/auto-track/app-trace"
 
@@ -108,7 +105,6 @@ extension KarteDebugger: TrackModule {
     }
 }
 
-@available(iOS 13.0, *)
 extension KarteDebugger: DeepLinkModule {
     public var name: String {
         String(describing: type(of: self))

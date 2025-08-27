@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2025 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -14,16 +14,11 @@
 //  limitations under the License.
 //
 
-import StoreKit
+import UIKit
 
-internal struct RequestReviewCommand: Command {
-    func validate(_ url: URL) -> Bool {
-        url.host == "request-review"
-    }
-
-    func execute() {
-        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-            SKStoreReviewController.requestReview(in: scene)
-        }
-    }
+@objc
+public protocol UIApplicationProtocol: NSObjectProtocol {
+    var connectedScenes: Set<UIScene> { get }
 }
+
+extension UIApplication: UIApplicationProtocol {}

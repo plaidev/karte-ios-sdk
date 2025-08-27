@@ -21,35 +21,36 @@ import UIKit
 /// **SDK内部で利用するタイプであり、通常のSDK利用でこちらのタイプを利用することはありません。**
 public struct WindowDetector {
     /// Sceneが管理しているWindowの配列を返します。
-    /// iOS13未満では `UIApplication` が管理するWindowの配列を返します。
+    /// ウィンドウが見つからない場合は、空の配列を返します。
     /// - Parameter view: `UIView`
     /// - Returns: `UIWindow` の配列
     public static func retrieveRelatedWindows(view: UIView) -> [UIWindow] {
-        if #available(iOS 13.0, *) {
-            if let windows = view.window?.windowScene?.windows {
-                return windows
-            }
-            if let window = view as? UIWindow {
-                return [window]
-            }
+        if let windows = view.window?.windowScene?.windows {
+            return windows
         }
-        return UIApplication.shared.windows
+        if let window = view as? UIWindow {
+            return [window]
+        }
+        return []
     }
 
     /// Sceneが管理しているWindowの配列を返します。
-    /// iOS13未満では `UIApplication` が管理するWindowの配列を返します。
+    /// ウィンドウが見つからない場合は、空の配列を返します。
     /// - Parameter persistentIdentifier: `UISceneSession` が持つ永続化識別子
+    /// - Parameter application: 通常は`UIApplication.shared`が入ります
     /// - Returns: `UIWindow` の配列
-    public static func retrieveRelatedWindows(from persistentIdentifier: String? = nil) -> [UIWindow] {
-        if #available(iOS 13.0, *) {
-            if let scene = WindowSceneDetector.retrieveWindowScene(from: persistentIdentifier) {
-                return scene.windows
-            } else if UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes)) {
-                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                    return scene.windows
-                }
-            }
+    public static func retrieveRelatedWindows(
+        from persistentIdentifier: String? = nil,
+        application: UIApplicationProtocol? = UIApplication.shared
+    ) -> [UIWindow] {
+        guard let application else {
+            return []
         }
-        return UIApplication.shared.windows
+        if let scene = WindowSceneDetector.retrieveWindowScene(from: persistentIdentifier, application: application) {
+            return scene.windows
+        } else if let scene = application.connectedScenes.first as? UIWindowScene {
+            return scene.windows
+        }
+        return []
     }
 }

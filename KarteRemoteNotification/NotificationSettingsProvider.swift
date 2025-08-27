@@ -44,7 +44,6 @@ extension NotificationSettingsProvider {
         }
     }
 
-    @available(iOS 10.0, *)
     private func checkAvailability(settings: UNNotificationSettings) -> Bool {
         switch settings.authorizationStatus {
         case .authorized:

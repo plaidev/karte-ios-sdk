@@ -48,9 +48,7 @@ internal class IAMWebView: WKWebView {
         self.scrollView.isScrollEnabled = true
         self.scrollView.bounces = false
 
-        if #available(iOS 11.0, *) {
-            self.scrollView.contentInsetAdjustmentBehavior = .never
-        }
+        self.scrollView.contentInsetAdjustmentBehavior = .never
     }
 
     // swiftlint:disable:next unavailable_function
@@ -187,16 +185,8 @@ internal class IAMWebView: WKWebView {
                 return
             }
 
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:]) { successful in
-                    if successful {
-                        Logger.info(tag: .inAppMessaging, message: "Success to open URL: \(url)")
-                    } else {
-                        Logger.error(tag: .inAppMessaging, message: "Failed to open URL: \(url)")
-                    }
-                }
-            } else {
-                if UIApplication.shared.openURL(url) {
+            UIApplication.shared.open(url, options: [:]) { successful in
+                if successful {
                     Logger.info(tag: .inAppMessaging, message: "Success to open URL: \(url)")
                 } else {
                     Logger.error(tag: .inAppMessaging, message: "Failed to open URL: \(url)")
@@ -430,9 +420,13 @@ extension IAMWebView: WKNavigationDelegate {
 }
 
 extension IAMWebView: WKUIDelegate {
-    @available(iOS 10.0, *)
-    func webView(_ webView: WKWebView, shouldPreviewElement elementInfo: WKPreviewElementInfo) -> Bool {
-        false
+    func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping @MainActor (UIContextMenuConfiguration?) -> Void) {
+        let configuration = UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil,
+            actionProvider: nil
+        )
+        completionHandler(configuration)
     }
 }
 

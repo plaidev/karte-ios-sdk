@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name                    = 'KarteNotificationServiceExtension'
-    s.version                 = '1.2.0'
+    s.version                 = '1.3.0'
     s.summary                 = 'KARTE Notification Service Extension'
     s.homepage                = 'https://karte.io/'
     s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
     s.cocoapods_version       = '>= 1.10.0'
     s.platform                = :ios
-    s.ios.deployment_target   = '12.0'
+    s.ios.deployment_target   = '15.0'
 
     s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "NotificationServiceExtension-#{s.version}" }
     s.source_files            = 'KarteNotificationServiceExtension/**/*.{swift,h,m}'

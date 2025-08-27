@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteInAppFrame'
-  s.version                 = '0.5.0'
+  s.version                 = '0.6.0'
   s.summary                 = 'KARTE InAppFrame SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'IN_APP_FRAME_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteCore', '~> 2.27'
-  s.dependency 'KarteVariables', '~> 2.11'
-  s.dependency 'KarteUtilities', '~> 3.11'
+  s.dependency 'KarteCore', '~> 2.32'
+  s.dependency 'KarteVariables', '~> 2.13'
+  s.dependency 'KarteUtilities', '~> 3.14'
 end

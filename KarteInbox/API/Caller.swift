@@ -51,7 +51,6 @@ extension Caller {
     }
 }
 
-@available(iOS 15.0, *)
 struct NativeAsyncCaller: Caller {
     func callAsFunction<Request: BaseAPIRequest>(callee request: Request) async -> Request.Response? {
         do {
@@ -70,33 +69,3 @@ struct NativeAsyncCaller: Caller {
     }
 }
 
-struct FallbackAsyncCaller: Caller {
-    func callAsFunction<Request: BaseAPIRequest>(callee request: Request) async -> Request.Response? {
-        let req = request.asURLRequest()
-        return await withCheckedContinuation { continuation in
-            URLSession.shared.dataTask(with: req) { (data, response, error) in
-                do {
-                    guard let data = data, let response = response else {
-                        if let status = (response as? HTTPURLResponse)?.statusCode {
-                            throw NetworkingError.invalidStatusCode(status)
-                        } else {
-                            throw NetworkingError.invalidResponse(response)
-                        }
-                    }
-
-                    guard let res = intercept(data: data, response: response) else {
-                        continuation.resume(returning: nil)
-                        return
-                    }
-                    let decoder = createJSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let decoded = try decoder.decode(Request.Response.self, from: res)
-                    continuation.resume(returning: decoded)
-                } catch {
-                    Logger.error(tag: .inbox, message: error.localizedDescription)
-                    continuation.resume(returning: nil)
-                }
-            }.resume()
-        }
-    }
-}

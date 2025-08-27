@@ -2,16 +2,58 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.31.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.20.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.12.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.12.0 |
-| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.13.0 |
-| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.5.0 |
-| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.9.0 |
-| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.13.0 |
-| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.2.0 |
-| KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.0.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.32.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.21.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.13.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
+| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.14.0 |
+| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.6.0 |
+| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.10.0 |
+| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.14.0 |
+| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
+| KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
+
+# Releases - xxxx.xx.xx
+
+### Core 2.32.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### InAppMessaging 2.21.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### RemoteNotification 2.13.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### Variables 2.13.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### VisualTracking 2.14.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### InAppFrame 0.6.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### CrashReporting 2.10.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### KarteUtilities 3.14.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### NotificationServiceExtension 1.3.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+
+### Debugger 1.1.0
+** 🔨CHANGED**
+- Deployment Targetを変更しました(iOS12.0 → iOS15.0)
 
 # Releases - 2025.08.05
 ## Version 2.25.0

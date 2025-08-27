@@ -245,7 +245,7 @@ public class Variable: NSObject, Codable {
         }
 
         let doubleScanner = Scanner(string: value)
-        if doubleScanner.scanDouble(nil) && doubleScanner.isAtEnd {
+        if doubleScanner.scanDouble() != nil && doubleScanner.isAtEnd {
             return true
         }
 

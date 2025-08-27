@@ -56,7 +56,7 @@ internal class CoreService {
         }
 
         guard isSupportedOsVersion else {
-            Logger.info(tag: .core, message: "Initializing was canceled because os version is under 9.0.0.")
+            Logger.info(tag: .core, message: "Initializing was canceled because os version is under 15.0.0.")
             return false
         }
 
@@ -81,7 +81,7 @@ internal class CoreService {
     }
 
     var isSupportedOsVersion: Bool {
-        let version = OperatingSystemVersion(majorVersion: 9, minorVersion: 0, patchVersion: 0)
+        let version = OperatingSystemVersion(majorVersion: 15, minorVersion: 0, patchVersion: 0)
         return ProcessInfo.processInfo.isOperatingSystemAtLeast(version)
     }
 
@@ -118,7 +118,6 @@ internal class CoreService {
         visitorIdService.renew()
     }
 
-    @available(iOS 14, *)
     func sendATTStatus(attStatus: ATTrackingManager.AuthorizationStatus) {
         ATTService.sendATTStatus(attStatus: attStatus)
     }
