@@ -20,10 +20,11 @@ jobs:
         all_but_latest: true
     - name: Check Completion
       id: check_completion
+      env:
+        BODY: ${{ github.event.pull_request.body }}
       run: |
-        body=$(echo '${{ github.event.pull_request.body }}')
-        incomplete_task=$(echo $body | sed -n "/\- \[ \]/ p")
-        if [ -z $incomplete_task ]; then
+        incomplete_task=$(echo "$BODY" | sed -n "/\- \[ \]/ p")
+        if [ -z "$incomplete_task" ]; then
             echo "completed=true" >> $GITHUB_OUTPUT
         else
             echo "completed=false" >> $GITHUB_OUTPUT
