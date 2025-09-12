@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteDebugger'
-  s.version                 = '1.0.0'
+  s.version                 = '1.1.0'
   s.summary                 = 'KARTE Debugger SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.static_framework        = true
   
   s.platform                = :ios
-  s.ios.deployment_target   = '12.0'
+  s.ios.deployment_target   = '15.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Debugger-#{s.version}" }
   s.source_files            = 'KarteDebugger/**/*.{swift,h,m}'
@@ -30,6 +30,6 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'DEBUGGER_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteCore', '~> 2.30'
-  s.dependency 'KarteUtilities', '~> 3.12'
+  s.dependency 'KarteCore', '~> 2.32'
+  s.dependency 'KarteUtilities', '~> 3.14'
 end

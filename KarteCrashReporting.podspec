@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteCrashReporting'
-  s.version                 = '2.9.0'
+  s.version                 = '2.10.0'
   s.summary                 = 'KARTE Crash reporting SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.static_framework        = true
 
   s.platform                = :ios
-  s.ios.deployment_target   = '12.0'
+  s.ios.deployment_target   = '15.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "CrashReporting-#{s.version}" }
   s.source_files            = 'KarteCrashReporting/**/*.{swift,h,m}'
@@ -33,6 +33,6 @@ Pod::Spec.new do |s|
     'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/KarteCrashReporter"'
   }
 
-  s.dependency 'KarteCore', '~> 2.0'
+  s.dependency 'KarteCore', '~> 2.32'
   s.dependency 'KarteCrashReporter', '~> 1.12'
 end

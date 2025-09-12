@@ -192,14 +192,12 @@ extension InAppMessaging {
             name: UIWindow.didBecomeHiddenNotification,
             object: nil
         )
-        if #available(iOS 13.0, *) {
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(observeSceneDidDisconnectNotification(_:)),
-                name: UIScene.didDisconnectNotification,
-                object: nil
-            )
-        }
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(observeSceneDidDisconnectNotification(_:)),
+            name: UIScene.didDisconnectNotification,
+            object: nil
+        )
     }
 
     private func unobserveNotifications() {
@@ -213,13 +211,11 @@ extension InAppMessaging {
             name: UIWindow.didBecomeHiddenNotification,
             object: nil
         )
-        if #available(iOS 13.0, *) {
-            NotificationCenter.default.removeObserver(
-                self,
-                name: UIScene.didDisconnectNotification,
-                object: nil
-            )
-        }
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIScene.didDisconnectNotification,
+            object: nil
+        )
     }
 
     @MainActor @objc
@@ -230,12 +226,9 @@ extension InAppMessaging {
 
         if window.isKind(of: IAMWindow.self), let delegate = delegate {
             var delegated = false
-            if #available(iOS 13.0, *) {
-                let selector = #selector(InAppMessagingDelegate.inAppMessagingWindowIsPresented(_:onScene:))
-                if (delegate as AnyObject).responds(to: selector), let scene = window.windowScene {
-                    delegate.inAppMessagingWindowIsPresented?(self, onScene: scene)
-                    delegated = true
-                }
+            if let scene = window.windowScene {
+                delegate.inAppMessagingWindowIsPresented?(self, onScene: scene)
+                delegated = true
             }
             if !delegated {
                 delegate.inAppMessagingWindowIsPresented?(self)
@@ -263,12 +256,9 @@ extension InAppMessaging {
 
         if window.isKind(of: IAMWindow.self), let delegate = delegate {
             var delegated = false
-            if #available(iOS 13.0, *) {
-                let selector = #selector(InAppMessagingDelegate.inAppMessagingWindowIsDismissed(_:onScene:))
-                if (delegate as AnyObject).responds(to: selector), let scene = window.windowScene {
-                    delegate.inAppMessagingWindowIsDismissed?(self, onScene: scene)
-                    delegated = true
-                }
+            if let scene = window.windowScene {
+                delegate.inAppMessagingWindowIsDismissed?(self, onScene: scene)
+                delegated = true
             }
             if !delegated {
                 delegate.inAppMessagingWindowIsDismissed?(self)
@@ -276,7 +266,6 @@ extension InAppMessaging {
         }
     }
 
-    @available(iOS 13.0, *)
     @objc
     private func observeSceneDidDisconnectNotification(_ notification: Notification) {
         guard let scene = notification.object as? UIScene else {

@@ -17,7 +17,6 @@
 import UIKit
 import KarteVariables
 
-@available(iOS 14.0, *)
 @MainActor
 final class KRTInAppCarousel: UIView {
     private let key: String
@@ -212,7 +211,6 @@ final class KRTInAppCarousel: UIView {
         }
     }
 
-    @available(iOS 14.0, *)
     private class KRTCarouselCell: UICollectionViewCell, UIContentView {
         static let reuseIdentifier = "KRTCarouselCell"
 
@@ -315,7 +313,6 @@ final class KRTInAppCarousel: UIView {
         }
     }
 
-    @available(iOS 14.0, *)
     private struct CellConfiguration: UIContentConfiguration {
         let variable: Variable
         let templateType: InAppCarouselModel.TemplateType

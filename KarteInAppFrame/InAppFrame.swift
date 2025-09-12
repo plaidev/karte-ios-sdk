@@ -19,7 +19,6 @@ import UIKit
 import KarteCore
 import KarteVariables
 
-@available(iOS 14.0, *)
 @objc(KRTInAppFrame)
 public final class InAppFrame: NSObject {
     @objc public static let shared = InAppFrame()
@@ -66,7 +65,6 @@ public final class InAppFrame: NSObject {
     }
 }
 
-@available(iOS 14.0, *)
 extension InAppFrame: Library {
     public static var name: String {
         "in_app_frame"

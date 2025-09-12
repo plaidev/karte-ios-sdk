@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteInbox'
-  s.version                 = '0.2.0'
+  s.version                 = '0.3.0'
   s.summary                 = 'KARTE Inbox SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.static_framework        = true
   
   s.platform                = :ios
-  s.ios.deployment_target   = '13.0'
+  s.ios.deployment_target   = '15.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Inbox-#{s.version}" }
   s.source_files            = 'KarteInbox/**/*.{swift,h,m}'
@@ -30,6 +30,6 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'INBOX_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteCore', '~> 2.22'
-  s.dependency 'KarteUtilities', '~> 3.5'
+  s.dependency 'KarteCore', '~> 2.32'
+  s.dependency 'KarteUtilities', '~> 3.14'
 end

@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-__IOS_AVAILABLE(10.0)
+__IOS_AVAILABLE(15.0)
 __TVOS_PROHIBITED
 __WATCHOS_PROHIBITED
 

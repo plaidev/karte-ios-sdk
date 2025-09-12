@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-#import <MobileCoreServices/MobileCoreServices.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 #import "KRTNotificationServiceExtension.h"
 #import "KarteAttributesPayload.h"
@@ -75,18 +75,21 @@ static const NSString *KarteMassPushNotificationKey = @"krt_mass_push_notificati
         return nil;
     }
 
-    CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, (__bridge CFStringRef _Nonnull)(mimeType), NULL);
+    UTType *type = [UTType typeWithMIMEType: mimeType];
+    if (!type) {
+        return nil;
+    }
 
-    CFStringRef acceptedTypes[] = {
-        kUTTypeJPEG, kUTTypePNG, kUTTypeGIF,
-        kUTTypeMPEG, kUTTypeMPEG2Video, kUTTypeMPEG4, kUTTypeAVIMovie,
-        kUTTypeAudioInterchangeFileFormat, kUTTypeWaveformAudio, kUTTypeMP3, kUTTypeMPEG4Audio};
+    UTType *acceptedTypes[] = {
+        UTTypeJPEG, UTTypePNG, UTTypeGIF,
+        UTTypeMPEG, UTTypeMPEG2Video, UTTypeMPEG4Movie, UTTypeAVI,
+        UTTypeAIFF, UTTypeWAV, UTTypeMP3, UTTypeMPEG4Audio};
 
     NSString *inferredTypeIdentifier = nil;
     int length = sizeof(acceptedTypes) / sizeof(acceptedTypes[0]);
     for (int i = 0; i < length; i++) {
-        if (UTTypeConformsTo(uti, acceptedTypes[i])) {
-            inferredTypeIdentifier = (__bridge_transfer NSString *)uti;
+        if ([type conformsToType:acceptedTypes[i]]) {
+            inferredTypeIdentifier = type.identifier;
             break;
         }
     }
@@ -157,16 +160,24 @@ static const NSString *KarteMassPushNotificationKey = @"krt_mass_push_notificati
                   @"bytes": data };
     };
 
-    NSDictionary *types = @{(NSString *)kUTTypeJPEG: @[sig(0, jpeg, sizeof(jpeg)), sig(0, jpegAlt, sizeof(jpegAlt)), sig(0, jpegAlt2, sizeof(jpegAlt2))],
-                            (NSString *)kUTTypePNG: @[sig(0, png, sizeof(png))],
-                            (NSString *)kUTTypeGIF: @[sig(0, gif, sizeof(gif))],
-                            @"public.aiff-audio": @[sig(0, aiff, sizeof(aiff))],
-                            @"com.microsoft.waveform-audio": @[sig(8, wav, sizeof(wav))],
-                            @"public.avi": @[sig(8, avi, sizeof(avi))],
-                            (NSString *)kUTTypeMP3: @[sig(0, mp3, sizeof(mp3))],
-                            (NSString *)kUTTypeMPEG4: @[sig(4, mp4v1, sizeof(mp4v1)), sig(4, mp4v2, sizeof(mp4v2)), sig(4, mp4mmp4, sizeof(mp4mmp4)), sig(4, mp4isom, sizeof(mp4isom))],
-                            (NSString *)kUTTypeMPEG4Audio: @[sig(4, m4a, sizeof(m4a))],
-                            (NSString *)kUTTypeMPEG: @[sig(0, mpeg, sizeof(mpeg)), sig(0, mpegAlt, sizeof(mpegAlt))] };
+    NSDictionary *types = @{
+        UTTypeJPEG.identifier: @[sig(0, jpeg, sizeof(jpeg)),
+                                 sig(0, jpegAlt, sizeof(jpegAlt)),
+                                 sig(0, jpegAlt2, sizeof(jpegAlt2))],
+        UTTypePNG.identifier: @[sig(0, png, sizeof(png))],
+        UTTypeGIF.identifier: @[sig(0, gif, sizeof(gif))],
+        UTTypeAIFF.identifier: @[sig(0, aiff, sizeof(aiff))],
+        UTTypeWAV.identifier: @[sig(8, wav, sizeof(wav))],
+        UTTypeAVI.identifier: @[sig(8, avi, sizeof(avi))],
+        UTTypeMP3.identifier: @[sig(0, mp3, sizeof(mp3))],
+        UTTypeMPEG4Movie.identifier: @[sig(4, mp4v1, sizeof(mp4v1)),
+                                       sig(4, mp4v2, sizeof(mp4v2)),
+                                       sig(4, mp4mmp4, sizeof(mp4mmp4)),
+                                       sig(4, mp4isom, sizeof(mp4isom))],
+        UTTypeMPEG4Audio.identifier: @[sig(4, m4a, sizeof(m4a))],
+        UTTypeMPEG.identifier: @[sig(0, mpeg, sizeof(mpeg)),
+                                 sig(0, mpegAlt, sizeof(mpegAlt))]
+    };
 
     return types;
 }

@@ -17,7 +17,6 @@
 import Foundation
 import AppTrackingTransparency
 
-@available(iOS 14, *)
 internal class ATTService {
     static func getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus) -> String {
         switch attStatus {

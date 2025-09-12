@@ -21,60 +21,58 @@ import UIKit
 /// **SDK内部で利用するタイプであり、通常のSDK利用でこちらのタイプを利用することはありません。**
 public struct WindowSceneDetector {
     /// 接続済みのSceneに関連する永続化識別子の配列を返します。
-    ///
-    /// iOS13未満では常に `nil` が返ります。
-    ///
+    /// - Parameter application: 通常はUIApplication.sharedが入ります。
     /// - Returns: 永続化識別子の配列
-    public static func retrievePersistentIdentifiers() -> [String]? {
+    public static func retrievePersistentIdentifiers(
+        application: UIApplicationProtocol? = UIApplication.shared
+    ) -> [String]? {
+        guard let application else {
+            return nil
+        }
         // swiftlint:disable:previous discouraged_optional_collection
-        if #available(iOS 13.0, *) {
-            if UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes)) {
-                return UIApplication.shared.connectedScenes.map { scene -> String in
-                    scene.session.persistentIdentifier
-                }
-            }
-            return nil
-        } else {
-            return nil
+        return application.connectedScenes.map { scene -> String in
+            scene.session.persistentIdentifier
         }
     }
 
     /// Viewに関連するSceneの永続化識別子を返します。<br>
     /// 引数が `nil` の場合は、接続済みScene配列の先頭のSceneの永続化識別子を返します。
     ///
-    /// またiOS13未満では常に `nil` が返ります。
-    ///
     /// - Parameter view: `UIView`
+    /// - Parameter application: 通常はUIApplication.sharedが入ります。
     /// - Returns: 永続化識別子
-    public static func retrievePersistentIdentifier(view: UIView?) -> String? {
-        if #available(iOS 13.0, *) {
-            if let identifier = view?.window?.windowScene?.session.persistentIdentifier {
-                return identifier
-            } else if let window = view as? UIWindow, let identifier = window.windowScene?.session.persistentIdentifier {
-                return identifier
-            } else if UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes)) {
-                return UIApplication.shared.connectedScenes.first?.session.persistentIdentifier
-            }
-            return nil
-        } else {
+    public static func retrievePersistentIdentifier(
+        view: UIView?,
+        application: UIApplicationProtocol? = UIApplication.shared
+    ) -> String? {
+        guard let application else {
             return nil
         }
+        if let identifier = view?.window?.windowScene?.session.persistentIdentifier {
+            return identifier
+        } else if let window = view as? UIWindow, let identifier = window.windowScene?.session.persistentIdentifier {
+            return identifier
+        }
+        return application.connectedScenes.first?.session.persistentIdentifier
     }
 
     /// 永続化識別子に関連する `UIWindowScene` を返します。
     /// - Parameter persistentIdentifier: 永続化識別子
+    /// - Parameter application: 通常はUIApplication.sharedが入ります。
     /// - Returns: `UIWindowScene`
-    @available(iOS 13.0, *)
-    public static func retrieveWindowScene(from persistentIdentifier: String? = nil) -> UIWindowScene? {
+    public static func retrieveWindowScene(
+        from persistentIdentifier: String? = nil,
+        application: UIApplicationProtocol? = UIApplication.shared
+    ) -> UIWindowScene? {
+        guard let application else {
+            return nil
+        }
         func matcher(_ scene: UIScene) -> Bool {
             scene.session.persistentIdentifier == persistentIdentifier
         }
-        if UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes)) {
-            if let scene = UIApplication.shared.connectedScenes.first(where: matcher) as? UIWindowScene {
-                return scene
-            }
+        if let scene = application.connectedScenes.first(where: matcher) as? UIWindowScene {
+            return scene
         }
-
         return nil
     }
 }

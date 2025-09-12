@@ -29,6 +29,10 @@ internal struct ClassLoader {
         load("VUlSZW1vdGVLZXlib2FyZFdpbmRvdw==")
     }
 
+    static var printPanelViewControllerClass: AnyClass? {
+        load("VUlQcmludFBhbmVsVmlld0NvbnRyb2xsZXI=")
+    }
+
     static func load(_ name: String) -> AnyClass? {
         Data(base64Encoded: name, options: .ignoreUnknownCharacters).flatMap {
             String(data: $0, encoding: .utf8)

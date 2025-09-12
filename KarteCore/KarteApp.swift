@@ -171,7 +171,6 @@ public extension KarteApp {
     ///
     /// - Parameters:
     ///   - attStatus: `ATTrackingManager.AuthorizationStatus`
-    @available(iOS 14, *)
     @objc
     class func sendATTStatus(attStatus: ATTrackingManager.AuthorizationStatus) {
         shared.sendATTStatus(attStatus: attStatus)
@@ -330,7 +329,6 @@ extension KarteApp {
         coreService?.renewVisitorId()
     }
 
-    @available(iOS 14, *)
     func sendATTStatus(attStatus: ATTrackingManager.AuthorizationStatus) {
         coreService?.sendATTStatus(attStatus: attStatus)
     }

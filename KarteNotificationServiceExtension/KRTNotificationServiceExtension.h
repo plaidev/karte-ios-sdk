@@ -16,7 +16,7 @@
 
 #import <UserNotifications/UserNotifications.h>
 
-__IOS_AVAILABLE(10.0)
+__IOS_AVAILABLE(15.0)
 __TVOS_PROHIBITED
 __WATCHOS_PROHIBITED
 
@@ -26,6 +26,8 @@ NS_SWIFT_NAME(NotificationServiceExtension)
 @interface KRTNotificationServiceExtension : UNNotificationServiceExtension
 
 - (BOOL)canHandleRemoteNotification:(NSDictionary *)userInfo;
+- (NSString *)uniformTypeIdentifierFromData:(NSData *)data;
+- (NSString *)uniformTypeIdentifierFromMIMEType:(NSString *)mimeType;
 
 @end
 

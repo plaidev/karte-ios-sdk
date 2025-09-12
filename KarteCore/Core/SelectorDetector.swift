@@ -23,9 +23,6 @@ internal protocol SelectorDetector {
 
 internal class DefaultSelectorDetector: SelectorDetector {
     func detect() -> Bool {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.responds(to: #selector(getter: UIApplication.connectedScenes))
-        }
         return true
     }
 

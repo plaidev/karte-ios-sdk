@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteVariables'
-  s.version                 = '2.12.0'
+  s.version                 = '2.13.0'
   s.summary                 = 'KARTE Variables SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.static_framework        = true
   
   s.platform                = :ios
-  s.ios.deployment_target   = '12.0'
+  s.ios.deployment_target   = '15.0'
   
   s.source                  = { :git => 'https://github.com/plaidev/karte-ios-sdk.git', :tag => "Variables-#{s.version}" }
   s.source_files            = 'KarteVariables/**/*.{swift,h,m}'
@@ -31,6 +31,6 @@ Pod::Spec.new do |s|
     'GCC_PREPROCESSOR_DEFINITIONS' => 'VARIABLES_VERSION=' + s.version.to_s
   }
 
-  s.dependency 'KarteCore', '~> 2.22'
-  s.dependency 'KarteUtilities', '~> 3.12'
+  s.dependency 'KarteCore', '~> 2.32'
+  s.dependency 'KarteUtilities', '~> 3.14'
 end

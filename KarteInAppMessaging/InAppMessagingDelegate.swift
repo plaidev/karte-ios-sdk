@@ -32,7 +32,6 @@ public protocol InAppMessagingDelegate: AnyObject {
     /// - Parameters:
     ///   - inAppMessaging: アプリ内メッセージインスタンス
     ///   - scene: シーン
-    @available(iOS 13.0, *)
     @objc
     optional func inAppMessagingWindowIsPresented(_ inAppMessaging: InAppMessaging, onScene scene: UIScene)
 
@@ -49,7 +48,6 @@ public protocol InAppMessagingDelegate: AnyObject {
     /// - Parameters:
     ///   - inAppMessaging: アプリ内メッセージインスタンス
     ///   - scene: シーン
-    @available(iOS 13.0, *)
     @objc
     optional func inAppMessagingWindowIsDismissed(_ inAppMessaging: InAppMessaging, onScene scene: UIScene)
 
@@ -71,7 +69,6 @@ public protocol InAppMessagingDelegate: AnyObject {
     ///   - campaignId: 接客サービスのキャンペーンID
     ///   - shortenId: 接客サービスアクションの短縮ID
     ///   - scene: シーン
-    @available(iOS 13.0, *)
     @objc
     optional func inAppMessagingIsPresented(_ inAppMessaging: InAppMessaging, campaignId: String, shortenId: String, onScene scene: UIScene)
 
@@ -93,7 +90,6 @@ public protocol InAppMessagingDelegate: AnyObject {
     ///   - campaignId: 接客サービスのキャンペーンID
     ///   - shortenId: 接客サービスアクションの短縮ID
     ///   - scene: シーン
-    @available(iOS 13.0, *)
     @objc
     optional func inAppMessagingIsDismissed(_ inAppMessaging: InAppMessaging, campaignId: String, shortenId: String, onScene scene: UIScene)
 
@@ -115,7 +111,6 @@ public protocol InAppMessagingDelegate: AnyObject {
     ///   - url: リンクURL
     ///   - scene: シーン
     /// - Returns: `true` を返した場合はSDK側でリンクを自動で開きます。`false` を返した場合はSDK側では何もしません。
-    @available(iOS 13.0, *)
     @objc
     optional func inAppMessaging(_ inAppMessaging: InAppMessaging, shouldOpenURL url: URL, onScene scene: UIScene) -> Bool
 }

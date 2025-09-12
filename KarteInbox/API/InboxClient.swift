@@ -20,13 +20,8 @@ struct InboxClient {
     private static let config = ProductionConfig()
 
     private static func call<Request: BaseAPIRequest>(_ request: Request) async -> Request.Response? {
-        if #available(iOS 15.0, *) {
-            let caller = NativeAsyncCaller()
-            return await caller(callee: request)
-        } else {
-            let caller = FallbackAsyncCaller()
-            return await caller(callee: request)
-        }
+        let caller = NativeAsyncCaller()
+        return await caller(callee: request)
     }
 }
 

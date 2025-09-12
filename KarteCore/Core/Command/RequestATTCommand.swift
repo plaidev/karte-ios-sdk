@@ -22,28 +22,24 @@ internal struct RequestATTCommand: Command {
     }
 
     func execute() {
-        if #available(iOS 14.5, *) {
-            guard ATTrackingManager.trackingAuthorizationStatus == .notDetermined else {
-                Logger.warn(tag: .core, message: "ATT is already determined, status = \(ATTrackingManager.trackingAuthorizationStatus)")
-                return
-            }
+        guard ATTrackingManager.trackingAuthorizationStatus == .notDetermined else {
+            Logger.warn(tag: .core, message: "ATT is already determined, status = \(ATTrackingManager.trackingAuthorizationStatus)")
+            return
+        }
 
-            ATTrackingManager.requestTrackingAuthorization { status in
-                switch status {
-                case .authorized:
-                    Logger.info(tag: .core, message: "ATT status is authorized")
-                case .denied:
-                    Logger.info(tag: .core, message: "ATT status is denied")
-                case .notDetermined:
-                    Logger.info(tag: .core, message: "ATT status is notDetermined")
-                case .restricted:
-                    Logger.info(tag: .core, message: "ATT status is restricted")
-                @unknown default:
-                    Logger.warn(tag: .core, message: "ATT status is unknown: \(status)")
-                }
+        ATTrackingManager.requestTrackingAuthorization { status in
+            switch status {
+            case .authorized:
+                Logger.info(tag: .core, message: "ATT status is authorized")
+            case .denied:
+                Logger.info(tag: .core, message: "ATT status is denied")
+            case .notDetermined:
+                Logger.info(tag: .core, message: "ATT status is notDetermined")
+            case .restricted:
+                Logger.info(tag: .core, message: "ATT status is restricted")
+            @unknown default:
+                Logger.warn(tag: .core, message: "ATT status is unknown: \(status)")
             }
-        } else {
-            Logger.warn(tag: .core, message: "iOS version must be over 14.5, ATT is not available")
         }
     }
 }

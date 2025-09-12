@@ -29,7 +29,6 @@ internal struct RegisterPushCommand: Command {
 }
 
 extension RegisterPushCommand {
-    @available(iOS 10.0, *)
     private func requestAuth() {
         let current = UNUserNotificationCenter.current()
         current.getNotificationSettings { settings in

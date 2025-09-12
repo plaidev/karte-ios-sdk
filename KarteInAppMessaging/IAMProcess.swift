@@ -101,14 +101,21 @@ internal class IAMProcess: NSObject {
 extension IAMProcess {
     func viewDidAppearFromViewController(_ viewController: UIViewController) {
         Logger.verbose(tag: .inAppMessaging, message: "ViewDidAppear: \(viewController)")
-        if RemoteViewDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
-            Logger.debug(tag: .inAppMessaging, message: "Detected the remote view: \(viewController)")
-            webView?.reset(mode: .hard)
-        }
+        if #available(iOS 26.0, *) {
+            if SystemUIDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
+                Logger.debug(tag: .inAppMessaging, message: "Detected the system ui: \(viewController)")
+                webView?.reset(mode: .hard)
+            }
+        } else {
+            if RemoteViewDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
+                Logger.debug(tag: .inAppMessaging, message: "Detected the remote view: \(viewController)")
+                webView?.reset(mode: .hard)
+            }
 
-        if ShareActivityDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
-            Logger.debug(tag: .inAppMessaging, message: "Detected the share activity: \(viewController)")
-            webView?.reset(mode: .hard)
+            if ShareActivityDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
+                Logger.debug(tag: .inAppMessaging, message: "Detected the share activity: \(viewController)")
+                webView?.reset(mode: .hard)
+            }
         }
     }
 
@@ -147,9 +154,7 @@ extension IAMProcess {
             if #available(iOS 16.0, *) {
                 configuration.allowsInlineMediaPlayback = true
             }
-            if #available(iOS 14.0, *), configuration.responds(to: #selector(setter: WKWebViewConfiguration.limitsNavigationsToAppBoundDomains)) {
-                configuration.limitsNavigationsToAppBoundDomains = true
-            }
+            configuration.limitsNavigationsToAppBoundDomains = true
 
             let userContentController = WKUserContentController()
             for name in JsMessageName.allCases {
@@ -207,14 +212,12 @@ extension IAMProcess {
         }
 
         if let presentationController = viewController.popoverPresentationController, modalPresentationStyle == .popover {
-            if #available(iOS 8.3, *) {
-                if let style = presentationController.delegate?.adaptivePresentationStyle?(for: presentationController, traitCollection: window.traitCollection) {
-                    modalPresentationStyle = style
-                } else if let style = presentationController.delegate?.adaptivePresentationStyle?(for: presentationController) {
-                    modalPresentationStyle = style
-                } else {
-                    modalPresentationStyle = presentationController.adaptivePresentationStyle
-                }
+            if let style = presentationController.delegate?.adaptivePresentationStyle?(for: presentationController, traitCollection: window.traitCollection) {
+                modalPresentationStyle = style
+            } else if let style = presentationController.delegate?.adaptivePresentationStyle?(for: presentationController) {
+                modalPresentationStyle = style
+            } else {
+                modalPresentationStyle = presentationController.adaptivePresentationStyle
             }
         }
 
@@ -292,12 +295,9 @@ extension IAMProcess {
             return
         }
 
-        if #available(iOS 13.0, *) {
-            let selector = #selector(InAppMessagingDelegate.inAppMessagingIsPresented(_:campaignId:shortenId:onScene:))
-            if (delegate as AnyObject).responds(to: selector), let scene = window?.windowScene {
-                delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
-                return
-            }
+        if let scene = window?.windowScene {
+            delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
+            return
         }
         delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId)
     }
@@ -308,12 +308,9 @@ extension IAMProcess {
             return
         }
 
-        if #available(iOS 13.0, *) {
-            let selector = #selector(InAppMessagingDelegate.inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:))
-            if (delegate as AnyObject).responds(to: selector), let scene = window?.windowScene {
-                delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
-                return
-            }
+        if let scene = window?.windowScene {
+            delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
+            return
         }
         delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId)
     }
@@ -326,14 +323,21 @@ extension IAMProcess: IAMWebViewDelegate {
             return true
         }
 
-        if RemoteViewDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
-            Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected remote view.")
-            return false
-        }
+        if #available(iOS 26, *) {
+            if SystemUIDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
+                Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected system ui.")
+                return false
+            }
+        } else {
+            if RemoteViewDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
+                Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected remote view.")
+                return false
+            }
 
-        if ShareActivityDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
-            Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected share activity.")
-            return false
+            if ShareActivityDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
+                Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected share activity.")
+                return false
+            }
         }
 
         if let window = IAMWindow(sceneId: sceneId) {
@@ -360,12 +364,9 @@ extension IAMProcess: IAMWebViewDelegate {
             return true
         }
 
-        if #available(iOS 13.0, *) {
-            let selector = #selector(InAppMessagingDelegate.inAppMessaging(_:shouldOpenURL:onScene:))
-            if (delegate as AnyObject).responds(to: selector), let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
-                // swiftlint:disable:next force_unwrapping
-                return delegate.inAppMessaging!(iam, shouldOpenURL: url, onScene: scene)
-            }
+        if let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
+            // swiftlint:disable:next force_unwrapping
+            return delegate.inAppMessaging!(iam, shouldOpenURL: url, onScene: scene)
         }
         return delegate.inAppMessaging?(iam, shouldOpenURL: url) ?? true
     }

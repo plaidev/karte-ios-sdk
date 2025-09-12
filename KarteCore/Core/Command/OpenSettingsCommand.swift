@@ -22,10 +22,8 @@ internal struct OpenSettingsCommand: Command {
     }
 
     func execute() {
-        if #available(iOS 10.0, *) {
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 }

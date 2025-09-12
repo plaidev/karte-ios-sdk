@@ -1,0 +1,98 @@
+name: Claude Code with Vertex AI
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  claude:
+    timeout-minutes: 30
+    if: contains(github.event.comment.body, '@claude') && github.repository != 'plaidev/karte-ios-sdk'
+    runs-on: ubuntu-latest
+    steps:
+
+      # コメント内容に基づいてモデルを選択
+      - name: Select Claude Model
+        id: select_model
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const comment = context.payload.comment.body;
+            if (comment.includes('@claude-opus-4')) {
+              core.setOutput('model', 'claude-opus-4-1-20250805');
+              console.log('Using Opus-4.1 model');
+            } else {
+              core.setOutput('model', 'claude-sonnet-4-20250514');
+              console.log('Using Sonnet-4 model');
+            }
+
+      # リポジトリのチェックアウト
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      # GCP認証
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        id: auth_gcp
+        with:
+          workload_identity_provider: 'projects/707161537700/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
+          service_account: 'github-actions@plaid-devenv-ai.iam.gserviceaccount.com'
+
+      # Github App Tokenの取得
+      # secrets.GITHUB_TOKENを使うとcommitした際にCIが走らないため、Github AppのTokenを使用する
+      - uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2.1.1
+        id: app-token
+        with:
+          app-id: 135171 # https://github.com/organizations/plaidev/settings/apps/plaidev-github-actions-agent
+          private-key: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_PRIVATE_KEY }}
+
+      # Claude Code Actionの実行
+      - uses: anthropics/claude-code-action@0c127307fa529d701bc1f0f8f9c0bea881c49a9b # v1.0.2
+        id: claude_action
+        continue-on-error: true
+        env:
+          # Vertex AI設定
+          ANTHROPIC_VERTEX_PROJECT_ID: 'plaid-devenv-ai'
+          ANTHROPIC_VERTEX_REGION: us-east5
+          CLAUDE_CODE_ENDPOINT: vertex
+          CLOUD_ML_REGION: us-east5
+
+          # モデル設定（動的に選択）
+          CLAUDE_CODE_PRIMARY_MODEL: ${{ steps.select_model.outputs.model }}
+          CLAUDE_CODE_ASSISTANT_MODEL: claude-sonnet-4-20250514
+
+          # プロンプトキャッシング設定（オプション）
+          ANTHROPIC_VERTEX_ENABLE_PROMPT_CACHING: true
+        with:
+          github_token: ${{ steps.app-token.outputs.token }}
+          use_vertex: true
+          direct_prompt: |
+            @claude メンションのコメントに基づいて対応してください。
+            リポジトリのCLAUDE.mdファイルのガイドラインに従ってください。
+            コメントは日本語でお願いします。
+            権限がなくて実現できなかったタスクがある場合は何ができなかったかをコメントしてください。
+          timeout_minutes: 30
+          allowed_tools: |
+            Glob
+            Grep
+            LS
+            Read
+
+      # エラー時のコメント
+      - name: Comment on failure
+        if: failure() || steps.claude_action.outcome == 'failure'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          github-token: ${{ steps.app-token.outputs.token }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '❌ Claude Code Actionの実行に失敗しました。\n\n詳細はワークフローログをご確認ください。'
+            });
