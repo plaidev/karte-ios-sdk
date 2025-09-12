@@ -22,6 +22,10 @@
 ### InAppMessaging 2.21.0
 ** 🔨CHANGED**
 - Deployment Targetを変更しました(iOS12.0 → iOS15.0)
+- iOS26以降で、システムが提供する一部のViewController表示時は接客を非表示にするようにしました。
+  - この挙動は `isSkipSystemUIDetectionInWebView` フラグをtrueにすることで無効化することができます。デフォルトではこの値は `false` です。
+  - 通常の利用では本フラグの設定は必要ありません
+  - `isSkipRemoteViewDetectionInWebView` が非推奨になりました。
 
 ### RemoteNotification 2.13.0
 ** 🔨CHANGED**

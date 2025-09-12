@@ -18,6 +18,7 @@ import KarteCore
 import UIKit
 import WebKit
 
+@available(iOS, deprecated: 26.0)
 internal struct RemoteViewDetector {
     static func detect(lessThanWindowLevel windowLevel: UIWindow.Level, scenePersistentIdentifier: String? = nil) -> Bool {
         let windows = WindowDetector.retrieveRelatedWindows(from: scenePersistentIdentifier)
@@ -66,7 +67,7 @@ extension RemoteViewDetector {
     }
 
     private static func detect(view: UIView, cls: AnyClass) -> Bool {
-        if let config = InAppMessaging.shared.config, config.isSkipRemoteViewDetectionInWebView, view is WKWebView {
+        if let config = InAppMessaging.shared.config, (config.isSkipRemoteViewDetectionInWebView || config.isSkipSystemUIDetectionInWebView), view is WKWebView {
             return false
         }
 

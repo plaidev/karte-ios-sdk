@@ -403,6 +403,7 @@
 		736C7EF62DFAC30900424237 /* SessionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C7EF32DFAC30900424237 /* SessionSpec.swift */; };
 		736C7EF82DFAC30900424237 /* HTTPMethodSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C7EEF2DFAC30900424237 /* HTTPMethodSpec.swift */; };
 		736C7EFA2DFAC89400424237 /* RequestMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C7EF92DFAC89400424237 /* RequestMock.swift */; };
+		7386E8822E6AAA9B001696B6 /* SystemUIDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7386E8812E6AAA9B001696B6 /* SystemUIDetector.swift */; };
 		738DF1262DE5D4A000D407B3 /* RequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738DF1242DE5D4A000D407B3 /* RequestSpec.swift */; };
 		73911C6D2DE6E7A300B21A67 /* MultipartFormDataBodySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73911C6B2DE6E7A300B21A67 /* MultipartFormDataBodySpec.swift */; };
 		73D98BB02DD4AE9F00E0C2FE /* MultipartFormDataBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D98BAF2DD4AE9F00E0C2FE /* MultipartFormDataBody.swift */; };
@@ -1054,6 +1055,7 @@
 		736C7EF22DFAC30900424237 /* RequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSpec.swift; sourceTree = "<group>"; };
 		736C7EF32DFAC30900424237 /* SessionSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSpec.swift; sourceTree = "<group>"; };
 		736C7EF92DFAC89400424237 /* RequestMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMock.swift; sourceTree = "<group>"; };
+		7386E8812E6AAA9B001696B6 /* SystemUIDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemUIDetector.swift; sourceTree = "<group>"; };
 		738DF1242DE5D4A000D407B3 /* RequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSpec.swift; sourceTree = "<group>"; };
 		73911C6B2DE6E7A300B21A67 /* MultipartFormDataBodySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormDataBodySpec.swift; sourceTree = "<group>"; };
 		73D98BAF2DD4AE9F00E0C2FE /* MultipartFormDataBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormDataBody.swift; sourceTree = "<group>"; };
@@ -1422,6 +1424,7 @@
 				0C4B51B32492173B0075A67D /* OpacityDetector.swift */,
 				0C4B51B22492173B0075A67D /* RemoteViewDetector.swift */,
 				71F1F95E2C650FFA00CB7C17 /* ShareActivityDetector.swift */,
+				7386E8812E6AAA9B001696B6 /* SystemUIDetector.swift */,
 			);
 			path = Detectors;
 			sourceTree = "<group>";
@@ -3455,6 +3458,7 @@
 				0C89761C237AE27D00098CD8 /* InAppMessaging.swift in Sources */,
 				0C068A9A29A4646E0000560D /* Tracker+InAppMessaging.swift in Sources */,
 				0C89761D237AE27D00098CD8 /* IAMProcess.swift in Sources */,
+				7386E8822E6AAA9B001696B6 /* SystemUIDetector.swift in Sources */,
 				0C4945C123B9E35900804700 /* PreviewLoader.m in Sources */,
 				0C5A7D2E24A1FAF00070CDBD /* MessageSuppressionFilterRule.swift in Sources */,
 				0CC4BF9B2B144A190019EDF4 /* InAppMessagingConfiguration.swift in Sources */,

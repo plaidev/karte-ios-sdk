@@ -13,7 +13,13 @@ public class InAppMessagingConfiguration: NSObject, LibraryConfiguration {
     /// WKWebView配下のRemoteView検出をスキップするためのフラグです。<br>
     /// フラグを `true` にした場合は、RemoteView検出がスキップされます。<br>
     /// デフォルトは `false` です。
+    @available(iOS, deprecated: 26.0, message: "Use isSkipSystemUIDetectionInWebView instead.", renamed: "isSkipSystemUIDetectionInWebView")
     @objc public var isSkipRemoteViewDetectionInWebView = false
+
+    /// WKWebView配下のシステムUI検出をスキップするためのフラグです。<br>
+    /// フラグを `true` にした場合は、システムUI検出がスキップされます。<br>
+    /// デフォルトは `false` です。
+    @objc public var isSkipSystemUIDetectionInWebView = false
 
     /// SDK側で画面境界を自動で認識する機能<br>
     /// フラグを `true` にした場合は、SDK側で画面境界が自動で認識されます。<br>

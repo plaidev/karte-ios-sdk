@@ -101,14 +101,21 @@ internal class IAMProcess: NSObject {
 extension IAMProcess {
     func viewDidAppearFromViewController(_ viewController: UIViewController) {
         Logger.verbose(tag: .inAppMessaging, message: "ViewDidAppear: \(viewController)")
-        if RemoteViewDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
-            Logger.debug(tag: .inAppMessaging, message: "Detected the remote view: \(viewController)")
-            webView?.reset(mode: .hard)
-        }
+        if #available(iOS 26.0, *) {
+            if SystemUIDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
+                Logger.debug(tag: .inAppMessaging, message: "Detected the system ui: \(viewController)")
+                webView?.reset(mode: .hard)
+            }
+        } else {
+            if RemoteViewDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
+                Logger.debug(tag: .inAppMessaging, message: "Detected the remote view: \(viewController)")
+                webView?.reset(mode: .hard)
+            }
 
-        if ShareActivityDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
-            Logger.debug(tag: .inAppMessaging, message: "Detected the share activity: \(viewController)")
-            webView?.reset(mode: .hard)
+            if ShareActivityDetector.detect(viewController, lessThanWindowLevel: IAMWindow.windowLevel) {
+                Logger.debug(tag: .inAppMessaging, message: "Detected the share activity: \(viewController)")
+                webView?.reset(mode: .hard)
+            }
         }
     }
 
@@ -316,14 +323,21 @@ extension IAMProcess: IAMWebViewDelegate {
             return true
         }
 
-        if RemoteViewDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
-            Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected remote view.")
-            return false
-        }
+        if #available(iOS 26, *) {
+            if SystemUIDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
+                Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected system ui.")
+                return false
+            }
+        } else {
+            if RemoteViewDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
+                Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected remote view.")
+                return false
+            }
 
-        if ShareActivityDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
-            Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected share activity.")
-            return false
+            if ShareActivityDetector.detect(lessThanWindowLevel: IAMWindow.windowLevel, scenePersistentIdentifier: sceneId.identifier) {
+                Logger.info(tag: .inAppMessaging, message: "Cancelled showing in-app messaging because detected share activity.")
+                return false
+            }
         }
 
         if let window = IAMWindow(sceneId: sceneId) {

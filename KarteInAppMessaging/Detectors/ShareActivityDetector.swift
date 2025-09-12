@@ -17,6 +17,7 @@
 import KarteCore
 import UIKit
 
+@available(iOS, deprecated: 26.0)
 internal struct ShareActivityDetector {
     static func detect(lessThanWindowLevel windowLevel: UIWindow.Level, scenePersistentIdentifier: String? = nil) -> Bool {
         let windows = WindowDetector.retrieveRelatedWindows(from: scenePersistentIdentifier)
