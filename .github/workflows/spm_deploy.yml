@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14-large
+    runs-on: macos-26
     permissions:
       contents: write
       id-token: write
@@ -42,7 +42,7 @@ jobs:
       - name: Setup Gems
         run: bundle install
       - name: Select Xcode version
-        run: sudo xcode-select -s '/Applications/Xcode_15.4.app'
+        run: sudo xcode-select -s '/Applications/Xcode_26.0.app'
       - name: Find Release Targets
         id: find-release-targets
         run: |

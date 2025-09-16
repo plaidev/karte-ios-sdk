@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 jobs:
   review:
-    runs-on: macos-latest
+    runs-on: macos-26
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1

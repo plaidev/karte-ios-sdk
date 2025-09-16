@@ -7,10 +7,10 @@ version: 2.1
 parameters:
   os:
     type: string
-    default: "17.5"
+    default: "26.0"
   device:
     type: string
-    default: "iPhone 15"
+    default: "iPhone 16"
   context:
     description: Specify running context. Default is CI but theare are 2 options for manual release.
     type: enum
@@ -23,9 +23,9 @@ orbs:
 
 executors:
   build:
-    resource_class: macos.m1.large.gen1
+    resource_class: m4pro.medium
     macos:
-      xcode: "16.0.0"
+      xcode: "26.0.0"
     shell: /bin/bash --login -eo pipefail
     working_directory: /Users/distiller/project
     environment:
