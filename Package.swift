@@ -74,7 +74,7 @@ let package = Package(
             name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.14.0/KarteVisualTracking.xcframework.zip", checksum: "72a0b9233e5bee78b9b9972fbdf9c0ab88e0377351557400285526b379ab53e8"
         ),
         .binaryTarget(
-            name: "KarteInbox", url: "https://sdk.karte.io/ios/swiftpm/Inbox-0.3.1/KarteInbox.xcframework.zip", checksum: "8d0827fecd02e614dc86c5bbd44300da9c509eeac138f8ce499219b57e6ee38a"
+            name: "KarteInbox", url: "https://sdk.karte.io/ios/swiftpm/Inbox-0.3.1/KarteInbox.xcframework.zip", checksum: "ab07d4aa49da6816e15a4048c2d7172a93db5b3ba1d6fb137a8792b9daa0310c"
         ),
         .binaryTarget(
             name: "KarteInAppFrame", url: "https://sdk.karte.io/ios/swiftpm/InAppFrame-0.6.0/KarteInAppFrame.xcframework.zip", checksum: "a9b1f8741f590efbc5f5fae4e0d1959b6bd58d02ad8504e2b0a36b8163940fe9"
