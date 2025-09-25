@@ -19,6 +19,9 @@
 ** 💊FIXED**
 - iOS26で、IAMWindowがView階層から正しく除去されない問題を修正しました。
 
+** 🔨CHANGED**
+- InAppMessaging2.21.0で追加した接客の非表示対象にHealthKitの権限取得ダイアログを追加しました。
+
 # Releases - 2025.09.12
 ## Version 2.26.0
 
