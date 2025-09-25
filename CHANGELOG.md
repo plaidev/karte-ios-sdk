@@ -18,6 +18,7 @@
 ### InAppMessaging 2.22.0
 ** 💊FIXED**
 - iOS26で、IAMWindowがView階層から正しく除去されない問題を修正しました。
+- `InAppMessaging`に`InAppMessagingDelegate`が設定されている、かつその`InAppMessagingDelegate`に`inAppMessaging`メソッドが実装されていない場合に、WebView上のリンクをタップした際にクラッシュする問題を修正しました。
 
 ** 🔨CHANGED**
 - InAppMessaging2.21.0で追加した接客の非表示対象にHealthKitの権限取得ダイアログを追加しました。
