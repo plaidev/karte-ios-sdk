@@ -15,12 +15,12 @@ end
 
 puts request_body.to_json
 
-url = URI("https://dash.readme.com/api/v1/docs/release-notes-ios-sdk-v2")
+url = URI("https://api.readme.com/v2/branches/1.0/guides/release-notes-ios-sdk-v2")
 
 http = Net::HTTP.new(url.host, url.port)
 http.use_ssl = true
 
-request = Net::HTTP::Put.new(url)
+request = Net::HTTP::Patch.new(url)
 request["Accept"] = 'application/json'
 request["Content-Type"] = 'application/json'
 request["Authorization"] = "Basic #{ENV["README_API_KEY"]}"
