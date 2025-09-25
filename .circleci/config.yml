@@ -10,7 +10,7 @@ parameters:
     default: "26.0"
   device:
     type: string
-    default: "iPhone 16"
+    default: "iPhone 17"
   context:
     description: Specify running context. Default is CI but theare are 2 options for manual release.
     type: enum

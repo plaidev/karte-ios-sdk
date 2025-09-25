@@ -102,7 +102,8 @@ extension SystemUIDetector {
             NSClassFromString("EKEventEditViewController").self,
             NSClassFromString("EKEventViewController").self,
             NSClassFromString("AVPlayerViewController").self,
-            NSClassFromString("VisionKit.DataScannerViewController").self
+            NSClassFromString("VisionKit.DataScannerViewController").self,
+            NSClassFromString("HKHealthPrivacyHostAuthorizationViewController").self
         ]
         if #available(iOS 17.0, *) {
             detectionTargets.append(UIDocumentViewController.self)

@@ -47,6 +47,8 @@ internal class IAMProcess: NSObject {
     }
 
     func terminate() {
+        // NOTE: Hides window to remove IAMWindow from view hierarchy in iOS 26.
+        window?.isHidden = true
         self.window = nil
         self.webView = nil
     }
@@ -352,6 +354,8 @@ extension IAMProcess: IAMWebViewDelegate {
 
     func hideInAppMessagingWebView(_ webView: IAMWebView) -> Bool {
         if window != nil {
+            // NOTE: Hides window to remove IAMWindow from view hierarchy in iOS 26.
+            window?.isHidden = true
             self.window = nil
         }
         return true
@@ -365,8 +369,7 @@ extension IAMProcess: IAMWebViewDelegate {
         }
 
         if let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
-            // swiftlint:disable:next force_unwrapping
-            return delegate.inAppMessaging!(iam, shouldOpenURL: url, onScene: scene)
+            return delegate.inAppMessaging?(iam, shouldOpenURL: url, onScene: scene) ?? true
         }
         return delegate.inAppMessaging?(iam, shouldOpenURL: url) ?? true
     }
