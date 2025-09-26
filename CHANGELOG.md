@@ -993,19 +993,3 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 ### Utilities 2.0.0
 初回リリース
 
-<div style="display:none;">
-テンプレ
-
-# Releases - 2022.01.12
-## Version 2.1.0
-
-### Core 2.0.0
-** 🎉FEATURE**
-- xxx
-
-** 💊FIXED**
-- xxx
-
-** 🔨CHANGED**
-- xxx
-</div>
