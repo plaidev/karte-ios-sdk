@@ -19,6 +19,7 @@ if !(type bundle); then
   exit 1
 fi
 
-bundle install --path ./vendor/bundle
+bundle config set --local path './vendor/bundle'
+bundle install
 swift run --package-path SwiftPackages mint bootstrap
 git submodule update --init --recursive
