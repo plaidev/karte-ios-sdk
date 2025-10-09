@@ -3,7 +3,7 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.32.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.22.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.23.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.13.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.14.0 |
@@ -18,6 +18,10 @@
 ### CrashReporting 2.11.0
 **🔨CHANGED**
 - 依存先のCrashReporterライブラリを更新しました。
+
+### InAppMessaging 2.23.0
+**🔨CHANGED**
+- InAppMessaging2.21.0で追加した接客の非表示対象に`SFSafariViewController`を追加しました。
 
 # Releases - 2025.09.25
 ## Version 2.27.0

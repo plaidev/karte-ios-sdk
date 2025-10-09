@@ -93,6 +93,7 @@ extension SystemUIDetector {
             NSClassFromString("MFMessageComposeViewController").self,
             NSClassFromString("MFMailComposeViewController").self,
             NSClassFromString("MCBrowserViewController").self,
+            NSClassFromString("SFSafariViewController").self,
             NSClassFromString("INUIEditVoiceShortcutViewController").self,
             NSClassFromString("INUIAddVoiceShortcutViewController").self,
             NSClassFromString("CABTMIDICentralViewController").self,
