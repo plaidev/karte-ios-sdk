@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteCrashReporting'
-  s.version                 = '2.10.0'
+  s.version                 = '2.11.0'
   s.summary                 = 'KARTE Crash reporting SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -34,5 +34,5 @@ Pod::Spec.new do |s|
   }
 
   s.dependency 'KarteCore', '~> 2.32'
-  s.dependency 'KarteCrashReporter', '~> 1.12'
+  s.dependency 'KarteCrashReporter', '~> 1.13'
 end

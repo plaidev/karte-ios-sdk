@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARTE iOS SDK - Release Notes Feed</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .feed-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .feed-url {
+            word-break: break-all;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .instructions {
+            margin-top: 30px;
+        }
+        .instructions h2 {
+            color: #2c3e50;
+            font-size: 1.2em;
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>KARTE iOS SDK Release Notes</h1>
+
+    <div class="feed-info">
+        <p><strong>Atom Feed URL:</strong></p>
+        <div class="feed-url">{{FEED_URL}}</div>
+    </div>
+
+    <div class="instructions">
+        <h2>How to Subscribe</h2>
+        <ol>
+            <li>Copy the Atom feed URL above</li>
+            <li>Open your RSS reader application</li>
+            <li>Add a new feed subscription using the URL</li>
+            <li>You'll receive notifications when new iOS SDK versions are released</li>
+        </ol>
+    </div>
+
+    <div class="instructions">
+        <h2>About</h2>
+        <p>
+            This feed provides release notes for the KARTE iOS SDK.
+            Subscribe to stay updated on the latest features, improvements, and bug fixes.
+        </p>
+        <p>
+            For more information, visit the
+            <a href="https://developers.karte.io/docs/release-notes-ios-sdk-v2#/" target="_blank">
+                official release notes documentation
+            </a>.
+        </p>
+    </div>
+</body>
+</html>

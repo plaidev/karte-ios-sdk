@@ -53,7 +53,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name: "KarteCrashReporter", url: "https://github.com/plaidev/KartePLCrashReporter.git", from: "1.12.0-patch")
+        .package(name: "KarteCrashReporter", url: "https://github.com/plaidev/KartePLCrashReporter.git", from: "1.13.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -65,7 +65,7 @@ let package = Package(
             name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.32.0/KarteCore.xcframework.zip", checksum: "3947b17de0b5600192c2a9d18df09dcc3716f5ec821ba48af7645ba996de4fb1"
         ),
         .binaryTarget(
-            name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.22.0/KarteInAppMessaging.xcframework.zip", checksum: "8aff3a3d941c467d0271d151b5fe57dd40e44d631b36cc36e50fc9277f258f82"
+            name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.23.0/KarteInAppMessaging.xcframework.zip", checksum: "4b995eeaf4b5a0758e1b55cad4d039e725ebddd3c3879c0bcfeb7d5954fc31b6"
         ),
         .binaryTarget(
             name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.13.0/KarteVariables.xcframework.zip", checksum: "ff0160de60f16e6a4cef8ae7a2d9da7470d189923ddf673e9327cf443a7f5318"
@@ -83,7 +83,7 @@ let package = Package(
             name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.13.0/KarteRemoteNotification.xcframework.zip", checksum: "713a2777cfc218810a0c19594f2bc8b55e7e7530c63b5a12d9df233e2c19b549"
         ),
         .binaryTarget(
-            name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.10.0/KarteCrashReporting.xcframework.zip", checksum: "1d3d1105ef51b2afa400fff135f281f5291fc138f7b8be123155f1ab30d0d27a"
+            name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.11.0/KarteCrashReporting.xcframework.zip", checksum: "c90db893b805aad03ded5933972411dc1f7edebb5c720955b00f3ae0cb1836ea"
         ),
         .target(
             name: "KarteCrashReportingTarget", 

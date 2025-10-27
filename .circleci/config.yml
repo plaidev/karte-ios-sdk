@@ -48,7 +48,7 @@ commands:
           key: v2-gems-{{ checksum "Gemfile.lock" }}
       - run:
           name: Bundle install
-          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+          command: bundle config set --local path 'vendor/bundle' && (bundle check || bundle install)
           environment:
             BUNDLE_JOBS: 4
             BUNDLE_RETRY: 3

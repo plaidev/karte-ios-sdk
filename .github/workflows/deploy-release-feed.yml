@@ -1,0 +1,79 @@
+name: Deploy release feed to Pages
+
+on:
+  push:
+    branches: ["master"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # For production (plaidev/karte-ios-sdk):
+    if: github.repository == 'plaidev/karte-ios-sdk'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Check commit message
+        id: check_message
+        run: |
+          MESSAGE=$(git log -1 --pretty=%B)
+          if echo "$MESSAGE" | grep -q "Merge release"; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Commit message contains 'Merge release' - proceeding with deployment"
+          else
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+            echo "⏭️  Commit message does not contain 'Merge release' - skipping deployment"
+          fi
+
+      - name: Generate Atom Feed
+        if: steps.check_message.outputs.should_deploy == 'true'
+        run: |
+          mkdir -p docs
+          LINK_URL="https://developers.karte.io/docs/release-notes-ios-sdk-v2#/"
+          FEED_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/releases.atom"
+
+          ruby scripts/generate_feed.rb CHANGELOG.md "${FEED_URL}" "${LINK_URL}" > docs/releases.atom
+
+          echo "Generated Atom feed from CHANGELOG with link to: ${LINK_URL}"
+      - name: Generate index.html
+        if: steps.check_message.outputs.should_deploy == 'true'
+        run: |
+          FEED_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/releases.atom"
+          sed "s|{{FEED_URL}}|${FEED_URL}|g" .github/PAGES_TEMPLATE/index.html.template > docs/index.html
+          echo "Generated index.html with feed URL: ${FEED_URL}"
+
+      - name: Setup Pages
+        if: steps.check_message.outputs.should_deploy == 'true'
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+        with:
+          enablement: true
+
+      - name: Upload artifact
+        if: steps.check_message.outputs.should_deploy == 'true'
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          # Upload docs directory containing releases.atom and index.html
+          path: 'docs'
+
+      - name: Deploy to GitHub Pages
+        if: steps.check_message.outputs.should_deploy == 'true'
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
