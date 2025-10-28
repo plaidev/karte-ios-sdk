@@ -40,7 +40,7 @@ extension Preview: Library {
     }
 
     public static var version: String {
-        "1.0.0"
+        KRTInAppMessagingCurrentLibraryVersion()
     }
 
     public static var isPublic: Bool {
