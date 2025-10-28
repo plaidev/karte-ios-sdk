@@ -29,7 +29,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcb5dd907a8 # v5.0.0
 
       - name: Check commit message
         id: check_message
@@ -50,7 +50,7 @@ jobs:
           LINK_URL="https://developers.karte.io/docs/release-notes-ios-sdk-v2#/"
           FEED_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/releases.atom"
 
-          ruby scripts/generate_feed.rb CHANGELOG.md "${FEED_URL}" "${LINK_URL}" > docs/releases.atom
+          ruby scripts/generate_rss_feed.rb CHANGELOG.md "${FEED_URL}" "${LINK_URL}" > docs/releases.atom
 
           echo "Generated Atom feed from CHANGELOG with link to: ${LINK_URL}"
       - name: Generate index.html
@@ -68,7 +68,7 @@ jobs:
 
       - name: Upload artifact
         if: steps.check_message.outputs.should_deploy == 'true'
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
         with:
           # Upload docs directory containing releases.atom and index.html
           path: 'docs'

@@ -38,7 +38,7 @@ extension DeepLinkEvent: Library {
     }
 
     public static var version: String {
-        "1.0.0"
+        KRTCoreCurrentLibraryVersion()
     }
 
     public static var isPublic: Bool {
