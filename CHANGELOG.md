@@ -8,10 +8,17 @@
 | KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.14.0 |
 | KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.6.0 |
-| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.11.0 |
+| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.11.1 |
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.14.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
+
+# Releases - 2025.11.04
+## Version 2.30.1
+
+### CrashReporting 2.11.1
+**💊FIXED**
+- SwiftPackageManagerでインストールした際にビルドエラーになる問題を修正しました。
 
 # Releases - 2025.10.28
 ## Version 2.30.0
