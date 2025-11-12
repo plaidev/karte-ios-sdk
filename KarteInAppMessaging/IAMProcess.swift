@@ -301,6 +301,7 @@ extension IAMProcess {
             delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
             return
         }
+        Logger.warn(tag: .inAppMessaging, message: "WindowScene not found. Skipped calling inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)")
         delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId)
     }
 
@@ -314,6 +315,7 @@ extension IAMProcess {
             delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
             return
         }
+        Logger.warn(tag: .inAppMessaging, message: "WindowScene not found. Skipped calling inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)")
         delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId)
     }
 }
@@ -371,6 +373,7 @@ extension IAMProcess: IAMWebViewDelegate {
         if let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
             return delegate.inAppMessaging?(iam, shouldOpenURL: url, onScene: scene) ?? true
         }
+        Logger.warn(tag: .inAppMessaging, message: "WindowScene not found. Skipped calling inAppMessaging(_:shouldOpenURL:onScene:)")
         return delegate.inAppMessaging?(iam, shouldOpenURL: url) ?? true
     }
 }

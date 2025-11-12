@@ -21,9 +21,11 @@ import UIKit
 public protocol InAppMessagingDelegate: AnyObject {
     /// アプリ内メッセージ用のWindowが表示されたことを通知します。
     ///
-    /// なお iOS13 または iPadOS で実行されている場合かつ `inAppMessagingWindowIsPresented(_:onScene:)` が実装されている場合は、本メソッドは呼び出されません。
+    /// このメソッドは非推奨です。`inAppMessagingWindowIsPresented(_:onScene:)` を使用してください。
+    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessagingWindowIsPresented(_:onScene:)` が呼び出されます。
     ///
     /// - Parameter inAppMessaging: アプリ内メッセージインスタンス
+    @available(*, deprecated, message: "Use inAppMessagingWindowIsPresented(_:onScene:) instead.")
     @objc
     optional func inAppMessagingWindowIsPresented(_ inAppMessaging: InAppMessaging)
 
@@ -37,9 +39,11 @@ public protocol InAppMessagingDelegate: AnyObject {
 
     /// アプリ内メッセージ用のWindowが非表示になったことを通知します。
     ///
-    /// なお iOS13 または iPadOS で実行されている場合かつ `inAppMessagingWindowIsDismissed(_:onScene:)` が実装されている場合は、本メソッドは呼び出されません。
+    /// このメソッドは非推奨です。`inAppMessagingWindowIsDismissed(_:onScene:)` を使用してください。
+    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessagingWindowIsDismissed(_:onScene:)` が呼び出されます。
     ///
     /// - Parameter inAppMessaging: アプリ内メッセージインスタンス
+    @available(*, deprecated, message: "Use inAppMessagingWindowIsDismissed(_:onScene:) instead.")
     @objc
     optional func inAppMessagingWindowIsDismissed(_ inAppMessaging: InAppMessaging)
 
@@ -53,12 +57,14 @@ public protocol InAppMessagingDelegate: AnyObject {
 
     /// 接客サービスアクションが表示されたことを通知します。
     ///
-    /// なお iOS13 または iPadOS で実行されている場合かつ `inAppMessagingIsPresented(_:onScene:campaignId:shortenId)` が実装されている場合は、本メソッドは呼び出されません。
+    /// このメソッドは非推奨です。`inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` を使用してください。
+    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` が呼び出されます。
     ///
     /// - Parameters:
     ///   - inAppMessaging: アプリ内メッセージインスタンス
     ///   - campaignId: 接客サービスのキャンペーンID
     ///   - shortenId: 接客サービスアクションの短縮ID
+    @available(*, deprecated, message: "Use inAppMessagingIsPresented(_:campaignId:shortenId:onScene:) instead.")
     @objc
     optional func inAppMessagingIsPresented(_ inAppMessaging: InAppMessaging, campaignId: String, shortenId: String)
 
@@ -74,12 +80,14 @@ public protocol InAppMessagingDelegate: AnyObject {
 
     /// 接客サービスアクションが非表示になったことを通知します。
     ///
-    /// なお iOS13 または iPadOS で実行されている場合かつ `inAppMessagingIsDismissed(_:onScene:campaignId:shortenId)` が実装されている場合は、本メソッドは呼び出されません。
+    /// このメソッドは非推奨です。`inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` を使用してください。
+    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` が呼び出されます。
     ///
     /// - Parameters:
     ///   - inAppMessaging: アプリ内メッセージインスタンス
     ///   - campaignId: 接客サービスのキャンペーンID
     ///   - shortenId: 接客サービスアクションの短縮ID
+    @available(*, deprecated, message: "Use inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:) instead.")
     @objc
     optional func inAppMessagingIsDismissed(_ inAppMessaging: InAppMessaging, campaignId: String, shortenId: String)
 
@@ -95,12 +103,14 @@ public protocol InAppMessagingDelegate: AnyObject {
 
     /// 接客サービスアクション中のボタンがクリックされた際に、リンクをSDK側で自動的に処理するかどうか問い合わせます。
     ///
-    /// なお iOS13 または iPadOS で実行されている場合かつ `inAppMessaging(_:onScene:shouldOpenURL:campaignId:shortenId)` が実装されている場合は、本メソッドは呼び出されません。
+    /// このメソッドは非推奨です。`inAppMessaging(_:shouldOpenURL:onScene:)` を使用してください。
+    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessaging(_:shouldOpenURL:onScene:)` が呼び出されます。
     ///
     /// - Parameters:
     ///   - inAppMessaging: アプリ内メッセージインスタンス
     ///   - url: リンクURL
     /// - Returns: `true` を返した場合はSDK側でリンクを自動で開きます。`false` を返した場合はSDK側では何もしません。
+    @available(*, deprecated, message: "Use inAppMessaging(_:shouldOpenURL:onScene:) instead.")
     @objc
     optional func inAppMessaging(_ inAppMessaging: InAppMessaging, shouldOpenURL url: URL) -> Bool
 

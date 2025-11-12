@@ -13,6 +13,17 @@
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
 
+# Releases - xxxx.xx.xx
+
+### InAppMessaging 2.25.0
+**🔨CHANGED**
+- `InAppMessagingDelegate`の以下のメソッドを非推奨にしました。それぞれ対応する新しいメソッドへの移行をお願いします：
+  - `inAppMessagingWindowIsPresented(_:)` → `inAppMessagingWindowIsPresented(_:onScene:)` への移行を推奨
+  - `inAppMessagingWindowIsDismissed(_:)` → `inAppMessagingWindowIsDismissed(_:onScene:)` への移行を推奨
+  - `inAppMessagingIsPresented(_:campaignId:shortenId:)` → `inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` への移行を推奨
+  - `inAppMessagingIsDismissed(_:campaignId:shortenId:)` → `inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` への移行を推奨
+  - `inAppMessaging(_:shouldOpenURL:)` → `inAppMessaging(_:shouldOpenURL:onScene:)` への移行を推奨
+
 # Releases - 2025.11.04
 ## Version 2.30.1
 

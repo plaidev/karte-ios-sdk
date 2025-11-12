@@ -225,12 +225,10 @@ extension InAppMessaging {
         }
 
         if window.isKind(of: IAMWindow.self), let delegate = delegate {
-            var delegated = false
             if let scene = window.windowScene {
                 delegate.inAppMessagingWindowIsPresented?(self, onScene: scene)
-                delegated = true
-            }
-            if !delegated {
+            } else {
+                Logger.warn(tag: .inAppMessaging, message: "WindowScene not found. Skipped calling inAppMessagingWindowIsPresented(_:onScene:)")
                 delegate.inAppMessagingWindowIsPresented?(self)
             }
         }
@@ -255,12 +253,10 @@ extension InAppMessaging {
         }
 
         if window.isKind(of: IAMWindow.self), let delegate = delegate {
-            var delegated = false
             if let scene = window.windowScene {
                 delegate.inAppMessagingWindowIsDismissed?(self, onScene: scene)
-                delegated = true
-            }
-            if !delegated {
+            } else {
+                Logger.warn(tag: .inAppMessaging, message: "WindowScene not found. Skipped calling inAppMessagingWindowIsDismissed(_:onScene:)")
                 delegate.inAppMessagingWindowIsDismissed?(self)
             }
         }
