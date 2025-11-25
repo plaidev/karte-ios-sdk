@@ -71,6 +71,7 @@ jobs:
         with:
           github_token: ${{ steps.app-token.outputs.token }}
           use_vertex: true
+          allowed_bots: plaidev-github-actions-agent
           direct_prompt: |
             @claude メンションのコメントに基づいて対応してください。
             コメントは日本語でお願いします。
