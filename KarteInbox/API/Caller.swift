@@ -68,4 +68,3 @@ struct NativeAsyncCaller: Caller {
         }
     }
 }
-
