@@ -26,7 +26,7 @@ internal class IAMProcess: NSObject {
     private var window: IAMWindow?
     private var webView: IAMWebView?
     private var configuration: IAMProcessConfiguration
-    private var isWindowFucus = false
+    private var isWindowFocus = false
 
     var isActivated: Bool {
         webView != nil
@@ -182,7 +182,7 @@ extension IAMProcess {
         let focusables = messages.dictionaries.map {
             $0.bool(forKeyPath: "action.native_app_window_focusable") ?? false
         }
-        self.isWindowFucus = focusables.contains(true)
+        self.isWindowFocus = focusables.contains(true)
     }
 
     private func resetIfNeeded(viewController: UIViewController, in window: UIWindow?) {
@@ -345,7 +345,7 @@ extension IAMProcess: IAMWebViewDelegate {
         }
 
         if let window = IAMWindow(sceneId: sceneId) {
-            window.present(webView: webView, isFocus: isWindowFucus)
+            window.present(webView: webView, isFocus: isWindowFocus)
             self.window = window
             return true
         } else {

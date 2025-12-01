@@ -23,6 +23,7 @@
   - `inAppMessagingIsPresented(_:campaignId:shortenId:)` → `inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` への移行を推奨
   - `inAppMessagingIsDismissed(_:campaignId:shortenId:)` → `inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` への移行を推奨
   - `inAppMessaging(_:shouldOpenURL:)` → `inAppMessaging(_:shouldOpenURL:onScene:)` への移行を推奨
+- 内部実装のTypoを修正しました。(クライアントアプリ側への影響はありません)
 
 ### InAppFrame 0.7.0
 **💊FIXED**
@@ -171,7 +172,7 @@
 **💊FIXED**
 - カルーセルが任意の横幅の場合でも見切れず表示されるように修正しました。
 
-** 🔨CHANGED**
+**🔨CHANGED**
 - カルーセルタップ時の処理を行うコンポーネントをItemTapListenerからInAppFrameDelegateに変更しました。
 
 # Releases - 2025.03.25
