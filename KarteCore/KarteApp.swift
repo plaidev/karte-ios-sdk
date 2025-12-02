@@ -362,7 +362,6 @@ extension Resolver: ResolverRegistering {
         registerTrackClientSession()
         registerReachabilityService()
         registerApplicationStateProvider()
-        registerSelectorDetector()
         registerConfiguration()
         registerIsReachable()
         registerExponentialBackoff()

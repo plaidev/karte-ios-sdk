@@ -17,7 +17,7 @@
 
 ### Core 2.34.0
 **🔨CHANGED**
-- 内部実装で未使用のプロトコルを削除しました。(クライアントアプリ側への影響はありません）
+- 内部実装で未使用のプロトコルを削除しました。
 
 ### InAppMessaging 2.25.0
 **🔨CHANGED**
@@ -27,7 +27,7 @@
   - `inAppMessagingIsPresented(_:campaignId:shortenId:)` → `inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` への移行を推奨
   - `inAppMessagingIsDismissed(_:campaignId:shortenId:)` → `inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` への移行を推奨
   - `inAppMessaging(_:shouldOpenURL:)` → `inAppMessaging(_:shouldOpenURL:onScene:)` への移行を推奨
-- 内部実装のTypoを修正しました。(クライアントアプリ側への影響はありません)
+- 内部実装のTypoを修正しました。
 
 ### InAppFrame 0.7.0
 **💊FIXED**

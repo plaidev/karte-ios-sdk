@@ -60,11 +60,6 @@ internal class CoreService {
             return false
         }
 
-        guard hasValidSelector else {
-            Logger.error(tag: .core, message: "Initializing was canceled because can not find valid selector sdk needed.")
-            return false
-        }
-
         guard !configuration.isDryRun else {
             Logger.warn(tag: .core, message: "======================================================================")
             Logger.warn(tag: .core, message: "Running mode is dry run.")
@@ -91,10 +86,6 @@ internal class CoreService {
 
     var isOptOut: Bool {
         optOutService.isOptOut
-    }
-
-    var hasValidSelector: Bool {
-        Resolver.resolve(SelectorDetector.self).detect()
     }
 
     init(configuration: Configuration) {
@@ -137,12 +128,5 @@ internal class CoreService {
     }
 
     deinit {
-    }
-}
-
-extension Resolver {
-    static func registerSelectorDetector() {
-        let selectorDetector = DefaultSelectorDetector()
-        register { selectorDetector as SelectorDetector }
     }
 }
