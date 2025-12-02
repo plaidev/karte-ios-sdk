@@ -121,7 +121,6 @@
 		0C69D3FC24EB9D9D00D75893 /* TrackClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C69D3EE24EB9D9D00D75893 /* TrackClientState.swift */; };
 		0C69D3FD24EB9D9D00D75893 /* TrackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C69D3EF24EB9D9D00D75893 /* TrackRequest.swift */; };
 		0C69D3FE24EB9D9D00D75893 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C69D3F124EB9D9D00D75893 /* ReachabilityService.swift */; };
-		0C69D3FF24EB9D9D00D75893 /* ReachabilitySubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C69D3F224EB9D9D00D75893 /* ReachabilitySubscriber.swift */; };
 		0C69D40024EB9D9D00D75893 /* DefaultReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C69D3F324EB9D9D00D75893 /* DefaultReachabilityService.swift */; };
 		0C69D40224EB9D9D00D75893 /* TrackBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C69D3F724EB9D9D00D75893 /* TrackBody.swift */; };
 		0C69D40D24EB9DB200D75893 /* TrackingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C69D40324EB9DB200D75893 /* TrackingClient.swift */; };
@@ -758,7 +757,6 @@
 		0C69D3EE24EB9D9D00D75893 /* TrackClientState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackClientState.swift; sourceTree = "<group>"; };
 		0C69D3EF24EB9D9D00D75893 /* TrackRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackRequest.swift; sourceTree = "<group>"; };
 		0C69D3F124EB9D9D00D75893 /* ReachabilityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
-		0C69D3F224EB9D9D00D75893 /* ReachabilitySubscriber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilitySubscriber.swift; sourceTree = "<group>"; };
 		0C69D3F324EB9D9D00D75893 /* DefaultReachabilityService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultReachabilityService.swift; sourceTree = "<group>"; };
 		0C69D3F724EB9D9D00D75893 /* TrackBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackBody.swift; sourceTree = "<group>"; };
 		0C69D40324EB9DB200D75893 /* TrackingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingClient.swift; sourceTree = "<group>"; };
@@ -1452,7 +1450,6 @@
 			isa = PBXGroup;
 			children = (
 				0C69D3F124EB9D9D00D75893 /* ReachabilityService.swift */,
-				0C69D3F224EB9D9D00D75893 /* ReachabilitySubscriber.swift */,
 				0C69D3F324EB9D9D00D75893 /* DefaultReachabilityService.swift */,
 			);
 			path = Reachability;
@@ -3384,7 +3381,6 @@
 				73E222472E55A7CE009E6A1C /* UIApplicationProtocol.swift in Sources */,
 				0C8392BF2406C7470014C2BF /* SceneId.swift in Sources */,
 				0C0822C924E6329D0038EBDA /* CommandBundlerProxy.swift in Sources */,
-				0C69D3FF24EB9D9D00D75893 /* ReachabilitySubscriber.swift in Sources */,
 				0C0822DB24E67B3D0038EBDA /* TrackingCommand.swift in Sources */,
 				0C50509829C45369007C5C9B /* Array+Extension.swift in Sources */,
 				0C69D41024EB9DB200D75893 /* EmptyEventNameFilterRule.swift in Sources */,
@@ -4163,7 +4159,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.33.0;
+				MARKETING_VERSION = 2.34.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -4198,7 +4194,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.33.0;
+				MARKETING_VERSION = 2.34.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
