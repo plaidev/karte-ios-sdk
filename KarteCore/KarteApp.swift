@@ -350,7 +350,7 @@ extension Logger.Tag {
     static let core = Logger.Tag("CORE", version: KRTCoreCurrentLibraryVersion())
 }
 
-extension Resolver: ResolverRegistering {
+extension Resolver: @retroactive ResolverRegistering {
     public static func registerAllServices() {
         registerScreen()
         registerSystemInfo()
