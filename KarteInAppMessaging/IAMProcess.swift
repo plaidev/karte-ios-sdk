@@ -297,11 +297,11 @@ extension IAMProcess {
             return
         }
 
-        if let scene = window?.windowScene {
+        let selector = #selector(InAppMessagingDelegate.inAppMessagingIsPresented(_:campaignId:shortenId:onScene:))
+        if (delegate as AnyObject).responds(to: selector), let scene = window?.windowScene {
             delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
             return
         }
-        Logger.warn(tag: .inAppMessaging, message: "WindowScene not found. Skipped calling inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)")
         delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId)
     }
 
@@ -311,11 +311,11 @@ extension IAMProcess {
             return
         }
 
-        if let scene = window?.windowScene {
+        let selector = #selector(InAppMessagingDelegate.inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:))
+        if (delegate as AnyObject).responds(to: selector), let scene = window?.windowScene {
             delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
             return
         }
-        Logger.warn(tag: .inAppMessaging, message: "WindowScene not found. Skipped calling inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)")
         delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId)
     }
 }
@@ -370,10 +370,10 @@ extension IAMProcess: IAMWebViewDelegate {
             return true
         }
 
-        if let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
+        let selector = #selector(InAppMessagingDelegate.inAppMessaging(_:shouldOpenURL:onScene:))
+        if (delegate as AnyObject).responds(to: selector), let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
             return delegate.inAppMessaging?(iam, shouldOpenURL: url, onScene: scene) ?? true
         }
-        Logger.warn(tag: .inAppMessaging, message: "WindowScene not found. Skipped calling inAppMessaging(_:shouldOpenURL:onScene:)")
         return delegate.inAppMessaging?(iam, shouldOpenURL: url) ?? true
     }
 }

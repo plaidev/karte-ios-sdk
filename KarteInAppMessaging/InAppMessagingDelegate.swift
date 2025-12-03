@@ -22,7 +22,7 @@ public protocol InAppMessagingDelegate: AnyObject {
     /// アプリ内メッセージ用のWindowが表示されたことを通知します。
     ///
     /// このメソッドは非推奨です。`inAppMessagingWindowIsPresented(_:onScene:)` を使用してください。
-    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessagingWindowIsPresented(_:onScene:)` が呼び出されます。
+    /// `inAppMessagingWindowIsPresented(_:onScene:)` が実装されている場合にはそちらのメソッドが呼ばれ、このメソッドは呼ばれません。
     ///
     /// - Parameter inAppMessaging: アプリ内メッセージインスタンス
     @available(*, deprecated, message: "Use inAppMessagingWindowIsPresented(_:onScene:) instead.")
@@ -40,7 +40,7 @@ public protocol InAppMessagingDelegate: AnyObject {
     /// アプリ内メッセージ用のWindowが非表示になったことを通知します。
     ///
     /// このメソッドは非推奨です。`inAppMessagingWindowIsDismissed(_:onScene:)` を使用してください。
-    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessagingWindowIsDismissed(_:onScene:)` が呼び出されます。
+    /// `inAppMessagingWindowIsDismissed(_:onScene:)` が実装されている場合にはそちらのメソッドが呼ばれ、このメソッドは呼ばれません。
     ///
     /// - Parameter inAppMessaging: アプリ内メッセージインスタンス
     @available(*, deprecated, message: "Use inAppMessagingWindowIsDismissed(_:onScene:) instead.")
@@ -58,7 +58,7 @@ public protocol InAppMessagingDelegate: AnyObject {
     /// 接客サービスアクションが表示されたことを通知します。
     ///
     /// このメソッドは非推奨です。`inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` を使用してください。
-    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` が呼び出されます。
+    /// `inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` が実装されている場合にはそちらのメソッドが呼ばれ、このメソッドは呼ばれません。
     ///
     /// - Parameters:
     ///   - inAppMessaging: アプリ内メッセージインスタンス
@@ -81,7 +81,7 @@ public protocol InAppMessagingDelegate: AnyObject {
     /// 接客サービスアクションが非表示になったことを通知します。
     ///
     /// このメソッドは非推奨です。`inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` を使用してください。
-    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` が呼び出されます。
+    /// `inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` が実装されている場合にはそちらのメソッドが呼ばれ、このメソッドは呼ばれません。
     ///
     /// - Parameters:
     ///   - inAppMessaging: アプリ内メッセージインスタンス
@@ -104,7 +104,7 @@ public protocol InAppMessagingDelegate: AnyObject {
     /// 接客サービスアクション中のボタンがクリックされた際に、リンクをSDK側で自動的に処理するかどうか問い合わせます。
     ///
     /// このメソッドは非推奨です。`inAppMessaging(_:shouldOpenURL:onScene:)` を使用してください。
-    /// 通常、このメソッドは呼び出されず、代わりに `inAppMessaging(_:shouldOpenURL:onScene:)` が呼び出されます。
+    /// `inAppMessaging(_:shouldOpenURL:onScene:)` が実装されている場合にはそちらのメソッドが呼ばれ、このメソッドは呼ばれません。
     ///
     /// - Parameters:
     ///   - inAppMessaging: アプリ内メッセージインスタンス

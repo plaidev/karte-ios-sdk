@@ -23,8 +23,16 @@
 - 内部実装で未使用のプロトコルを削除しました。
 
 ### InAppMessaging 2.25.0
+**💊FIXED**
+- InAppMessaging 2.21.0以降、`InAppMessagingDelegate`の以下のメソッドが呼ばれなくなってしまった問題を修正しました。InAppMessaging 2.20.0以前と同様、対応する`onScene:`パラメータ付きの別メソッドが実装されていない場合には、これらのメソッドが呼ばれるようにしました。なお、後述するように、これらのメソッドは非推奨であり、別メソッドへの移行を推奨します。
+  - `inAppMessagingWindowIsPresented(_:)`
+  - `inAppMessagingWindowIsDismissed(_:)`
+  - `inAppMessagingIsPresented(_:campaignId:shortenId:)`
+  - `inAppMessagingIsDismissed(_:campaignId:shortenId:)`
+  - `inAppMessaging(_:shouldOpenURL:)`
+
 **🔨CHANGED**
-- `InAppMessagingDelegate`の以下のメソッドを非推奨にしました。それぞれ対応する新しいメソッドへの移行をお願いします：
+- `InAppMessagingDelegate`の以下のメソッドを非推奨にしました。それぞれ対応する別のメソッドへの移行をお願いします：
   - `inAppMessagingWindowIsPresented(_:)` → `inAppMessagingWindowIsPresented(_:onScene:)` への移行を推奨
   - `inAppMessagingWindowIsDismissed(_:)` → `inAppMessagingWindowIsDismissed(_:onScene:)` への移行を推奨
   - `inAppMessagingIsPresented(_:campaignId:shortenId:)` → `inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` への移行を推奨
