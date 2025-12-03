@@ -165,7 +165,7 @@ class Documents
 end
 
 class Command
-  attr_reader :force
+  attr_reader :force, :branch
 
   def self.release_proc(dir)
     proc { 
@@ -183,11 +183,13 @@ class Command
       opt.separator ''
       opt.separator 'Examples:'
       opt.separator "    % #{opt.program_name} [-f]"
-    
+      opt.separator "    % #{opt.program_name} --branch feature/update-docs"
+
       opt.separator ''
       opt.separator 'Specific options:'
       opt.on('-f', '--force', 'Force override docs') { |v| @force = v }
-    
+      opt.on('-b', '--branch BRANCH', 'Branch name to push (default: master)') { |v| @branch = v }
+
       opt.separator ''
       opt.separator 'Common options:'
       opt.on_tail('-h', '--help', 'Show help message') do
@@ -211,7 +213,11 @@ class Command
       $strerr.puts 'Failed to clone git repository.'
       exit 1
     end
-    
+
+    if @branch
+      git.checkout(@branch)
+    end
+
     Fastlane.load_actions
 
     podspecs = ['Core', 'InAppMessaging', 'RemoteNotification', 'Variables', 'VisualTracking', 'InAppFrame', 'CrashReporting', 'Debugger'].map do |name|
