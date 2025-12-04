@@ -20,8 +20,6 @@ import KarteUtilities
 import WebKit
 
 internal class IAMProcess: NSObject {
-    static let processPool = WKProcessPool()
-
     var sceneId: SceneId
     private var window: IAMWindow?
     private var webView: IAMWebView?
@@ -151,7 +149,6 @@ extension IAMProcess {
     private func setupWebView() {
         if let url = configuration.generateOverlayURL() {
             let configuration = WKWebViewConfiguration()
-            configuration.processPool = InAppMessaging.shared.processPool ?? IAMProcess.processPool
             configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
             if #available(iOS 16.0, *) {
                 configuration.allowsInlineMediaPlayback = true

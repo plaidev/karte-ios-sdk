@@ -29,12 +29,13 @@ public class InAppMessaging: NSObject {
 
     /// アプリ内メッセージ表示用のWebViewが利用するプロセスプールを保持します。
     ///
-    /// なお以下のケースを除いてプロセスプールの設定を行う必要はありません。<br>
-    /// アプリ側で独自に用意したWebViewに紐付けられたセッションクッキーを `WKHTTPCookieStore` から取得するケース。
+    /// **非推奨**: このプロパティは非推奨となりました。
+    /// このプロパティは将来のバージョンで削除される予定です。
+    /// WKProcessPoolはiOS15以降で非推奨となっており、複数のWKProcessPoolインスタンスを作成・使用しても効果がなく、
+    /// デフォルトのWKWebsiteDataStoreを介してプロセスとクッキーが自動的に共有されるため、WKProcessPoolの設定は不要です。
+    /// 詳細: https://developer.apple.com/documentation/webkit/wkprocesspool
     ///
-    /// `WKWebsiteDataStore` の現在の実装では、複数あるプロセスプールからひとつのプロセスプールを選択して、そこからクッキー（セッションクッキーも含む）を得る仕様です。<br>
-    /// セッションクッキーはプロセスプールに紐付く仕様であるため、複数のプロセスプールが存在する状況下においてはセッションクッキーが取れない場合があります。<br>
-    /// これを回避するためには、アプリ側のWebViewとアプリ内メッセージ表示用のWebViewでプロセスプールを共有する必要があります。
+    @available(*, deprecated, message: "WKProcessPool configuration no longer has any effect in iOS 15 or later. This property will be removed in a future version. See: https://developer.apple.com/documentation/webkit/wkprocesspool")
     @objc public var processPool: WKProcessPool?
 
     /// アプリ内メッセージの表示有無を返します。

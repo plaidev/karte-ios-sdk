@@ -40,6 +40,10 @@
   - `inAppMessagingIsDismissed(_:campaignId:shortenId:)` → `inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` への移行を推奨
   - `inAppMessaging(_:shouldOpenURL:)` → `inAppMessaging(_:shouldOpenURL:onScene:)` への移行を推奨
 - 内部実装のTypoを修正しました。
+- `InAppMessaging.processPool`プロパティを非推奨にしました。
+  - このプロパティは将来のバージョンで削除される予定です。
+  - processPoolはiOS15でDeprecatedになった`WKProcessPool`をセットするためのプロパティですが、iOS15以降では複数のWKProcessPoolを作成してもすべて同一のWKProcessPoolが共有されるように挙動が変更されたため、このプロパティに任意のWKProcessPoolをセットしても挙動に影響がない状態でした。
+  - この変更によるクライアントアプリへの影響はありません。
 
 ### InAppFrame 0.7.0
 **💊FIXED**
