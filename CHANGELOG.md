@@ -14,11 +14,11 @@
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
 
 # Releases - xxxx.xx.xx
+
 ### Core 2.34.0
 **💊FIXED**
 - lintの警告を修正しました
 
-### Core 2.34.0
 **🔨CHANGED**
 - 内部実装で未使用のプロトコルを削除しました。
 
@@ -30,6 +30,7 @@
   - `inAppMessagingIsPresented(_:campaignId:shortenId:)`
   - `inAppMessagingIsDismissed(_:campaignId:shortenId:)`
   - `inAppMessaging(_:shouldOpenURL:)`
+- lintの警告を修正しました
 
 **🔨CHANGED**
 - `InAppMessagingDelegate`の以下のメソッドを非推奨にしました。それぞれ対応する別のメソッドへの移行をお願いします：

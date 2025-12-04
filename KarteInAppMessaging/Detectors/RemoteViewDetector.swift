@@ -67,7 +67,7 @@ extension RemoteViewDetector {
     }
 
     private static func detect(view: UIView, cls: AnyClass) -> Bool {
-        if let config = InAppMessaging.shared.config, (config.isSkipRemoteViewDetectionInWebView || config.isSkipSystemUIDetectionInWebView), view is WKWebView {
+        if let config = InAppMessaging.shared.config, config.isSkipRemoteViewDetectionInWebView || config.isSkipSystemUIDetectionInWebView, view is WKWebView {
             return false
         }
 

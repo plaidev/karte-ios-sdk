@@ -22,12 +22,6 @@ internal struct TrackBody: Codable {
     var events: [Event]
     var keys: Keys
 
-    init(appInfo: AppInfo, events: [Event], keys: Keys) {
-        self.appInfo = appInfo
-        self.events = events
-        self.keys = keys
-    }
-
     func asData() throws -> Data {
         let data = try createJSONEncoder().encode(self)
         do {
