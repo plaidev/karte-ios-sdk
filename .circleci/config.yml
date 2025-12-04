@@ -142,24 +142,6 @@ jobs:
       - slack/status:
           fail_only: true
 
-  generate_docs:
-    executor:
-      name: build
-    steps:
-      - git_clone
-      - setup_gems
-      - run:
-          name: Generate docs
-          command: |
-            if [ $EXEC_ENV = 'private' ]; then
-              git config --global user.name "${GITHUB_USER_NAME}"
-              git config --global user.email "${GITHUB_USER_EMAIL}"
-              bundle exec ruby ./generate_docs.rb
-            fi
-          working_directory: /Users/distiller/project/scripts
-      - slack/status:
-          fail_only: true
-
   publish:
     executor:
       name: build
@@ -214,13 +196,6 @@ workflows:
       equal: [ ci, << pipeline.parameters.context >> ]
     jobs:
       - build
-      - generate_docs:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - master
       - test:
           requires:
             - build
