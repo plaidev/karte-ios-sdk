@@ -1,0 +1,89 @@
+name: "Publish Documentation"
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      # Allows manual recovery when the runner's Xcode version path changes.
+      xcodeVersion:
+        description: 'Xcode version (e.g., 26.0.1 for /Applications/Xcode_26.0.1.app)'
+        required: false
+        default: '26.0.1'
+        type: string
+env:
+  # https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md 
+  # Xcode path: `/Applications/Xcode_26.0.1.app`
+  XCODE_VERSION: ${{ inputs.xcodeVersion || '26.0.1' }}
+jobs:
+  publish-docs:
+    runs-on: macos-26
+    if: github.repository != 'plaidev/karte-ios-sdk'
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          submodules: true
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Generate GitHub App token
+        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_ID }}
+          private-key: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_PRIVATE_KEY }}
+          owner: plaidev
+          repositories: |
+            karte-sdk-docs
+      - name: Configure Git
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-sdk-docs".insteadOf "https://github.com/plaidev/karte-sdk-docs"
+          git config --global user.name "github actions"
+          git config --global user.email "git@users.noreply.github.com"
+      # Jazzy uses xcodebuild to analyze Swift modules, so Xcode must be configured
+      - name: Select Xcode version
+        run: |
+          XCODE_PATH="/Applications/Xcode_${{ env.XCODE_VERSION }}.app"
+          echo "Using Xcode version: ${{ env.XCODE_VERSION }}"
+          if [ ! -d "${XCODE_PATH}" ]; then
+            echo "Error: Xcode not found at ${XCODE_PATH}"
+            exit 1
+          fi
+          sudo xcode-select -s "${XCODE_PATH}"
+          xcodebuild -version
+      - name: Generate documentation
+        # Only publish to master when executed on the master branch.
+        env:
+          BRANCH_REF: ${{ github.ref_name }}
+        run: |
+          if [ "$BRANCH_REF" = "master" ]; then
+            bundle exec ruby ./generate_docs.rb
+          else
+            BRANCH_NAME="docs-$(date +%Y%m%d-%H%M%S)"
+            bundle exec ruby ./generate_docs.rb --branch "$BRANCH_NAME"
+          fi
+        working-directory: scripts
+      - name: Notify Slack on success
+        if: success()
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Documentation for KARTE iOS SDK was published successfully!'
+          SLACK_COLOR: success
+          SLACK_ICON_EMOJI: ':apple:'
+      - name: Notify Slack on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Failed to publish documentation for KARTE iOS SDK'
+          SLACK_COLOR: failure
+          SLACK_ICON_EMOJI: ':apple:'

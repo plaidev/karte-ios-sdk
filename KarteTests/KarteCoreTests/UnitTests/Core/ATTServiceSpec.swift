@@ -25,32 +25,23 @@ class ATTServiceSpec: QuickSpec {
     override func spec() {
         describe("its run") {
             it("returns authorized label") {
-                if #available(iOS 14, *) {
-                    let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.authorized)
-                    expect(result).to(equal("authorized"))
-                }
+                let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.authorized)
+                expect(result).to(equal("authorized"))
             }
 
             it("returns denied label") {
-                if #available(iOS 14, *) {
-                    let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.denied)
-                    expect(result).to(equal("denied"))
-                }
+                let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.denied)
+                expect(result).to(equal("denied"))
             }
 
             it("returns restricted label") {
-                if #available(iOS 14, *) {
-                    let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.restricted)
-                    expect(result).to(equal("restricted"))
-                }
-
+                let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.restricted)
+                expect(result).to(equal("restricted"))
             }
 
             it("returns notDetermined label") {
-                if #available(iOS 14, *) {
-                    let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.notDetermined)
-                        expect(result).to(equal("notDetermined"))
-                }
+                let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.notDetermined)
+                expect(result).to(equal("notDetermined"))
             }
         }
     }

@@ -2,16 +2,53 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.33.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.24.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.34.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.25.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.13.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.14.0 |
-| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.6.0 |
+| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.7.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.11.1 |
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.14.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
+
+# Releases - 2025.12.09
+## Version 2.31.0
+
+### Core 2.34.0
+**💊FIXED**
+- lintの警告を修正しました
+
+**🔨CHANGED**
+- 内部実装で未使用のプロトコルを削除しました。
+
+### InAppMessaging 2.25.0
+**💊FIXED**
+- InAppMessaging 2.21.0以降、`InAppMessagingDelegate`の以下のメソッドが呼ばれなくなってしまった問題を修正しました。InAppMessaging 2.20.0以前と同様、対応する`onScene:`パラメータ付きの別メソッドが実装されていない場合には、これらのメソッドが呼ばれるようにしました。なお、後述するように、これらのメソッドは非推奨であり、別メソッドへの移行を推奨します。
+  - `inAppMessagingWindowIsPresented(_:)`
+  - `inAppMessagingWindowIsDismissed(_:)`
+  - `inAppMessagingIsPresented(_:campaignId:shortenId:)`
+  - `inAppMessagingIsDismissed(_:campaignId:shortenId:)`
+  - `inAppMessaging(_:shouldOpenURL:)`
+- lintの警告を修正しました
+
+**🔨CHANGED**
+- `InAppMessagingDelegate`の以下のメソッドを非推奨にしました。それぞれ対応する別のメソッドへの移行をお願いします：
+  - `inAppMessagingWindowIsPresented(_:)` → `inAppMessagingWindowIsPresented(_:onScene:)` への移行を推奨
+  - `inAppMessagingWindowIsDismissed(_:)` → `inAppMessagingWindowIsDismissed(_:onScene:)` への移行を推奨
+  - `inAppMessagingIsPresented(_:campaignId:shortenId:)` → `inAppMessagingIsPresented(_:campaignId:shortenId:onScene:)` への移行を推奨
+  - `inAppMessagingIsDismissed(_:campaignId:shortenId:)` → `inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:)` への移行を推奨
+  - `inAppMessaging(_:shouldOpenURL:)` → `inAppMessaging(_:shouldOpenURL:onScene:)` への移行を推奨
+- 内部実装のTypoを修正しました。
+- `InAppMessaging.processPool`プロパティを非推奨にしました。
+  - このプロパティは将来のバージョンで削除される予定です。
+  - processPoolはiOS15でDeprecatedになった`WKProcessPool`をセットするためのプロパティですが、iOS15以降では複数のWKProcessPoolを作成してもすべて同一のWKProcessPoolが共有されるように挙動が変更されたため、このプロパティに任意のWKProcessPoolをセットしても挙動に影響がない状態でした。
+  - この変更によるクライアントアプリへの影響はありません。
+
+### InAppFrame 0.7.0
+**💊FIXED**
+- lintの警告を修正しました。
 
 # Releases - 2025.11.04
 ## Version 2.30.1
@@ -156,7 +193,7 @@
 **💊FIXED**
 - カルーセルが任意の横幅の場合でも見切れず表示されるように修正しました。
 
-** 🔨CHANGED**
+**🔨CHANGED**
 - カルーセルタップ時の処理を行うコンポーネントをItemTapListenerからInAppFrameDelegateに変更しました。
 
 # Releases - 2025.03.25

@@ -193,7 +193,7 @@ final class KRTInAppCarousel: UIView {
     private func createDataSource() -> UICollectionViewDiffableDataSource<Section, ParsedImageData> {
         let v = Variables.variable(forKey: key)
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, ParsedImageData> { cell, indexPath, _ in
-            cell.contentConfiguration = CellConfiguration(
+            cell.contentConfiguration = KRTCarouselCellConfiguration(
                 variable: v,
                 templateType: self.vm.templateType,
                 width: self.vm.getImageWidth(),
@@ -210,8 +210,18 @@ final class KRTInAppCarousel: UIView {
             )
         }
     }
+}
 
-    private class KRTCarouselCell: UICollectionViewCell, UIContentView {
+extension KRTInAppCarousel: InAppFrameView {
+    func getCalculatedSize() -> CGSize {
+        let w = vm.getComponentWidth()
+        let h = vm.getImageHeight() + vm.getTopMargin() + vm.getBottomMargin()
+        return CGSize(width: w, height: h)
+    }
+}
+
+// MARK: - KRTCarouselCell
+private class KRTCarouselCell: UICollectionViewCell, UIContentView {
         static let reuseIdentifier = "KRTCarouselCell"
 
         let variable: Variable
@@ -221,13 +231,13 @@ final class KRTInAppCarousel: UIView {
 
         var configuration: any UIContentConfiguration {
             didSet {
-                guard let conf = configuration as? CellConfiguration else { return }
+                guard let conf = configuration as? KRTCarouselCellConfiguration else { return }
                 setup(data: conf.imageData)
             }
         }
 
         private var radius: CGFloat {
-            let radius = CGFloat((configuration as? CellConfiguration)?.config?.radius ?? 0)
+            let radius = CGFloat((configuration as? KRTCarouselCellConfiguration)?.config?.radius ?? 0)
             let shorterSide = min(width, height)
             return min(shorterSide / 2, radius)
         }
@@ -311,35 +321,27 @@ final class KRTInAppCarousel: UIView {
                 super.init(target: target, action: action)
             }
         }
-    }
-
-    private struct CellConfiguration: UIContentConfiguration {
-        let variable: Variable
-        let templateType: InAppCarouselModel.TemplateType
-        let width: CGFloat
-        let height: CGFloat
-        let imageData: ParsedImageData
-        let config: InAppCarouselModel.Config?
-
-        func makeContentView() -> any UIView & UIContentView {
-            KRTCarouselCell(variable: variable,
-                            templateType: templateType,
-                            width: width,
-                            height: height,
-                            configuration: self
-            )
-        }
-
-        func updated(for state: any UIConfigurationState) -> CellConfiguration {
-            return self
-        }
-    }
 }
 
-extension KRTInAppCarousel: InAppFrameView {
-    func getCalculatedSize() -> CGSize {
-        let w = vm.getComponentWidth()
-        let h = vm.getImageHeight() + vm.getTopMargin() + vm.getBottomMargin()
-        return CGSize(width: w, height: h)
+// MARK: - KRTCarouselCellConfiguration
+private struct KRTCarouselCellConfiguration: UIContentConfiguration {
+    let variable: Variable
+    let templateType: InAppCarouselModel.TemplateType
+    let width: CGFloat
+    let height: CGFloat
+    let imageData: ParsedImageData
+    let config: InAppCarouselModel.Config?
+
+    func makeContentView() -> any UIView & UIContentView {
+        KRTCarouselCell(variable: variable,
+                        templateType: templateType,
+                        width: width,
+                        height: height,
+                        configuration: self
+        )
+    }
+
+    func updated(for state: any UIConfigurationState) -> KRTCarouselCellConfiguration {
+        return self
     }
 }

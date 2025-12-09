@@ -33,23 +33,13 @@ class IAMProcessPoolSpec: QuickSpec {
             }
             context("SceneId does not exists with specific id in pool") {
                 let pool = IAMProcessPool()
-                if #available(iOS 13.0, *) {
-                    context("when there is connected scene with the same id") {
-                        // TBD, Write a test as soon as we figure out how to make the condition of it.
-                    }
-                    context("when there is no connected scene with the same id") {
-                        it("`canCreateProcess` returns false due to pool.processes is blank") {
-                            expect(pool.processes.isEmpty).to(beTrue())
-                            expect(pool.canCreateProcess(sceneId: SceneId("DEFAULT"))).to(beFalse())
-                        }
-                    }
-                } else {
-                    // TBD: Quick didn't work if deployment target is iOS12.4
-                    context("on iOS12 and lower and pool.processes has any processes") {
-                        it("`canCreateProcess` returns true") {
-                             expect(pool.processes.isEmpty).toNot(beTrue())
-                             expect(pool.canCreateProcess(sceneId: SceneId("DEFAULT"))).to(beTrue())
-                        }
+                context("when there is connected scene with the same id") {
+                    // TBD, Write a test as soon as we figure out how to make the condition of it.
+                }
+                context("when there is no connected scene with the same id") {
+                    it("`canCreateProcess` returns false due to pool.processes is blank") {
+                        expect(pool.processes.isEmpty).to(beTrue())
+                        expect(pool.canCreateProcess(sceneId: SceneId("DEFAULT"))).to(beFalse())
                     }
                 }
             }

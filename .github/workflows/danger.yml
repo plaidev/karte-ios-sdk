@@ -4,32 +4,34 @@ on:
     branches:
       - 'develop'
       - 'master'
-
 permissions:
   contents: read
   issues: read
   statuses: write
   pull-requests: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   review:
     runs-on: macos-26
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@d697be2f83c6234b20877c3b5eac7a7f342f0d0c # v1.269.0
         with:
-          access_token: ${{ secrets.GH_ACCESS_TOKEN }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+          ruby-version: '3.4'
+          bundler-cache: true
       - name: Setup swiftlint
         run: |
           if !(type swiftlint); then
             echo 'swiftlint command is not installed.'
             brew install swiftlint
           fi
-      - name: Setup danger
-        run: gem install danger danger-swiftlint fastlane
       - name: Git fetch
         run: git fetch -t
       - name: Run danger
-        run: danger
+        run: |
+          bundle exec danger --fail-on-errors=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

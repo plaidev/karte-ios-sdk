@@ -20,13 +20,11 @@ import KarteUtilities
 import WebKit
 
 internal class IAMProcess: NSObject {
-    static let processPool = WKProcessPool()
-
     var sceneId: SceneId
     private var window: IAMWindow?
     private var webView: IAMWebView?
     private var configuration: IAMProcessConfiguration
-    private var isWindowFucus = false
+    private var isWindowFocus = false
 
     var isActivated: Bool {
         webView != nil
@@ -151,7 +149,6 @@ extension IAMProcess {
     private func setupWebView() {
         if let url = configuration.generateOverlayURL() {
             let configuration = WKWebViewConfiguration()
-            configuration.processPool = InAppMessaging.shared.processPool ?? IAMProcess.processPool
             configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
             if #available(iOS 16.0, *) {
                 configuration.allowsInlineMediaPlayback = true
@@ -182,7 +179,7 @@ extension IAMProcess {
         let focusables = messages.dictionaries.map {
             $0.bool(forKeyPath: "action.native_app_window_focusable") ?? false
         }
-        self.isWindowFucus = focusables.contains(true)
+        self.isWindowFocus = focusables.contains(true)
     }
 
     private func resetIfNeeded(viewController: UIViewController, in window: UIWindow?) {
@@ -297,7 +294,8 @@ extension IAMProcess {
             return
         }
 
-        if let scene = window?.windowScene {
+        let selector = #selector(InAppMessagingDelegate.inAppMessagingIsPresented(_:campaignId:shortenId:onScene:))
+        if (delegate as AnyObject).responds(to: selector), let scene = window?.windowScene {
             delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
             return
         }
@@ -310,7 +308,8 @@ extension IAMProcess {
             return
         }
 
-        if let scene = window?.windowScene {
+        let selector = #selector(InAppMessagingDelegate.inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:))
+        if (delegate as AnyObject).responds(to: selector), let scene = window?.windowScene {
             delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
             return
         }
@@ -343,7 +342,7 @@ extension IAMProcess: IAMWebViewDelegate {
         }
 
         if let window = IAMWindow(sceneId: sceneId) {
-            window.present(webView: webView, isFocus: isWindowFucus)
+            window.present(webView: webView, isFocus: isWindowFocus)
             self.window = window
             return true
         } else {
@@ -368,7 +367,8 @@ extension IAMProcess: IAMWebViewDelegate {
             return true
         }
 
-        if let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
+        let selector = #selector(InAppMessagingDelegate.inAppMessaging(_:shouldOpenURL:onScene:))
+        if (delegate as AnyObject).responds(to: selector), let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
             return delegate.inAppMessaging?(iam, shouldOpenURL: url, onScene: scene) ?? true
         }
         return delegate.inAppMessaging?(iam, shouldOpenURL: url) ?? true

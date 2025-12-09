@@ -102,8 +102,6 @@ extension Resolver {
         }
         resolver.register { CommandBundlerApplicationStateProviderMock() as CommandBundlerApplicationStateProvider }
         
-        resolver.register { SelectorDetectorMock() as SelectorDetector }
-        
         resolver.register(name: "configuration") { () -> Configuration? in
             let config = Configuration()
             config.appKey = APP_KEY

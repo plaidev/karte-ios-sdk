@@ -43,7 +43,6 @@ class IAMProcessSpec: QuickSpec {
             }
             it("is not nil") {
                 expect(iamProcess).toNot(beNil())
-                expect(IAMProcess.processPool).toNot(beNil())
             }
             it("sceneId is not nil") {
                 expect(iamProcess.sceneId).toNot(beNil())

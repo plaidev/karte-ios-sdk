@@ -56,7 +56,7 @@ internal struct SystemUIDetector {
 
 extension SystemUIDetector {
     private static func detect(_ viewController: UIViewController) -> Bool {
-        if let config = InAppMessaging.shared.config, (config.isSkipSystemUIDetectionInWebView || config.isSkipRemoteViewDetectionInWebView) {
+        if let config = InAppMessaging.shared.config, config.isSkipSystemUIDetectionInWebView || config.isSkipRemoteViewDetectionInWebView {
             return false
         }
         guard viewController.isBeingDismissed == false else {
