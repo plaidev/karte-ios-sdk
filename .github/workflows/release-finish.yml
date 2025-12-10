@@ -3,7 +3,9 @@ on:
   pull_request:
     types: [edited]
     branches: [master]
-
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   check_that_current_pr_is_complete:
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' && github.event.pull_request.state == 'open' }}
@@ -13,11 +15,6 @@ jobs:
     outputs:
       completed: ${{ steps.check_completion.outputs.completed }}
     steps:
-    - name: Cancel Previous Runs
-      uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
-      with:
-        access_token: ${{ secrets.GH_ACCESS_TOKEN }}
-        all_but_latest: true
     - name: Check Completion
       id: check_completion
       env:
