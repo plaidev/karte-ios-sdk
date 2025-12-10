@@ -1,0 +1,178 @@
+name: "Publish"
+on:
+  # TODO: Use the following condition when migrating from CircleCI to GitHub Actions.
+  #   push:
+  #     branches:
+  #       - master
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Execution mode'
+        required: true
+        type: choice
+        options:
+          - publish
+          - publish_pods_only
+          - dry_run
+        default: 'publish'
+permissions:
+  id-token: write # for using OIDC in codecov/codecov-action
+  contents: write
+env:
+  IOS_VERSION: "26.0.1"
+  DEVICE_NAME: "iPhone 17"
+  EXECUTION_MODE: ${{ inputs.mode || 'publish' }}
+jobs:
+  # `test` is same as the job in `test.yml`.
+  test:
+    runs-on: macos-26-xlarge
+    timeout-minutes: 20
+    # NOTE: Run only in private repo.
+    if: ${{ github.repository != 'plaidev/karte-ios-sdk' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - name: Checkout git submodules
+        run: |
+          git submodule sync
+          git submodule update --init
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true # Runs 'bundle install' and caches installed gems automatically
+      - name: Cache CocoaPods
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: Install CocoaPods dependencies
+        run: bundle exec pod install --verbose
+      - name: Podspec lint
+        run: bundle exec pod spec lint *.podspec --quick
+      - name: Run tests
+        run: |
+          DESTINATION="platform=iOS Simulator,name=${{ env.DEVICE_NAME }},OS=${{ env.IOS_VERSION }}"
+          xcodebuild test -workspace Karte.xcworkspace \
+                          -scheme KarteTests \
+                          -destination "${DESTINATION}" \
+                          -derivedDataPath DerivedData \
+                          -resultBundlePath "output/KarteTests_${{ env.IOS_VERSION }}.xcresult" \
+                          -skipPackagePluginValidation \
+                          -skipMacroValidation
+      - name: Generate coverage report
+        run: bundle exec slather
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
+        with:
+          use_oidc: true
+          files: ./cobertura.xml
+          flags: unittests
+          fail_ci_if_error: false
+          verbose: true
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: KarteTests_${{ env.IOS_VERSION }}.xcresult
+          path: output/KarteTests_${{ env.IOS_VERSION }}.xcresult
+          retention-days: 1
+  publish:
+    needs: test
+    runs-on: macos-26-xlarge
+    timeout-minutes: 30
+    # NOTE: Run only in private repo.
+    if: ${{ github.repository != 'plaidev/karte-ios-sdk' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          submodules: true
+          fetch-depth: 0 # Fetch all history for proper git operations
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
+        with:
+          ruby-version: '3.4'
+          # NOTE: bundler-cache is disabled for clean builds on release
+      - name: Install gems
+        run: bundle install
+      - name: Install CocoaPods dependencies
+        # NOTE: Caching is disabled for clean builds on release
+        run: bundle exec pod install --verbose
+      - name: Generate GitHub App token
+        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_ID }}
+          private-key: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_PRIVATE_KEY }}
+          owner: plaidev
+          repositories: |
+            karte-ios-sdk
+      - name: Configure Git
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-sdk.git".insteadOf "https://github.com/plaidev/karte-ios-sdk.git"
+          git config --global user.name "github actions"
+          git config --global user.email "git@users.noreply.github.com"
+      - name: Dry run (pod lib lint)
+        if: env.EXECUTION_MODE == 'dry_run'
+        run: bundle exec pod lib lint --verbose
+      - name: Publish
+        if: env.EXECUTION_MODE == 'publish'
+        env:
+          GITHUB_REMOTE_ADDRESS: https://github.com/plaidev/karte-ios-sdk.git
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GITHUB_USER_NAME: 'github actions'
+          GITHUB_USER_EMAIL: 'git@users.noreply.github.com'
+          EXEC_ENV: 'private'
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        # TODO: run: bash ./scripts/publish.sh
+        run: echo "Publish step (temporarily disabled for testing)"
+      - name: Publish (Publish Cocoapods only)
+        if: env.EXECUTION_MODE == 'publish_pods_only'
+        env:
+          GITHUB_REMOTE_ADDRESS: https://github.com/plaidev/karte-ios-sdk.git
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GITHUB_USER_NAME: 'github actions'
+          GITHUB_USER_EMAIL: 'git@users.noreply.github.com'
+          EXEC_ENV: 'private'
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+          PODSPEC_ONLY: 1
+        # TODO: run: bash ./scripts/publish.sh
+        run: echo "Publish (Publish Cocoapods only) step (temporarily disabled for testing)"
+  # NOTE: Running on `ubuntu-latest` since `rtCamp/action-slack-notify` cannot be used on macOS runners.
+  # https://github.com/rtCamp/action-slack-notify/issues/22
+  notify-slack-test:
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: always() && github.repository != 'plaidev/karte-ios-sdk'
+    steps:
+      - name: Notify Slack on test failure
+        if: needs.test.result == 'failure'
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Publish workflow: Test job failed'
+          SLACK_COLOR: failure
+  notify-slack-publish:
+    runs-on: ubuntu-latest
+    needs: [publish]
+    if: always() && github.repository != 'plaidev/karte-ios-sdk'
+    steps:
+      - name: Notify Slack on publish success
+        if: needs.publish.result == 'success'
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Publish workflow completed successfully'
+          SLACK_COLOR: success
+      - name: Notify Slack on publish failure
+        if: needs.publish.result == 'failure'
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Publish workflow: Publish job failed'
+          SLACK_COLOR: failure
