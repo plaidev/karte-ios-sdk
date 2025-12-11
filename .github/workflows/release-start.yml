@@ -1,6 +1,11 @@
 name: "Get Ready for Release"
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run mode (skip PR creation and beta release request)'
+        type: boolean
+        default: false
 
 jobs:
   build:
@@ -26,22 +31,47 @@ jobs:
     - name: Find Release Targets
       id: find-release-targets
       run: |
-        PODSPECS=`git diff remotes/origin/master --name-only | grep podspec`
-        for PODSPEC in ${PODSPECS[@]}; do
-            RELEASE_TARGETS+="${PODSPEC%.*}, "
-        done
-        echo "TARGETS=${RELEASE_TARGETS}" >> $GITHUB_OUTPUT
+        PODSPEC_CHANGES=$(git diff remotes/origin/master..HEAD --name-only | grep '\.podspec$' || true)
+        if [ -n "$PODSPEC_CHANGES" ]; then
+          echo "Module release detected"
+          echo "Changed podspecs:"
+          echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
+          echo "RELEASE_TYPE=module" >> "$GITHUB_OUTPUT"
+          TARGETS=""
+          for podspec in $PODSPEC_CHANGES; do
+            TARGETS+="${podspec%.*}, "
+          done
+          echo "TARGETS=${TARGETS%, }" >> "$GITHUB_OUTPUT"
+        else
+          echo "Non-module release detected"
+          echo "RELEASE_TYPE=non-module" >> "$GITHUB_OUTPUT"
+          echo "TARGETS=" >> "$GITHUB_OUTPUT"
+        fi
     - name: Create release branch
       run: |
         git checkout -b release/${{ steps.date.outputs.DATE }}
     - name: Update CHANGELOG.md
       run: |
-        sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
-        git add ./CHANGELOG.md
-        git commit -m "Update CHANGELOG.md"
+        if [ "${{ steps.find-release-targets.outputs.RELEASE_TYPE }}" = "module" ]; then
+          echo "Updating CHANGELOG.md for module release"
+          sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
+          git add ./CHANGELOG.md
+          git commit -m "Update CHANGELOG.md"
+        else
+          echo "Skipping CHANGELOG.md update for non-module release"
+          if git diff --name-only remotes/origin/master..HEAD | grep -q '^CHANGELOG.md$'; then
+            echo "Error: CHANGELOG.md should not be modified in non-module release"
+            exit 1
+          fi
+          git commit --allow-empty -m "Non-module release - no CHANGELOG update"
+        fi
     - name: Push release branch
+      if: inputs.dry_run != true
       run: git push origin -u release/${{ steps.date.outputs.date }}
-    - name: Pull Request Action
+    # NOTE: deploy-release-feed.yml checks commit message for "Merge release" pattern
+    #       to determine whether to deploy RSS feed. This title affects that behavior.
+    - name: Pull Request Action (Module Release)
+      if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module' && inputs.dry_run != true
       uses: vsoch/pull-request-action@0969c26295afdeffaab628fee287a98b27eca529 # 1.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
@@ -52,14 +82,35 @@ jobs:
           ### 以下の項目を確認してください
           - [ ] Podspecのバージョンが正しく更新されていること
           - [ ] 配信されたサンプルアプリでの動作確認
-          - [ ] spm-versionが更新されていること 
+          - [ ] spm-versionが更新されていること
           - [ ] CHANGELOG.md のリリース日付が正しく設定されていること
           - [ ] CHANGELOG.md のバージョンがPodspecのバージョンと一致していること
           - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
 
           ### Update
           ${{ steps.find-release-targets.outputs.TARGETS }}
+
+    # NOTE: deploy-release-feed.yml checks commit message for "Non-module release" pattern
+    #       to skip RSS feed deployment. This title must contain "Non-module release".
+    - name: Pull Request Action (Non-Module Release)
+      if: steps.find-release-targets.outputs.RELEASE_TYPE == 'non-module' && inputs.dry_run != true
+      uses: vsoch/pull-request-action@0969c26295afdeffaab628fee287a98b27eca529 # 1.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        PULL_REQUEST_BRANCH: master
+        PULL_REQUEST_FROM_BRANCH: release/${{ steps.date.outputs.date }}
+        PULL_REQUEST_TITLE: Non-module release by ${{ github.actor }}
+        PULL_REQUEST_BODY: |
+          ### 非モジュールリリース
+          このリリースにはモジュール（podspec）の変更は含まれません。
+          CI/CD、ドキュメント、設定ファイルなどの変更のみを公開リポジトリに同期します。
+
+          ### 以下の項目を確認してください
+          - [ ] 変更内容が意図したものであること
+          - [ ] 公開リポジトリに同期しても問題ないこと
+          - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
     - name: Request beta release
+      if: inputs.dry_run != true
       uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
       with:
         github-token: ${{ secrets.SHARED_GITHUB_ACCESS_TOKEN }}

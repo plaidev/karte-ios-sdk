@@ -35,12 +35,15 @@ jobs:
         id: check_message
         run: |
           MESSAGE=$(git log -1 --pretty=%B)
-          if echo "$MESSAGE" | grep -q "Merge release"; then
+          if echo "$MESSAGE" | grep -q "Non-module release"; then
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+            echo "⏭️  Non-module release detected - skipping RSS feed generation"
+          elif echo "$MESSAGE" | grep -q "Merge release"; then
             echo "should_deploy=true" >> $GITHUB_OUTPUT
-            echo "✅ Commit message contains 'Merge release' - proceeding with deployment"
+            echo "✅ Module release detected - proceeding with RSS feed generation"
           else
             echo "should_deploy=false" >> $GITHUB_OUTPUT
-            echo "⏭️  Commit message does not contain 'Merge release' - skipping deployment"
+            echo "⏭️  Not a release commit - skipping deployment"
           fi
 
       - name: Generate Atom Feed

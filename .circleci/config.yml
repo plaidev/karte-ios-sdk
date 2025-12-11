@@ -150,8 +150,21 @@ jobs:
       - setup_gems
       - setup_pods
       - run:
-          name: Publish
-          command: bash ./scripts/publish.sh
+          name: Detect release type and execute
+          command: |
+            # Detect module release by checking podspec changes
+            PODSPEC_CHANGES=$(git diff HEAD~1..HEAD --name-only | grep '\.podspec$' || true)
+            if [ -n "$PODSPEC_CHANGES" ]; then
+              echo "Module release detected"
+              echo "Changed podspecs:"
+              echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
+              echo "Running full publish flow..."
+              bash ./scripts/publish.sh
+            else
+              echo "Non-module release detected"
+              echo "Running sync only..."
+              bash ./scripts/sync_repository.sh
+            fi
       - slack/status:
           fail_only: true
 
