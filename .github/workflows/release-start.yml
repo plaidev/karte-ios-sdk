@@ -68,17 +68,19 @@ jobs:
     - name: Push release branch
       if: inputs.dry_run != true
       run: git push origin -u release/${{ steps.date.outputs.date }}
+    - name: Generate GitHub App token
+      uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
+      id: app-token
+      with:
+        app-id: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_ID }}
+        private-key: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_PRIVATE_KEY }}
     # NOTE: deploy-release-feed.yml checks commit message for "Merge release" pattern
     #       to determine whether to deploy RSS feed. This title affects that behavior.
-    - name: Pull Request Action (Module Release)
+    - name: Create Pull Request (Module Release)
       if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module' && inputs.dry_run != true
-      uses: vsoch/pull-request-action@0969c26295afdeffaab628fee287a98b27eca529 # 1.1.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-        PULL_REQUEST_BRANCH: master
-        PULL_REQUEST_FROM_BRANCH: release/${{ steps.date.outputs.date }}
-        PULL_REQUEST_TITLE: Deploy to production by ${{ github.actor }}
-        PULL_REQUEST_BODY: |
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        PR_BODY: |
           ### 以下の項目を確認してください
           - [ ] Podspecのバージョンが正しく更新されていること
           - [ ] 配信されたサンプルアプリでの動作確認
@@ -89,18 +91,17 @@ jobs:
 
           ### Update
           ${{ steps.find-release-targets.outputs.TARGETS }}
-
-    # NOTE: deploy-release-feed.yml checks commit message for "Non-module release" pattern
-    #       to skip RSS feed deployment. This title must contain "Non-module release".
-    - name: Pull Request Action (Non-Module Release)
+      run: |
+        gh pr create \
+          --title "Deploy to production by ${{ github.actor }}" \
+          --body "$PR_BODY" \
+          --base master \
+          --head release/${{ steps.date.outputs.date }}
+    - name: Create Pull Request (Non-Module Release)
       if: steps.find-release-targets.outputs.RELEASE_TYPE == 'non-module' && inputs.dry_run != true
-      uses: vsoch/pull-request-action@0969c26295afdeffaab628fee287a98b27eca529 # 1.1.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-        PULL_REQUEST_BRANCH: master
-        PULL_REQUEST_FROM_BRANCH: release/${{ steps.date.outputs.date }}
-        PULL_REQUEST_TITLE: Non-module release by ${{ github.actor }}
-        PULL_REQUEST_BODY: |
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        PR_BODY: |
           ### 非モジュールリリース
           このリリースにはモジュール（podspec）の変更は含まれません。
           CI/CD、ドキュメント、設定ファイルなどの変更のみを公開リポジトリに同期します。
@@ -109,6 +110,14 @@ jobs:
           - [ ] 変更内容が意図したものであること
           - [ ] 公開リポジトリに同期しても問題ないこと
           - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
+      # NOTE: deploy-release-feed.yml checks commit message for "Non-module release" pattern
+      # to skip RSS feed deployment. This title must contain "Non-module release".
+      run: |
+        gh pr create \
+          --title "Non-module release by ${{ github.actor }}" \
+          --body "$PR_BODY" \
+          --base master \
+          --head release/${{ steps.date.outputs.date }}
     - name: Request beta release
       if: inputs.dry_run != true
       uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
