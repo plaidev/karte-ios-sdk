@@ -21,7 +21,7 @@ import Mockingjay
 
 class IdentifySpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
         
@@ -58,7 +58,7 @@ class IdentifySpec: QuickSpec {
         describe("a tracker") {
             describe("its identify") {
                 var event: Event!
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -115,7 +115,7 @@ class IdentifySpec: QuickSpec {
             
             describe("its identify compatible") {
                 var event: Event!
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)

@@ -21,7 +21,7 @@ import Nimble
 
 class PluginNativeAppIdentifyEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a plugin native app identify event") {
             var event: Event!
             

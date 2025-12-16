@@ -51,7 +51,7 @@ class TestMessage: WKScriptMessage {
 
 class JsMessageSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("its init") {
             let testWebview = WKWebView()
             let testFrameInfo = WKFrameInfo()

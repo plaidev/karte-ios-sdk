@@ -20,7 +20,7 @@ import UIKit
 @testable import KarteCore
 
 class WindowDetectorSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("WindowDetector") {
             describe("retrieveRelatedWindows(view:)") {
                 context("when view has window with windowScene") {

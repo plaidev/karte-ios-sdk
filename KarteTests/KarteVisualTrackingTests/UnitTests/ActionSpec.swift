@@ -21,7 +21,7 @@ import Nimble
 
 class ActionSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a action") {
             describe("its init") {
                 describe("property") {

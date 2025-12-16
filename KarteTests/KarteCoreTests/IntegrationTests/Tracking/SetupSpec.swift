@@ -65,7 +65,7 @@ class ResolvedConfigurationBehavior : Behavior<ResolvedConfigurationContext> {
     }
 }
 
-typealias CustomConfigurationContext = (spec: QuickSpec, builder: Builder, setup: ((Configuration) -> Void) -> Void, setupExp: ((ExperimentalConfiguration) -> Void) -> Void, expectAppKey: String, expectApiKey: String)
+typealias CustomConfigurationContext = (spec: Any, builder: Builder, setup: ((Configuration) -> Void) -> Void, setupExp: ((ExperimentalConfiguration) -> Void) -> Void, expectAppKey: String, expectApiKey: String)
 class CustomConfigurationBaseBehavior : Behavior<CustomConfigurationContext> {
     override class func spec(_ aContext: @escaping () -> CustomConfigurationContext) {
         var ctx: CustomConfigurationContext!
@@ -75,7 +75,7 @@ class CustomConfigurationBaseBehavior : Behavior<CustomConfigurationContext> {
         
         context("when customized base url") {
             var request: URLRequest!
-            beforeEachWithMetadata { (metadata) in
+            beforeEach { (metadata: ExampleMetadata) in
                 let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
                 ctx.setup { configuration in
                     configuration.baseURL = URL(string: "https://t.karte.io")!
@@ -125,7 +125,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         
         context("when enabled opt out default") {
             var event: Event!
-            beforeEachWithMetadata { (metadata) in
+            beforeEach { (metadata: ExampleMetadata) in
                 let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
                 ctx.setup { configuration in
                     configuration.isOptOut = true
@@ -142,7 +142,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         
         context("when mode is ingest") {
             var request: URLRequest!
-            beforeEachWithMetadata { (metadata) in
+            beforeEach { (metadata: ExampleMetadata) in
                 commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
                 let module = StubActionModule(ctx.spec, metadata: metadata, path: "/v0/native/ingest", builder: ctx.builder)
                 ctx.setupExp { configuration in
@@ -160,7 +160,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         }
         
         context("when library config is added") {
-            beforeEachWithMetadata { (metadata) in
+            beforeEach {
                 commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
                 ctx.setup { configuration in
                     configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
@@ -179,7 +179,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
             var idfa: IDFA!
 
             context("when disable") {
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     idfa = IDFA(isEnabled: false, idfa: "dummy_idfa")
                     commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
                     let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
@@ -197,7 +197,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
             }
 
             context("when enable") {
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
                     let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
                     ctx.setup { configuration in
@@ -222,14 +222,12 @@ let API_KEY = "dummy_api_key"
 let API_KEY_FROM_CUSTOM = "dummy_karte_api_key"
 
 class SetupSpec: QuickSpec {
-    var session: TrackClientSessionMock!
-
-    override func spec() {
+    override class func spec() {
         var builder: Builder!
+        var session: TrackClientSessionMock!
 
         beforeEach {
-            let session = TrackClientSessionMock()
-            self.session = session
+            session = TrackClientSessionMock()
 
             Resolver.root = Resolver.submock
             Resolver.root.register {
@@ -249,7 +247,7 @@ class SetupSpec: QuickSpec {
                     var request: URLRequest!
                     var body: TrackBody!
                     var events: [Event] = []
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                         KarteApp.setup(appKey: APP_KEY)
@@ -347,7 +345,7 @@ class SetupSpec: QuickSpec {
                     var request: URLRequest!
                     var body: TrackBody!
                     var events: [Event] = []
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                         KarteApp.setup()

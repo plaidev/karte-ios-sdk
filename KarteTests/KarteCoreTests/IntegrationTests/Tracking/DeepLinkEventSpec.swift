@@ -21,7 +21,7 @@ import Mockingjay
 
 class DeepLinkEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
         
@@ -37,7 +37,7 @@ class DeepLinkEventSpec: QuickSpec {
                 var result: Bool!
                 var event: Event!
                 
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     let url = URL(string: "app://karte.com")!
                     let module = StubActionModule(self, metadata: metadata, builder: builder)
                     

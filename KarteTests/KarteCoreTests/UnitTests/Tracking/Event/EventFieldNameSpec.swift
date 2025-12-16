@@ -20,7 +20,7 @@ import Nimble
 
 class EventFieldNameSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a event field name") {
             describe("its raw value") {
                 context("when the event field name is campaignId") {

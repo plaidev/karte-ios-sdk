@@ -23,12 +23,12 @@ import Mockingjay
 
 final class TrackMessageOpenSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
 
         func runTest(metadata: ExampleMetadata?, responseTimestamp: Date, libraryName: String? = nil) -> StubActionModule {
-            let module = StubActionModule(self, metadata: metadata, builder: builder)
+            let module = StubActionModule(TrackMessageOpenSpec.self, metadata: metadata, builder: builder)
             
             KarteApp.setup(appKey: APP_KEY, configuration: configuration)
             
@@ -61,7 +61,7 @@ final class TrackMessageOpenSpec: QuickSpec {
 
             context("libraryName is in_app_messaging") {
                 context("expired") {
-                    beforeEachWithMetadata { metadata in
+                    beforeEach { (metadata: ExampleMetadata) in
                         event = runTest(metadata: metadata, responseTimestamp: Date(timeIntervalSince1970: 0), libraryName: InAppMessaging.name)
                             .wait()
                             .event(.messageOpen)
@@ -73,7 +73,7 @@ final class TrackMessageOpenSpec: QuickSpec {
                 }
                 
                 context("not expired") {
-                    beforeEachWithMetadata { metadata in
+                    beforeEach { (metadata: ExampleMetadata) in
                         event = runTest(metadata: metadata, responseTimestamp: Date(), libraryName: InAppMessaging.name)
                             .wait()
                             .event(.messageOpen)
@@ -87,7 +87,7 @@ final class TrackMessageOpenSpec: QuickSpec {
             
             context("libraryName is not in_app_messaging") {
                 context("not expired 1") {
-                    beforeEachWithMetadata { metadata in
+                    beforeEach { (metadata: ExampleMetadata) in
                         event = runTest(metadata: metadata, responseTimestamp: Date(timeIntervalSince1970: 0))
                             .wait()
                             .event(.messageOpen)
@@ -99,7 +99,7 @@ final class TrackMessageOpenSpec: QuickSpec {
                 }
                 
                 context("not expired 2") {
-                    beforeEachWithMetadata { metadata in
+                    beforeEach { (metadata: ExampleMetadata) in
                         event = runTest(metadata: metadata, responseTimestamp: Date())
                             .wait()
                             .event(.messageOpen)

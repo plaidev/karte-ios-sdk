@@ -20,11 +20,11 @@ import Nimble
 @testable import KarteCore
 
 class TrackingCommandRepositorySpec: QuickSpec {
-    func newTrackingCommandRepository() -> TrackingCommandRepository {
+    class func newTrackingCommandRepository() -> TrackingCommandRepository {
         DefaultTrackingCommandRepository(SQLiteDatabase(name: "karte.sqlite"))
     }
-    
-    override func spec() {
+
+    override class func spec() {
         var repository: TrackingCommandRepository!
         
         beforeEach {

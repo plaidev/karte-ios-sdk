@@ -21,7 +21,7 @@ import Nimble
 
 class FetchVariablesEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a fetch variables event") {
             var event: Event!
             

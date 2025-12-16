@@ -21,7 +21,7 @@ import Nimble
 @testable import KarteInAppMessaging
 
 class ExpiredMessageOpenEventRejectionFilterRuleSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var now: Date!
         var rule: ExpiredMessageOpenEventRejectionFilterRule!
 

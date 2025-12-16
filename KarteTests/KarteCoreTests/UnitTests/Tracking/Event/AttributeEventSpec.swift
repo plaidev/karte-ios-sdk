@@ -20,7 +20,7 @@ import Nimble
 
 class AttributeEventSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("a attribute event") {
             var event: Event!
             

@@ -20,7 +20,7 @@ import Nimble
 
 class EventNameSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("a event name") {
             describe("its initialization event") {
                 context("when the event name is native_app_install") {

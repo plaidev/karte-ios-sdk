@@ -21,7 +21,7 @@ import Mockingjay
 
 class FindMyselfSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
         
@@ -68,8 +68,7 @@ class FindMyselfSpec: QuickSpec {
             context("when valid url") {
                 var result: Bool!
                 var event: Event!
-
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     let url = URL(string: "app://karte.io/find_myself?k=v")!
                     let module = StubActionModule(self, metadata: metadata, builder: builder)
 

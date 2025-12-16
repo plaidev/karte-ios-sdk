@@ -18,7 +18,7 @@ import Nimble
 @testable import KarteUtilities
 
 class MultipartFormDataBodySpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("MultipartFormDataBody") {
             
             let boundary = String(

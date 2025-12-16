@@ -22,7 +22,7 @@ import KarteUtilities
 
 class LifecycleEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var builder: Builder!
         
         beforeSuite {
@@ -34,7 +34,7 @@ class LifecycleEventSpec: QuickSpec {
                 context("when use default config") {
                     context("when after launch") {
                         var event: Event!
-                        beforeEachWithMetadata { (metadata) in
+                        beforeEach { (metadata: ExampleMetadata) in
                             let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                             KarteApp.setup(appKey: APP_KEY)
@@ -48,7 +48,7 @@ class LifecycleEventSpec: QuickSpec {
                     }
                     context("when after installation") {
                         var event: Event!
-                        beforeEachWithMetadata { (metadata) in
+                        beforeEach { (metadata: ExampleMetadata) in
                             let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                             KarteApp.setup(appKey: APP_KEY)
@@ -63,8 +63,8 @@ class LifecycleEventSpec: QuickSpec {
                     context("when after update") {
                         var event: Event!
                         var versionRetriever: VersionRetrieverMock!
-                        
-                        beforeEachWithMetadata { (metadata) in
+
+                        beforeEach { (metadata: ExampleMetadata) in
                             let module = StubActionModule(self, metadata: metadata, builder: builder)
                             
                             versionRetriever = VersionRetrieverMock()
@@ -98,7 +98,7 @@ class LifecycleEventSpec: QuickSpec {
                         var events: [Event] = []
                         var versionRetriever: VersionRetrieverMock!
 
-                        beforeEachWithMetadata { (metadata) in
+                        beforeEach { (metadata: ExampleMetadata) in
                             let module = StubActionModule(self, metadata: metadata, builder: builder)
 
                             versionRetriever = VersionRetrieverMock()

@@ -20,7 +20,7 @@ import Nimble
 
 class RenewVisitorIdEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a renew visitor id event") {
             var event: Event!
             

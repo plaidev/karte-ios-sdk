@@ -20,7 +20,7 @@ import Nimble
 
 class ComparisonOperatorSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a comparison operator") {
             describe("its eq") {
                 var op: ComparisonOperator!

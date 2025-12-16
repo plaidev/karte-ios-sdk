@@ -21,7 +21,7 @@ import Nimble
 
 class RemoteNotificationSetupSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         
         describe("a remote notification module") {
             beforeEach {

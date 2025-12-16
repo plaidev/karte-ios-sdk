@@ -78,7 +78,7 @@ class UserInfoBuilder {
 
 
 class MeasurementSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
         
@@ -93,8 +93,8 @@ class MeasurementSpec: QuickSpec {
             describe("a track") {
                 context("from default") {
                     var event: Event!
-                    
-                    beforeEachWithMetadata { (metadata) in
+
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -125,8 +125,8 @@ class MeasurementSpec: QuickSpec {
                 
                 context("from masspush") {
                     var event: Event!
-                    
-                    beforeEachWithMetadata { (metadata) in
+
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)

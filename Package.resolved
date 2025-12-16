@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "karteplcrashreporter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/plaidev/KartePLCrashReporter.git",
+      "state" : {
+        "revision" : "5ef5a42b9b027ef3d3d3e9928359471a05b3dd44",
+        "version" : "1.13.1"
+      }
+    }
+  ],
+  "version" : 2
+}

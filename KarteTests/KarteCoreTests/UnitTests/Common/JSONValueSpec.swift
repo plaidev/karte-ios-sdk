@@ -19,7 +19,7 @@ import Nimble
 @testable import KarteCore
 
 final class JSONValueSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("a merge recursive") {
             context("no conflict") {
                 var data: [String: JSONValue] = ["f1": "f1v"].mapValues { $0.jsonValue }

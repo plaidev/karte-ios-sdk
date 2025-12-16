@@ -20,7 +20,7 @@ import Nimble
 
 class EventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         
         describe("a custom event") {
             var event: Event!

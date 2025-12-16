@@ -20,7 +20,7 @@ import Nimble
 
 class ExperimentalConfigurationTestsSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("a configuration") {
             context("when use default configuration") {
                 var configuration: KarteCore.ExperimentalConfiguration!

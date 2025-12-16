@@ -22,7 +22,7 @@ import KarteUtilities
 @testable import KarteVariables
 
 class TrackVariablesSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
 
@@ -39,7 +39,7 @@ class TrackVariablesSpec: QuickSpec {
 
         describe("track message_open") {
             var event: Event!
-            beforeEachWithMetadata { (metadata) in
+            beforeEach { (metadata: ExampleMetadata) in
                 let module = StubActionModule(self, metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -86,7 +86,7 @@ class TrackVariablesSpec: QuickSpec {
         
         describe("track message_click") {
             var event: Event!
-            beforeEachWithMetadata { (metadata) in
+            beforeEach { (metadata: ExampleMetadata) in
                 let module = StubActionModule(self, metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)

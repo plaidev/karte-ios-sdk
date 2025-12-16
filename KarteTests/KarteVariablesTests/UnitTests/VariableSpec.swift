@@ -21,7 +21,7 @@ import Nimble
 
 class VariableSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a variable") {
             context("variable is not defined") {
                 var variable: Variable!

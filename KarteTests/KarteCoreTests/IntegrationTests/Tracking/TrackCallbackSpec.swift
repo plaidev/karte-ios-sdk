@@ -21,7 +21,7 @@ import Mockingjay
 
 class TrackCallbackSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         
         beforeSuite {
@@ -34,10 +34,10 @@ class TrackCallbackSpec: QuickSpec {
             describe("its track callback") {
                 context("request success") {
                     var result: Bool!
-                    beforeEachWithMetadata { (metadata) in
-                        let builder = StubBuilder(spec: self, resource: .empty).build()
-                        let module = StubActionModule(self, metadata: metadata, builder: builder)
-                        
+                    beforeEach { (metadata: ExampleMetadata) in
+                        let builder = StubBuilder(spec: TrackCallbackSpec.self, resource: .empty).build()
+                        let module = StubActionModule(TrackCallbackSpec.self, metadata: metadata, builder: builder)
+
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                         let event = Event(eventName: EventName("test"))
@@ -45,7 +45,7 @@ class TrackCallbackSpec: QuickSpec {
                         task.completion = { (res) in
                             result = res
                         }
-                        
+
                         module.wait()
                     }
                     
@@ -56,13 +56,14 @@ class TrackCallbackSpec: QuickSpec {
                 
                 context("request failure") {
                     var result: Bool!
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
+                        let stub = MockingjayProtocol.addStub(matcher: uri("/v0/native/track"), builder: http(500))
                         let module = StubActionModule(
-                            self,
+                            TrackCallbackSpec.self,
                             metadata: metadata,
-                            stub: self.stub(uri("/v0/native/track"), http(500))
+                            stub: stub
                         )
-                        
+
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
                         let event = Event(eventName: .fetchVariables)
@@ -71,7 +72,7 @@ class TrackCallbackSpec: QuickSpec {
                             result = res
                             module.finish()
                         }
-                        
+
                         module.wait()
                     }
                     

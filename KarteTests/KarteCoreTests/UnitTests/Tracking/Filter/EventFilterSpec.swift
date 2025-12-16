@@ -21,7 +21,7 @@ import KarteUtilities
 
 class EventFilterSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a empty event name filter rule") {
             var filter: EventFilter!
             

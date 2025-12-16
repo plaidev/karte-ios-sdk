@@ -20,7 +20,7 @@ import Nimble
 
 class ForegroundEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a foreground event") {
             var event: Event!
             

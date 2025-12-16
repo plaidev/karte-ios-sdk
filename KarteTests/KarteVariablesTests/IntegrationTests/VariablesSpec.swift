@@ -23,7 +23,7 @@ import KarteUtilities
 
 class VariablesSpec: QuickSpec {
     
-    override func spec() {        
+    override class func spec() {        
         var configuration: KarteCore.Configuration!
         var fetchStubBuilder1: Builder!
         var fetchStubBuilder2: Builder!
@@ -46,7 +46,7 @@ class VariablesSpec: QuickSpec {
             describe("its occurred _message_ready event") {
                 describe("action is control group") {
                     var event: Event!
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder3)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -84,7 +84,7 @@ class VariablesSpec: QuickSpec {
                 
                 describe("action is not control group") {
                     var event: Event!
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -123,7 +123,7 @@ class VariablesSpec: QuickSpec {
                 
                 describe("no action") {
                     var event: Event!
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder4)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -165,7 +165,7 @@ class VariablesSpec: QuickSpec {
             }
             
             describe("its fetch") {
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -259,7 +259,7 @@ class VariablesSpec: QuickSpec {
                 }
                 
                 describe("clear variables") {
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2)
 
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -302,7 +302,7 @@ class VariablesSpec: QuickSpec {
                 }
 
                 describe("override variables") {
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2)
 
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -355,7 +355,7 @@ class VariablesSpec: QuickSpec {
                 }
                 
                 describe("default lastFetch information") {
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach {
                         UserDefaults.standard.removeObject(forKey: .lastFetchStatus)
                         UserDefaults.standard.removeObject(forKey: .lastFetchTime)
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -377,7 +377,7 @@ class VariablesSpec: QuickSpec {
                 }
                 
                 describe("update lastFetch information") {
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2)
 
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -422,7 +422,7 @@ class VariablesSpec: QuickSpec {
             describe("its fetchCompletion") {
                 context("when online") {
                     var result: Bool!
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -441,13 +441,13 @@ class VariablesSpec: QuickSpec {
                 }
                 context("when offline") {
                     var result: Bool!
-                    beforeEachWithMetadata { (metadata) in
-                        
+                    beforeEach { (metadata: ExampleMetadata) in
+
                         Resolver.root = Resolver.submock
                         Resolver.root.register(Bool.self, name: "isReachable") {
                             false
                         }
-                        
+
                         let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)

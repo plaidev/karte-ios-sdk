@@ -31,7 +31,7 @@ class TrackDelegate: NSObject, TrackerDelegate {
 
 class TrackDelegateSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var delegate: TrackDelegate!
         var builder: Builder!
         
@@ -51,12 +51,12 @@ class TrackDelegateSpec: QuickSpec {
         describe("a tracker") {
             describe("its delegate") {
                 var event: Event!
-                beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
-                    
+                beforeEach { (metadata: ExampleMetadata) in
+                    let module = StubActionModule(TrackDelegateSpec.self, metadata: metadata, builder: builder)
+
                     Tracker.setDelegate(delegate)
                     KarteApp.setup(appKey: APP_KEY)
-                    
+
                     event = module.wait().event(.nativeAppOpen)
                 }
                 

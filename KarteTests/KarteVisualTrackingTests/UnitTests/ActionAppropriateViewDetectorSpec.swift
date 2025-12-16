@@ -20,7 +20,7 @@ import Nimble
 
 class ActionAppropriateViewDetectorSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a appropriate view detector") {
             describe("its detect") {
                 context("when passing UIView") {

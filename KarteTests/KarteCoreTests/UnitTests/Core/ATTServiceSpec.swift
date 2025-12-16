@@ -22,7 +22,7 @@ import AppTrackingTransparency
 
 class ATTServiceSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("its run") {
             it("returns authorized label") {
                 let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.authorized)
