@@ -10,6 +10,12 @@ This repository holds the source code for the iOS version of KARTE SDK.
 ## Getting Started
 Please see the detailed instructions in our docs to add [KARTE iOS SDK](https://developers.karte.io/docs/ios-sdk-v2) to your Xcode project.
 
+## Requirements
+To integrate the KARTE iOS SDK, the following requirements must be met:
+
+- Xcode 16.0 or later
+- iOS 15 or later (including iPadOS)
+
 ## Documentation
 The developer guide is located at
 - [Developer Portal - KARTE iOS SDK](https://developers.karte.io/docs/ios-sdk-v2)
