@@ -12,8 +12,13 @@ class SessionSpec: AsyncSpec {
                     _ = MockingjayProtocol.addStub(matcher: http(.get, uri: "https://example.com/test"), builder: jsonData("test response".data(using: .utf8)!))
 
                     let request = RequestMock()
+                    var task: URLSessionTask?
 
-                    let task = Session.send(request)
+                    await withCheckedContinuation { continuation in
+                        task = Session.send(request) { _ in
+                            continuation.resume(returning: ())
+                        }
+                    }
 
                     expect(task).toNot(beNil())
                     expect(task).to(beAKindOf(URLSessionTask.self))
@@ -24,8 +29,13 @@ class SessionSpec: AsyncSpec {
                 context("when request building succeeds") {
                     it("creates and returns a data task") {
                         let request = RequestMock()
+                        var task: URLSessionTask?
 
-                        let task = Session.send(request)
+                        await withCheckedContinuation { continuation in
+                            task = Session.send(request) { _ in
+                                continuation.resume(returning: ())
+                            }
+                        }
 
                         expect(task).toNot(beNil())
                         expect(task).to(beAKindOf(URLSessionTask.self))
