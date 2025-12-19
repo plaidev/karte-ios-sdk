@@ -105,11 +105,12 @@ jobs:
         uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
         id: app-token
         with:
-          app-id: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_ID }}
-          private-key: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_PRIVATE_KEY }}
+          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
+          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
           owner: plaidev
           repositories: |
             karte-ios-sdk
+            karte-ios-dev
       - name: Configure Git
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
