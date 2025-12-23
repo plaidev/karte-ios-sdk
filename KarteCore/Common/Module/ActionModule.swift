@@ -24,13 +24,13 @@ public protocol ActionModule: ModuleBase {
     /// `nil` を返した場合は、カレントスレッドでメソッドを呼び出します。
     var queue: DispatchQueue? { get }
 
+    // TODO: To be removed in the next major version. (backward compatibility)
+    // swiftlint:disable:previous todo
     /// Trackサーバーのレスポンスデータをハンドルします. (deprecated)
     ///
     /// - Parameters:
     ///   - response: レスポンス
     ///   - request: リクエスト
-    // TODO: To be removed in the next major version. (backward compatibility)
-    // swiftlint:disable:previous todo
     func receive(response: TrackResponse.Response, request: TrackRequest)
 
     /// Trackサーバーのレスポンスデータをハンドルします。
