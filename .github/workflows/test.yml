@@ -1,16 +1,14 @@
 name: "Test"
 on:
   workflow_dispatch:
-# TODO: Use the following condition when migrating from CircleCI to GitHub Actions.
-# on:
-#   push:
-#     branches:
-#       # `master` is tested in `publish.yml`.
-#       - develop
-#   pull_request:
-#     branches:
-#       - develop
-#       - master
+  push:
+    branches:
+      # `master` is tested in `publish.yml`.
+      - develop
+  pull_request:
+    branches:
+      - develop
+      - master
 permissions:
   id-token: write # for using OIDC in codecov/codecov-action
   contents: read

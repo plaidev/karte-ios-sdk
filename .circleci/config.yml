@@ -12,9 +12,9 @@ parameters:
     type: string
     default: "iPhone 17"
   context:
-    description: Specify running context. Default is CI but theare are 2 options for manual release.
+    description: Specify running context. Default is CI but there are options for manual release.
     type: enum
-    enum: [ci, manual, dry_run]
+    enum: [ci, manual_release, manual_publish_pods, dry_run]
     default: ci
 
 orbs:
@@ -204,9 +204,20 @@ jobs:
 
 workflows:
   version: 2
+  # NOTE: This workflow runs in parallel with GitHub Actions for the time being.
+  # Eventually, this will be fully migrated to GitHub Actions.
   build_and_deploy:
     when:
       equal: [ ci, << pipeline.parameters.context >> ]
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+
+  manual_release:
+    when:
+      equal: [ manual_release, << pipeline.parameters.context >> ]
     jobs:
       - build
       - test:
@@ -218,9 +229,9 @@ workflows:
               only:
                 - master
 
-  manual_deploy:
+  manual_publish_pods:
     when:
-      equal: [ manual, << pipeline.parameters.context >> ]
+      equal: [ manual_publish_pods, << pipeline.parameters.context >> ]
     jobs:
       - echo_context
       - build:

@@ -1,9 +1,8 @@
 name: "Publish"
 on:
-  # TODO: Use the following condition when migrating from CircleCI to GitHub Actions.
-  #   push:
-  #     branches:
-  #       - master
+  push:
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       mode:
@@ -116,6 +115,7 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-sdk.git".insteadOf "https://github.com/plaidev/karte-ios-sdk.git"
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-dev.git".insteadOf "https://github.com/plaidev/karte-ios-dev.git"
           git config --global user.name "github actions"
           git config --global user.email "git@users.noreply.github.com"
       - name: Dry run (pod lib lint)
@@ -130,8 +130,23 @@ jobs:
           GITHUB_USER_EMAIL: 'git@users.noreply.github.com'
           EXEC_ENV: 'private'
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-        # TODO: run: bash ./scripts/publish.sh
-        run: echo "Publish step (temporarily disabled for testing)"
+        run: |
+          PODSPEC_CHANGES=$(git diff HEAD~1..HEAD --name-only | grep '\.podspec$' || true)
+          if [ -n "$PODSPEC_CHANGES" ]; then
+            echo "Changed podspecs:"
+            echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
+            echo "Running full publish flow..."
+            bash ./scripts/publish.sh
+          else
+            echo "Running sync only..."
+            bash ./scripts/sync_repository.sh
+          fi
+      - name: Trigger documentation publish
+        if: env.EXECUTION_MODE == 'publish' && success()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh workflow run publish-docs.yml --ref master
       - name: Publish (Publish Cocoapods only)
         if: env.EXECUTION_MODE == 'publish_pods_only'
         env:
@@ -142,8 +157,8 @@ jobs:
           EXEC_ENV: 'private'
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
           PODSPEC_ONLY: 1
-        # TODO: run: bash ./scripts/publish.sh
-        run: echo "Publish (Publish Cocoapods only) step (temporarily disabled for testing)"
+        run: |
+          run: bash ./scripts/publish.sh
   # NOTE: Running on `ubuntu-latest` since `rtCamp/action-slack-notify` cannot be used on macOS runners.
   # https://github.com/rtCamp/action-slack-notify/issues/22
   notify-slack-test:

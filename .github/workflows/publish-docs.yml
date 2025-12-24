@@ -1,8 +1,5 @@
 name: "Publish Documentation"
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
     inputs:
       # Allows manual recovery when the runner's Xcode version path changes.
