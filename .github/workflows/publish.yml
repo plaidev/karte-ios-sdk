@@ -71,11 +71,12 @@ jobs:
           flags: unittests
           fail_ci_if_error: false
           verbose: true
+      # NOTE: Upload test results only on failure to save storage costs
       - name: Upload test results
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
-          name: KarteTests_${{ env.IOS_VERSION }}.xcresult
+          name: KarteTests-${{ env.IOS_VERSION }}-Publish-${{ github.run_number }}.xcresult
           path: output/KarteTests_${{ env.IOS_VERSION }}.xcresult
           retention-days: 1
   publish:
