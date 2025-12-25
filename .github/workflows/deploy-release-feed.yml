@@ -80,3 +80,19 @@ jobs:
         if: steps.check_message.outputs.should_deploy == 'true'
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+
+      - name: Notify Slack on success
+        if: steps.check_message.outputs.should_deploy == 'true' && success()
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Release feed deployment completed successfully'
+          SLACK_COLOR: success
+
+      - name: Notify Slack on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Release feed deployment failed'
+          SLACK_COLOR: failure
