@@ -131,6 +131,7 @@ jobs:
           GITHUB_USER_EMAIL: 'git@users.noreply.github.com'
           EXEC_ENV: 'private'
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+          README_API_KEY: ${{ secrets.README_API_KEY }}
         run: |
           PODSPEC_CHANGES=$(git diff HEAD~1..HEAD --name-only | grep '\.podspec$' || true)
           if [ -n "$PODSPEC_CHANGES" ]; then
