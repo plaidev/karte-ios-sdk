@@ -159,7 +159,7 @@ jobs:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
           PODSPEC_ONLY: 1
         run: |
-          run: bash ./scripts/publish.sh
+          bash ./scripts/publish.sh
   # NOTE: Running on `ubuntu-latest` since `rtCamp/action-slack-notify` cannot be used on macOS runners.
   # https://github.com/rtCamp/action-slack-notify/issues/22
   notify-slack-test:
