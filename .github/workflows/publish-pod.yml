@@ -1,0 +1,82 @@
+name: "Publish Pod"
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: 'Module to publish'
+        required: true
+        type: choice
+        options:
+          - KarteUtilities
+          - KarteCore
+          - KarteInAppMessaging
+          - KarteRemoteNotification
+          - KarteVariables
+          - KarteVisualTracking
+          - KarteInbox
+          - KarteInAppFrame
+          - KarteCrashReporting
+          - KarteNotificationServiceExtension
+          - KarteDebugger
+        default: 'KarteCore'
+      mode:
+        description: 'Execution mode'
+        required: true
+        type: choice
+        options:
+          - publish
+          - dry_run
+        default: 'dry_run'
+permissions:
+  contents: write
+jobs:
+  publish-pod:
+    runs-on: macos-26-xlarge
+    timeout-minutes: 30
+    if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode == 'dry_run') }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@d5f787ce339eb0767271bc01d922e85644c2c8ab # v1.280.0
+        with:
+          ruby-version: '3.4'
+      - name: Install gems
+        run: bundle install
+      - name: Dry run
+        if: inputs.mode == 'dry_run'
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+          PODSPEC: ${{ inputs.module }}.podspec
+        run: |
+          bundle exec pod trunk me
+          bundle exec pod lib lint $PODSPEC --allow-warnings --verbose
+      - name: Publish to CocoaPods
+        if: inputs.mode == 'publish'
+        id: publish
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+          PODSPEC: ${{ inputs.module }}.podspec
+        run: |
+          bundle exec pod trunk push $PODSPEC --allow-warnings --synchronous
+  notify-slack:
+    runs-on: ubuntu-latest
+    needs: [publish-pod]
+    if: always() && github.repository != 'plaidev/karte-ios-sdk' && inputs.mode == 'publish'
+    steps:
+      - name: Notify Slack on success
+        if: needs.publish-pod.result == 'success'
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: 'Publish Pod Success'
+          SLACK_MESSAGE: 'Successfully published ${{ inputs.module }} to CocoaPods\nhttps://cocoapods.org/pods/${{ inputs.module }}'
+          SLACK_COLOR: success
+      - name: Notify Slack on failure
+        if: needs.publish-pod.result == 'failure'
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: 'Publish Pod Failure'
+          SLACK_MESSAGE: 'Failed to publish ${{ inputs.module }} to CocoaPods\nhttps://cocoapods.org/pods/${{ inputs.module }}'
+          SLACK_COLOR: failure

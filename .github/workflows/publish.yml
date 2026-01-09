@@ -11,9 +11,8 @@ on:
         type: choice
         options:
           - publish
-          - publish_pods_only
           - dry_run
-        default: 'publish'
+        default: 'dry_run'
 permissions:
   id-token: write # for using OIDC in codecov/codecov-action
   contents: write
@@ -27,7 +26,7 @@ jobs:
     runs-on: macos-26-xlarge
     timeout-minutes: 20
     # NOTE: Run only in private repo. Block publish mode on non-master branches.
-    if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode != 'publish') }}
+    if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode == 'dry_run') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -84,7 +83,7 @@ jobs:
     runs-on: macos-26-xlarge
     timeout-minutes: 30
     # NOTE: Run only in private repo. Block publish mode on non-master branches.
-    if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode != 'publish') }}
+    if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode == 'dry_run') }}
     steps:
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
@@ -135,9 +134,13 @@ jobs:
           git push --dry-run origin ${TEMP_TAG}
           git push --dry-run sync_repo ${TEMP_TAG}
           git tag -d ${TEMP_TAG}
-      - name: Dry run (pod lib lint)
+      - name: Dry run
         if: env.EXECUTION_MODE == 'dry_run'
-        run: bundle exec pod lib lint --verbose --allow-warnings
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: |
+          bundle exec pod trunk me
+          bundle exec pod lib lint --verbose --allow-warnings
       - name: Publish
         if: env.EXECUTION_MODE == 'publish'
         env:
@@ -165,18 +168,6 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           gh workflow run publish-docs.yml --ref master
-      - name: Publish (Publish Cocoapods only)
-        if: env.EXECUTION_MODE == 'publish_pods_only'
-        env:
-          GITHUB_REMOTE_ADDRESS: https://github.com/plaidev/karte-ios-sdk.git
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          GITHUB_USER_NAME: 'github actions'
-          GITHUB_USER_EMAIL: 'git@users.noreply.github.com'
-          EXEC_ENV: 'private'
-          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-          PODSPEC_ONLY: 1
-        run: |
-          bash ./scripts/publish.sh
   # NOTE: Running on `ubuntu-latest` since `rtCamp/action-slack-notify` cannot be used on macOS runners.
   # https://github.com/rtCamp/action-slack-notify/issues/22
   notify-slack-test:
