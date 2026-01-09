@@ -28,12 +28,11 @@ jobs:
           private-key: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_PRIVATE_KEY }}
           owner: plaidev
           repositories: |
-            karte-ios-dev
             karte-sdk-docs
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: false
           submodules: true
       - name: Setup Ruby
         uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
@@ -41,7 +40,10 @@ jobs:
           ruby-version: '3.4'
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Configure Git
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-sdk-docs".insteadOf "https://github.com/plaidev/karte-sdk-docs"
           git config --global user.name "github actions"
           git config --global user.email "git@users.noreply.github.com"
       # Jazzy uses xcodebuild to analyze Swift modules, so Xcode must be configured
