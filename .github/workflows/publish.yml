@@ -86,9 +86,20 @@ jobs:
     # NOTE: Run only in private repo.
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' }}
     steps:
+      - name: Generate GitHub App token
+        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
+          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
+          owner: plaidev
+          repositories: |
+            karte-ios-sdk
+            karte-ios-dev
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
+          token: ${{ steps.app-token.outputs.token }}
           submodules: true
           fetch-depth: 0 # Fetch all history for proper git operations
       - name: Set up Ruby
@@ -101,22 +112,8 @@ jobs:
       - name: Install CocoaPods dependencies
         # NOTE: Caching is disabled for clean builds on release
         run: bundle exec pod install --verbose
-      - name: Generate GitHub App token
-        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
-        id: app-token
-        with:
-          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
-          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
-          owner: plaidev
-          repositories: |
-            karte-ios-sdk
-            karte-ios-dev
       - name: Configure Git
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-sdk.git".insteadOf "https://github.com/plaidev/karte-ios-sdk.git"
-          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-dev.git".insteadOf "https://github.com/plaidev/karte-ios-dev.git"
           git config --global user.name "github actions"
           git config --global user.email "git@users.noreply.github.com"
       - name: Dry run (pod lib lint)
