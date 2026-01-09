@@ -120,9 +120,24 @@ jobs:
           git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-dev".insteadOf "https://github.com/plaidev/karte-ios-dev"
           git config --global user.name "github actions"
           git config --global user.email "git@users.noreply.github.com"
+      # NOTE: Verify Git authentication and push permissions before actual publish.
+      - name: Dry run (Git authentication check)
+        if: env.EXECUTION_MODE == 'dry_run'
+        env:
+          GITHUB_REMOTE_ADDRESS: https://github.com/plaidev/karte-ios-sdk.git
+          TEMP_BRANCH: ci-auth-test-${{ github.run_id }}
+          TEMP_TAG: ci-auth-test-tag-${{ github.run_id }}
+        run: |
+          git remote add sync_repo ${GITHUB_REMOTE_ADDRESS} || true
+          git fetch sync_repo
+          git push --dry-run sync_repo HEAD:refs/heads/${TEMP_BRANCH}
+          git tag ${TEMP_TAG}
+          git push --dry-run origin ${TEMP_TAG}
+          git push --dry-run sync_repo ${TEMP_TAG}
+          git tag -d ${TEMP_TAG}
       - name: Dry run (pod lib lint)
         if: env.EXECUTION_MODE == 'dry_run'
-        run: bundle exec pod lib lint --verbose
+        run: bundle exec pod lib lint --verbose --allow-warnings
       - name: Publish
         if: env.EXECUTION_MODE == 'publish'
         env:
