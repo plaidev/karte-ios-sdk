@@ -22,7 +22,7 @@ import Mockingjay
 
 class DefinitionMatchSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         
         beforeSuite {
@@ -34,7 +34,7 @@ class DefinitionMatchSpec: QuickSpec {
         describe("match definition and track") {
             var event: Event!
             
-            beforeEachWithMetadata { (metadata) in
+            beforeEach { (metadata: ExampleMetadata) in
                 func step1() {
                     let builder1 = StubBuilder(spec: self, resource: .vt1).build()
                     let module1 = StubActionModule(self, metadata: metadata, builder: builder1)

@@ -18,7 +18,7 @@ import Nimble
 @testable import KarteUtilities
 
 class RequestSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("a request") {
             
             describe("its buildURLRequest") {
@@ -148,7 +148,6 @@ class RequestSpec: QuickSpec {
                 describe("its default intercept(object:urlResponse:)") {
                     context("when status code is in 200-299 range") {
                         it("returns the object unchanged") {
-                            let testObject = "test object"
                             let response = HTTPURLResponse(
                                 url: URL(string: "https://example.com")!,
                                 statusCode: 200,
@@ -181,7 +180,6 @@ class RequestSpec: QuickSpec {
                     
                     context("when status code is outside 200-299 range") {
                         it("throws ResponseError.unacceptableStatusCode") {
-                            let testObject = "test object"
                             let statusCode = 400
                             let response = HTTPURLResponse(
                                 url: URL(string: "https://example.com")!,

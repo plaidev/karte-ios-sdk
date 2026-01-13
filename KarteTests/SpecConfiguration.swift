@@ -20,7 +20,7 @@ import KarteUtilities
 
 class SpecConfiguration: QuickConfiguration {
 
-    override class func configure(_ configuration: QCKConfiguration!) {
+    override class func configure(_ configuration: QCKConfiguration) {
         configuration.beforeSuite {
             KarteApp.setLogLevel(.off)
             KarteApp.shared.teardown()

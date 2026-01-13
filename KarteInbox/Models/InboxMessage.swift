@@ -49,10 +49,8 @@ public struct InboxMessage: Decodable {
         _customPayload.value
     }
 
-    // swiftlint:disable:next identifier_name
     let _customPayload: CustomPayload
 
-    // swiftlint:disable identifier_name
     public init(
         timestamp: Date,
         title: String,
@@ -85,7 +83,6 @@ public struct InboxMessage: Decodable {
     public struct CustomPayload: Decodable {
         fileprivate var value: [String: Any?] = [:]
 
-        // swiftlint:disable:next nesting
         struct CodingKeys: CodingKey {
             var stringValue: String
             var intValue: Int?

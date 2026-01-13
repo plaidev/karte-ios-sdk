@@ -20,7 +20,7 @@ import Nimble
 
 class InspectorSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a inspector") {
             describe("its inspectView") {
                 var window: UIWindow!

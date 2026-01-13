@@ -21,7 +21,7 @@ import KarteUtilities
 
 class VisitorIdServiceSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         var visitorIdGeneratorMock: VisitorIdGeneratorMock!
         
         beforeEach {

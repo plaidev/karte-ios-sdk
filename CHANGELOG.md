@@ -2,7 +2,7 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.34.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.35.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.25.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.13.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
@@ -12,6 +12,13 @@
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.14.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
+
+# Releases - 2026.01.13
+## Version 2.32.0
+
+### Core 2.35.0
+**💊FIXED**
+- lintの警告を修正しました。この変更によるSDK利用者への影響はありません。
 
 # Releases - 2025.12.09
 ## Version 2.31.0

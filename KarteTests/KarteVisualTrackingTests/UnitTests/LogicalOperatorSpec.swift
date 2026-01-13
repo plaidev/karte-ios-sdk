@@ -21,7 +21,7 @@ import KarteCore
 
 class LogicalOperatorSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("a logical operator") {
             describe("its and") {
                 context("when the number of conditions is one") {

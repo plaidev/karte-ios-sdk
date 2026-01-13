@@ -21,61 +21,64 @@ import KarteUtilities
 @testable import KarteCore
 @testable import KarteVisualTracking
 
-class DefinitionsRequestSpec: QuickSpec {
-    
-    override func spec() {
+class DefinitionsRequestSpec: AsyncSpec {
+
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
-        
+
         beforeSuite {
             configuration = Configuration { (configuration) in
                 configuration.isSendInitializationEventEnabled = false
             }
             builder = StubBuilder(spec: self, resource: .vt_definitions).build()
         }
-        
+
         describe("a definition get") {
             var request: URLRequest!
+            var mockStub: Stub!
+            var definitions: AutoTrackDefinition?
+
             beforeEach {
-                let exp = self.expectation(description: "Wait for get definitions.")
-                let stub = self.stub(uri("/v0/native/auto-track/definitions"), {(r) -> (Response) in
+                mockStub = MockingjayProtocol.addStub(matcher: uri("/v0/native/auto-track/definitions"), builder: {(r) -> (Response) in
                     request = r
                     return builder(request)
                 })
-                
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                VisualTrackingManager.shared.tracker?.refreshDefinitions{
-                    exp.fulfill()
+
+                await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                    VisualTrackingManager.shared.tracker?.refreshDefinitions {
+                        continuation.resume()
+                    }
                 }
-                
-                self.wait(for: [exp], timeout: 10)
-                self.removeStub(stub)
+                definitions = VisualTrackingManager.shared.tracker?.definitions
             }
-            
+
+            afterEach {
+                if mockStub != nil {
+                    MockingjayProtocol.removeStub(mockStub)
+                }
+            }
+
             describe("its request") {
                 it("has `X-KARTE-Auto-Track-OS` header") {
                     expect(request.allHTTPHeaderFields?.keys.contains("X-KARTE-Auto-Track-OS")).to(beTrue())
                 }
-                
+
                 it("`X-KARTE-Auto-Track-OS` header value is `iOS`") {
                     expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-OS"]).to(equal("iOS"))
                 }
-                
+
                 it("has `X-KARTE-Auto-Track-If-Modified-Since` header") {
                     expect(request.allHTTPHeaderFields?.keys.contains("X-KARTE-Auto-Track-If-Modified-Since")).to(beTrue())
                 }
-                
+
                 it("`has X-KARTE-Auto-Track-If-Modified-Since` header that value is `0`") {
                     expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-If-Modified-Since"]).to(equal("0"))
                 }
             }
-            
-            describe("its definitions") {
-                var definitions: AutoTrackDefinition?
-                beforeEach {
-                    definitions = VisualTrackingManager.shared.tracker?.definitions
-                }
 
+            describe("its definitions") {
                 it("is not nil") {
                     expect(definitions).toNot(beNil())
                 }
@@ -83,7 +86,7 @@ class DefinitionsRequestSpec: QuickSpec {
                 it("only has valid trigger") {
                     expect(definitions?.definitions?.first?.triggers.count).to(equal(2))
                 }
-                
+
                 it("only has valid conditions") {
                     if case let .and(c) = definitions?.definitions?.first?.triggers.first?.condition {
                         expect(c.count).to(equal(2))

@@ -19,7 +19,7 @@ import Nimble
 @testable import KarteRemoteNotification
 
 class RegisterPushCommandSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("its run") {
             context("when invalid value passed") {
                 let examples = [

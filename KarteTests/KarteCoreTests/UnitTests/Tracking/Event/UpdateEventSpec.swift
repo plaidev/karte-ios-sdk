@@ -21,7 +21,7 @@ import KarteUtilities
 
 class UpdateEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a update event") {
             var service: VersionService!
             var event: Event!

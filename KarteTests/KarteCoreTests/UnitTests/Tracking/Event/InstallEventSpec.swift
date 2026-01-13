@@ -20,7 +20,7 @@ import Nimble
 
 class InstallEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a install event") {
             var event: Event!
             

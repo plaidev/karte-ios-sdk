@@ -20,7 +20,7 @@ import Nimble
 
 class ATTStatusUpdatedSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("a `att_status_updated` event") {
             var event: Event!
 

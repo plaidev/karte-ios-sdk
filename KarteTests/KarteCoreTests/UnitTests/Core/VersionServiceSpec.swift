@@ -21,7 +21,7 @@ import KarteUtilities
 
 class VersionServiceSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var versionRetriever: VersionRetrieverMock!
         
         beforeEach {

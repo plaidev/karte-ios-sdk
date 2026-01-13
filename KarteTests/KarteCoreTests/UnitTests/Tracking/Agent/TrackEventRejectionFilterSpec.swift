@@ -19,7 +19,7 @@ import Nimble
 @testable import KarteCore
 
 class TrackEventRejectionFilterSpec: QuickSpec {
-    override func spec() {        
+    override class func spec() {        
         describe("check track event filter") {
             var filter: TrackEventRejectionFilter!
             

@@ -22,7 +22,7 @@ import Nimble
 
 class IAMProcessSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var iamConfiguration: IAMProcessConfiguration!
         var view: UIView!

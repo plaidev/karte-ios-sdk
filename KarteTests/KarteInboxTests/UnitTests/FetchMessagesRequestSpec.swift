@@ -19,43 +19,44 @@ import Nimble
 @testable import KarteInbox
 
 final class FetchMessagesRequestSpec: QuickSpec {
-    private let visitorId = "Dummy"
-    private let config = DummyConfig()
 
-    override func spec() {
+    override class func spec() {
+        let visitorId = "Dummy"
+        let config = DummyConfig()
+
         describe("a request") {
             describe("its init") {
                 context("when initialized with parameters") {
                     it("has proper URL with ProductionConfig") {
-                        let req = FetchMessagesRequest(visitorId: self.visitorId, config: ProductionConfig())
+                        let req = FetchMessagesRequest(visitorId: visitorId, config: ProductionConfig())
                         expect(req.asURLRequest().url?.absoluteString).to(equal("https://api.karte.io/v2native/inbox/fetchMessages"))
                     }
 
                     it("has proper URL with EvaluationConfig") {
-                        let req = FetchMessagesRequest(visitorId: self.visitorId, config: EvaluationConfig())
+                        let req = FetchMessagesRequest(visitorId: visitorId, config: EvaluationConfig())
                         expect(req.asURLRequest().url?.absoluteString).to(equal("https://api-evaluation.dev-karte.com/v2native/inbox/fetchMessages"))
                     }
 
                     it("has correspond visitorId in body") {
-                        let req = FetchMessagesRequest(visitorId: self.visitorId, config: self.config)
-                        expect(req.bodyParams?["visitorId"] as? String).to(equal(self.visitorId))
+                        let req = FetchMessagesRequest(visitorId: visitorId, config: config)
+                        expect(req.bodyParams?["visitorId"] as? String).to(equal(visitorId))
                     }
 
                     it("has correspond limit in body") {
-                        let req = FetchMessagesRequest(visitorId: self.visitorId, limit: 1, config: self.config)
+                        let req = FetchMessagesRequest(visitorId: visitorId, limit: 1, config: config)
                         expect(req.bodyParams?["limit"] as? UInt).to(equal(1))
                     }
 
                     it("has correspond latestMessageId in body") {
                         let dummy = "Dummy messageId"
-                        let req = FetchMessagesRequest(visitorId: self.visitorId, latestMessageId: dummy, config: self.config)
+                        let req = FetchMessagesRequest(visitorId: visitorId, latestMessageId: dummy, config: config)
                         expect(req.bodyParams?["latestMessageId"] as? String).to(equal(dummy))
                     }
                 }
 
                 context("when initialized without optional parameters") {
                     it("has nil for optional body parameters") {
-                        let req = FetchMessagesRequest(visitorId: self.visitorId, config: self.config)
+                        let req = FetchMessagesRequest(visitorId: visitorId, config: config)
                         let limit = req.bodyParams?["limit"]
                         let latestMessageId = req.bodyParams?["latestMessageId"]
                         expect(limit).to(beNil())

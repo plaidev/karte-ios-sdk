@@ -1,0 +1,78 @@
+name: "Test"
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      # `master` is tested in `publish.yml`.
+      - develop
+  pull_request:
+    branches:
+      - develop
+      - master
+permissions:
+  id-token: write # for using OIDC in codecov/codecov-action
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  IOS_VERSION: "26.0.1"
+  DEVICE_NAME: "iPhone 17"
+jobs:
+  test:
+    # NOTE: Using `macos-26-xlarge` to avoid timing-dependent test failures.
+    runs-on: macos-26-xlarge
+    timeout-minutes: 20
+    # NOTE: Run only in private repo.
+    if: ${{ github.repository != 'plaidev/karte-ios-sdk' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - name: Checkout git submodules
+        run: |
+          git submodule sync
+          git submodule update --init
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true # Runs 'bundle install' and caches installed gems automatically
+      - name: Cache CocoaPods
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: Install CocoaPods dependencies
+        run: bundle exec pod install --verbose
+      - name: Podspec lint
+        run: bundle exec pod spec lint *.podspec --quick
+      - name: Run tests
+        run: |
+          DESTINATION="platform=iOS Simulator,name=${{ env.DEVICE_NAME }},OS=${{ env.IOS_VERSION }}"
+          xcodebuild test -workspace Karte.xcworkspace \
+                          -scheme KarteTests \
+                          -destination "${DESTINATION}" \
+                          -derivedDataPath DerivedData \
+                          -resultBundlePath "output/KarteTests_${{ env.IOS_VERSION }}.xcresult" \
+                          -skipPackagePluginValidation \
+                          -skipMacroValidation
+      - name: Generate coverage report
+        run: bundle exec slather
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
+        with:
+          use_oidc: true
+          files: ./cobertura.xml
+          flags: unittests
+          fail_ci_if_error: false
+          verbose: true
+      # NOTE: Upload test results only on failure to save storage costs
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: KarteTests-${{ env.IOS_VERSION }}-Test-${{ github.run_number }}.xcresult
+          path: output/KarteTests_${{ env.IOS_VERSION }}.xcresult
+          retention-days: 1

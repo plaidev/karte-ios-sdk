@@ -20,7 +20,7 @@ import Nimble
 
 class TraceRequestSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("a trace request") {
             describe("init") {
                 let url = URL(string: "app://_krtp/dummy_account_id")

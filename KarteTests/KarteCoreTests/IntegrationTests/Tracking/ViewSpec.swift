@@ -21,7 +21,7 @@ import Mockingjay
 
 class ViewSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
         
@@ -54,7 +54,7 @@ class ViewSpec: QuickSpec {
             describe("its view") {
                 describe("when view_id and title are not nil") {
                     var event: Event!
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -123,7 +123,7 @@ class ViewSpec: QuickSpec {
 
                 describe("when view_id and title are nil") {
                     var event: Event!
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         let module = StubActionModule(self, metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
@@ -149,7 +149,7 @@ class ViewSpec: QuickSpec {
             
             xdescribe("its view compatible") {
                 var event: Event!
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)

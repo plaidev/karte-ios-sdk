@@ -19,31 +19,32 @@ import Nimble
 @testable import KarteInbox
 
 final class OpenMessagesRequestSpec: QuickSpec {
-    private let visitorId = "Dummy"
-    private let config = DummyConfig()
 
-    override func spec() {
+    override class func spec() {
+        let visitorId = "Dummy"
+        let config = DummyConfig()
+
         describe("a request") {
             describe("its init") {
                 context("when initialized with parameters") {
                     it("has proper URL with ProductionConfig") {
-                        let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: [], config: ProductionConfig())
+                        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: ProductionConfig())
                         expect(req.asURLRequest().url?.absoluteString).to(equal("https://api.karte.io/v2native/inbox/openMessages"))
                     }
 
                     it("has proper URL with EvaluationConfig") {
-                        let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: [], config: EvaluationConfig())
+                        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: EvaluationConfig())
                         expect(req.asURLRequest().url?.absoluteString).to(equal("https://api-evaluation.dev-karte.com/v2native/inbox/openMessages"))
                     }
 
                     it("has correspond visitorId in body") {
-                        let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: [], config: self.config)
-                        expect(req.bodyParams?["visitorId"] as? String).to(equal(self.visitorId))
+                        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: config)
+                        expect(req.bodyParams?["visitorId"] as? String).to(equal(visitorId))
                     }
 
                     it("has correspond messageIds in body") {
                         let targets = ["aaa", "bbb", "ccc"]
-                        let req = OpenMessagesRequest(visitorId: self.visitorId, messageIds: targets, config: self.config)
+                        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: targets, config: config)
                         expect(req.bodyParams?["messageIds"] as? [String]).to(equal(targets))
                     }
                 }

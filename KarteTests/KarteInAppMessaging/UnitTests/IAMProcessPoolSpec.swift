@@ -20,7 +20,7 @@ import Nimble
 @testable import KarteInAppMessaging
 
 class IAMProcessPoolSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("Check wether it can be created a process") {
             context("SceneId exists with specific id in pool") {
                 let pool = IAMProcessPool()

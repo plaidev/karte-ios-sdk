@@ -22,7 +22,7 @@ import UniformTypeIdentifiers
 
 class KRTNotificationServiceExtensionSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("KRTNotificationServiceExtension") {
             var service: NotificationServiceExtension!
 

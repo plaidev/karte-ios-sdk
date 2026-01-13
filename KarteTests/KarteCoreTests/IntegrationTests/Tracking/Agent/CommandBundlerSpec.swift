@@ -16,13 +16,14 @@
 
 import Quick
 import Nimble
+import XCTest
 @testable import KarteUtilities
 @testable import KarteCore
 
 class CommandBundlerSpy {
-    private var spec: QuickSpec
+    private var testCase: XCTestCase
     private var expectation: XCTestExpectation
-    
+
     var queue = DispatchQueue(
         label: "io.karte.spec",
         qos: .utility
@@ -30,23 +31,32 @@ class CommandBundlerSpy {
     var estimatedCount = 0
     var actualCount = 0
     var bundles = [CommandBundle]()
-    
-    
-    init(spec: QuickSpec, metadata: ExampleMetadata?, count: Int) {
-        let metadataLabel = metadata?.example.name ?? "unknown"
 
-        self.spec = spec
-        self.expectation = spec.expectation(description: "Wait for finish => \(metadataLabel)")
+
+    init(spec: Any, metadata: ExampleMetadata? = nil, count: Int) {
+        let metadataLabel = metadata?.example.name ?? "test"
+
+        // Accept both QuickSpec and QuickSpec.Type
+        if let testCase = spec as? XCTestCase {
+            self.testCase = testCase
+        } else if let _ = spec as? XCTestCase.Type {
+            // For class methods, create a minimal XCTestCase
+            self.testCase = XCTestCase()
+        } else {
+            fatalError("spec must be XCTestCase or XCTestCase.Type")
+        }
+
+        self.expectation = self.testCase.expectation(description: "Wait for finish => \(metadataLabel)")
         self.estimatedCount = count
     }
-    
+
     func wait(timeout: TimeInterval = 4, execute: @escaping () -> Void) {
         queue.async(execute: execute)
-        
+
         expectation.assertForOverFulfill = false
         expectation.expectedFulfillmentCount = estimatedCount
 
-        spec.wait(for: [expectation], timeout: timeout)
+        testCase.wait(for: [expectation], timeout: timeout)
     }
 }
 
@@ -59,7 +69,7 @@ extension CommandBundlerSpy: CommandBundlerDelegate {
 }
 
 class CommandBundlerSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("a command bundler") {
             beforeEach {
                 Thread.sleep(forTimeInterval: 2)
@@ -67,8 +77,8 @@ class CommandBundlerSpec: QuickSpec {
             
             describe("its user bundle rule") {
                 var spy: CommandBundlerSpy!
-                
-                beforeEachWithMetadata { (metadata) in
+
+                beforeEach { (metadata: ExampleMetadata) in
                     spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 2)
                     
                     let bundler = CommandBundler(
@@ -101,8 +111,8 @@ class CommandBundlerSpec: QuickSpec {
             
             describe("its scene bundle rule") {
                 var spy: CommandBundlerSpy!
-                
-                beforeEachWithMetadata { (metadata) in
+
+                beforeEach { (metadata: ExampleMetadata) in
                     spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 5)
                     
                     let bundler = CommandBundler(
@@ -151,8 +161,8 @@ class CommandBundlerSpec: QuickSpec {
             
             describe("its count bundle rule") {
                 var spy: CommandBundlerSpy!
-                
-                beforeEachWithMetadata { (metadata) in
+
+                beforeEach { (metadata: ExampleMetadata) in
                     spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 2)
                     
                     let bundler = CommandBundler(
@@ -187,8 +197,8 @@ class CommandBundlerSpec: QuickSpec {
             describe("its time window bundle rule") {
                 context("isImmediatelyBundlable is true") {
                     var spy: CommandBundlerSpy!
-                    
-                    beforeEachWithMetadata { (metadata) in
+
+                    beforeEach { (metadata: ExampleMetadata) in
                         spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 3)
                         
                         let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(1000))
@@ -229,8 +239,8 @@ class CommandBundlerSpec: QuickSpec {
                 
                 context("isImmediatelyBundlable is true to false to true") {
                     var spy: CommandBundlerSpy!
-                    
-                    beforeEachWithMetadata { (metadata) in
+
+                    beforeEach { (metadata: ExampleMetadata) in
                         spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 2)
                         
                         let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(1000))
@@ -278,8 +288,8 @@ class CommandBundlerSpec: QuickSpec {
                 
                 context("complex rules") {
                     var spy: CommandBundlerSpy!
-                    
-                    beforeEachWithMetadata { (metadata) in
+
+                    beforeEach { (metadata: ExampleMetadata) in
                         spy = CommandBundlerSpy(spec: self, metadata: metadata, count: 2)
                         
                         let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(100))

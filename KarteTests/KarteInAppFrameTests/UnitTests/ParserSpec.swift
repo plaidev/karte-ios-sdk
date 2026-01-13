@@ -20,11 +20,11 @@ import Nimble
 @testable import KarteInAppFrame
 
 final class ParserSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("VariableParser") {
             describe("its parse") {
                 context("for carouselWithMargin") {
-                    let url = Bundle(for: type(of: self)).url(forResource: "iaf_carousel_with_margin", withExtension: "json")!
+                    let url = Bundle(for: self).url(forResource: "iaf_carousel_with_margin", withExtension: "json")!
                     let data = try! Data(contentsOf: url)
                     
                     it("can parse data into rendering arg") {
@@ -77,7 +77,7 @@ final class ParserSpec: QuickSpec {
                 }
 
                 context("for carouselWithoutMargin") {
-                    let url = Bundle(for: type(of: self)).url(forResource: "iaf_carousel_without_margin", withExtension: "json")!
+                    let url = Bundle(for: self).url(forResource: "iaf_carousel_without_margin", withExtension: "json")!
                     let data = try! Data(contentsOf: url)
                     
                     it("can parse data into rendering arg") {
@@ -130,7 +130,7 @@ final class ParserSpec: QuickSpec {
                 }
                 
                 context("for carouselWithoutPaging") {
-                    let url = Bundle(for: type(of: self)).url(forResource: "iaf_carousel_without_paging", withExtension: "json")!
+                    let url = Bundle(for: self).url(forResource: "iaf_carousel_without_paging", withExtension: "json")!
                     let data = try! Data(contentsOf: url)
                     
                     it("can parse data into rendering arg") {
@@ -183,7 +183,7 @@ final class ParserSpec: QuickSpec {
                 }
                 
                 context("for simpleBanner") {
-                    let url = Bundle(for: type(of: self)).url(forResource: "iaf_simple_banner", withExtension: "json")!
+                    let url = Bundle(for: self).url(forResource: "iaf_simple_banner", withExtension: "json")!
                     let data = try! Data(contentsOf: url)
                     
                     it("can parse data into rendering arg") {

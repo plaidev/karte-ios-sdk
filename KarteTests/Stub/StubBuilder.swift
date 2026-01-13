@@ -17,14 +17,23 @@
 import Foundation
 import Quick
 import Mockingjay
+import XCTest
 
 struct StubBuilder {
     let url: URL
-    
-    init(spec: QuickSpec, resource: StubResource) {
-        self.url = resource.url(bundle: Bundle(for: type(of: spec)))!
+
+    init(spec: Any, resource: StubResource) {
+        // Accept both QuickSpec instance and QuickSpec.Type
+        if let testCase = spec as? XCTestCase {
+            self.url = resource.url(bundle: Bundle(for: type(of: testCase)))!
+        } else if let testCaseType = spec as? XCTestCase.Type {
+            // For class methods, use the type directly
+            self.url = resource.url(bundle: Bundle(for: testCaseType))!
+        } else {
+            fatalError("spec must be XCTestCase or XCTestCase.Type")
+        }
     }
-    
+
     init(test: XCTestCase, resource: StubResource) {
         self.url = resource.url(bundle: Bundle(for: type(of: test)))!
     }

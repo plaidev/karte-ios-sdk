@@ -20,7 +20,7 @@ import Nimble
 
 final class JSONConvertibleConverterSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("convert") {
             it("null") {
                 let v = JSONConvertibleConverter.convert(Data()) as? NSNull

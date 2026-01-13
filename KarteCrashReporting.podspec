@@ -30,7 +30,10 @@ Pod::Spec.new do |s|
   s.requires_arc            = true
   s.pod_target_xcconfig     = {
     'GCC_PREPROCESSOR_DEFINITIONS' => 'CRASH_REPORTING_VERSION=' + s.version.to_s,
-    'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/KarteCrashReporter"'
+    'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/KarteCrashReporter"',
+    # NOTE: CLANG_WARN_DOCUMENTATION_COMMENTS is disabled to avoid the following lint error:
+    # warning: empty paragraph passed to '@par' command [-Wdocumentation]
+    'CLANG_WARN_DOCUMENTATION_COMMENTS' => 'NO'
   }
 
   s.dependency 'KarteCore', '~> 2.32'

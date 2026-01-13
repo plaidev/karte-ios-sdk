@@ -20,7 +20,7 @@ import Nimble
 
 class OptOutConfigSpec: QuickSpec {
 
-    override func spec() {
+    override class func spec() {
         describe("a optout config") {
             var configuration: KarteCore.Configuration!
             

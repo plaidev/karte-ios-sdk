@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteInbox'
-  s.version                 = '0.3.1'
+  s.version                 = '0.4.0'
   s.summary                 = 'KARTE Inbox SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }

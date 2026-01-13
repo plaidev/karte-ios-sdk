@@ -20,7 +20,7 @@ import Nimble
 
 class AccountSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a account") {
             context("when host is not `_krtp`") {
                 it("account is nil") {

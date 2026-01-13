@@ -25,7 +25,7 @@ import KarteUtilities
 
 class FCMTokenRegistrarSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
         
@@ -43,8 +43,8 @@ class FCMTokenRegistrarSpec: QuickSpec {
         describe("token registrar") {
             context("first time") {
                 var event: Event!
-                beforeEachWithMetadata { (metadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
+                beforeEach { (metadata: ExampleMetadata) in
+                    let module = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     
@@ -76,21 +76,21 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 
                 func runTest(metadata: ExampleMetadata?, fcmToken: String?, subscribe: Bool) -> StubActionModule {
                     event = nil
-                    
-                    let module1 = StubActionModule(self, metadata: metadata, builder: builder)
-                    
+
+                    let module1 = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
+
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    
+
                     let provider = NotificationSettingsProviderMock()
                     provider.fcmTokenResolver = { "dummy_fcm_token" }
                     provider.availabilityResolver = { true }
-                    
+
                     let registrar = FCMTokenRegistrar(provider)
                     registrar.registerFCMToken()
-                    
+
                     module1.wait()
-                    
-                    let module2 = StubActionModule(self, metadata: metadata, builder: builder)
+
+                    let module2 = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
                     
                     provider.fcmTokenResolver = { fcmToken }
                     provider.availabilityResolver = { subscribe }
@@ -101,7 +101,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 
 
                 context("when the token is updated") {
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token_2", subscribe: true)
                             .wait()
                             .event(.pluginNativeAppIdentify)
@@ -121,7 +121,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 }
                 
                 context("when the subscribe is updated") {
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token", subscribe: false)
                             .wait()
                             .event(.pluginNativeAppIdentify)
@@ -141,7 +141,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 }
 
                 context("same settings as before") {
-                    beforeEachWithMetadata { (metadata) in
+                    beforeEach { (metadata: ExampleMetadata) in
                         event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token", subscribe: true)
                             .verify()
                             .event(.pluginNativeAppIdentify)

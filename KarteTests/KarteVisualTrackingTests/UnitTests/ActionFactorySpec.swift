@@ -28,7 +28,7 @@ func mockImage(_ size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
 
 class ActionFactorySpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a action") {
             describe("its init") {
                 context("without image provider") {

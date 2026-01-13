@@ -20,7 +20,7 @@ import Nimble
 
 class CircuitBreakerSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a circuit breaker") {
             var circuitBreaker: CircuitBreaker!
             var todaySupplier: TodaySupplierMock!

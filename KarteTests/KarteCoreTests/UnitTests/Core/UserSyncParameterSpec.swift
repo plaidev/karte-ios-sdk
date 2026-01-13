@@ -51,7 +51,7 @@ func GetQueryItem(with query: String?) -> UserSync? {
 
 class UserSyncSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("sync webview") {
             context("When a karte app is not setup") {
                 context("a rawValue") {

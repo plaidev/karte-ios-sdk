@@ -3,7 +3,7 @@ import Nimble
 @testable import KarteUtilities
 
 class HTTPMethodSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("HTTPMethod") {
             describe("raw values") {
                 it("has correct raw value for GET") {

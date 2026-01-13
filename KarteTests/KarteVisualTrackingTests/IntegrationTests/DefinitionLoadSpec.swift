@@ -22,7 +22,7 @@ import Mockingjay
 
 class DefinitionLoadSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var configuration: KarteCore.Configuration!
         var builder: Builder!
         
@@ -35,8 +35,8 @@ class DefinitionLoadSpec: QuickSpec {
         
         describe("a definition load") {
             var request: URLRequest!
-            
-            beforeEachWithMetadata { (metadata) in
+
+            beforeEach { (metadata: ExampleMetadata) in
                 let eventName = EventName("foo")
                 let module = StubActionModule(self, metadata: metadata, builder: builder)
                 

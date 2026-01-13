@@ -20,7 +20,7 @@ import Nimble
 
 class ViewEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a view event") {
             context("when view_id is not nil") {
                 var event: Event!

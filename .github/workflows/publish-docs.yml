@@ -1,8 +1,5 @@
 name: "Publish Documentation"
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
     inputs:
       # Allows manual recovery when the runner's Xcode version path changes.
@@ -23,15 +20,6 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
-        with:
-          submodules: true
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
-        with:
-          ruby-version: '3.4'
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
         id: app-token
@@ -41,6 +29,16 @@ jobs:
           owner: plaidev
           repositories: |
             karte-sdk-docs
+      - name: Checkout repository
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          persist-credentials: false
+          submodules: true
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Configure Git
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
@@ -71,8 +69,13 @@ jobs:
             bundle exec ruby ./generate_docs.rb --branch "$BRANCH_NAME"
           fi
         working-directory: scripts
+  notify-slack:
+    runs-on: ubuntu-latest
+    needs: [publish-docs]
+    if: always() && github.repository != 'plaidev/karte-ios-sdk'
+    steps:
       - name: Notify Slack on success
-        if: success()
+        if: needs.publish-docs.result == 'success'
         uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -80,7 +83,7 @@ jobs:
           SLACK_COLOR: success
           SLACK_ICON_EMOJI: ':apple:'
       - name: Notify Slack on failure
-        if: failure()
+        if: needs.publish-docs.result == 'failure'
         uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}

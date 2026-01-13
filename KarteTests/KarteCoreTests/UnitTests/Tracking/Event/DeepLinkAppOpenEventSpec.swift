@@ -20,7 +20,7 @@ import Nimble
 
 class DeepLinkAppOpenEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a `deep_link_app_open` event") {
             var event: Event!
             

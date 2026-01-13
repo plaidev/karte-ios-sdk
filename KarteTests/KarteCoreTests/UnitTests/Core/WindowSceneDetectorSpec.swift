@@ -20,7 +20,7 @@ import UIKit
 @testable import KarteCore
 
 class WindowSceneDetectorSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("WindowSceneDetector") {
             describe("retrievePersistentIdentifiers()") {
                 context("when UIApplication responds to connectedScenes") {

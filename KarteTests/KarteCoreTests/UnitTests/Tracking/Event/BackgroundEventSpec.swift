@@ -20,7 +20,7 @@ import Nimble
 
 class BackgroundEventSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a background event") {
             var event: Event!
             

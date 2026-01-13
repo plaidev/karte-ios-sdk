@@ -1,0 +1,98 @@
+name: "Create Tag"
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: 'Module to create tag for'
+        required: true
+        type: choice
+        options:
+          - KarteUtilities
+          - KarteCore
+          - KarteInAppMessaging
+          - KarteRemoteNotification
+          - KarteVariables
+          - KarteVisualTracking
+          - KarteInbox
+          - KarteInAppFrame
+          - KarteCrashReporting
+          - KarteNotificationServiceExtension
+          - KarteDebugger
+        default: 'KarteCore'
+      dry_run:
+        description: 'Skip tag push (dry-run mode)'
+        required: false
+        type: boolean
+        default: true
+jobs:
+  create-tag:
+    # Available only on master branch when `dry-run = false`.
+    if: github.repository != 'plaidev/karte-ios-sdk' && (github.event.inputs.dry_run == 'true' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Generate GitHub App token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
+          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
+          owner: plaidev
+          repositories: |
+            karte-ios-sdk
+            karte-ios-dev
+      - name: Configure Git
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-sdk".insteadOf "https://github.com/plaidev/karte-ios-sdk"
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-dev".insteadOf "https://github.com/plaidev/karte-ios-dev"
+          git config --global user.name "github actions"
+          git config --global user.email "git@users.noreply.github.com"
+      - name: Setup remote repository
+        run: git remote add sync_repo https://github.com/plaidev/karte-ios-sdk.git
+      - name: Generate tag name
+        id: tag
+        env:
+          MODULE: ${{ github.event.inputs.module }}
+        run: |
+          PODSPEC="${MODULE}.podspec"
+          VERSION=$(grep -E "s\.version\s*=" "$PODSPEC" | sed -E "s/.*'([^']+)'.*/\1/")
+          PREFIX=$(echo "$MODULE" | sed 's/Karte//')
+          TAG_NAME="${PREFIX}-${VERSION}"
+          echo "name=${TAG_NAME}" >> $GITHUB_OUTPUT
+          echo "Generated tag: ${TAG_NAME} (from ${PODSPEC} version ${VERSION})"
+      - name: Check if tag exists
+        env:
+          TAG: ${{ steps.tag.outputs.name }}
+        run: |
+          if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
+            echo "Error: Tag ${TAG} already exists on origin"
+            exit 1
+          fi
+          if git ls-remote --tags sync_repo | grep -q "refs/tags/${TAG}$"; then
+            echo "Error: Tag ${TAG} already exists on sync_repo"
+            exit 1
+          fi
+      - name: Create and push tag
+        if: github.event.inputs.dry_run != 'true'
+        env:
+          TAG: ${{ steps.tag.outputs.name }}
+        run: |
+          git tag "${TAG}"
+          git push origin "${TAG}"
+          git push sync_repo "${TAG}"
+      - name: Create and push tag (dry-run)
+        if: github.event.inputs.dry_run == 'true'
+        env:
+          TAG: ${{ steps.tag.outputs.name }}
+        run: |
+          git tag "${TAG}"
+          git push --dry-run origin "${TAG}"
+          git push --dry-run sync_repo "${TAG}"
+          git tag -d "${TAG}"

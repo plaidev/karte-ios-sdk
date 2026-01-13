@@ -33,7 +33,7 @@ func getBody() -> TrackBody {
 
 class TrackBodySpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         describe("a track body parameters") {
             var body: TrackBody!
             

@@ -21,7 +21,7 @@ import Mockingjay
 
 class TrackCommonSpec: QuickSpec {
     
-    override func spec() {
+    override class func spec() {
         var idfa: IDFA!
         var configuration: KarteCore.Configuration!
         var builder: Builder!
@@ -38,7 +38,7 @@ class TrackCommonSpec: QuickSpec {
         describe("a tracker") {
             describe("its track common") {
                 var body: TrackBody!
-                beforeEachWithMetadata { (metadata) in
+                beforeEach { (metadata: ExampleMetadata) in
                     let module = StubActionModule(self, metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
