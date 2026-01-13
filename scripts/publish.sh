@@ -130,9 +130,6 @@ function publish() {
 
   # Set tag for Swift-PM
   publish_spm
-
-  # Publish release note
-  ruby scripts/publish_changelog.rb
 }
 
 function publish_pod() {

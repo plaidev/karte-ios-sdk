@@ -168,6 +168,12 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           gh workflow run publish-docs.yml --ref master
+      - name: Trigger release notes publish
+        if: env.EXECUTION_MODE == 'publish' && success()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh workflow run publish-release-notes.yml --ref master
   # NOTE: Running on `ubuntu-latest` since `rtCamp/action-slack-notify` cannot be used on macOS runners.
   # https://github.com/rtCamp/action-slack-notify/issues/22
   notify-slack-test:
