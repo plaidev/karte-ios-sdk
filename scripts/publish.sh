@@ -20,14 +20,6 @@ PODSPECS=("KarteUtilities.podspec" "KarteCore.podspec" "KarteInAppMessaging.pods
 # Functions (Sub command functions)
 ##################################################
 
-function set_remote_repository() {
-  EXIST_REMOTE_REPO=$(git remote | grep -q sync_repo; echo $?)
-  if [ $EXIST_REMOTE_REPO -ne 0 ]; then
-    git remote add sync_repo ${GITHUB_REMOTE_ADDRESS}
-    git fetch sync_repo
-  fi
-}
-
 function set_tag() {
   local TAG=$1
   git tag $TAG
@@ -258,31 +250,6 @@ cd ../
 # Commands
 ##################################################
 
-if [[ $EXEC_ENV == public ]]; then
-  echo "This execution environment is public"
-  exit 0
-fi
-
-if [ -z $PODSPEC_ONLY ]; then
-  # For CI
-  git config --global user.name "${GITHUB_USER_NAME}"
-  git config --global user.email "${GITHUB_USER_EMAIL}"
-
-  set_remote_repository
-  # pod trunk前にsyncする必要がある
-  sync_repository
-  publish
-else
-  # For manual trigger
-  if [ -z "$PODSPECS" ]; then
-    echo '$PODSPECS is not defined.' 1>&2
-    echo 'ex) PODSPECS="KarteCore.podspec KarteInAppMessaging.podspec"' 1>&2
-    exit 1
-  fi
-
-  for PODSPEC in ${PODSPECS[@]}; do
-    publish_pod $PODSPEC
-    post_slack_message $PODSPEC $?
-  done
-fi
-
+# pod trunk前にsyncする必要がある
+sync_repository
+publish
