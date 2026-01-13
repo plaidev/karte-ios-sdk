@@ -21,72 +21,54 @@ import Nimble
 
 class TestMessage: WKScriptMessage {
     let messageBody: Any
-    let mssageFrameInfo: WKFrameInfo
     let messageName: String
-    let messageWebView: WKWebView
-    
-    internal init(messageBody: Any, mssageFrameInfo: WKFrameInfo, messageName: String, messageWebView: WKWebView) {
+
+    internal init(messageBody: Any, messageName: String) {
         self.messageBody = messageBody
-        self.mssageFrameInfo = mssageFrameInfo
         self.messageName = messageName
-        self.messageWebView = messageWebView
     }
-    
+
     override var body: Any {
         self.messageBody
     }
-    
-    override var frameInfo: WKFrameInfo {
-        self.mssageFrameInfo
-    }
-    
+
     override var name: String {
         self.messageName
     }
-    
+
     override var webView: WKWebView? {
-        self.messageWebView
+        nil
     }
 }
 
 class JsMessageSpec: QuickSpec {
-    
     override class func spec() {
         describe("its init") {
-            let testWebview = WKWebView()
-            let testFrameInfo = WKFrameInfo()
-            
             it("is no error") {
                 let testBody = [
                     "event_name": "test",
                     "values": ["name": "test name"]
                 ] as [String : Any]
                 let testMessage = TestMessage(messageBody: testBody,
-                                              mssageFrameInfo: testFrameInfo,
-                                              messageName: JsMessageName.event.rawValue,
-                                              messageWebView: testWebview)
+                                              messageName: JsMessageName.event.rawValue)
                 expect({
                     try JsMessage.init(scriptMessage: testMessage)
                 }).notTo(throwError())
             }
-            
+
             it("is throw invalidBody") {
                 let testBody = ["test_key": NSDate.now]
                 let testMessage = TestMessage(messageBody: testBody,
-                                              mssageFrameInfo: testFrameInfo,
-                                              messageName: JsMessageName.event.rawValue,
-                                              messageWebView: testWebview)
+                                              messageName: JsMessageName.event.rawValue)
                 expect({
                     try JsMessage.init(scriptMessage: testMessage)
                 }).to(throwError(JsMessageError.invalidBody))
             }
-            
+
             it("is throw invalidName") {
                 let testBody = ["test_key": "test_value"]
                 let testMessage = TestMessage(messageBody: testBody,
-                                              mssageFrameInfo: testFrameInfo,
-                                              messageName: "test name",
-                                              messageWebView: testWebview)
+                                              messageName: "test name")
                 expect({
                     try JsMessage.init(scriptMessage: testMessage)
                 }).to(throwError(JsMessageError.invalidName))
