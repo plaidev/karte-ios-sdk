@@ -23,39 +23,45 @@ class TraceRequestSpec: QuickSpec {
     override class func spec() {
         describe("a trace request") {
             describe("init") {
-                let url = URL(string: "app://_krtp/dummy_account_id")
-                let account = Account(url: url!)
-                
-                let service = MixInCoreServiceMock(configuration: Configuration.defaultConfiguration)
-                KarteApp.shared.setup(service: service)
-
                 context("when action has actionId") {
-                    let view = UIView()
-                    let button = UIButton(type: .infoDark)
-                    view.addSubview(button)
-                    let action = Action("touch",
-                                        view: button,
-                                        viewController: UIViewController(),
-                                        targetText: "dummy_target_text")
-                    let request = TraceRequest(app: KarteApp.shared,
-                                               account: account!,
-                                               action: action!,
-                                               image: nil)
                     it("request has action that has actionId") {
+                        let url = URL(string: "app://_krtp/dummy_account_id")
+                        let account = Account(url: url!)
+
+                        let service = MixInCoreServiceMock(configuration: Configuration.defaultConfiguration)
+                        KarteApp.shared.setup(service: service)
+
+                        let view = UIView()
+                        let button = UIButton(type: .infoDark)
+                        view.addSubview(button)
+                        let action = Action("touch",
+                                            view: button,
+                                            viewController: UIViewController(),
+                                            targetText: "dummy_target_text")
+                        let request = TraceRequest(app: KarteApp.shared,
+                                                   account: account!,
+                                                   action: action!,
+                                                   image: nil)
                         expect(request?.action).notTo(beNil())
                         expect(request?.action.actionId).to(equal("UIButton0UIView"))
                     }
                 }
                 context("when action does not has actionId") {
-                    let action = Action("touch",
-                                        view: nil,
-                                        viewController: UIViewController(),
-                                        targetText: "dummy_target_text")
-                    let request = TraceRequest(app: KarteApp.shared,
-                                               account: account!,
-                                               action: action!,
-                                               image: nil)
                     it("request has action that does not has actionId") {
+                        let url = URL(string: "app://_krtp/dummy_account_id")
+                        let account = Account(url: url!)
+
+                        let service = MixInCoreServiceMock(configuration: Configuration.defaultConfiguration)
+                        KarteApp.shared.setup(service: service)
+
+                        let action = Action("touch",
+                                            view: nil,
+                                            viewController: UIViewController(),
+                                            targetText: "dummy_target_text")
+                        let request = TraceRequest(app: KarteApp.shared,
+                                                   account: account!,
+                                                   action: action!,
+                                                   image: nil)
                         expect(request?.action).notTo(beNil())
                         expect(request?.action.actionId).to(beNil())
                     }
