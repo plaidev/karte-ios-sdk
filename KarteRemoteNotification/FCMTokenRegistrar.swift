@@ -36,10 +36,19 @@ internal class FCMTokenRegistrar {
     }
 
     func registerFCMToken() {
+        guard !KarteApp.isOptOut else {
+            Logger.info(tag: .notification, message: "KARTE has been opted out, skipping FCM registration")
+            return
+        }
         registerFCMToken(notificationSettingsProvider.fcmToken)
     }
 
     func registerFCMToken(_ token: String?) {
+        guard !KarteApp.isOptOut else {
+            Logger.info(tag: .notification, message: "KARTE has been opted out, skipping FCM registration")
+            return
+        }
+
         guard let token = token else {
             return
         }

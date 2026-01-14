@@ -20,7 +20,7 @@ import KarteCore
 public extension KarteApp {
     /// FCM（Firebase Cloud Messaging）トークンを登録します。
     ///
-    /// なお初期化が行われていない状態で呼び出した場合は登録処理は行われません。
+    /// なお初期化が行われていない状態もしくはオプトアウト状態で呼び出した場合は登録処理は行われません。
     ///
     /// - Parameter fcmToken: FCMトークン
     class func registerFCMToken(_ fcmToken: String?) {

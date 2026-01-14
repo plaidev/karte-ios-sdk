@@ -4,7 +4,7 @@
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.35.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.25.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.13.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.14.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.14.0 |
 | KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.7.0 |
@@ -12,6 +12,12 @@
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.14.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
+
+# Releases - xxxx.xx.xx
+
+### RemoteNotification 2.14.0
+**💊FIXED**
+- オプトアウト時にKARTE経由でFCMトークンの更新を行わないよう修正しました。
 
 # Releases - 2026.01.13
 ## Version 2.32.0
