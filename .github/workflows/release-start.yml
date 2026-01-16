@@ -51,20 +51,12 @@ jobs:
       run: |
         git checkout -b release/${{ steps.date.outputs.DATE }}
     - name: Update CHANGELOG.md
+      if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module'
       run: |
-        if [ "${{ steps.find-release-targets.outputs.RELEASE_TYPE }}" = "module" ]; then
-          echo "Updating CHANGELOG.md for module release"
-          sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
-          git add ./CHANGELOG.md
-          git commit -m "Update CHANGELOG.md"
-        else
-          echo "Skipping CHANGELOG.md update for non-module release"
-          if git diff --name-only remotes/origin/master..HEAD | grep -q '^CHANGELOG.md$'; then
-            echo "Error: CHANGELOG.md should not be modified in non-module release"
-            exit 1
-          fi
-          git commit --allow-empty -m "Non-module release - no CHANGELOG update"
-        fi
+        echo "Updating CHANGELOG.md for module release"
+        sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
+        git add ./CHANGELOG.md
+        git commit -m "Update CHANGELOG.md"
     - name: Push release branch
       if: inputs.dry_run != true
       run: git push origin -u release/${{ steps.date.outputs.date }}
@@ -74,8 +66,6 @@ jobs:
       with:
         app-id: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_ID }}
         private-key: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_PRIVATE_KEY }}
-    # NOTE: deploy-release-feed.yml checks commit message for "Merge release" pattern
-    #       to determine whether to deploy RSS feed. This title affects that behavior.
     - name: Create Pull Request (Module Release)
       if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module' && inputs.dry_run != true
       env:
@@ -110,8 +100,6 @@ jobs:
           - [ ] 変更内容が意図したものであること
           - [ ] 公開リポジトリに同期しても問題ないこと
           - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
-      # NOTE: deploy-release-feed.yml checks commit message for "Non-module release" pattern
-      # to skip RSS feed deployment. This title must contain "Non-module release".
       run: |
         gh pr create \
           --title "Non-module release by ${{ github.actor }}" \

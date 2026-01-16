@@ -143,6 +143,7 @@ jobs:
           bundle exec pod trunk me
           bundle exec pod lib lint --verbose --allow-warnings
       - name: Publish
+        id: publish
         if: env.EXECUTION_MODE == 'publish'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -153,11 +154,12 @@ jobs:
           if [ -n "$PODSPEC_CHANGES" ]; then
             echo "Changed podspecs:"
             echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
-            echo "Running full publish flow..."
             bash ./scripts/publish.sh
+            echo "published=true" >> $GITHUB_OUTPUT
           else
             echo "Running sync only..."
             git push sync_repo master
+            echo "published=false" >> $GITHUB_OUTPUT
           fi
       - name: Trigger documentation publish
         if: env.EXECUTION_MODE == 'publish' && success()
@@ -171,6 +173,12 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           gh workflow run publish-release-notes.yml --ref master
+      - name: Trigger deploy release feed in public repo
+        if: env.EXECUTION_MODE == 'publish' && steps.publish.outputs.published == 'true' && success()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh workflow run deploy-release-feed.yml --repo plaidev/karte-ios-sdk --ref master
   # NOTE: Running on `ubuntu-latest` since `rtCamp/action-slack-notify` cannot be used on macOS runners.
   # https://github.com/rtCamp/action-slack-notify/issues/22
   notify-slack-test:
