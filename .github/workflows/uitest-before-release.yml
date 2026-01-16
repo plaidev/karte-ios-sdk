@@ -25,4 +25,4 @@ jobs:
           repo: plaidev/${{vars.UITEST_REPO}}
           token: ${{ steps.app-token.outputs.token }}
           ref: master
-          inputs: '{ "sdkBranch": "${{github.head_ref}}", "slackChannel": "${{vars.SLACK_CHANNEL}}", "notifyOnlyFail": true }'
+          inputs: '{ "sdkBranch": "${{github.head_ref}}" }'

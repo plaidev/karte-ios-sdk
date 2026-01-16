@@ -26,9 +26,4 @@ jobs:
               repo: '${{vars.UITEST_REPO}}',
               workflow_id: 'uitest.yml',
               ref: 'master',
-              inputs: {
-                slackChannel: '${{vars.SLACK_CHANNEL}}',
-                notifyOnlyFail: true,
-                minimumOnly: true,
-              },
             })
