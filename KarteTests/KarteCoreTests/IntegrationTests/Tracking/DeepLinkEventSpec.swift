@@ -39,7 +39,7 @@ class DeepLinkEventSpec: QuickSpec {
                 
                 beforeEach { (metadata: ExampleMetadata) in
                     let url = URL(string: "app://karte.com")!
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
+                    let module = StubActionModule(metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     result = KarteApp.shared.application(UIApplication.shared, open: url)

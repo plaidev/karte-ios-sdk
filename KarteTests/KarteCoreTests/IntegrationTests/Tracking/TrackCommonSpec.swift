@@ -39,7 +39,7 @@ class TrackCommonSpec: QuickSpec {
             describe("its track common") {
                 var body: TrackBody!
                 beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
+                    let module = StubActionModule(metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 

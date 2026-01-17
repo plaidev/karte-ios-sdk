@@ -137,21 +137,10 @@ class CommandCountObserver {
     private var commandCount = 0
     private var token: NSObjectProtocol?
     private var exp: XCTestExpectation
-    private var testCase: XCTestCase
 
-    init(spec: Any, expectedCommandCount: Int = 2) {
-        // Accept both QuickSpec instance and QuickSpec.Type
-        if let testCase = spec as? XCTestCase {
-            self.testCase = testCase
-        } else if let _ = spec as? XCTestCase.Type {
-            // For class methods, create a minimal XCTestCase
-            self.testCase = XCTestCase()
-        } else {
-            fatalError("spec must be XCTestCase or XCTestCase.Type")
-        }
-
+    init(expectedCommandCount: Int = 2) {
         self.expectedCommandCount = expectedCommandCount
-        exp = self.testCase.expectation(description: "Waiting for track commands to be sent.")
+        exp = XCTestExpectation(description: "Waiting for track commands to be sent.")
         token = NotificationCenter.test.addObserver(forName: TrackClientSessionMock.requestSentNotification, object: nil, queue: nil) { [weak self] (note) in
             guard let self = self else { return }
 
@@ -168,6 +157,9 @@ class CommandCountObserver {
     }
 
     func wait(timeout: TimeInterval = 10) {
-        self.testCase.wait(for:[self.exp], timeout: timeout)
+        let result = XCTWaiter.wait(for: [self.exp], timeout: timeout)
+        if result != .completed {
+            XCTFail("Expectation not fulfilled: \(result)")
+        }
     }
 }

@@ -55,7 +55,7 @@ class ViewSpec: QuickSpec {
                 describe("when view_id and title are not nil") {
                     var event: Event!
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder)
+                        let module = StubActionModule(metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         
@@ -124,7 +124,7 @@ class ViewSpec: QuickSpec {
                 describe("when view_id and title are nil") {
                     var event: Event!
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder)
+                        let module = StubActionModule(metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         
@@ -150,7 +150,7 @@ class ViewSpec: QuickSpec {
             xdescribe("its view compatible") {
                 var event: Event!
                 beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
+                    let module = StubActionModule(metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 

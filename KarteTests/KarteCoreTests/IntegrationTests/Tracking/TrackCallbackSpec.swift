@@ -36,7 +36,7 @@ class TrackCallbackSpec: QuickSpec {
                     var result: Bool!
                     beforeEach { (metadata: ExampleMetadata) in
                         let builder = StubBuilder(spec: TrackCallbackSpec.self, resource: .empty).build()
-                        let module = StubActionModule(TrackCallbackSpec.self, metadata: metadata, builder: builder)
+                        let module = StubActionModule(metadata: metadata, builder: builder)
 
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
@@ -59,7 +59,6 @@ class TrackCallbackSpec: QuickSpec {
                     beforeEach { (metadata: ExampleMetadata) in
                         let stub = MockingjayProtocol.addStub(matcher: uri("/v0/native/track"), builder: http(500))
                         let module = StubActionModule(
-                            TrackCallbackSpec.self,
                             metadata: metadata,
                             stub: stub
                         )

@@ -52,7 +52,7 @@ class TrackDelegateSpec: QuickSpec {
             describe("its delegate") {
                 var event: Event!
                 beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(TrackDelegateSpec.self, metadata: metadata, builder: builder)
+                    let module = StubActionModule(metadata: metadata, builder: builder)
 
                     Tracker.setDelegate(delegate)
                     KarteApp.setup(appKey: APP_KEY)

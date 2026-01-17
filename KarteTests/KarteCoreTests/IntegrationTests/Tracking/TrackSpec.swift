@@ -59,7 +59,7 @@ class TrackSpec: QuickSpec {
             describe("its track") {
                 var event: Event!
                 beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
+                    let module = StubActionModule(metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
@@ -112,7 +112,7 @@ class TrackSpec: QuickSpec {
             describe("its track compatible") {
                 var event: Event!
                 beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
+                    let module = StubActionModule(metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 

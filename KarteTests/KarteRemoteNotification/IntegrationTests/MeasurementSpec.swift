@@ -95,7 +95,7 @@ class MeasurementSpec: QuickSpec {
                     var event: Event!
 
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder)
+                        let module = StubActionModule(metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         
@@ -127,7 +127,7 @@ class MeasurementSpec: QuickSpec {
                     var event: Event!
 
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder)
+                        let module = StubActionModule(metadata: metadata, builder: builder)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         

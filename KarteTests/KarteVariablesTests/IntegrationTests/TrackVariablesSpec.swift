@@ -40,7 +40,7 @@ class TrackVariablesSpec: QuickSpec {
         describe("track message_open") {
             var event: Event!
             beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(self, metadata: metadata, builder: builder)
+                let module = StubActionModule(metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
@@ -87,7 +87,7 @@ class TrackVariablesSpec: QuickSpec {
         describe("track message_click") {
             var event: Event!
             beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(self, metadata: metadata, builder: builder)
+                let module = StubActionModule(metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 

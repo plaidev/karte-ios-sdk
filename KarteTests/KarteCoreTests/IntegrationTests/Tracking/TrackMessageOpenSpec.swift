@@ -28,7 +28,7 @@ final class TrackMessageOpenSpec: QuickSpec {
         var builder: Builder!
 
         func runTest(metadata: ExampleMetadata?, responseTimestamp: Date, libraryName: String? = nil) -> StubActionModule {
-            let module = StubActionModule(TrackMessageOpenSpec.self, metadata: metadata, builder: builder)
+            let module = StubActionModule(metadata: metadata, builder: builder)
             
             KarteApp.setup(appKey: APP_KEY, configuration: configuration)
             

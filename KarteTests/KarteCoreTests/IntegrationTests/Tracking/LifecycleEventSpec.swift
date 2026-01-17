@@ -35,7 +35,7 @@ class LifecycleEventSpec: QuickSpec {
                     context("when after launch") {
                         var event: Event!
                         beforeEach { (metadata: ExampleMetadata) in
-                            let module = StubActionModule(self, metadata: metadata, builder: builder)
+                            let module = StubActionModule(metadata: metadata, builder: builder)
 
                             KarteApp.setup(appKey: APP_KEY)
 
@@ -49,7 +49,7 @@ class LifecycleEventSpec: QuickSpec {
                     context("when after installation") {
                         var event: Event!
                         beforeEach { (metadata: ExampleMetadata) in
-                            let module = StubActionModule(self, metadata: metadata, builder: builder)
+                            let module = StubActionModule(metadata: metadata, builder: builder)
 
                             KarteApp.setup(appKey: APP_KEY)
 
@@ -65,7 +65,7 @@ class LifecycleEventSpec: QuickSpec {
                         var versionRetriever: VersionRetrieverMock!
 
                         beforeEach { (metadata: ExampleMetadata) in
-                            let module = StubActionModule(self, metadata: metadata, builder: builder)
+                            let module = StubActionModule(metadata: metadata, builder: builder)
                             
                             versionRetriever = VersionRetrieverMock()
                             
@@ -99,7 +99,7 @@ class LifecycleEventSpec: QuickSpec {
                         var versionRetriever: VersionRetrieverMock!
 
                         beforeEach { (metadata: ExampleMetadata) in
-                            let module = StubActionModule(self, metadata: metadata, builder: builder)
+                            let module = StubActionModule(metadata: metadata, builder: builder)
 
                             versionRetriever = VersionRetrieverMock()
 

@@ -44,7 +44,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
             context("first time") {
                 var event: Event!
                 beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
+                    let module = StubActionModule(metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     
@@ -77,7 +77,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 func runTest(metadata: ExampleMetadata?, fcmToken: String?, subscribe: Bool) -> StubActionModule {
                     event = nil
 
-                    let module1 = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
+                    let module1 = StubActionModule(metadata: metadata, builder: builder)
 
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
@@ -90,7 +90,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
 
                     module1.wait()
 
-                    let module2 = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
+                    let module2 = StubActionModule(metadata: metadata, builder: builder)
                     
                     provider.fcmTokenResolver = { fcmToken }
                     provider.availabilityResolver = { subscribe }

@@ -76,7 +76,7 @@ class CustomConfigurationBaseBehavior : Behavior<CustomConfigurationContext> {
         context("when customized base url") {
             var request: URLRequest!
             beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
+                let module = StubActionModule(metadata: metadata, builder: ctx.builder)
                 ctx.setup { configuration in
                     configuration.baseURL = URL(string: "https://t.karte.io")!
                     configuration.overlayBaseURL = URL(string: "https://api.karte.io")!
@@ -126,7 +126,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         context("when enabled opt out default") {
             var event: Event!
             beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
+                let module = StubActionModule(metadata: metadata, builder: ctx.builder)
                 ctx.setup { configuration in
                     configuration.isOptOut = true
                 }
@@ -143,8 +143,8 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         context("when mode is ingest") {
             var request: URLRequest!
             beforeEach { (metadata: ExampleMetadata) in
-                commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
-                let module = StubActionModule(ctx.spec, metadata: metadata, path: "/v0/native/ingest", builder: ctx.builder)
+                commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
+                let module = StubActionModule(metadata: metadata, path: "/v0/native/ingest", builder: ctx.builder)
                 ctx.setupExp { configuration in
                     configuration.operationMode = .ingest
                     configuration.baseURL = URL(string: "https://api.karte.io")!
@@ -161,7 +161,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
         
         context("when library config is added") {
             beforeEach {
-                commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
+                commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
                 ctx.setup { configuration in
                     configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
                 }
@@ -181,8 +181,8 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
             context("when disable") {
                 beforeEach { (metadata: ExampleMetadata) in
                     idfa = IDFA(isEnabled: false, idfa: "dummy_idfa")
-                    commandCountObserver = CommandCountObserver(spec: ctx.spec, expectedCommandCount: 2)
-                    let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
+                    commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
+                    let module = StubActionModule(metadata: metadata, builder: ctx.builder)
                     ctx.setup { configuration in
                         configuration.idfaDelegate = idfa
                     }
@@ -199,7 +199,7 @@ class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
             context("when enable") {
                 beforeEach { (metadata: ExampleMetadata) in
                     idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
-                    let module = StubActionModule(ctx.spec, metadata: metadata, builder: ctx.builder)
+                    let module = StubActionModule(metadata: metadata, builder: ctx.builder)
                     ctx.setup { configuration in
                         configuration.idfaDelegate = idfa
                     }
@@ -248,7 +248,7 @@ class SetupSpec: QuickSpec {
                     var body: TrackBody!
                     var events: [Event] = []
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder)
+                        let module = StubActionModule(metadata: metadata, builder: builder)
 
                         KarteApp.setup(appKey: APP_KEY)
 
@@ -346,7 +346,7 @@ class SetupSpec: QuickSpec {
                     var body: TrackBody!
                     var events: [Event] = []
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: builder)
+                        let module = StubActionModule(metadata: metadata, builder: builder)
 
                         KarteApp.setup()
 
