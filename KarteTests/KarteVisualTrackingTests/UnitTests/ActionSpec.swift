@@ -19,6 +19,7 @@ import Nimble
 @testable import KarteCore
 @testable import KarteVisualTracking
 
+@MainActor
 class ActionSpec: QuickSpec {
     
     override class func spec() {

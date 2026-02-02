@@ -20,6 +20,7 @@ import Mockingjay
 @testable import KarteCore
 @testable import KarteVisualTracking
 
+@MainActor
 class DefinitionMatchSpec: QuickSpec {
     
     override class func spec() {

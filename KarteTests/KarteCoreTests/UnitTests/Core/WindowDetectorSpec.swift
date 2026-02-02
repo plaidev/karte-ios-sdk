@@ -19,6 +19,7 @@ import Nimble
 import UIKit
 @testable import KarteCore
 
+@MainActor
 class WindowDetectorSpec: QuickSpec {
     override class func spec() {
         describe("WindowDetector") {

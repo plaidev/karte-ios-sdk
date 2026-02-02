@@ -21,6 +21,7 @@ import KarteUtilities
 @testable import KarteCore
 @testable import KarteVisualTracking
 
+@MainActor
 class DefinitionsRequestForDynamicFieldSpec: AsyncSpec {
 
     override class func spec() {

@@ -20,6 +20,7 @@ import Nimble
 @testable import KarteCore
 @testable import KarteInAppMessaging
 
+@MainActor
 class IAMProcessSpec: QuickSpec {
     
     override class func spec() {

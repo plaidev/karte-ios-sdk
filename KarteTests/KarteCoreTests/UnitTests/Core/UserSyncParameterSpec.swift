@@ -49,6 +49,7 @@ func GetQueryItem(with query: String?) -> UserSync? {
     return parameter
 }
 
+@MainActor
 class UserSyncSpec: QuickSpec {
     
     override class func spec() {

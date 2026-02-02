@@ -19,6 +19,7 @@ import Nimble
 @testable import KarteCore
 @testable import KarteInAppMessaging
 
+@MainActor
 class IAMProcessPoolSpec: QuickSpec {
     override class func spec() {
         describe("Check wether it can be created a process") {

@@ -30,6 +30,7 @@ class VisualTrackDelegate: VisualTrackingDelegate {
     }
 }
 
+@MainActor
 class TracerTests: XCTestCase {
     let idfa = IDFA()
     let visualTrackDelegate = VisualTrackDelegate()
