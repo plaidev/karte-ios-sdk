@@ -361,6 +361,7 @@
 		5089E1722701F64B00D1C77C /* KRTApp+RemoteNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5089E1702701F64B00D1C77C /* KRTApp+RemoteNotification.m */; };
 		50E1E45427219090008CD346 /* DIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1E45327219090008CD346 /* DIHelper.swift */; };
 		50E9585C27EBCCB8000CCE8E /* VisualTrackingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E9585B27EBCCB7000CCE8E /* VisualTrackingConfiguration.swift */; };
+		63E086D665ECDBFCAA3A2403 /* TrackingCommandRepositoryInMemoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA460910509AE94047FE6B /* TrackingCommandRepositoryInMemoryMock.swift */; };
 		6807B2A9251D7FC800CDAB43 /* ExperimentalConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6807B2A8251D7FC800CDAB43 /* ExperimentalConfiguration.swift */; };
 		6807B2AB251D80C900CDAB43 /* ExperimentalConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6807B2AA251D80C900CDAB43 /* ExperimentalConfigurationTests.swift */; };
 		680C29B52446B99200FB1363 /* TrackBodySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C29B42446B99200FB1363 /* TrackBodySpec.swift */; };
@@ -973,6 +974,7 @@
 		1ECAFE532B5D3608003638E8 /* DecodingError+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DecodingError+Extension.swift"; sourceTree = "<group>"; };
 		1EE766B6297544B60040278E /* Karte-custom-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Karte-custom-Info.plist"; sourceTree = "<group>"; };
 		2A57DE35F7357D0077E4FCF1 /* Pods-Karte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.release.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.release.xcconfig"; sourceTree = "<group>"; };
+		2BDA460910509AE94047FE6B /* TrackingCommandRepositoryInMemoryMock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TrackingCommandRepositoryInMemoryMock.swift; sourceTree = "<group>"; };
 		2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		363F25F02582A1EB007E6E4B /* DefinitionsRequestSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionsRequestSpec.swift; sourceTree = "<group>"; };
 		363F260D2582AE60007E6E4B /* success_vt_definitions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success_vt_definitions.json; sourceTree = "<group>"; };
@@ -2118,6 +2120,7 @@
 				0CFD001824ECF53100598C8C /* TrackClientSessionMock.swift */,
 				0CFD001E24ED08E800598C8C /* ReachabilityServiceMock.swift */,
 				36EFDEBF271ABDE200C60666 /* TodaySupplierMock.swift */,
+				2BDA460910509AE94047FE6B /* TrackingCommandRepositoryInMemoryMock.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -3661,6 +3664,7 @@
 				36EFDEC0271ABDE200C60666 /* TodaySupplierMock.swift in Sources */,
 				0C839305240822A40014C2BF /* EventSpec.swift in Sources */,
 				0CFD001524ECCA5800598C8C /* CommandBundlerProxySpec.swift in Sources */,
+				63E086D665ECDBFCAA3A2403 /* TrackingCommandRepositoryInMemoryMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

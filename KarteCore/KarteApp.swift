@@ -366,5 +366,6 @@ extension Resolver: @retroactive ResolverRegistering {
         registerIsReachable()
         registerExponentialBackoff()
         registerCircuitBreaker()
+        registerTrackingCommandRepository()
     }
 }

@@ -115,7 +115,10 @@ extension Resolver {
         resolver.register(Bool.self, name: "isReachable") {
             return true
         }
-        
+
+        // TrackingCommandRepository - インメモリ実装でSQLiteを使わない
+        resolver.register { TrackingCommandRepositoryInMemoryMock() as TrackingCommandRepository }
+
         Resolver.root = Resolver.mock
     }
 }

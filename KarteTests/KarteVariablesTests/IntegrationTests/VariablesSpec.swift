@@ -21,6 +21,14 @@ import KarteUtilities
 @testable import KarteCore
 @testable import KarteVariables
 
+// MARK: - Test Helper
+
+/// テスト用: lastFetch 情報をシミュレート
+private func simulateLastFetch(secondsAgo: TimeInterval, status: LastFetchStatus = .success) {
+    UserDefaults.standard.set(Date(timeIntervalSinceNow: -secondsAgo), forKey: .lastFetchTime)
+    UserDefaults.standard.set(status.rawValue, forKey: .lastFetchStatus)
+}
+
 class VariablesSpec: QuickSpec {
     
     override class func spec() {        
@@ -407,7 +415,7 @@ class VariablesSpec: QuickSpec {
                     }
                     
                     it("hasSuccessfulLastFetch returns false") {
-                        Thread.sleep(until: Date(timeIntervalSinceNow: 1))
+                        simulateLastFetch(secondsAgo: 2)
                         let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 1)
                         expect(hasSuccessfulLastFetch).to(beFalse())
                     }

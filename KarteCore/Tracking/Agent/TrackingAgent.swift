@@ -35,8 +35,7 @@ internal class TrackingAgent {
         )
         TrackClient.shared.configure(app: app, callbackQueue: queue)
 
-        let database = SQLiteDatabase(name: "karte.sqlite")
-        let repository = DefaultTrackingCommandRepository(database)
+        let repository: TrackingCommandRepository = Resolver.resolve()
 
         self.queue = queue
         self.repository = repository
@@ -149,5 +148,12 @@ extension TrackingAgent: BackgroundTaskDelegate {
 extension Resolver {
     static func registerCircuitBreaker() {
         register { CircuitBreaker() }
+    }
+
+    static func registerTrackingCommandRepository() {
+        register {
+            let database = SQLiteDatabase(name: "karte.sqlite")
+            return DefaultTrackingCommandRepository(database) as TrackingCommandRepository
+        }
     }
 }

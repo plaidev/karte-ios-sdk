@@ -16,18 +16,39 @@
 
 import Foundation
 
+internal protocol AsyncScheduler {
+    func scheduleAfter(interval: DispatchTimeInterval, execute: @escaping () -> Void)
+}
+
+internal class DispatchQueueScheduler: AsyncScheduler {
+    private let queue: DispatchQueue
+
+    init(queue: DispatchQueue) {
+        self.queue = queue
+    }
+
+    func scheduleAfter(interval: DispatchTimeInterval, execute: @escaping () -> Void) {
+        queue.asyncAfter(deadline: .now() + interval, execute: execute)
+    }
+}
+
 internal class TimeWindowBundleRule: AsyncCommandBundleRule {
-    let queue: DispatchQueue
     let interval: DispatchTimeInterval
+    let scheduler: AsyncScheduler
     var isImmediatelyBundlable = true
 
     init(queue: DispatchQueue, interval: DispatchTimeInterval) {
-        self.queue = queue
         self.interval = interval
+        self.scheduler = DispatchQueueScheduler(queue: queue)
+    }
+
+    init(scheduler: AsyncScheduler, interval: DispatchTimeInterval) {
+        self.interval = interval
+        self.scheduler = scheduler
     }
 
     func schedule(bundle: CommandBundle, command: TrackingCommand, completion: @escaping BundleCompletionBlock) {
-        queue.asyncAfter(deadline: .now() + interval) { [weak self] in
+        scheduler.scheduleAfter(interval: interval) { [weak self] in
             guard let rule = self else {
                 return
             }
