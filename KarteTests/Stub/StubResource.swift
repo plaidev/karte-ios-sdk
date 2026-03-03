@@ -15,7 +15,6 @@
 //
 
 import Foundation
-import Quick
 
 struct StubResource {
     var resource: String

@@ -16,7 +16,6 @@
 
 import Quick
 import Nimble
-import Mockingjay
 @testable import KarteCore
 import KarteUtilities
 import Foundation

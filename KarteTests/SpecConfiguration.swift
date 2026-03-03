@@ -25,6 +25,7 @@ class SpecConfiguration: QuickConfiguration {
             KarteApp.setLogLevel(.off)
             KarteApp.shared.teardown()
             Resolver.registerMockServices()
+            URLProtocol.registerClass(HTTPStubProtocol.self)
         }
         configuration.afterEach {
             KarteApp.shared.teardown()

@@ -16,7 +16,6 @@
 
 import Foundation
 import Quick
-import Mockingjay
 import XCTest
 
 struct StubBuilder {
@@ -38,10 +37,10 @@ struct StubBuilder {
         self.url = resource.url(bundle: Bundle(for: type(of: test)))!
     }
     
-    func build(status: Int = 200) -> (URLRequest) -> Response {
+    func build(status: Int = 200) -> Builder {
         let data = try! Data(contentsOf: url)
-        return { (request) -> Response in
+        return { request in
             return jsonData(data, status: status)(request)
-        }        
+        }
     }
 }

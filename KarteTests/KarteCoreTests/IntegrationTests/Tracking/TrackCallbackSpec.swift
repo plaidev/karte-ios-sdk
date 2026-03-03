@@ -16,7 +16,6 @@
 
 import Quick
 import Nimble
-import Mockingjay
 @testable import KarteCore
 
 class TrackCallbackSpec: QuickSpec {
@@ -57,7 +56,7 @@ class TrackCallbackSpec: QuickSpec {
                 context("request failure") {
                     var result: Bool!
                     beforeEach { (metadata: ExampleMetadata) in
-                        let stub = MockingjayProtocol.addStub(matcher: uri("/v0/native/track"), builder: http(500))
+                        let stub = HTTPStubProtocol.addStub(matcher: uri("/v0/native/track"), builder: http(500))
                         let module = StubActionModule(
                             metadata: metadata,
                             stub: stub

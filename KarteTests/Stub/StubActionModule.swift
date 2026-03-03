@@ -15,7 +15,6 @@
 //
 
 import Quick
-import Mockingjay
 import XCTest
 @testable import KarteCore
 
@@ -44,15 +43,15 @@ class StubActionModule {
     }
 
     convenience init(metadata: ExampleMetadata? = nil, path: String = "/v0/native/track", builder: @escaping Builder) {
-        // Initialize without stub first
         self.init(metadata: metadata, stub: nil)
 
-        // Now create stub using MockingjayProtocol.addStub directly (works in both instance and class method contexts)
-        // We can now capture self since initialization is complete
-        self.stub = MockingjayProtocol.addStub(matcher: uri(path), builder: { [weak self] (request) -> (Response) in
-            self?.request = request
-            return builder(request)
-        })
+        self.stub = HTTPStubProtocol.addStub(
+            matcher: HTTPStubProtocol.pathMatcher(path),
+            builder: { [weak self] request in
+                self?.request = request
+                return builder(request)
+            }
+        )
     }
 
     @discardableResult
@@ -78,7 +77,7 @@ class StubActionModule {
 
     func finish() {
         if let stub = stub {
-            MockingjayProtocol.removeStub(stub)
+            HTTPStubProtocol.removeStub(stub)
         }
         KarteApp.shared.unregister(module: .action(self))
 

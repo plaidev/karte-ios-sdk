@@ -15,7 +15,6 @@
 //
 
 import XCTest
-import Mockingjay
 import Nimble
 import KarteUtilities
 @testable import KarteCore

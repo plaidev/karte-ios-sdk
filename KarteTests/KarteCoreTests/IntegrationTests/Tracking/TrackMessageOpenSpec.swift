@@ -16,7 +16,6 @@
 
 import Quick
 import Nimble
-import Mockingjay
 @testable import KarteUtilities
 @testable import KarteCore
 @testable import KarteInAppMessaging

@@ -16,7 +16,6 @@
 
 import Quick
 import Nimble
-import Mockingjay
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteVariables
@@ -30,7 +29,7 @@ class TrackVariablesSpec: QuickSpec {
             configuration = Configuration { (configuration) in
                 configuration.isSendInitializationEventEnabled = false
             }
-            builder = { (request) -> Response in
+            builder = { request in
                 let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
                 let data = try! createJSONEncoder().encode(response)
                 return jsonData(data)(request)
