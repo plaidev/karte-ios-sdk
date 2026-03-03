@@ -1,22 +1,18 @@
 name: Claude Code with Vertex AI
-
 on:
   issue_comment:
     types: [created]
-
 permissions:
   id-token: write # Required for GCP OIDC authentication
   contents: write
   issues: write
   pull-requests: write
-
 jobs:
   claude:
     timeout-minutes: 30
     if: contains(github.event.comment.body, '@claude') && github.repository != 'plaidev/karte-ios-sdk'
     runs-on: ubuntu-latest
     steps:
-
       # コメント内容に基づいてモデルを選択
       - name: Select Claude Model
         id: select_model
@@ -31,12 +27,10 @@ jobs:
               core.setOutput('model', 'claude-sonnet-4-20250514');
               console.log('Using Sonnet-4 model');
             }
-
       # リポジトリのチェックアウト
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
-
       # GCP認証
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
@@ -44,7 +38,6 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.CLAUDE_GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.CLAUDE_GCP_SERVICE_ACCOUNT }}
-
       # Github App Tokenの取得
       # secrets.GITHUB_TOKENを使うとcommitした際にCIが走らないため、Github AppのTokenを使用する
       - uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2.1.1
@@ -55,7 +48,6 @@ jobs:
           permission-contents: read
           permission-pull-requests: write
           permission-issues: write
-
       # Claude Code Actionの実行
       - uses: anthropics/claude-code-action@0c127307fa529d701bc1f0f8f9c0bea881c49a9b # v1.0.2
         id: claude_action
@@ -66,11 +58,9 @@ jobs:
           ANTHROPIC_VERTEX_REGION: ${{ secrets.CLAUDE_VERTEX_REGION }}
           CLAUDE_CODE_ENDPOINT: vertex
           CLOUD_ML_REGION: ${{ secrets.CLAUDE_CLOUD_ML_REGION }}
-
           # モデル設定（動的に選択）
           CLAUDE_CODE_PRIMARY_MODEL: ${{ steps.select_model.outputs.model }}
           CLAUDE_CODE_ASSISTANT_MODEL: claude-sonnet-4-20250514
-
           # プロンプトキャッシング設定（オプション）
           ANTHROPIC_VERTEX_ENABLE_PROMPT_CACHING: true
         with:
@@ -87,7 +77,6 @@ jobs:
             Grep
             LS
             Read
-
       # エラー時のコメント
       - name: Comment on failure
         if: failure() || steps.claude_action.outcome == 'failure'

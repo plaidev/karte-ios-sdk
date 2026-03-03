@@ -6,7 +6,6 @@ on:
         description: 'Dry run mode (skip PR creation and beta release request)'
         type: boolean
         default: false
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,126 +15,126 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-    - name: Generate GitHub App token
-      uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
-      id: app-token
-      with:
-        app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
-        private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
-        permission-contents: write
-        permission-pull-requests: write
-        permission-workflows: write
-    - name: Checkout develop
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      with:
-        ref: develop
-        persist-credentials: false
-    - name: Configure Git
-      env:
-        GH_TOKEN: ${{ steps.app-token.outputs.token }}
-      run: |
-        git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
-        git config user.email "git@users.noreply.github.com"
-        git config user.name "github actions"
-        git fetch
-    - name: Get current date
-      id: date
-      run: echo "DATE=$(date +'%Y.%m.%dT%H.%M.%S')" >> $GITHUB_OUTPUT
-    - name: Find Release Targets
-      id: find-release-targets
-      run: |
-        PODSPEC_CHANGES=$(git diff remotes/origin/master..HEAD --name-only | grep '\.podspec$' || true)
-        if [ -n "$PODSPEC_CHANGES" ]; then
-          echo "Module release detected"
-          echo "Changed podspecs:"
-          echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
-          echo "RELEASE_TYPE=module" >> "$GITHUB_OUTPUT"
-          TARGETS=""
-          for podspec in $PODSPEC_CHANGES; do
-            TARGETS+="${podspec%.*}, "
-          done
-          echo "TARGETS=${TARGETS%, }" >> "$GITHUB_OUTPUT"
-        else
-          echo "Non-module release detected"
-          echo "RELEASE_TYPE=non-module" >> "$GITHUB_OUTPUT"
-          echo "TARGETS=" >> "$GITHUB_OUTPUT"
-        fi
-    - name: Create release branch
-      run: |
-        git checkout -b release/${{ steps.date.outputs.DATE }}
-    - name: Update CHANGELOG.md
-      if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module'
-      run: |
-        echo "Updating CHANGELOG.md for module release"
-        sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
-        git add ./CHANGELOG.md
-        git commit -m "Update CHANGELOG.md"
-    - name: Push release branch
-      if: inputs.dry_run != true
-      run: |
-        git push origin -u release/${{ steps.date.outputs.date }}
-    - name: Create Pull Request (Module Release)
-      if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module' && inputs.dry_run != true
-      env:
-        GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        PR_BODY: |
-          ### 以下の項目を確認してください
-          - [ ] Podspecのバージョンが正しく更新されていること
-          - [ ] 配信されたサンプルアプリでの動作確認
-          - [ ] spm-versionが更新されていること
-          - [ ] CHANGELOG.md のリリース日付が正しく設定されていること
-          - [ ] CHANGELOG.md のバージョンがPodspecのバージョンと一致していること
-          - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
+      - name: Generate GitHub App token
+        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
+          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+          permission-workflows: write
+      - name: Checkout develop
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: develop
+          persist-credentials: false
+      - name: Configure Git
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+          git config user.email "git@users.noreply.github.com"
+          git config user.name "github actions"
+          git fetch
+      - name: Get current date
+        id: date
+        run: echo "DATE=$(date +'%Y.%m.%dT%H.%M.%S')" >> $GITHUB_OUTPUT
+      - name: Find Release Targets
+        id: find-release-targets
+        run: |
+          PODSPEC_CHANGES=$(git diff remotes/origin/master..HEAD --name-only | grep '\.podspec$' || true)
+          if [ -n "$PODSPEC_CHANGES" ]; then
+            echo "Module release detected"
+            echo "Changed podspecs:"
+            echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
+            echo "RELEASE_TYPE=module" >> "$GITHUB_OUTPUT"
+            TARGETS=""
+            for podspec in $PODSPEC_CHANGES; do
+              TARGETS+="${podspec%.*}, "
+            done
+            echo "TARGETS=${TARGETS%, }" >> "$GITHUB_OUTPUT"
+          else
+            echo "Non-module release detected"
+            echo "RELEASE_TYPE=non-module" >> "$GITHUB_OUTPUT"
+            echo "TARGETS=" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create release branch
+        run: |
+          git checkout -b release/${{ steps.date.outputs.DATE }}
+      - name: Update CHANGELOG.md
+        if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module'
+        run: |
+          echo "Updating CHANGELOG.md for module release"
+          sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
+          git add ./CHANGELOG.md
+          git commit -m "Update CHANGELOG.md"
+      - name: Push release branch
+        if: inputs.dry_run != true
+        run: |
+          git push origin -u release/${{ steps.date.outputs.date }}
+      - name: Create Pull Request (Module Release)
+        if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module' && inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_BODY: |
+            ### 以下の項目を確認してください
+            - [ ] Podspecのバージョンが正しく更新されていること
+            - [ ] 配信されたサンプルアプリでの動作確認
+            - [ ] spm-versionが更新されていること
+            - [ ] CHANGELOG.md のリリース日付が正しく設定されていること
+            - [ ] CHANGELOG.md のバージョンがPodspecのバージョンと一致していること
+            - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
 
-          ### Update
-          ${{ steps.find-release-targets.outputs.TARGETS }}
-      run: |
-        gh pr create \
-          --title "Deploy to production by ${{ github.actor }}" \
-          --body "$PR_BODY" \
-          --base master \
-          --head release/${{ steps.date.outputs.date }}
-    - name: Create Pull Request (Non-Module Release)
-      if: steps.find-release-targets.outputs.RELEASE_TYPE == 'non-module' && inputs.dry_run != true
-      env:
-        GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        PR_BODY: |
-          ### 非モジュールリリース
-          このリリースにはモジュール（podspec）の変更は含まれません。
-          CI/CD、ドキュメント、設定ファイルなどの変更のみを公開リポジトリに同期します。
+            ### Update
+            ${{ steps.find-release-targets.outputs.TARGETS }}
+        run: |
+          gh pr create \
+            --title "Deploy to production by ${{ github.actor }}" \
+            --body "$PR_BODY" \
+            --base master \
+            --head release/${{ steps.date.outputs.date }}
+      - name: Create Pull Request (Non-Module Release)
+        if: steps.find-release-targets.outputs.RELEASE_TYPE == 'non-module' && inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_BODY: |
+            ### 非モジュールリリース
+            このリリースにはモジュール（podspec）の変更は含まれません。
+            CI/CD、ドキュメント、設定ファイルなどの変更のみを公開リポジトリに同期します。
 
-          ### 以下の項目を確認してください
-          - [ ] 変更内容が意図したものであること
-          - [ ] 公開リポジトリに同期しても問題ないこと
-          - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
-      run: |
-        gh pr create \
-          --title "Non-module release by ${{ github.actor }}" \
-          --body "$PR_BODY" \
-          --base master \
-          --head release/${{ steps.date.outputs.date }}
-    - name: Generate GitHub App token for triggering workflows
-      if: inputs.dry_run != true
-      uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
-      id: app-team-app-token
-      with:
-        app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
-        private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
-        owner: plaidev
-        repositories: ${{ vars.UITEST_REPO }}
-        permission-actions: write
-    - name: Request beta release
-      if: inputs.dry_run != true
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-      with:
-        github-token: ${{ steps.app-team-app-token.outputs.token }}
-        script: |
-          await github.rest.actions.createWorkflowDispatch({
-            owner: 'plaidev',
-            repo: '${{vars.UITEST_REPO}}',
-            workflow_id: 'release-test-app.yml',
-            ref: 'master',
-            inputs: {
-              sdkBranch: 'release/${{ steps.date.outputs.date }}',
-            },
-          })
+            ### 以下の項目を確認してください
+            - [ ] 変更内容が意図したものであること
+            - [ ] 公開リポジトリに同期しても問題ないこと
+            - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
+        run: |
+          gh pr create \
+            --title "Non-module release by ${{ github.actor }}" \
+            --body "$PR_BODY" \
+            --base master \
+            --head release/${{ steps.date.outputs.date }}
+      - name: Generate GitHub App token for triggering workflows
+        if: inputs.dry_run != true
+        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
+        id: app-team-app-token
+        with:
+          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
+          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
+          owner: plaidev
+          repositories: ${{ vars.UITEST_REPO }}
+          permission-actions: write
+      - name: Request beta release
+        if: inputs.dry_run != true
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          github-token: ${{ steps.app-team-app-token.outputs.token }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'plaidev',
+              repo: '${{vars.UITEST_REPO}}',
+              workflow_id: 'release-test-app.yml',
+              ref: 'master',
+              inputs: {
+                sdkBranch: 'release/${{ steps.date.outputs.date }}',
+              },
+            })

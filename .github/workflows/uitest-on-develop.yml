@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - develop
-
 jobs:
   kick_uitest:
     runs-on: ubuntu-latest

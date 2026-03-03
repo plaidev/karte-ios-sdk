@@ -4,7 +4,6 @@ on:
     types: [opened, reopened]
     branches:
       - 'master'
-
 jobs:
   wait_uitest:
     runs-on: ubuntu-latest

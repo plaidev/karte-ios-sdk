@@ -4,14 +4,11 @@ on:
     branches:
       - 'develop'
       - 'master'
-
 permissions:
   contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   validate-spm:
     runs-on: macos-26
