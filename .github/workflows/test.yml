@@ -9,9 +9,6 @@ on:
     branches:
       - develop
       - master
-permissions:
-  id-token: write # for using OIDC in codecov/codecov-action
-  contents: read
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -26,9 +23,14 @@ jobs:
     timeout-minutes: 10
     # NOTE: Run only in private repo.
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' }}
+    permissions:
+      id-token: write # for using OIDC in codecov/codecov-action
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
       - name: Checkout git submodules
         run: |
           git submodule sync
@@ -79,8 +81,10 @@ jobs:
           retention-days: 1
   notify-slack-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [test]
     if: always() && github.ref == 'refs/heads/develop' && github.repository != 'plaidev/karte-ios-sdk'
+    permissions: {}
     steps:
       - name: Notify Slack on test failure
         if: needs.test.result == 'failure'

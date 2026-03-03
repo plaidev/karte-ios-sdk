@@ -8,7 +8,9 @@ on:
 jobs:
   wait_uitest:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     if: ${{ vars.UITEST_REPO }}
+    permissions: {}
     steps:
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
@@ -18,6 +20,7 @@ jobs:
           private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
           owner: plaidev
           repositories: ${{ vars.UITEST_REPO }}
+          permission-actions: write
       - name: Kick UI Test and wait
         uses: the-actions-org/workflow-dispatch@3133c5d135c7dbe4be4f9793872b6ef331b53bc7 # v4.0.0
         with:

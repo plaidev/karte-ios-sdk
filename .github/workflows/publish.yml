@@ -13,9 +13,6 @@ on:
           - publish
           - dry_run
         default: 'dry_run'
-permissions:
-  id-token: write # for using OIDC in codecov/codecov-action
-  contents: write
 env:
   IOS_VERSION: "26.0.1"
   DEVICE_NAME: "iPhone 17"
@@ -27,9 +24,14 @@ jobs:
     timeout-minutes: 20
     # NOTE: Run only in private repo. Block publish mode on non-master branches.
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode == 'dry_run') }}
+    permissions:
+      id-token: write # for using OIDC in codecov/codecov-action
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          persist-credentials: false
       - name: Checkout git submodules
         run: |
           git submodule sync
@@ -84,6 +86,8 @@ jobs:
     timeout-minutes: 30
     # NOTE: Run only in private repo. Block publish mode on non-master branches.
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode == 'dry_run') }}
+    permissions:
+      contents: write
     steps:
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
@@ -95,6 +99,9 @@ jobs:
           repositories: |
             karte-ios-sdk
             karte-ios-dev
+          permission-contents: write
+          permission-actions: write
+          permission-workflows: write
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
@@ -183,8 +190,10 @@ jobs:
   # https://github.com/rtCamp/action-slack-notify/issues/22
   notify-slack-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [test]
     if: always() && github.repository != 'plaidev/karte-ios-sdk'
+    permissions: {}
     steps:
       - name: Notify Slack on test failure
         if: needs.test.result == 'failure'
@@ -195,8 +204,10 @@ jobs:
           SLACK_COLOR: failure
   notify-slack-publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [publish]
     if: always() && github.repository != 'plaidev/karte-ios-sdk'
+    permissions: {}
     steps:
       - name: Notify Slack on publish success
         if: needs.publish.result == 'success'

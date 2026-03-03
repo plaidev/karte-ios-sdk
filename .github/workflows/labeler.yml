@@ -8,6 +8,7 @@ permissions:
 jobs:
   triage:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
     - uses: actions/labeler@5f867a63be70efff62b767459b009290364495eb # 2.2.0
       with:

@@ -27,16 +27,17 @@ on:
           - publish
           - dry_run
         default: 'dry_run'
-permissions:
-  contents: write
 jobs:
   publish-pod:
     runs-on: macos-26-xlarge
     timeout-minutes: 30
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode == 'dry_run') }}
+    permissions: {}
     steps:
       - name: Checkout repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
       - name: Set up Ruby
         uses: ruby/setup-ruby@d5f787ce339eb0767271bc01d922e85644c2c8ab # v1.280.0
         with:
@@ -61,8 +62,10 @@ jobs:
           bundle exec pod trunk push $PODSPEC --allow-warnings --synchronous
   notify-slack:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [publish-pod]
     if: always() && github.repository != 'plaidev/karte-ios-sdk' && inputs.mode == 'publish'
+    permissions: {}
     steps:
       - name: Notify Slack on success
         if: needs.publish-pod.result == 'success'

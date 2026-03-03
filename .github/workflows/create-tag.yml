@@ -30,6 +30,8 @@ jobs:
     if: github.repository != 'plaidev/karte-ios-sdk' && (github.event.inputs.dry_run == 'true' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -46,6 +48,7 @@ jobs:
           repositories: |
             karte-ios-sdk
             karte-ios-dev
+          permission-contents: write
       - name: Configure Git
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}

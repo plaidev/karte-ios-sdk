@@ -29,6 +29,7 @@ jobs:
           owner: plaidev
           repositories: |
             karte-sdk-docs
+          permission-contents: write
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
@@ -71,8 +72,10 @@ jobs:
         working-directory: scripts
   notify-slack:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [publish-docs]
     if: always() && github.repository != 'plaidev/karte-ios-sdk'
+    permissions: {}
     steps:
       - name: Notify Slack on success
         if: needs.publish-docs.result == 'success'

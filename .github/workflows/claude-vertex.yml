@@ -5,7 +5,7 @@ on:
     types: [created]
 
 permissions:
-  id-token: write
+  id-token: write # Required for GCP OIDC authentication
   contents: write
   issues: write
   pull-requests: write
@@ -34,6 +34,8 @@ jobs:
 
       # リポジトリのチェックアウト
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
 
       # GCP認証
       - name: Authenticate to Google Cloud
@@ -50,6 +52,9 @@ jobs:
         with:
           app-id: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_ID }}
           private-key: ${{ secrets.SHARED_GITHUB_ACTION_AGENT_APP_PRIVATE_KEY }}
+          permission-contents: read
+          permission-pull-requests: write
+          permission-issues: write
 
       # Claude Code Actionの実行
       - uses: anthropics/claude-code-action@0c127307fa529d701bc1f0f8f9c0bea881c49a9b # v1.0.2
