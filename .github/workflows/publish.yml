@@ -99,6 +99,7 @@ jobs:
           repositories: |
             karte-ios-sdk
             karte-ios-dev
+            karte-app-dev-docs
           permission-contents: write
           permission-actions: write
           permission-workflows: write
@@ -180,6 +181,12 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           gh workflow run publish-release-notes.yml --ref master
+      - name: Trigger sync iOS SDK changelog
+        if: env.EXECUTION_MODE == 'publish' && success()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh workflow run sync-ios-sdk-changelog.yml --repo plaidev/karte-app-dev-docs --ref main
       - name: Trigger deploy release feed in public repo
         if: env.EXECUTION_MODE == 'publish' && steps.publish.outputs.published == 'true' && success()
         env:
