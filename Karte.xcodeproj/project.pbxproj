@@ -312,7 +312,7 @@
 		0CE33A1323F533F500E2EB98 /* Tracker+Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE33A1223F533F500E2EB98 /* Tracker+Variables.swift */; };
 		0CE79311238653AD00F0D932 /* StubActionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE792EC238653AD00F0D932 /* StubActionModule.swift */; };
 		0CE79326238653AD00F0D932 /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE79307238653AD00F0D932 /* Support.swift */; };
-		0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE79308238653AD00F0D932 /* SpecConfiguration.swift */; };
+		0CE79327238653AD00F0D932 /* KarteTestObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE79308238653AD00F0D932 /* KarteTestObserver.swift */; };
 		0CF44AFB242E451000CA7F3A /* success_variables_3.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CF44AFA242E451000CA7F3A /* success_variables_3.json */; };
 		0CFD001124EBD2DC00598C8C /* TrackCallbackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001024EBD2DC00598C8C /* TrackCallbackSpec.swift */; };
 		0CFD001324EC121600598C8C /* TrackingCommandRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD001224EC121600598C8C /* TrackingCommandRepositorySpec.swift */; };
@@ -951,7 +951,7 @@
 		0CE79305238653AD00F0D932 /* OpenEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenEventSpec.swift; sourceTree = "<group>"; };
 		0CE79306238653AD00F0D932 /* RenewVisitorIdEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenewVisitorIdEventSpec.swift; sourceTree = "<group>"; };
 		0CE79307238653AD00F0D932 /* Support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
-		0CE79308238653AD00F0D932 /* SpecConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecConfiguration.swift; sourceTree = "<group>"; };
+		0CE79308238653AD00F0D932 /* KarteTestObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KarteTestObserver.swift; sourceTree = "<group>"; };
 		0CE7930B238653AD00F0D932 /* LifecycleEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifecycleEventSpec.swift; sourceTree = "<group>"; };
 		0CE7930C238653AD00F0D932 /* IdentifySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifySpec.swift; sourceTree = "<group>"; };
 		0CE7930D238653AD00F0D932 /* SetupSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupSpec.swift; sourceTree = "<group>"; };
@@ -2168,7 +2168,7 @@
 				AF49FA9E296ED81D005A7575 /* KarteInboxTests */,
 				0CE7932E23865C8B00F0D932 /* KarteUtilitiesTests */,
 				0CC648AE238A153F009EB5DF /* Stub */,
-				0CE79308238653AD00F0D932 /* SpecConfiguration.swift */,
+				0CE79308238653AD00F0D932 /* KarteTestObserver.swift */,
 				0CE79307238653AD00F0D932 /* Support.swift */,
 				0CDBACCE23A8719300CEB853 /* Assertions.swift */,
 				0CE792E723862C9C00F0D932 /* Info.plist */,
@@ -3608,7 +3608,7 @@
 				0C8392F82407CEC50014C2BF /* VersionServiceSpec.swift in Sources */,
 				0C839315240838050014C2BF /* ActionSpec.swift in Sources */,
 				0C8392F32407CCD20014C2BF /* DictionaryExtensionTests.swift in Sources */,
-				0CE79327238653AD00F0D932 /* SpecConfiguration.swift in Sources */,
+				0CE79327238653AD00F0D932 /* KarteTestObserver.swift in Sources */,
 				0CC648B8238CCFC3009EB5DF /* StubBuilder.swift in Sources */,
 				EF68529C06AE4D8B9EC16F5D /* HTTPStubProtocol.swift in Sources */,
 				0CCFA7B524A5814100E0F184 /* FCMTokenRegistrarSpec.swift in Sources */,
