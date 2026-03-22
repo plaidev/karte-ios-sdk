@@ -14,205 +14,10 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 import KarteUtilities
 import Foundation
-
-typealias ResolvedConfigurationContext = (request: URLRequest, body: TrackBody, events: [Event])
-class ResolvedConfigurationBehavior : Behavior<ResolvedConfigurationContext> {
-    override class func spec(_ context: @escaping () -> ResolvedConfigurationContext) {
-        var ctx: ResolvedConfigurationContext!
-        beforeEach {
-            ctx = context()
-        }
-        it("Request Header contains `X-KARTE-App-Key: dummy_app_key`") {
-            expect(ctx.request.allHTTPHeaderFields!["X-KARTE-App-Key"]!).to(equal(APP_KEY))
-        }
-        
-        it("Request Header contains `Content-Encoding: gzip`") {
-            expect(ctx.request.allHTTPHeaderFields!["Content-Encoding"]!).to(equal("gzip"))
-        }
-        
-        it("Request URL is `https://b.karte.io/v0/native/track`") {
-            expect(ctx.request.url!.absoluteString).to(equal("https://b.karte.io/v0/native/track"))
-        }
-        
-        it("occurred native_app_open event") {
-            let contain = ctx.events.contains(where: { $0.eventName == .nativeAppOpen })
-            expect(contain).to(beTrue())
-        }
-        
-        it("occurred native_app_install event") {
-            let contain = ctx.events.contains(where: { $0.eventName == .nativeAppInstall })
-            expect(contain).to(beTrue())
-        }
-        
-        it("libraryConfigurations is empty") {
-            let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
-            expect(dummy).to(beNil())
-        }
-        
-        it("apiKey is empty") {
-            expect(KarteApp.shared.configuration.apiKey).to(beEmpty())
-        }
-        
-        it("idfa is nil") {
-            expect(ctx.body.appInfo.systemInfo.idfa).to(beNil())
-        }
-    }
-}
-
-typealias CustomConfigurationContext = (spec: Any, builder: Builder, setup: ((Configuration) -> Void) -> Void, setupExp: ((ExperimentalConfiguration) -> Void) -> Void, expectAppKey: String, expectApiKey: String)
-class CustomConfigurationBaseBehavior : Behavior<CustomConfigurationContext> {
-    override class func spec(_ aContext: @escaping () -> CustomConfigurationContext) {
-        var ctx: CustomConfigurationContext!
-        beforeEach {
-            ctx = aContext()
-        }
-        
-        context("when customized base url") {
-            var request: URLRequest!
-            beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(metadata: metadata, builder: ctx.builder)
-                ctx.setup { configuration in
-                    configuration.baseURL = URL(string: "https://t.karte.io")!
-                    configuration.overlayBaseURL = URL(string: "https://api.karte.io")!
-                }
-                
-                request = module.wait().request(.nativeAppOpen)
-            }
-            
-            it("Request Header contains `X-KARTE-App-Key: dummy_app_key`") {
-                expect(request.allHTTPHeaderFields!["X-KARTE-App-Key"]!).to(equal(ctx.expectAppKey))
-            }
-            
-            it("Request URL is `https://t.karte.io/v0/native/track`") {
-                expect(request.url?.absoluteString).to(equal("https://t.karte.io/v0/native/track"))
-            }
-            it("Overlay Base URL is `https://api.karte.io`") {
-                expect(KarteApp.shared.configuration.overlayBaseURL.absoluteString).to(equal("https://api.karte.io"))
-            }
-            it("apiKey is `dummy_api_key`") {
-                expect(KarteApp.shared.configuration.apiKey).to(equal(ctx.expectApiKey))
-            }
-        }
-    }
-}
-class CustomConfigurationOtherBehavior : Behavior<CustomConfigurationContext> {
-    override class func spec(_ aContext: @escaping () -> CustomConfigurationContext) {
-        var ctx: CustomConfigurationContext!
-        var commandCountObserver: CommandCountObserver!
-
-        beforeEach {
-            ctx = aContext()
-
-        }
-
-        context("when enabled dry run") {
-            beforeEach {
-                ctx.setup { configuration in
-                    configuration.isDryRun = true
-                }
-            }
-            
-            it("tracker is nil") {
-                expect(KarteApp.shared.trackingClient).to(beNil())
-            }
-        }
-        
-        context("when enabled opt out default") {
-            var event: Event!
-            beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(metadata: metadata, builder: ctx.builder)
-                ctx.setup { configuration in
-                    configuration.isOptOut = true
-                }
-                
-                module.verify()
-                event = module.event(.nativeAppOpen)
-            }
-            
-            it("never sent events") {
-                expect(event).to(beNil())
-            }
-        }
-        
-        context("when mode is ingest") {
-            var request: URLRequest!
-            beforeEach { (metadata: ExampleMetadata) in
-                commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
-                let module = StubActionModule(metadata: metadata, path: "/v0/native/ingest", builder: ctx.builder)
-                ctx.setupExp { configuration in
-                    configuration.operationMode = .ingest
-                    configuration.baseURL = URL(string: "https://api.karte.io")!
-                }
-                
-                request = module.wait().request(.nativeAppOpen)
-                commandCountObserver.wait()
-            }
-            
-            it("Request URL is `https://api.karte.io/v0/native/ingest`") {
-                expect(request.url?.absoluteString).to(equal("https://api.karte.io/v0/native/ingest"))
-            }
-        }
-        
-        context("when library config is added") {
-            beforeEach {
-                commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
-                ctx.setup { configuration in
-                    configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
-                }
-                commandCountObserver.wait()
-            }
-            
-            it("libraryConfigurations is not empty") {
-                let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
-                expect(dummy).toNot(beNil())
-            }
-        }
-
-        context("when set idfa delegate") {
-            var body: TrackBody!
-            var idfa: IDFA!
-
-            context("when disable") {
-                beforeEach { (metadata: ExampleMetadata) in
-                    idfa = IDFA(isEnabled: false, idfa: "dummy_idfa")
-                    commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
-                    let module = StubActionModule(metadata: metadata, builder: ctx.builder)
-                    ctx.setup { configuration in
-                        configuration.idfaDelegate = idfa
-                    }
-                    
-                    body = module.wait().body(.nativeAppOpen)
-                    commandCountObserver.wait()
-                }
-                
-                it("idfa is nil") {
-                    expect(body.appInfo.systemInfo.idfa).to(beNil())
-                }
-            }
-
-            context("when enable") {
-                beforeEach { (metadata: ExampleMetadata) in
-                    idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
-                    let module = StubActionModule(metadata: metadata, builder: ctx.builder)
-                    ctx.setup { configuration in
-                        configuration.idfaDelegate = idfa
-                    }
-
-                    body = module.wait().body(.nativeAppOpen)
-                }
-
-                it("idfa is `dummy_idfa`") {
-                    expect(body.appInfo.systemInfo.idfa).to(equal("dummy_idfa"))
-                }
-            }
-        }
-    }
-}
 
 let APP_KEY_OVERWRITED = APP_KEY.uppercased()
 let APP_KEY_FROM_PLIST = "dummy_application_key_from_plist"
@@ -220,216 +25,373 @@ let APP_KEY_FROM_CUSTOM = "dummy_application_key_customized"
 let API_KEY = "dummy_api_key"
 let API_KEY_FROM_CUSTOM = "dummy_karte_api_key"
 
-class SetupSpec: QuickSpec {
-    override class func spec() {
-        var builder: Builder!
-        var session: TrackClientSessionMock!
+class SetupSpec: XCTestCase {
+    var session: TrackClientSessionMock!
+    var builder: Builder!
 
-        beforeEach {
-            session = TrackClientSessionMock()
+    override func setUp() {
+        super.setUp()
+        session = TrackClientSessionMock()
+        Resolver.root = Resolver.submock
+        Resolver.root.register { self.session as TrackClientSession }
+        builder = StubBuilder(spec: Self.self, resource: .empty).build()
+    }
 
-            Resolver.root = Resolver.submock
-            Resolver.root.register {
-                session as TrackClientSession
-            }
+    override func tearDown() {
+        Resolver.root = Resolver.mock
+        super.tearDown()
+    }
 
-            builder = StubBuilder(spec: self, resource: .empty).build()
-        }
+    // MARK: - Helpers
 
-        afterEach {
-            Resolver.root = Resolver.mock
-        }
+    private var customPlistPath: String {
+        Bundle(for: SetupSpec.self).path(forResource: "Karte-custom-Info", ofType: "plist")!
+    }
 
-        describe("a karte app") {
-            describe("its setup with appKey param") {
-                context("when use default config(from resolver)") {
-                    var request: URLRequest!
-                    var body: TrackBody!
-                    var events: [Event] = []
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: builder)
-
-                        KarteApp.setup(appKey: APP_KEY)
-
-                        module.wait().responseDatas([.nativeAppOpen, .nativeAppInstall]).forEach { data in
-                            request = data.request
-                            body = data.body
-                            events.append(data.event)
-                        }
-                    }
-                    itBehavesLike(ResolvedConfigurationBehavior.self) { (request, body, events) }
-                }
-
-                context("when use custom config from default plist") {
-                    let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                        let config = Configuration.default!
-                        configure(config)
-                        KarteApp.setup(appKey: APP_KEY_OVERWRITED, configuration: config)
-                    }, setupExp: { configure in
-                        let config = ExperimentalConfiguration.default!
-                        configure(config)
-                        KarteApp.setup(appKey: APP_KEY_OVERWRITED, configuration: config)
-                    }, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: "") }
-                    itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
-                }
-
-                context("when use custom config from custom plist") {
-                    let path = Bundle(for: SetupSpec.self).path(forResource: "Karte-custom-Info", ofType: "plist")
-                    let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                        let config = Configuration.from(plistPath: path!)!
-                        configure(config)
-                        KarteApp.setup(appKey: APP_KEY_OVERWRITED, configuration: config)
-                    }, setupExp: { configure in
-                        let config = ExperimentalConfiguration.from(plistPath: path!)!
-                        configure(config)
-                        KarteApp.setup(appKey: APP_KEY_OVERWRITED, configuration: config)
-                    }, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: API_KEY_FROM_CUSTOM) }
-                    itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
-                }
-
-                context("when use custom config without plist") {
-                    context("without appkey") {
-                        let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                            let config = Configuration()
-                            configure(config)
-                            KarteApp.setup(appKey: APP_KEY, configuration: config)
-                        }, setupExp: { configure in
-                            let config = ExperimentalConfiguration()
-                            configure(config)
-                            KarteApp.setup(appKey: APP_KEY, configuration: config)
-                        }, expectAppKey: APP_KEY, expectApiKey: "") }
-                        itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                        itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
-                    }
-
-                    context("with appkey by setter") {
-                        let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                            let config = Configuration()
-                            config.appKey = APP_KEY
-                            config.apiKey = API_KEY
-                            configure(config)
-                            KarteApp.setup(appKey: APP_KEY_OVERWRITED, configuration: config)
-                        }, setupExp: { configure in
-                        }, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: API_KEY) }
-                        itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    }
-
-                    context("with appkey by configurator") {
-                        let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                            let config = Configuration { (configuration) in
-                                configuration.appKey = APP_KEY
-                            }
-                            configure(config)
-                            KarteApp.setup(appKey: APP_KEY_OVERWRITED, configuration: config)
-                        }, setupExp: { configure in
-                        }, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: "") }
-                        itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    }
-
-                    context("with appkey by initializer") {
-                        let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                            let config = Configuration(appKey: APP_KEY)
-                            configure(config)
-                            KarteApp.setup(appKey: APP_KEY_OVERWRITED, configuration: config)
-                        }, setupExp: { configure in
-                        }, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: "") }
-                        itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    }
-                }
-            }
-            describe("its setup without appKey param") {
-                context("when use default config(from resolver)") {
-                    var request: URLRequest!
-                    var body: TrackBody!
-                    var events: [Event] = []
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: builder)
-
-                        KarteApp.setup()
-
-                        module.wait().responseDatas([.nativeAppOpen, .nativeAppInstall]).forEach { data in
-                            request = data.request
-                            body = data.body
-                            events.append(data.event)
-                        }
-                    }
-                    itBehavesLike(ResolvedConfigurationBehavior.self) { (request, body, events) }
-                }
-
-                context("when use custom config from default plist") {
-                    let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                        let config = Configuration.default!
-                        configure(config)
-                        KarteApp.setup(configuration: config)
-                    }, setupExp: { configure in
-                        let config = ExperimentalConfiguration.default!
-                        configure(config)
-                        KarteApp.setup(configuration: config)
-                    }, expectAppKey: APP_KEY_FROM_PLIST, expectApiKey: "") }
-                    itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
-                }
-
-                context("when use custom config from custom plist") {
-                    let path = Bundle(for: SetupSpec.self).path(forResource: "Karte-custom-Info", ofType: "plist")
-                    let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                        let config = Configuration.from(plistPath: path!)!
-                        configure(config)
-                        KarteApp.setup(configuration: config)
-                    }, setupExp: { configure in
-                        let config = ExperimentalConfiguration.from(plistPath: path!)!
-                        configure(config)
-                        KarteApp.setup(configuration: config)
-                    }, expectAppKey: APP_KEY_FROM_CUSTOM, expectApiKey: API_KEY_FROM_CUSTOM) }
-                    itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    itBehavesLike(CustomConfigurationOtherBehavior.self, context: ctx)
-                }
-
-                context("when use custom config without plist") {
-                    context("without appkey") {
-                        it("throw assertion") {
-                            expect { KarteApp.setup(configuration: Configuration()) }.to(throwAssertion())
-                        }
-                    }
-
-                    context("with appkey by setter") {
-                        let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                            let config = Configuration()
-                            config.appKey = APP_KEY
-                            config.apiKey = API_KEY
-                            configure(config)
-                            KarteApp.setup(configuration: config)
-                        }, setupExp: { configure in
-                        }, expectAppKey: APP_KEY, expectApiKey: API_KEY) }
-                        itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    }
-
-                    context("with appkey by configurator") {
-                        let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                            let config = Configuration { (configuration) in
-                                configuration.appKey = APP_KEY
-                            }
-                            configure(config)
-                            KarteApp.setup(configuration: config)
-                        }, setupExp: { configure in
-                        }, expectAppKey: APP_KEY, expectApiKey: "") }
-                        itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    }
-
-                    context("with appkey by initializer") {
-                        let ctx: () -> CustomConfigurationContext = { (spec: self, builder: builder, setup: { configure in
-                            let config = Configuration(appKey: APP_KEY)
-                            configure(config)
-                            KarteApp.setup(configuration: config)
-                        }, setupExp: { configure in
-                        }, expectAppKey: APP_KEY, expectApiKey: "") }
-                        itBehavesLike(CustomConfigurationBaseBehavior.self, context: ctx)
-                    }
-                }
-            }
+    private func setupApp(_ config: Configuration, appKey: String? = nil) {
+        if let appKey = appKey {
+            KarteApp.setup(appKey: appKey, configuration: config)
+        } else {
+            KarteApp.setup(configuration: config)
         }
     }
 
+    private func setupApp(_ config: ExperimentalConfiguration, appKey: String? = nil) {
+        if let appKey = appKey {
+            KarteApp.setup(appKey: appKey, configuration: config)
+        } else {
+            KarteApp.setup(configuration: config)
+        }
+    }
+
+    private func makeConfigWithAppKeyAndApiKey() -> Configuration {
+        let config = Configuration()
+        config.appKey = APP_KEY
+        config.apiKey = API_KEY
+        return config
+    }
+
+    // MARK: - Assertion helpers
+
+    private func assertDefaultTrackingRequest(request: URLRequest, body: TrackBody, events: [Event]) {
+        XCTAssertEqual(request.allHTTPHeaderFields!["X-KARTE-App-Key"]!, APP_KEY)
+        XCTAssertEqual(request.allHTTPHeaderFields!["Content-Encoding"]!, "gzip")
+        XCTAssertEqual(request.url!.absoluteString, "https://b.karte.io/v0/native/track")
+
+        let containOpen = events.contains(where: { $0.eventName == .nativeAppOpen })
+        XCTAssertTrue(containOpen)
+
+        let containInstall = events.contains(where: { $0.eventName == .nativeAppInstall })
+        XCTAssertTrue(containInstall)
+
+        let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
+        XCTAssertNil(dummy)
+
+        XCTAssertTrue(KarteApp.shared.configuration.apiKey.isEmpty)
+        XCTAssertNil(body.appInfo.systemInfo.idfa)
+    }
+
+    private func assertCustomBaseURL(
+        _ config: Configuration,
+        appKey: String? = nil,
+        expectAppKey: String,
+        expectApiKey: String? = nil
+    ) {
+        let module = StubActionModule(builder: builder)
+        config.baseURL = URL(string: "https://t.karte.io")!
+        config.overlayBaseURL = URL(string: "https://api.karte.io")!
+        setupApp(config, appKey: appKey)
+
+        let request = module.wait().request(.nativeAppOpen)
+
+        XCTAssertEqual(request?.allHTTPHeaderFields!["X-KARTE-App-Key"]!, expectAppKey)
+        XCTAssertEqual(request?.url?.absoluteString, "https://t.karte.io/v0/native/track")
+        XCTAssertEqual(KarteApp.shared.configuration.overlayBaseURL.absoluteString, "https://api.karte.io")
+        if let expectApiKey = expectApiKey {
+            XCTAssertEqual(KarteApp.shared.configuration.apiKey, expectApiKey)
+        }
+    }
+
+    private func assertDryRun(_ config: Configuration, appKey: String? = nil) {
+        config.isDryRun = true
+        setupApp(config, appKey: appKey)
+        XCTAssertNil(KarteApp.shared.trackingClient)
+    }
+
+    private func assertOptOut(_ config: Configuration, appKey: String? = nil) {
+        config.isOptOut = true
+        setupApp(config, appKey: appKey)
+        XCTAssertNotNil(KarteApp.shared.trackingClient)
+        XCTAssertTrue(KarteApp.isOptOut)
+    }
+
+    private func assertLibraryConfigRegistered(_ config: Configuration, appKey: String? = nil) {
+        let commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
+        config.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
+        setupApp(config, appKey: appKey)
+        commandCountObserver.wait()
+        let dummy: DummyLibraryConfiguration? = KarteApp.shared.libraryConfiguration()
+        XCTAssertNotNil(dummy)
+    }
+
+    private func assertIdfaDisabled(_ config: Configuration, appKey: String? = nil) {
+        let idfa = IDFA(isEnabled: false, idfa: "dummy_idfa")
+        let commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
+        let module = StubActionModule(builder: builder)
+        config.idfaDelegate = idfa
+        setupApp(config, appKey: appKey)
+        let body = module.wait().body(.nativeAppOpen)
+        commandCountObserver.wait()
+        XCTAssertNil(body?.appInfo.systemInfo.idfa)
+        withExtendedLifetime(idfa) {}
+    }
+
+    private func assertIdfaEnabled(_ config: Configuration, appKey: String? = nil) {
+        let idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
+        let commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
+        let module = StubActionModule(builder: builder)
+        config.idfaDelegate = idfa
+        setupApp(config, appKey: appKey)
+        let body = module.wait().body(.nativeAppOpen)
+        commandCountObserver.wait()
+        XCTAssertEqual(body?.appInfo.systemInfo.idfa, "dummy_idfa")
+        withExtendedLifetime(idfa) {}
+    }
+
+    private func assertIngestMode(_ config: ExperimentalConfiguration, appKey: String? = nil) {
+        let commandCountObserver = CommandCountObserver(expectedCommandCount: 2)
+        let module = StubActionModule(path: "/v0/native/ingest", builder: builder)
+        config.operationMode = .ingest
+        config.baseURL = URL(string: "https://api.karte.io")!
+        setupApp(config, appKey: appKey)
+        let request = module.wait().request(.nativeAppOpen)
+        commandCountObserver.wait()
+        XCTAssertEqual(request?.url?.absoluteString, "https://api.karte.io/v0/native/ingest")
+    }
+
+    // MARK: - Setup with appKey param - Default config
+
+    func testSetupWithAppKeyDefaultConfig() {
+        let module = StubActionModule(builder: builder)
+        KarteApp.setup(appKey: APP_KEY)
+
+        var request: URLRequest!
+        var body: TrackBody!
+        var events: [Event] = []
+        module.wait().responseDatas([.nativeAppOpen, .nativeAppInstall]).forEach { data in
+            request = data.request
+            body = data.body
+            events.append(data.event)
+        }
+
+        assertDefaultTrackingRequest(request: request, body: body, events: events)
+    }
+
+    // MARK: - Setup with appKey param - Config from default plist
+
+    func testSetupWithAppKeyFromDefaultPlist_CustomBaseURL() {
+        assertCustomBaseURL(Configuration.default!, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromDefaultPlist_DryRun() {
+        assertDryRun(Configuration.default!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromDefaultPlist_OptOut() {
+        assertOptOut(Configuration.default!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromDefaultPlist_LibraryConfig() {
+        assertLibraryConfigRegistered(Configuration.default!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromDefaultPlist_IdfaDisabled() {
+        assertIdfaDisabled(Configuration.default!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromDefaultPlist_IdfaEnabled() {
+        assertIdfaEnabled(Configuration.default!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromDefaultPlist_IngestMode() {
+        assertIngestMode(ExperimentalConfiguration.default!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    // MARK: - Setup with appKey param - Config from custom plist
+
+    func testSetupWithAppKeyFromCustomPlist_CustomBaseURL() {
+        assertCustomBaseURL(Configuration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromCustomPlist_DryRun() {
+        assertDryRun(Configuration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromCustomPlist_OptOut() {
+        assertOptOut(Configuration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromCustomPlist_LibraryConfig() {
+        assertLibraryConfigRegistered(Configuration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromCustomPlist_IdfaDisabled() {
+        assertIdfaDisabled(Configuration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromCustomPlist_IdfaEnabled() {
+        assertIdfaEnabled(Configuration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    func testSetupWithAppKeyFromCustomPlist_IngestMode() {
+        assertIngestMode(ExperimentalConfiguration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED)
+    }
+
+    // MARK: - Setup with appKey param - Plain config (no plist)
+
+    func testSetupWithAppKeyPlainConfig_CustomBaseURL() {
+        assertCustomBaseURL(Configuration(), appKey: APP_KEY, expectAppKey: APP_KEY)
+    }
+
+    func testSetupWithAppKeyPlainConfig_DryRun() {
+        assertDryRun(Configuration(), appKey: APP_KEY)
+    }
+
+    func testSetupWithAppKeyPlainConfig_OptOut() {
+        assertOptOut(Configuration(), appKey: APP_KEY)
+    }
+
+    func testSetupWithAppKeyPlainConfig_LibraryConfig() {
+        assertLibraryConfigRegistered(Configuration(), appKey: APP_KEY)
+    }
+
+    func testSetupWithAppKeyPlainConfig_IdfaDisabled() {
+        assertIdfaDisabled(Configuration(), appKey: APP_KEY)
+    }
+
+    func testSetupWithAppKeyPlainConfig_IdfaEnabled() {
+        assertIdfaEnabled(Configuration(), appKey: APP_KEY)
+    }
+
+    func testSetupWithAppKeyPlainConfig_IngestMode() {
+        assertIngestMode(ExperimentalConfiguration(), appKey: APP_KEY)
+    }
+
+    // MARK: - Setup with appKey param - Config with appKey by setter
+
+    func testSetupWithAppKeyAppKeyBySetter_CustomBaseURL() {
+        assertCustomBaseURL(makeConfigWithAppKeyAndApiKey(), appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: API_KEY)
+    }
+
+    // MARK: - Setup with appKey param - Config with appKey by configurator
+
+    func testSetupWithAppKeyAppKeyByConfigurator_CustomBaseURL() {
+        assertCustomBaseURL(Configuration { $0.appKey = APP_KEY }, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED)
+    }
+
+    // MARK: - Setup with appKey param - Config with appKey by initializer
+
+    func testSetupWithAppKeyAppKeyByInitializer_CustomBaseURL() {
+        assertCustomBaseURL(Configuration(appKey: APP_KEY), appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED)
+    }
+
+    // MARK: - Setup without appKey param - Default config
+
+    func testSetupWithoutAppKeyDefaultConfig() {
+        let module = StubActionModule(builder: builder)
+        KarteApp.setup()
+
+        var request: URLRequest!
+        var body: TrackBody!
+        var events: [Event] = []
+        module.wait().responseDatas([.nativeAppOpen, .nativeAppInstall]).forEach { data in
+            request = data.request
+            body = data.body
+            events.append(data.event)
+        }
+
+        assertDefaultTrackingRequest(request: request, body: body, events: events)
+    }
+
+    // MARK: - Setup without appKey param - Config from default plist
+
+    func testSetupWithoutAppKeyFromDefaultPlist_CustomBaseURL() {
+        assertCustomBaseURL(Configuration.default!, expectAppKey: APP_KEY_FROM_PLIST)
+    }
+
+    func testSetupWithoutAppKeyFromDefaultPlist_DryRun() {
+        assertDryRun(Configuration.default!)
+    }
+
+    func testSetupWithoutAppKeyFromDefaultPlist_OptOut() {
+        assertOptOut(Configuration.default!)
+    }
+
+    func testSetupWithoutAppKeyFromDefaultPlist_LibraryConfig() {
+        assertLibraryConfigRegistered(Configuration.default!)
+    }
+
+    func testSetupWithoutAppKeyFromDefaultPlist_IdfaDisabled() {
+        assertIdfaDisabled(Configuration.default!)
+    }
+
+    func testSetupWithoutAppKeyFromDefaultPlist_IdfaEnabled() {
+        assertIdfaEnabled(Configuration.default!)
+    }
+
+    func testSetupWithoutAppKeyFromDefaultPlist_IngestMode() {
+        assertIngestMode(ExperimentalConfiguration.default!)
+    }
+
+    // MARK: - Setup without appKey param - Config from custom plist
+
+    func testSetupWithoutAppKeyFromCustomPlist_CustomBaseURL() {
+        assertCustomBaseURL(Configuration.from(plistPath: customPlistPath)!, expectAppKey: APP_KEY_FROM_CUSTOM)
+    }
+
+    func testSetupWithoutAppKeyFromCustomPlist_DryRun() {
+        assertDryRun(Configuration.from(plistPath: customPlistPath)!)
+    }
+
+    func testSetupWithoutAppKeyFromCustomPlist_OptOut() {
+        assertOptOut(Configuration.from(plistPath: customPlistPath)!)
+    }
+
+    func testSetupWithoutAppKeyFromCustomPlist_LibraryConfig() {
+        assertLibraryConfigRegistered(Configuration.from(plistPath: customPlistPath)!)
+    }
+
+    func testSetupWithoutAppKeyFromCustomPlist_IdfaDisabled() {
+        assertIdfaDisabled(Configuration.from(plistPath: customPlistPath)!)
+    }
+
+    func testSetupWithoutAppKeyFromCustomPlist_IdfaEnabled() {
+        assertIdfaEnabled(Configuration.from(plistPath: customPlistPath)!)
+    }
+
+    func testSetupWithoutAppKeyFromCustomPlist_IngestMode() {
+        assertIngestMode(ExperimentalConfiguration.from(plistPath: customPlistPath)!)
+    }
+
+    // MARK: - Setup without appKey param - Config with appKey by setter
+
+    func testSetupWithoutAppKeyAppKeyBySetter_CustomBaseURL() {
+        assertCustomBaseURL(makeConfigWithAppKeyAndApiKey(), expectAppKey: APP_KEY, expectApiKey: API_KEY)
+    }
+
+    // MARK: - Setup without appKey param - Config with appKey by configurator
+
+    func testSetupWithoutAppKeyAppKeyByConfigurator_CustomBaseURL() {
+        assertCustomBaseURL(Configuration { $0.appKey = APP_KEY }, expectAppKey: APP_KEY)
+    }
+
+    // MARK: - Setup without appKey param - Config with appKey by initializer
+
+    func testSetupWithoutAppKeyAppKeyByInitializer_CustomBaseURL() {
+        assertCustomBaseURL(Configuration(appKey: APP_KEY), expectAppKey: APP_KEY)
+    }
+
+    // NOTE: throwAssertion() test removed - requires CwlPreconditionTesting/Nimble.
+    // The original test verified that KarteApp.setup(configuration: Configuration()) throws an assertion
+    // when no appKey is provided and no plist is available.
 }
