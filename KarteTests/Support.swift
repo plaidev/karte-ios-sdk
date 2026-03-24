@@ -15,7 +15,6 @@
 //
 
 import XCTest
-import Quick
 @testable import KarteCore
 @testable import KarteVisualTracking
 @testable import KarteUtilities

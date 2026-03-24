@@ -15,7 +15,6 @@
 //
 
 import Foundation
-import Quick
 import XCTest
 
 struct StubBuilder {

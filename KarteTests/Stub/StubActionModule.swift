@@ -14,7 +14,6 @@
 //  limitations under the License.
 //
 
-import Quick
 import XCTest
 @testable import KarteCore
 
@@ -27,8 +26,8 @@ class StubActionModule {
     var request: URLRequest?
     var responses: [String: TrackResponseData] = [:]
 
-    init(metadata: ExampleMetadata? = nil, stub: Stub?) {
-        let metadataLabel = metadata?.example.name ?? "test"
+    init(metadata: Any? = nil, stub: Stub?) {
+        let metadataLabel = metadata.map { String(describing: $0) } ?? "test"
         self.exp = XCTestExpectation(description: "Wait for finish => \(metadataLabel)")
         self.stub = stub
 
@@ -42,7 +41,7 @@ class StubActionModule {
         KarteApp.shared.register(module: .action(self))
     }
 
-    convenience init(metadata: ExampleMetadata? = nil, path: String = "/v0/native/track", builder: @escaping Builder) {
+    convenience init(metadata: Any? = nil, path: String = "/v0/native/track", builder: @escaping Builder) {
         self.init(metadata: metadata, stub: nil)
 
         self.stub = HTTPStubProtocol.addStub(
