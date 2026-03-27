@@ -14,50 +14,29 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class DeepLinkEventSpec: QuickSpec {
-    
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = StubBuilder(spec: self, resource: .empty).build()
+class DeepLinkEventSpec: XCTestCase {
+
+    func testDeepLinkEvent() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
-        
-        describe("a deep link event") {
-            context("always") {
-                var result: Bool!
-                var event: Event!
-                
-                beforeEach { (metadata: ExampleMetadata) in
-                    let url = URL(string: "app://karte.com")!
-                    let module = StubActionModule(metadata: metadata, builder: builder)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    result = KarteApp.shared.application(UIApplication.shared, open: url)
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
 
-                    event = module.wait().event(.deepLinkAppOpen)
-                }
-                
-                it("return false") {
-                    expect(result).to(beFalse())
-                }
+        let url = URL(string: "app://karte.com")!
+        let module = StubActionModule(metadata: name, builder: builder)
 
-                it("event name is `deep_link_app_open`") {
-                    expect(event.eventName).to(equal(.deepLinkAppOpen))
-                }
-
-                it("values.url is `url`") {
-                    expect(event.values.string(forKey: "url")).to(equal("app://karte.com"))
-                }
-            }
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        let result = KarteApp.shared.application(UIApplication.shared, open: url)
+        guard let event = module.wait().event(.deepLinkAppOpen) else {
+            XCTFail("deep_link_app_open event should not be nil")
+            return
         }
+
+        XCTAssertFalse(result, "application(_:open:) should return false")
+        XCTAssertEqual(event.eventName, .deepLinkAppOpen, "event name should be deep_link_app_open")
+        XCTAssertEqual(event.values.string(forKey: "url"), "app://karte.com", "values.url should match the opened URL")
     }
 }
