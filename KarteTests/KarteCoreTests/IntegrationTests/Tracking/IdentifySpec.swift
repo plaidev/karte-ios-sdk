@@ -14,27 +14,24 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class IdentifySpec: QuickSpec {
-    
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
-        
-        let userId = "test_user"
-        let num = 100
-        let str = "foo"
-        let bool = true
-        let date = Date()
-        let dictValue = "value"
+class IdentifySpec: XCTestCase {
+
+    private let userId = "test_user"
+    private let num = 100
+    private let str = "foo"
+    private let bool = true
+    private let date = Date()
+    private let dictValue = "value"
+    private let arrValue1 = "value1"
+    private let arrValue2 = "value2"
+
+    private var values: [String: JSONConvertible] {
         let dict: [String: JSONConvertible] = ["key": dictValue]
-        let arrValue1 = "value1"
-        let arrValue2 = "value2"
         let arr: [JSONConvertible] = [arrValue1, arrValue2]
-        let values: [String: JSONConvertible] = [
+        return [
             "num": num,
             "str": str,
             "bool": bool,
@@ -42,128 +39,59 @@ class IdentifySpec: QuickSpec {
             "arr": arr,
             "dict": dict
         ]
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = StubBuilder(spec: self, resource: .empty).build()
+    }
+
+    private func makeConfiguration() -> KarteCore.Configuration {
+        Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
+    }
 
-        describe("a tracker") {
-            describe("its identify") {
-                var event: Event!
-                beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(metadata: metadata, builder: builder)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+    private func makeBuilder() -> Builder {
+        StubBuilder(spec: Self.self, resource: .empty).build()
+    }
 
-                    Tracker.track(event: Event(.identify(userId: userId, values: values)))
-                    
-                    event = module.wait().event(.identify)
-                }
-                
-                it("event name is `identify`") {
-                    expect(event.eventName).to(equal(.identify))
-                }
-                
-                it("values.user_id is `test_user`") {
-                    expect(event.values.string(forKey: "user_id")).to(equal(userId))
-                }
-                
-                it("values.num is 100") {
-                    expect(event.values.integer(forKey: "num")).to(equal(num))
-                }
-                
-                it("values.str is `foo`") {
-                    expect(event.values.string(forKey: "str")).to(equal(str))
-                }
-                
-                it("values.bool is true") {
-                    expect(event.values.bool(forKey: "bool")).to(beTrue())
-                }
-                
-                it("values.date is now") {
-                    expect(event.values.date(forKey: "date")).to(beCloseTo(date, within: 0.0001))
-                }
-                
-                it("values.arr.0 is `value1`") {
-                    expect(event.values.string(forKeyPath: "arr.0")).to(equal(arrValue1))
-                }
-                
-                it("values.arr.1 is `value2`") {
-                    expect(event.values.string(forKeyPath: "arr.1")).to(equal(arrValue2))
-                }
-                
-                it("values.dict.key is `value`") {
-                    expect(event.values.string(forKeyPath: "dict.key")).to(equal(dictValue))
-                }
-                
-                it("values._local_event_date is not nil") {
-                    expect(event.values.date(forKey: field(.localEventDate))).toNot(beNil())
-                }
-                
-                it("values._retry is nil") {
-                    expect(event.values.bool(forKey: field(.retry))).to(beNil())
-                }
-            }
-            
-            describe("its identify compatible") {
-                var event: Event!
-                beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(metadata: metadata, builder: builder)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-
-                    Tracker.identify(userId, values)
-                    
-                    event = module.wait().event(.identify)
-                }
-                
-                it("event name is `test`") {
-                    expect(event.eventName).to(equal(.identify))
-                }
-                
-                it("values.user_id is `test_user`") {
-                    expect(event.values.string(forKey: "user_id")).to(equal(userId))
-                }
-                
-                it("values.num is 100") {
-                    expect(event.values.integer(forKey: "num")).to(equal(num))
-                }
-                
-                it("values.str is `foo`") {
-                    expect(event.values.string(forKey: "str")).to(equal(str))
-                }
-                
-                it("values.bool is true") {
-                    expect(event.values.bool(forKey: "bool")).to(beTrue())
-                }
-                
-                it("values.date is now") {
-                    expect(event.values.date(forKey: "date")).to(beCloseTo(date, within: 0.0001))
-                }
-                
-                it("values.arr.0 is `value1`") {
-                    expect(event.values.string(forKeyPath: "arr.0")).to(equal(arrValue1))
-                }
-                
-                it("values.arr.1 is `value2`") {
-                    expect(event.values.string(forKeyPath: "arr.1")!).to(equal(arrValue2))
-                }
-                
-                it("values.dict.key is `value`") {
-                    expect(event.values.string(forKeyPath: "dict.key")!).to(equal(dictValue))
-                }
-                
-                it("values._local_event_date is not nil") {
-                    expect(event.values.date(forKey: field(.localEventDate))).toNot(beNil())
-                }
-                
-                it("values._retry is nil") {
-                    expect(event.values.bool(forKey: field(.retry))).to(beNil())
-                }
-            }
+    private func assertIdentifyEvent(_ event: Event) {
+        XCTAssertEqual(event.eventName, .identify, "event name")
+        XCTAssertEqual(event.values.string(forKey: "user_id"), userId, "values.user_id")
+        XCTAssertEqual(event.values.integer(forKey: "num"), num, "values.num")
+        XCTAssertEqual(event.values.string(forKey: "str"), str, "values.str")
+        XCTAssertEqual(event.values.bool(forKey: "bool"), true, "values.bool")
+        if let eventDate = event.values.date(forKey: "date") {
+            XCTAssertEqual(eventDate.timeIntervalSince1970, date.timeIntervalSince1970, accuracy: 0.0001, "values.date")
+        } else {
+            XCTFail("values.date should not be nil")
         }
+        XCTAssertEqual(event.values.string(forKeyPath: "arr.0"), arrValue1, "values.arr.0")
+        XCTAssertEqual(event.values.string(forKeyPath: "arr.1"), arrValue2, "values.arr.1")
+        XCTAssertEqual(event.values.string(forKeyPath: "dict.key"), dictValue, "values.dict.key")
+        XCTAssertNotNil(event.values.date(forKey: field(.localEventDate)), "values._local_event_date should not be nil")
+        XCTAssertNil(event.values.bool(forKey: field(.retry)), "values._retry should be nil")
+    }
+
+    func testIdentify() {
+        let module = StubActionModule(metadata: name, builder: makeBuilder())
+
+        KarteApp.setup(appKey: APP_KEY, configuration: makeConfiguration())
+        Tracker.track(event: Event(.identify(userId: userId, values: values)))
+
+        guard let event = module.wait().event(.identify) else {
+            XCTFail("identify event should not be nil")
+            return
+        }
+        assertIdentifyEvent(event)
+    }
+
+    func testIdentifyCompatible() {
+        let module = StubActionModule(metadata: name, builder: makeBuilder())
+
+        KarteApp.setup(appKey: APP_KEY, configuration: makeConfiguration())
+        Tracker.identify(userId, values)
+
+        guard let event = module.wait().event(.identify) else {
+            XCTFail("identify event should not be nil")
+            return
+        }
+        assertIdentifyEvent(event)
     }
 }
