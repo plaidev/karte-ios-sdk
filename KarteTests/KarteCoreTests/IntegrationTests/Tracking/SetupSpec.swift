@@ -93,9 +93,9 @@ class SetupSpec: XCTestCase {
 
     private func assertCustomBaseURL(
         _ config: Configuration,
-        appKey: String? = nil,
+        appKey: String?,
         expectAppKey: String,
-        expectApiKey: String? = nil
+        expectApiKey: String?
     ) {
         let module = StubActionModule(builder: builder)
         config.baseURL = URL(string: "https://t.karte.io")!
@@ -190,7 +190,7 @@ class SetupSpec: XCTestCase {
     // MARK: - Setup with appKey param - Config from default plist
 
     func testSetupWithAppKeyFromDefaultPlist_CustomBaseURL() {
-        assertCustomBaseURL(Configuration.default!, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED)
+        assertCustomBaseURL(Configuration.default!, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: nil)
     }
 
     func testSetupWithAppKeyFromDefaultPlist_DryRun() {
@@ -220,7 +220,7 @@ class SetupSpec: XCTestCase {
     // MARK: - Setup with appKey param - Config from custom plist
 
     func testSetupWithAppKeyFromCustomPlist_CustomBaseURL() {
-        assertCustomBaseURL(Configuration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED)
+        assertCustomBaseURL(Configuration.from(plistPath: customPlistPath)!, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: API_KEY_FROM_CUSTOM)
     }
 
     func testSetupWithAppKeyFromCustomPlist_DryRun() {
@@ -250,7 +250,7 @@ class SetupSpec: XCTestCase {
     // MARK: - Setup with appKey param - Plain config (no plist)
 
     func testSetupWithAppKeyPlainConfig_CustomBaseURL() {
-        assertCustomBaseURL(Configuration(), appKey: APP_KEY, expectAppKey: APP_KEY)
+        assertCustomBaseURL(Configuration(), appKey: APP_KEY, expectAppKey: APP_KEY, expectApiKey: nil)
     }
 
     func testSetupWithAppKeyPlainConfig_DryRun() {
@@ -286,13 +286,13 @@ class SetupSpec: XCTestCase {
     // MARK: - Setup with appKey param - Config with appKey by configurator
 
     func testSetupWithAppKeyAppKeyByConfigurator_CustomBaseURL() {
-        assertCustomBaseURL(Configuration { $0.appKey = APP_KEY }, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED)
+        assertCustomBaseURL(Configuration { $0.appKey = APP_KEY }, appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: nil)
     }
 
     // MARK: - Setup with appKey param - Config with appKey by initializer
 
     func testSetupWithAppKeyAppKeyByInitializer_CustomBaseURL() {
-        assertCustomBaseURL(Configuration(appKey: APP_KEY), appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED)
+        assertCustomBaseURL(Configuration(appKey: APP_KEY), appKey: APP_KEY_OVERWRITED, expectAppKey: APP_KEY_OVERWRITED, expectApiKey: nil)
     }
 
     // MARK: - Setup without appKey param - Default config
@@ -316,7 +316,7 @@ class SetupSpec: XCTestCase {
     // MARK: - Setup without appKey param - Config from default plist
 
     func testSetupWithoutAppKeyFromDefaultPlist_CustomBaseURL() {
-        assertCustomBaseURL(Configuration.default!, expectAppKey: APP_KEY_FROM_PLIST)
+        assertCustomBaseURL(Configuration.default!, appKey: nil, expectAppKey: APP_KEY_FROM_PLIST, expectApiKey: nil)
     }
 
     func testSetupWithoutAppKeyFromDefaultPlist_DryRun() {
@@ -346,7 +346,7 @@ class SetupSpec: XCTestCase {
     // MARK: - Setup without appKey param - Config from custom plist
 
     func testSetupWithoutAppKeyFromCustomPlist_CustomBaseURL() {
-        assertCustomBaseURL(Configuration.from(plistPath: customPlistPath)!, expectAppKey: APP_KEY_FROM_CUSTOM)
+        assertCustomBaseURL(Configuration.from(plistPath: customPlistPath)!, appKey: nil, expectAppKey: APP_KEY_FROM_CUSTOM, expectApiKey: API_KEY_FROM_CUSTOM)
     }
 
     func testSetupWithoutAppKeyFromCustomPlist_DryRun() {
@@ -376,19 +376,19 @@ class SetupSpec: XCTestCase {
     // MARK: - Setup without appKey param - Config with appKey by setter
 
     func testSetupWithoutAppKeyAppKeyBySetter_CustomBaseURL() {
-        assertCustomBaseURL(makeConfigWithAppKeyAndApiKey(), expectAppKey: APP_KEY, expectApiKey: API_KEY)
+        assertCustomBaseURL(makeConfigWithAppKeyAndApiKey(), appKey: nil, expectAppKey: APP_KEY, expectApiKey: API_KEY)
     }
 
     // MARK: - Setup without appKey param - Config with appKey by configurator
 
     func testSetupWithoutAppKeyAppKeyByConfigurator_CustomBaseURL() {
-        assertCustomBaseURL(Configuration { $0.appKey = APP_KEY }, expectAppKey: APP_KEY)
+        assertCustomBaseURL(Configuration { $0.appKey = APP_KEY }, appKey: nil, expectAppKey: APP_KEY, expectApiKey: nil)
     }
 
     // MARK: - Setup without appKey param - Config with appKey by initializer
 
     func testSetupWithoutAppKeyAppKeyByInitializer_CustomBaseURL() {
-        assertCustomBaseURL(Configuration(appKey: APP_KEY), expectAppKey: APP_KEY)
+        assertCustomBaseURL(Configuration(appKey: APP_KEY), appKey: nil, expectAppKey: APP_KEY, expectApiKey: nil)
     }
 
     // NOTE: throwAssertion() test removed - requires CwlPreconditionTesting/Nimble.
