@@ -13,7 +13,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 env:
-  IOS_VERSION: "26.0.1"
+  IOS_VERSION: "26.1"
   DEVICE_NAME: "iPhone 17"
 jobs:
   test:
