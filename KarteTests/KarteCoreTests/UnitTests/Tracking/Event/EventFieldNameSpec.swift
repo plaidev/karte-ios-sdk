@@ -14,119 +14,34 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class EventFieldNameSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a event field name") {
-            describe("its raw value") {
-                context("when the event field name is campaignId") {
-                    it("is `campaign_id`") {
-                        expect(EventFieldName.campaignId.rawValue).to(equal("campaign_id"))
-                    }
-                }
-                context("when the event field name is shortenId") {
-                    it("is `shorten_id`") {
-                        expect(EventFieldName.shortenId.rawValue).to(equal("shorten_id"))
-                    }
-                }
-                context("when the event field name is fcmToken") {
-                    it("is `fcm_token`") {
-                        expect(EventFieldName.fcmToken.rawValue).to(equal("fcm_token"))
-                    }
-                }
-                context("when the event field name is subscribe") {
-                    it("is `subscribe`") {
-                        expect(EventFieldName.subscribe.rawValue).to(equal("subscribe"))
-                    }
-                }
-                context("when the event field name is massPushId") {
-                    it("is `mass_push_id`") {
-                        expect(EventFieldName.massPushId.rawValue).to(equal("mass_push_id"))
-                    }
-                }
-                context("when the event field name is userId") {
-                    it("is `user_id`") {
-                        expect(EventFieldName.userId.rawValue).to(equal("user_id"))
-                    }
-                }
-                context("when the event field name is taskId") {
-                    it("is `task_id`") {
-                        expect(EventFieldName.taskId.rawValue).to(equal("task_id"))
-                    }
-                }
-                context("when the event field name is scheduleId") {
-                    it("is `schedule_id`") {
-                        expect(EventFieldName.scheduleId.rawValue).to(equal("schedule_id"))
-                    }
-                }
-                context("when the event field name is sourceUserId") {
-                    it("is `source_user_id`") {
-                        expect(EventFieldName.sourceUserId.rawValue).to(equal("source_user_id"))
-                    }
-                }
-                context("when the event field name is target") {
-                    it("is `target`") {
-                        expect(EventFieldName.target.rawValue).to(equal("target"))
-                    }
-                }
-                context("when the event field name is newVisitorId") {
-                    it("is `new_visitor_id`") {
-                        expect(EventFieldName.newVisitorId.rawValue).to(equal("new_visitor_id"))
-                    }
-                }
-                context("when the event field name is oldVisitorId") {
-                    it("is `old_visitor_id`") {
-                        expect(EventFieldName.oldVisitorId.rawValue).to(equal("old_visitor_id"))
-                    }
-                }
-                context("when the event field name is viewId") {
-                    it("is `view_id`") {
-                        expect(EventFieldName.viewId.rawValue).to(equal("view_id"))
-                    }
-                }
-                context("when the event field name is viewName") {
-                    it("is `view_name`") {
-                        expect(EventFieldName.viewName.rawValue).to(equal("view_name"))
-                    }
-                }
-                context("when the event field name is title") {
-                    it("is `title`") {
-                        expect(EventFieldName.title.rawValue).to(equal("title"))
-                    }
-                }
-                context("when the event field name is previousVersionName") {
-                    it("is `prev_version_name`") {
-                        expect(EventFieldName.previousVersionName.rawValue).to(equal("prev_version_name"))
-                    }
-                }
-                context("when the event field name is url") {
-                    it("is `url`") {
-                        expect(EventFieldName.url.rawValue).to(equal("url"))
-                    }
-                }
-                context("when the event field name is localEventDate") {
-                    it("is `_local_event_date`") {
-                        expect(EventFieldName.localEventDate.rawValue).to(equal("_local_event_date"))
-                    }
-                }
-                context("when the event field name is retry") {
-                    it("is `_retry`") {
-                        expect(EventFieldName.retry.rawValue).to(equal("_retry"))
-                    }
-                }
-            }
-            
-            describe("its field") {
-                context("when the event field name is campaignId") {
-                    it("is `campaign_id") {
-                        expect(field(.campaignId)).to(equal("campaign_id"))
-                    }
-                }
-            }
-        }
+class EventFieldNameSpec: XCTestCase {
+
+    func testEventFieldNameRawValues() {
+        XCTAssertEqual(EventFieldName.campaignId.rawValue, "campaign_id", "campaignId")
+        XCTAssertEqual(EventFieldName.shortenId.rawValue, "shorten_id", "shortenId")
+        XCTAssertEqual(EventFieldName.fcmToken.rawValue, "fcm_token", "fcmToken")
+        XCTAssertEqual(EventFieldName.subscribe.rawValue, "subscribe", "subscribe")
+        XCTAssertEqual(EventFieldName.massPushId.rawValue, "mass_push_id", "massPushId")
+        XCTAssertEqual(EventFieldName.userId.rawValue, "user_id", "userId")
+        XCTAssertEqual(EventFieldName.taskId.rawValue, "task_id", "taskId")
+        XCTAssertEqual(EventFieldName.scheduleId.rawValue, "schedule_id", "scheduleId")
+        XCTAssertEqual(EventFieldName.sourceUserId.rawValue, "source_user_id", "sourceUserId")
+        XCTAssertEqual(EventFieldName.target.rawValue, "target", "target")
+        XCTAssertEqual(EventFieldName.newVisitorId.rawValue, "new_visitor_id", "newVisitorId")
+        XCTAssertEqual(EventFieldName.oldVisitorId.rawValue, "old_visitor_id", "oldVisitorId")
+        XCTAssertEqual(EventFieldName.viewId.rawValue, "view_id", "viewId")
+        XCTAssertEqual(EventFieldName.viewName.rawValue, "view_name", "viewName")
+        XCTAssertEqual(EventFieldName.title.rawValue, "title", "title")
+        XCTAssertEqual(EventFieldName.previousVersionName.rawValue, "prev_version_name", "previousVersionName")
+        XCTAssertEqual(EventFieldName.url.rawValue, "url", "url")
+        XCTAssertEqual(EventFieldName.localEventDate.rawValue, "_local_event_date", "localEventDate")
+        XCTAssertEqual(EventFieldName.retry.rawValue, "_retry", "retry")
+    }
+
+    func testEventFieldNameField() {
+        XCTAssertEqual(field(.campaignId), "campaign_id", "field(.campaignId)")
     }
 }
