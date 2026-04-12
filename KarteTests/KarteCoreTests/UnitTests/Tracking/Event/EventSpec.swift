@@ -14,44 +14,16 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class EventSpec: QuickSpec {
-    
-    override class func spec() {
-        
-        describe("a custom event") {
-            var event: Event!
-            
-            beforeEach {
-                event = Event(eventName: .nativeAppOpen, values: [
-                    "key": "value"
-                ])
-            }
-            
-            describe("its eventName") {
-                it("is nativeAppOpen") {
-                    expect(event.eventName).to(equal(.nativeAppOpen))
-                }
-            }
-            
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-            }
-            
-            describe("its build values") {
-                it("count is 1") {
-                    expect(event.values.count).to(equal(1))
-                }
-                
-                it("values.key is `value`") {
-                    expect(event.values.string(forKey: "key")).to(equal("value"))
-                }
-            }
-        }
+class EventSpec: XCTestCase {
+
+    func testCustomEvent() {
+        let event = Event(eventName: .nativeAppOpen, values: ["key": "value"])
+
+        XCTAssertEqual(event.eventName, .nativeAppOpen, "eventName")
+        XCTAssertEqual(event.values.count, 1, "values count")
+        XCTAssertEqual(event.values.string(forKey: "key"), "value", "values.key")
     }
 }
