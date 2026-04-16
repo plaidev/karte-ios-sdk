@@ -14,193 +14,161 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import UIKit
 @testable import KarteCore
 
 @MainActor
-class WindowSceneDetectorSpec: QuickSpec {
-    override class func spec() {
-        describe("WindowSceneDetector") {
-            describe("retrievePersistentIdentifiers()") {
-                context("when UIApplication responds to connectedScenes") {
-                    it("returns array of persistent identifiers from connected scenes") {
-                        let mockUIApplication = MockUIApplication()
-                        let window = UIWindow()
-                        let scene = window.windowScene!
+class WindowSceneDetectorSpec: XCTestCase {
 
-                        mockUIApplication.connectedScenes = [scene]
+    // MARK: - retrievePersistentIdentifiers()
 
-                        let identifiers = WindowSceneDetector.retrievePersistentIdentifiers(application: mockUIApplication)
+    func testRetrievePersistentIdentifiers() {
+        let mockUIApplication = MockUIApplication()
+        let window = UIWindow()
+        let scene = window.windowScene!
+        mockUIApplication.connectedScenes = [scene]
 
-                        expect(identifiers).toNot(beNil())
-                        expect(identifiers?.count).to(equal(1))
-                    }
-                }
+        let identifiers = WindowSceneDetector.retrievePersistentIdentifiers(application: mockUIApplication)
 
-                context("when there are no connected scenes") {
-                    it("returns empty array") {
-                        let mockUIApplication = MockUIApplication()
-                        let identifiers = WindowSceneDetector.retrievePersistentIdentifiers(application: mockUIApplication)
+        XCTAssertNotNil(identifiers, "identifiers should not be nil")
+        XCTAssertEqual(identifiers?.count, 1, "identifiers count")
+    }
 
-                        expect(identifiers?.count).to(equal(0))
-                    }
-                }
-                context("when UIApplication is nil") {
-                    it("return nil") {
-                        let identifiers = WindowSceneDetector.retrievePersistentIdentifiers(application: nil)
-                        expect(identifiers).to(beNil())
-                    }
-                }
-            }
+    func testRetrievePersistentIdentifiersWhenNoConnectedScenes() {
+        let mockUIApplication = MockUIApplication()
+        let identifiers = WindowSceneDetector.retrievePersistentIdentifiers(application: mockUIApplication)
 
-            describe("retrievePersistentIdentifier(view:)") {
-                context("when view has window with windowScene") {
-                    it("returns persistent identifier from windowScene") {
-                        let mockUIApplication = MockUIApplication()
-                        let window = UIWindow()
-                        let view = UIView()
-                        window.addSubview(view)
+        XCTAssertEqual(identifiers?.count, 0, "empty array when no connected scenes")
+    }
 
-                        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view, application: mockUIApplication)
+    func testRetrievePersistentIdentifiersWhenApplicationIsNil() {
+        let identifiers = WindowSceneDetector.retrievePersistentIdentifiers(application: nil)
+        XCTAssertNil(identifiers, "nil when application is nil")
+    }
 
-                        expect(identifier).to(equal(view.window?.windowScene?.session.persistentIdentifier))
-                    }
-                }
+    // MARK: - retrievePersistentIdentifier(view:)
 
-                context("when view is UIWindow itself") {
-                    it("returns persistent identifier from window's windowScene") {
-                        let mockUIApplication = MockUIApplication()
-                        let window = UIWindow()
+    func testRetrievePersistentIdentifierWithViewInWindow() {
+        let mockUIApplication = MockUIApplication()
+        let window = UIWindow()
+        let view = UIView()
+        window.addSubview(view)
 
-                        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: window, application: mockUIApplication)
+        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view, application: mockUIApplication)
 
-                        expect(identifier).to(equal(window.windowScene?.session.persistentIdentifier))
-                    }
-                }
+        XCTAssertEqual(identifier, view.window?.windowScene?.session.persistentIdentifier, "identifier from windowScene")
+    }
 
-                context("when view has no window") {
-                    it("returns identifier from first connected scene if available") {
-                        let mockUIApplication = MockUIApplication()
-                        let window = UIWindow()
-                        let scene = window.windowScene!
-                        mockUIApplication.connectedScenes = [scene]
-                        let view = UIView()
+    func testRetrievePersistentIdentifierWithUIWindow() {
+        let mockUIApplication = MockUIApplication()
+        let window = UIWindow()
 
-                        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view, application: mockUIApplication)
+        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: window, application: mockUIApplication)
 
-                        expect(identifier).to(equal(scene.session.persistentIdentifier))
-                    }
-                }
+        XCTAssertEqual(identifier, window.windowScene?.session.persistentIdentifier, "identifier from window's windowScene")
+    }
 
-                context("when view is nil") {
-                    it("returns identifier from first connected scene if available") {
-                        let mockUIApplication = MockUIApplication()
-                        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: nil, application: mockUIApplication)
+    func testRetrievePersistentIdentifierWhenViewHasNoWindow() {
+        let mockUIApplication = MockUIApplication()
+        let window = UIWindow()
+        let scene = window.windowScene!
+        mockUIApplication.connectedScenes = [scene]
+        let view = UIView()
 
-                        expect(identifier).to(beNil())
-                    }
-                }
+        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view, application: mockUIApplication)
 
-                context("when view window has no windowScene") {
-                    it("returns identifier from first connected scene if available") {
-                        let mockUIApplication = MockUIApplication()
-                        let window = UIWindow()
-                        let view = UIView()
-                        window.addSubview(view)
-                        window.windowScene = nil
+        XCTAssertEqual(identifier, scene.session.persistentIdentifier, "identifier from first connected scene")
+    }
 
-                        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view, application: mockUIApplication)
+    func testRetrievePersistentIdentifierWhenViewIsNil() {
+        let mockUIApplication = MockUIApplication()
+        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: nil, application: mockUIApplication)
 
-                        expect(identifier).to(beNil())
-                    }
-                }
+        XCTAssertNil(identifier, "nil when view is nil")
+    }
 
-                context("when UIApplication is nil") {
-                    it("return nil") {
-                        let view = UIView()
-                        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view, application: nil)
-                        expect(identifier).to(beNil())
-                    }
-                }
-            }
+    func testRetrievePersistentIdentifierWhenWindowSceneIsNil() {
+        let mockUIApplication = MockUIApplication()
+        let window = UIWindow()
+        let view = UIView()
+        window.addSubview(view)
+        window.windowScene = nil
 
-            describe("retrieveWindowScene(from:application:)") {
-                context("when valid persistentIdentifier is provided") {
-                    it("returns corresponding windowScene") {
-                        let window = UIWindow()
-                        guard let scene = window.windowScene else {
-                            fail("window.windowScene is nil")
-                            return
-                        }
-                        let persistentIdentifier = scene.session.persistentIdentifier
-                        let mockUIApplication = MockUIApplication()
-                        mockUIApplication.connectedScenes = [scene]
+        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view, application: mockUIApplication)
 
-                        let windowScene = WindowSceneDetector.retrieveWindowScene(
-                            from: persistentIdentifier,
-                            application: mockUIApplication
-                        )
+        XCTAssertNil(identifier, "nil when windowScene is nil")
+    }
 
-                        expect(windowScene).to(equal(scene))
-                    }
-                }
+    func testRetrievePersistentIdentifierWhenApplicationIsNil() {
+        let view = UIView()
+        let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view, application: nil)
+        XCTAssertNil(identifier, "nil when application is nil")
+    }
 
-                context("when persistentIdentifier is nil") {
-                    it("returns nil when no connected scenes") {
-                        let mockUIApplication = MockUIApplication()
+    // MARK: - retrieveWindowScene(from:application:)
 
-                        let windowScene = WindowSceneDetector.retrieveWindowScene(
-                            from: nil,
-                            application: mockUIApplication
-                        )
-
-                        expect(windowScene).to(beNil())
-                    }
-                }
-
-                context("when invalid persistentIdentifier is provided") {
-                    it("returns nil when no matching scene") {
-                        let mockUIApplication = MockUIApplication()
-                        let window = UIWindow()
-                        if let scene = window.windowScene {
-                            mockUIApplication.connectedScenes = [scene]
-                        }
-
-                        let windowScene = WindowSceneDetector.retrieveWindowScene(
-                            from: "invalid-identifier",
-                            application: mockUIApplication
-                        )
-
-                        expect(windowScene).to(beNil())
-                    }
-                }
-
-                context("when application is nil") {
-                    it("returns nil") {
-                        let windowScene = WindowSceneDetector.retrieveWindowScene(
-                            from: "any-identifier",
-                            application: nil
-                        )
-
-                        expect(windowScene).to(beNil())
-                    }
-                }
-
-                context("when application does not respond to connectedScenes") {
-                    it("returns nil") {
-                        let mockUIApplication = MockUIApplication()
-
-                        let windowScene = WindowSceneDetector.retrieveWindowScene(
-                            from: "any-identifier",
-                            application: mockUIApplication
-                        )
-
-                        expect(windowScene).to(beNil())
-                    }
-                }
-            }
+    func testRetrieveWindowSceneWithValidIdentifier() {
+        let window = UIWindow()
+        guard let scene = window.windowScene else {
+            XCTFail("window.windowScene is nil")
+            return
         }
+        let persistentIdentifier = scene.session.persistentIdentifier
+        let mockUIApplication = MockUIApplication()
+        mockUIApplication.connectedScenes = [scene]
+
+        let windowScene = WindowSceneDetector.retrieveWindowScene(
+            from: persistentIdentifier,
+            application: mockUIApplication
+        )
+
+        XCTAssertEqual(windowScene, scene, "returns corresponding windowScene")
+    }
+
+    func testRetrieveWindowSceneWhenIdentifierIsNil() {
+        let mockUIApplication = MockUIApplication()
+
+        let windowScene = WindowSceneDetector.retrieveWindowScene(
+            from: nil,
+            application: mockUIApplication
+        )
+
+        XCTAssertNil(windowScene, "nil when persistentIdentifier is nil")
+    }
+
+    func testRetrieveWindowSceneWithInvalidIdentifier() {
+        let mockUIApplication = MockUIApplication()
+        let window = UIWindow()
+        if let scene = window.windowScene {
+            mockUIApplication.connectedScenes = [scene]
+        }
+
+        let windowScene = WindowSceneDetector.retrieveWindowScene(
+            from: "invalid-identifier",
+            application: mockUIApplication
+        )
+
+        XCTAssertNil(windowScene, "nil when no matching scene")
+    }
+
+    func testRetrieveWindowSceneWhenApplicationIsNil() {
+        let windowScene = WindowSceneDetector.retrieveWindowScene(
+            from: "any-identifier",
+            application: nil
+        )
+
+        XCTAssertNil(windowScene, "nil when application is nil")
+    }
+
+    func testRetrieveWindowSceneWhenNoConnectedScenes() {
+        let mockUIApplication = MockUIApplication()
+
+        let windowScene = WindowSceneDetector.retrieveWindowScene(
+            from: "any-identifier",
+            application: mockUIApplication
+        )
+
+        XCTAssertNil(windowScene, "nil when no connected scenes")
     }
 }
