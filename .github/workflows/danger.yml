@@ -37,6 +37,9 @@ jobs:
             echo 'swiftlint command is not installed.'
             brew install swiftlint
           fi
+      - name: Git fetch
+        # NOTE: Needed for checking version in Danger.
+        run: git fetch -t
       - name: Run danger
         run: |
           bundle exec danger --fail-on-errors=true

@@ -67,7 +67,6 @@ opt_in_rules:
   - multiline_literal_brackets
   - multiline_parameters
   - multiline_parameters_brackets
-  - nimble_operator
   - no_extension_access_modifier
   - no_grouping_extension
   - nslocalizedstring_key
@@ -83,9 +82,6 @@ opt_in_rules:
   - private_outlet
   - prohibited_interface_builder
   - prohibited_super_call
-  - quick_discouraged_call
-  - quick_discouraged_focused_test
-  - quick_discouraged_pending_test
   - raw_value_for_camel_cased_codable_enum
   - reduce_into
   - redundant_nil_coalescing
