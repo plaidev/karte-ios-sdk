@@ -1,41 +1,17 @@
-import Quick
-import Nimble
+import XCTest
 @testable import KarteUtilities
 
-class HTTPMethodSpec: QuickSpec {
-    override class func spec() {
-        describe("HTTPMethod") {
-            describe("raw values") {
-                it("has correct raw value for GET") {
-                    expect(HTTPMethod.get.rawValue).to(equal("GET"))
-                }
-                
-                it("has correct raw value for POST") {
-                    expect(HTTPMethod.post.rawValue).to(equal("POST"))
-                }
-            }
-            
-            describe("initialization from raw value") {
-                it("creates GET from string") {
-                    let method = HTTPMethod(rawValue: "GET")
-                    expect(method).to(equal(.get))
-                }
-                
-                it("creates POST from string") {
-                    let method = HTTPMethod(rawValue: "POST")
-                    expect(method).to(equal(.post))
-                }
-                
-                it("returns nil for invalid string") {
-                    let method = HTTPMethod(rawValue: "INVALID")
-                    expect(method).to(beNil())
-                }
-                
-                it("is case sensitive") {
-                    let method = HTTPMethod(rawValue: "get")
-                    expect(method).to(beNil())
-                }
-            }
-        }
+class HTTPMethodSpec: XCTestCase {
+
+    func testRawValues() {
+        XCTAssertEqual(HTTPMethod.get.rawValue, "GET", "GET raw value")
+        XCTAssertEqual(HTTPMethod.post.rawValue, "POST", "POST raw value")
+    }
+
+    func testInitializationFromRawValue() {
+        XCTAssertEqual(HTTPMethod(rawValue: "GET"), .get, "creates GET from string")
+        XCTAssertEqual(HTTPMethod(rawValue: "POST"), .post, "creates POST from string")
+        XCTAssertNil(HTTPMethod(rawValue: "INVALID"), "returns nil for invalid string")
+        XCTAssertNil(HTTPMethod(rawValue: "get"), "is case sensitive")
     }
 }
