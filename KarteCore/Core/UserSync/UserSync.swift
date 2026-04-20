@@ -129,6 +129,7 @@ public class UserSync: NSObject, Codable {
         guard let source = getUserSyncScript() else {
             return
         }
+        Logger.info(tag: .core, message: "Setting user sync script: \(source)")
 
         let userScript = WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: true)
         webView.configuration.userContentController.addUserScript(userScript)
@@ -139,7 +140,10 @@ public class UserSync: NSObject, Codable {
             Logger.error(tag: .core, message: "Failed to get sync user script.")
             return nil
         }
-        return "window.__karte_ntvsync = \(parameter);"
+        let script = "window.__karte_ntvsync = \(parameter);"
+        Logger.info(tag: .core, message: "Getting user sync script: \(script)")
+
+        return script
     }
 
     deinit {
