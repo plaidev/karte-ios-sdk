@@ -14,232 +14,121 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-final class JSONConvertibleSpec: QuickSpec {
-    override class func spec() {
-        describe("a merge recursive") {
-            context("no conflict") {
-                var data: [String: JSONConvertible] = ["f1": "f1v"]
+final class JSONConvertibleSpec: XCTestCase {
 
-                beforeSuite {
-                    let ext: [String: JSONConvertible] = ["f2": "f2v"]
-                    data.mergeRecursive(ext)
-                }
+    // MARK: - mergeRecursive
 
-                it("f1 is `f1v`") {
-                    expect(data["f1"] as? String).to(equal("f1v"))
-                }
+    func testMergeRecursiveNoConflict() {
+        var data: [String: JSONConvertible] = ["f1": "f1v"]
+        let ext: [String: JSONConvertible] = ["f2": "f2v"]
+        data.mergeRecursive(ext)
 
-                it("f2 is `f2v`") {
-                    expect(data["f2"] as? String).to(equal("f2v"))
-                }
-            }
+        XCTAssertEqual(data["f1"] as? String, "f1v", "f1 should remain f1v")
+        XCTAssertEqual(data["f2"] as? String, "f2v", "f2 should be merged as f2v")
+    }
 
-            context("conflict premitive value") {
-                var data: [String: JSONConvertible] = ["f1": "f1v1"]
+    func testMergeRecursiveConflictPrimitiveValue() {
+        var data: [String: JSONConvertible] = ["f1": "f1v1"]
+        let ext: [String: JSONConvertible] = ["f1": "f1v2"]
+        data.mergeRecursive(ext)
 
-                beforeSuite {
-                    let ext: [String: JSONConvertible] = ["f1": "f1v2"]
-                    data.mergeRecursive(ext)
-                }
+        XCTAssertEqual(data["f1"] as? String, "f1v2", "f1 should be overwritten to f1v2")
+    }
 
-                it("f1 is `f1v2`") {
-                    expect(data["f1"] as? String).to(equal("f1v2"))
-                }
-            }
+    func testMergeRecursiveConflictDictionaryValue() {
+        var data: [String: JSONConvertible] = [
+            "f1": [
+                "f1a": [
+                    "f1a1": "f1a1v1",
+                    "f1a2": "f1a2v"
+                ],
+                "f1b": "f1bv"
+            ],
+            "f2": [
+                "f2a": "f2av"
+            ]
+        ]
+        let ext: [String: JSONConvertible] = [
+            "f1": [
+                "f1a": [
+                    "f1a1": "f1a1v2",
+                    "f1a3": "f1a3v"
+                ],
+                "f1c": "f1cv"
+            ],
+            "f2": "f2v"
+        ]
+        data.mergeRecursive(ext)
 
-            context("conflict premitive value") {
-                var data: [String: JSONConvertible] = ["f1": "f1v1"]
+        let v = data.mapValues { $0.jsonValue }
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1a.f1a1"), "f1a1v2", "f1.f1a.f1a1 should be overwritten")
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1a.f1a2"), "f1a2v", "f1.f1a.f1a2 should remain")
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1a.f1a3"), "f1a3v", "f1.f1a.f1a3 should be merged")
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1b"), "f1bv", "f1.f1b should remain")
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1c"), "f1cv", "f1.f1c should be merged")
+        XCTAssertEqual(v.string(forKeyPath: "f2"), "f2v", "f2 should be overwritten to primitive")
+    }
 
-                beforeSuite {
-                    let ext: [String: JSONConvertible] = ["f1": "f1v2"]
-                    data.mergeRecursive(ext)
-                }
+    // MARK: - mergingRecursive
 
-                it("f1 is `f1v2`") {
-                    expect(data["f1"] as? String).to(equal("f1v2"))
-                }
-            }
+    func testMergingRecursiveNoConflict() {
+        let base: [String: JSONConvertible] = ["f1": "f1v"]
+        let ext: [String: JSONConvertible] = ["f2": "f2v"]
+        let data = base.mergingRecursive(ext)
 
-            
-            context("conflict dictionary value") {
-                var data: [String: JSONConvertible] = [
-                    "f1": [
-                        "f1a": [
-                            "f1a1": "f1a1v1",
-                            "f1a2": "f1a2v"
-                        ],
-                        "f1b": "f1bv"
-                    ],
-                    "f2": [
-                        "f2a": "f2av"
-                    ]
-                ]
-                
-                beforeSuite {
-                    let ext: [String: JSONConvertible] = [
-                        "f1": [
-                            "f1a": [
-                                "f1a1": "f1a1v2",
-                                "f1a3": "f1a3v"
-                            ],
-                            "f1c": "f1cv"
-                        ],
-                        "f2": "f2v"
-                    ]
-                    data.mergeRecursive(ext)
-                }
+        XCTAssertEqual(data["f1"] as? String, "f1v", "f1 should be f1v")
+        XCTAssertEqual(data["f2"] as? String, "f2v", "f2 should be merged as f2v")
+        XCTAssertNil(base["f2"] as? String, "base should not be mutated")
+    }
 
-                it("f1.f1a.f1a1 is `f1a1v2`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1a.f1a1")).to(equal("f1a1v2"))
-                }
+    func testMergingRecursiveConflictPrimitiveValue() {
+        let base: [String: JSONConvertible] = ["f1": "f1v1"]
+        let ext: [String: JSONConvertible] = ["f1": "f1v2"]
+        let data = base.mergingRecursive(ext)
 
-                it("f1.f1a.f1a2 is `f1a2v`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1a.f1a2")).to(equal("f1a2v"))
-                }
+        XCTAssertEqual(data["f1"] as? String, "f1v2", "f1 should be overwritten to f1v2")
+        XCTAssertEqual(base["f1"] as? String, "f1v1", "base f1 should not be mutated")
+    }
 
-                it("f1.f1a.f1a3 is `f1a3v`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1a.f1a3")).to(equal("f1a3v"))
-                }
+    func testMergingRecursiveConflictDictionaryValue() {
+        let base: [String: JSONConvertible] = [
+            "f1": [
+                "f1a": [
+                    "f1a1": "f1a1v1",
+                    "f1a2": "f1a2v"
+                ],
+                "f1b": "f1bv"
+            ],
+            "f2": [
+                "f2a": "f2av"
+            ]
+        ]
+        let ext: [String: JSONConvertible] = [
+            "f1": [
+                "f1a": [
+                    "f1a1": "f1a1v2",
+                    "f1a3": "f1a3v"
+                ],
+                "f1c": "f1cv"
+            ],
+            "f2": "f2v"
+        ]
+        let data = base.mergingRecursive(ext)
 
-                it("f1.f1b is `f1bv`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1b")).to(equal("f1bv"))
-                }
+        let v = data.mapValues { $0.jsonValue }
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1a.f1a1"), "f1a1v2", "f1.f1a.f1a1 should be overwritten")
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1a.f1a2"), "f1a2v", "f1.f1a.f1a2 should remain")
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1a.f1a3"), "f1a3v", "f1.f1a.f1a3 should be merged")
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1b"), "f1bv", "f1.f1b should remain")
+        XCTAssertEqual(v.string(forKeyPath: "f1.f1c"), "f1cv", "f1.f1c should be merged")
+        XCTAssertEqual(v.string(forKeyPath: "f2"), "f2v", "f2 should be overwritten to primitive")
 
-                it("f1.f1c is `f1cv`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1c")).to(equal("f1cv"))
-                }
-
-                it("f2 is `f2v`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f2")).to(equal("f2v"))
-                }
-            }
-        }
-        
-        describe("a merging recursive") {
-            context("no conflict") {
-                let base: [String: JSONConvertible] = ["f1": "f1v"]
-                var data: [String: JSONConvertible]!
-
-                beforeSuite {
-                    let ext: [String: JSONConvertible] = ["f2": "f2v"]
-                    data = base.mergingRecursive(ext)
-                }
-
-                it("f1 is `f1v`") {
-                    expect(data["f1"] as? String).to(equal("f1v"))
-                }
-
-                it("f2 is `f2v`") {
-                    expect(data["f2"] as? String).to(equal("f2v"))
-                }
-                
-                it("base f2 is nil") {
-                    expect(base["f2"] as? String).to(beNil())
-                }
-            }
-
-            context("conflict premitive value") {
-                let base: [String: JSONConvertible] = ["f1": "f1v1"]
-                var data: [String: JSONConvertible]!
-
-                beforeSuite {
-                    let ext: [String: JSONConvertible] = ["f1": "f1v2"]
-                    data = base.mergingRecursive(ext)
-                }
-
-                it("f1 is `f1v2`") {
-                    expect(data["f1"] as? String).to(equal("f1v2"))
-                }
-                
-                it("base.f1 is `f1v1`") {
-                    expect(base["f1"] as? String).to(equal("f1v1"))
-                }
-            }
-
-            context("conflict dictionary value") {
-                let base: [String: JSONConvertible] = [
-                    "f1": [
-                        "f1a": [
-                            "f1a1": "f1a1v1",
-                            "f1a2": "f1a2v"
-                        ],
-                        "f1b": "f1bv"
-                    ],
-                    "f2": [
-                        "f2a": "f2av"
-                    ]
-                ]
-                var data: [String: JSONConvertible]!
-
-                beforeSuite {
-                    let ext: [String: JSONConvertible] = [
-                        "f1": [
-                            "f1a": [
-                                "f1a1": "f1a1v2",
-                                "f1a3": "f1a3v"
-                            ],
-                            "f1c": "f1cv"
-                        ],
-                        "f2": "f2v"
-                    ]
-                    data = base.mergingRecursive(ext)
-                }
-
-                it("f1.f1a.f1a1 is `f1a1v2`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1a.f1a1")).to(equal("f1a1v2"))
-                }
-
-                it("f1.f1a.f1a2 is `f1a2v`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1a.f1a2")).to(equal("f1a2v"))
-                }
-
-                it("f1.f1a.f1a3 is `f1a3v`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1a.f1a3")).to(equal("f1a3v"))
-                }
-
-                it("f1.f1b is `f1bv`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1b")).to(equal("f1bv"))
-                }
-
-                it("f1.f1c is `f1cv`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1c")).to(equal("f1cv"))
-                }
-
-                it("f2 is `f2v`") {
-                    let v = data.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f2")).to(equal("f2v"))
-                }
-                
-                it("base f1.f1a.f1a3 is nil") {
-                    let v = base.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1a.f1a3")).to(beNil())
-                }
-                
-                it("base f1.f1c is nil") {
-                    let v = base.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f1.f1c")).to(beNil())
-                }
-                
-                it("base f2.f2a is `f2av`") {
-                    let v = base.mapValues { $0.jsonValue }
-                    expect(v.string(forKeyPath: "f2.f2a")).to(equal("f2av"))
-                }
-            }
-        }
+        let bv = base.mapValues { $0.jsonValue }
+        XCTAssertNil(bv.string(forKeyPath: "f1.f1a.f1a3"), "base f1.f1a.f1a3 should not exist")
+        XCTAssertNil(bv.string(forKeyPath: "f1.f1c"), "base f1.f1c should not exist")
+        XCTAssertEqual(bv.string(forKeyPath: "f2.f2a"), "f2av", "base f2.f2a should not be mutated")
     }
 }
