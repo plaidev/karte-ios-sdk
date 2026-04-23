@@ -14,37 +14,16 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class BackgroundEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a background event") {
-            var event: Event!
-            
-            beforeEach {
-                event = Event(.background)
-            }
-            
-            describe("its eventName") {
-                it("is nativeAppBackground") {
-                    expect(event.eventName).to(equal(.nativeAppBackground))
-                }
-            }
-            
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-            }
-                        
-            describe("its build values") {
-                it("is empty") {
-                    expect(event.values.isEmpty).to(beTrue())
-                }
-            }
-        }
+class BackgroundEventSpec: XCTestCase {
+
+    func testBackgroundEvent() {
+        let event = Event(.background)
+
+        XCTAssertEqual(event.eventName, .nativeAppBackground, "eventName should be nativeAppBackground")
+        XCTAssertNotNil(event.values, "values should not be nil")
+        XCTAssertTrue(event.values.isEmpty, "values should be empty")
     }
 }
