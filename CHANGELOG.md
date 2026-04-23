@@ -124,6 +124,7 @@
   - この挙動は `isSkipSystemUIDetectionInWebView` フラグをtrueにすることで無効化することができます。デフォルトではこの値は `false` です。
   - 通常の利用では本フラグの設定は必要ありません
   - `isSkipRemoteViewDetectionInWebView` が非推奨になりました。
+- 参考:[オプションの指定方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-skip-system-ui-detection-ios-sdk)
 
 ### RemoteNotification 2.13.0
 **🔨CHANGED**
@@ -194,6 +195,7 @@
 ### Debugger 1.0.0
 **🎉 FEATURE**
 - デバッグ用のモジュールを追加しました。
+- 機能の詳細は[サポートサイト](https://support.karte.io/post/qTf6oZNjT5UzCv16lIPY6)をご確認ください。
 
 # Releases - 2025.04.16
 ## Version 2.23.0
@@ -267,6 +269,7 @@
 ### InAppMessaging 2.18.0
 **🔨CHANGED**
 - InAppMessagingの画面境界の自動判定のOn/Offを切り替え可能にしました
+  - [リファレンス](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteInAppMessaging/Classes/InAppMessagingConfiguration.html#/c:@M@KarteInAppMessaging@objc(cs)KRTInAppMessagingConfiguration(py)isAutoScreenBoundaryEnabled)
 
 **💊FIXED**
 - suppressed状態で設定値配信を取得した場合に_message_suppressedが発生しないように変更しました。
@@ -309,7 +312,8 @@
 
 ### Variables 2.9.0
 **🔨CHANGED**
-- 設定値のキーのキャッシュを削除する機能を追加しました。 
+- 設定値のキーのキャッシュを削除する機能を追加しました。
+  - [リファレンス](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteVariables/Classes/Variables.html#/c:@M@KarteVariables@objc(cs)KRTVariables(cm)clearCacheAll)
 
 # Releases - 2024.03.03
 ## Version 2.12.0
@@ -321,6 +325,7 @@
 ### Variables 2.8.0
 **🔨CHANGED**
 - 現在取得できている設定値の全てのキーの一覧を取得できる機能を追加しました。
+  - [リファレンス](https://plaidev.github.io/karte-sdk-docs/ios/latest/KarteVariables/Classes/Variables.html#/c:@M@KarteVariables@objc(cs)KRTVariables(cm)getAllKeys)
 
 ### Utilities 3.12.0
 **🔨CHANGED**
@@ -658,7 +663,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 - identifyイベントの第一引数「user_id」パラメータに空文字が指定された場合に、イベントが送信されないようにしました。
 - viewイベントの第一引数「view_name」パラメータに空文字が指定された場合に、イベントが送信されないようにしました。
 - イベント名とフィールド名に非推奨な名前が使われていた場合に、warningログを出力するようにしました。
-  - イベント名とフィールド名に関する制限については[こちら](https://developers.karte.io/docs/guide-event#%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%81%AE%E5%88%B6%E9%99%90)を参考ください。
+  - イベント名とフィールド名に関する制限については[こちら](https://support.karte.io/post/44VkfBjO7JdRnDv9YOfbFB)を参考ください。
 
 ### Utilities 3.6.0
 **💊FIXED**
@@ -769,7 +774,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 - 接客内JavaScriptのtrack時の引数に直接Date型のオブジェクトが指定された際にクラッシュする問題を修正しました。
    この修正により、直接Date型のオブジェクトが指定された際は計測が行われません。
    接客内JavaScriptのtrackでDate型を利用したい場合はUnix時間 (秒) で数値型を指定してください。
-   詳細については[送信可能なデータ型 - 日付型](https://developers.karte.io/docs/guide-event#%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E5%90%8D%E3%81%AE%E5%88%B6%E9%99%90)を参照ください。
+   詳細については[送信可能なデータ型 - 日付型](https://support.karte.io/post/5PAOCuhgOl53NiN6S4yObG)を参照ください。
 （[issue](https://github.com/plaidev/karte-ios-sdk/issues/13))
 
 ### VisualTracking 2.4.0
@@ -872,7 +877,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 ### InAppMessaging 2.5.0
 **🎉FEATURE**
 - アクションを常駐させるオプションに対応しました。
-  詳細は[こちら](https://developers.karte.io/docs/appendix-iam-control-ios-sdk-v2#%E3%82%A2%E3%83%97%E3%83%AA%E5%86%85%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%82%92%E5%B8%B8%E9%A7%90%E3%81%95%E3%81%9B%E3%82%8B)をご覧ください
+  詳細は[こちら](https://app.developers.karte.io/ios-sdk-appendix/appendix-iam-control-ios-sdk#apurimessjiwosaseru)をご覧ください
 
 **🔨CHANGED**
 - Static Library としてビルドできるようにするために一部のヘッダーファイルのインポート方法を変更しました。
@@ -897,7 +902,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 ### Core 2.5.0
 **🎉FEATURE**
 - KARTE固有のURLスキームからNative機能の呼び出しが出来るようになりました。
-  詳細は [アクションからNative機能を呼び出す](https://developers.karte.io/docs/appendix-native-command-ios-sdk-v2) をご覧ください。
+  詳細は [アクションからNative機能を呼び出す](https://app.developers.karte.io/ios-sdk-appendix/appendix-native-command-ios-sdk) をご覧ください。
 
 ### InAppMessaging 2.4.0
 **🎉FEATURE**
@@ -907,7 +912,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 ### RemoteNotification 2.1.0
 **🎉FEATURE**
 - KARTE固有のURLスキームからNative機能の呼び出しが出来るようになりました。
-  詳細は [アクションからNative機能を呼び出す](https://developers.karte.io/docs/appendix-native-command-ios-sdk-v2) をご覧ください。
+  詳細は [アクションからNative機能を呼び出す](https://app.developers.karte.io/ios-sdk-appendix/appendix-native-command-ios-sdk) をご覧ください。
 
 ### CrashReporting 2.1.0
 **🔨CHANGED**
@@ -1021,45 +1026,45 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 ### Core 2.0.0
 **🎉FEATURE**
 - イベントの送信失敗時に再送が行われるようになりました。
-  詳細は [FAQ](https://developers.karte.io/docs/faq-ios-sdk-v2#section-%E9%80%81%E4%BF%A1%E3%81%AB%E5%A4%B1%E6%95%97%E3%81%97%E3%81%9F%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%81%A9%E3%81%86%E3%81%AA%E3%82%8A%E3%81%BE%E3%81%99%E3%81%8B) をご覧ください。
+  詳細は [FAQ](https://app.developers.karte.io/app-faq/app-faq-support-for-resending) をご覧ください。
 - 画面サイズの情報を送るようになりました。
-  詳細は [イベントに自動追加されるフィールド](doc:appendix-fields-ios-sdk-v2) をご覧ください。
+  詳細は [イベントに自動追加されるフィールド](https://app.developers.karte.io/ios-sdk-appendix/appendix-fields-ios-sdk) をご覧ください。
 - `native_app_open` 等のデフォルトイベントに任意のフィールドを付与できるようになりました。
 
 **🔨CHANGED**
 - インターフェースを全面的に見直しました。
-  詳細は [SDK v1からv2のアップグレード方法](doc:appendix-upgrade-ios-sdk-v2) をご覧ください。
+  詳細は [SDK v1からv2のアップグレード方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-fields-ios-sdk) をご覧ください。
 - 複数アプリケーションキーへの対応を廃止しました。
 
 ### InAppMessaging 2.0.0
 **🎉FEATURE**
 - Window表示時に `Key window` として表示するかどうか設定できるようになりました。
 - Windowの表示や接客の表示・非表示を検知できるようになりました。
-  詳細は [アプリ内メッセージを表示する](https://developers.karte.io/docs/iam-ios-sdk-v2#section-%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E7%8A%B6%E6%85%8B%E5%A4%89%E5%8C%96%E3%82%92%E6%A4%9C%E7%9F%A5%E3%81%99%E3%82%8B) をご覧ください。
+  詳細は [アプリ内メッセージの状態変化を検知する](https://app.developers.karte.io/ios-sdk-appendix/appendix-iam-state-detection-ios-sdk) をご覧ください。
 - アクションのリンクをクリックした時に、アクションを閉じないように設定することができるようになりました。
-  詳細は [アクションが非表示となる条件](https://developers.karte.io/docs/appendix-action-hidden-condition-ios-sdk-v2#section-%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E5%86%85%E3%81%AE%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%AF%E3%83%AA%E3%83%83%E3%82%AF%E3%81%AB%E3%82%88%E3%82%8B%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E9%9D%9E%E8%A1%A8%E7%A4%BA%E6%9D%A1%E4%BB%B6) をご覧ください。
+  詳細は [アプリ内メッセージが非表示となる条件](https://app.developers.karte.io/ios-sdk-appendix/appendix-action-hidden-condition-ios-sdk) をご覧ください。
 
 **💊FIXED**
 - 配信頻度が `ユーザー毎` に設定されたアクションを表示した後にビジターIDをリセットした場合、リセット後のビジターに対して同アクションが表示されない問題を修正しました。
 
 **🔨CHANGED**
 - インターフェースを全面的に見直しました。
-  詳細は [SDK v1からv2のアップグレード方法](doc:appendix-upgrade-ios-sdk-v2) をご覧ください。
+  詳細は [SDK v1からv2のアップグレード方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-upgrade-ios-sdk-v2.md) をご覧ください。
 - 画面境界を自動で認識するようになりました。
-  詳細は [アプリ内メッセージを表示する](https://developers.karte.io/docs/iam-ios-sdk-v2#section-%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B%E7%94%BB%E9%9D%A2%E3%82%92%E9%99%90%E5%AE%9A%E3%81%99%E3%82%8B) をご覧ください。
+  詳細は [画面の境界を認識する条件](https://app.developers.karte.io/ios-sdk-appendix/concepts-boundary-transition-ios-sdk) をご覧ください。
 - `location.href` による遷移時に `inAppMessaging(_:shouldOpenURL:)` を呼び出すように変更しました。
 - リンククリック時に `UIApplication.canOpenURL(_:)` を呼び出さないように変更しました。
 
 ### RemoteNotification 2.0.0
 **🔨CHANGED**
 - インターフェースを全面的に見直しました。
-  詳細は [SDK v1からv2のアップグレード方法](doc:appendix-upgrade-ios-sdk-v2) をご覧ください。
+  詳細は [SDK v1からv2のアップグレード方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-upgrade-ios-sdk-v2.md) をご覧ください。
 - `RemoteNotification#handle()` メソッドの内部で `UIApplication.canOpenURL(_:)` を呼び出さないように変更しました。
 
 ### Variables 2.0.0
 **🔨CHANGED**
 - インターフェースを全面的に見直しました。
-  詳細は [SDK v1からv2のアップグレード方法](doc:appendix-upgrade-ios-sdk-v2) をご覧ください。
+  詳細は [SDK v1からv2のアップグレード方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-upgrade-ios-sdk-v2.md) をご覧ください。
 
 ### VisualTracking 2.0.0
 **🎉FEATURE**
@@ -1070,7 +1075,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 **🔨CHANGED**　
 
 - インターフェースを全面的に見直しました。
-  詳細は [SDK v1からv2のアップグレード方法](doc:appendix-upgrade-ios-sdk-v2) をご覧ください。
+  詳細は [SDK v1からv2のアップグレード方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-upgrade-ios-sdk-v2.md) をご覧ください。
 
 ### CrashReporting 2.0.0
 **🔨CHANGED**
@@ -1078,4 +1083,3 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 ### Utilities 2.0.0
 初回リリース
-
