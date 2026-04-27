@@ -14,44 +14,20 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class IdentifyEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a identify event") {
-            var event: Event!
-            
-            beforeEach {
-                event = Event(.identify(userId: "test_user", values: [
-                    "key": "value"
-                ]))
-            }
-            
-            describe("its eventName") {
-                it("is identify") {
-                    expect(event.eventName).to(equal(.identify))
-                }
-            }
-            
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-                it("count is 1") {
-                    expect(event.values.count).to(equal(2))
-                }
-                
-                it("values.user_id is `test_user`") {
-                    expect(event.values.string(forKey: "user_id")).to(equal("test_user"))
-                }
-                
-                it("values.key is `value`") {
-                    expect(event.values.string(forKey: "key")).to(equal("value"))
-                }
-            }
-        }
+class IdentifyEventSpec: XCTestCase {
+
+    func testIdentifyEvent() {
+        let event = Event(.identify(userId: "test_user", values: [
+            "key": "value"
+        ]))
+
+        XCTAssertEqual(event.eventName, .identify, "eventName")
+        XCTAssertNotNil(event.values, "values should not be nil")
+        XCTAssertEqual(event.values.count, 2, "values count")
+        XCTAssertEqual(event.values.string(forKey: "user_id"), "test_user", "values.user_id")
+        XCTAssertEqual(event.values.string(forKey: "key"), "value", "values.key")
     }
 }
