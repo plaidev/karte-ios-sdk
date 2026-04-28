@@ -14,20 +14,16 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class ViewSpec: QuickSpec {
-    
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
-        
+class ViewSpec: XCTestCase {
+
+    func testViewWithViewIdAndTitle() {
         let num = 100
         let str = "foo"
         let bool = true
-        let date = Date()
+        let date = Date(timeIntervalSince1970: 1577836800.123)
         let dictValue = "value"
         let dict: [String: JSONConvertible] = ["key": dictValue]
         let arrValue1 = "value1"
@@ -42,163 +38,76 @@ class ViewSpec: QuickSpec {
             "dict": dict
         ]
 
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = StubBuilder(spec: self, resource: .empty).build()
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
-        
-        describe("a tracker") {
-            describe("its view") {
-                describe("when view_id and title are not nil") {
-                    var event: Event!
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: builder)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        
-                        Tracker.view(
-                            "view_name",
-                            title: "title",
-                            values: values.merging(["view_id": "view_id"]) { $1 }
-                        )
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
+        let module = StubActionModule(metadata: name, builder: builder)
 
-                        event = module.wait().event(.view)
-                    }
-                    
-                    it("event name is `test`") {
-                        expect(event.eventName).to(equal(.view))
-                    }
-                    
-                    it("values.view_name is `view_name`") {
-                        expect(event.values.string(forKey: field(.viewName))).to(equal("view_name"))
-                    }
-                    
-                    it("values.view_id is `view_id`") {
-                        expect(event.values.string(forKey: field(.viewId))).to(equal("view_id"))
-                    }
-                    
-                    it("values_title is `title`") {
-                        expect(event.values.string(forKey: field(.title))).to(equal("title"))
-                    }
-                    
-                    it("values.num is 100") {
-                        expect(event.values.integer(forKey: "num")).to(equal(num))
-                    }
-                    
-                    it("values.str is `foo`") {
-                        expect(event.values.string(forKey: "str")).to(equal(str))
-                    }
-                    
-                    it("values.bool is true") {
-                        expect(event.values.bool(forKey: "bool")).to(beTrue())
-                    }
-                    
-                    it("values.date is now") {
-                        expect(event.values.date(forKey: "date")).to(beCloseTo(date, within: 0.0001))
-                    }
-                    
-                    it("values.arr.0 is `value1`") {
-                        expect(event.values.string(forKeyPath: "arr.0")).to(equal(arrValue1))
-                    }
-                    
-                    it("values.arr.1 is `value2`") {
-                        expect(event.values.string(forKeyPath: "arr.1")).to(equal(arrValue2))
-                    }
-                    
-                    it("values.dict.key is `value`") {
-                        expect(event.values.string(forKeyPath: "dict.key")).to(equal(dictValue))
-                    }
-                    
-                    it("values._local_event_date is not nil") {
-                        expect(event.values.date(forKey: field(.localEventDate))).toNot(beNil())
-                    }
-                    
-                    it("values._retry is nil") {
-                        expect(event.values.bool(forKey: field(.retry))).to(beNil())
-                    }
-                }
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                describe("when view_id and title are nil") {
-                    var event: Event!
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: builder)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        
-                        Tracker.view("view_name", title: nil, values: values)
-                        
-                        event = module.wait().event(.view)
-                    }
-                    
-                    it("values.view_name is `view_name`") {
-                        expect(event.values.string(forKey: field(.viewName))).to(equal("view_name"))
-                    }
-                    
-                    it("values.view_id is nil") {
-                        expect(event.values.string(forKey: field(.viewId))).to(beNil())
-                    }
-                    
-                    it("values_title is `view_name`") {
-                        expect(event.values.string(forKey: field(.title))).to(equal("view_name"))
-                    }
-                }
-            }
-            
-            xdescribe("its view compatible") {
-                var event: Event!
-                beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(metadata: metadata, builder: builder)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        Tracker.view(
+            "view_name",
+            title: "title",
+            values: values.merging(["view_id": "view_id"]) { $1 }
+        )
 
-                    
-                    Tracker.track("test", values: values)
-                    
-                    event = module.wait().event(.view)
-                }
-                
-                it("event name is `test`") {
-                    expect(event.eventName).to(equal(EventName("test")))
-                }
-                
-                it("values.num is 100") {
-                    expect(event.values.integer(forKey: "num")).to(equal(num))
-                }
-                
-                it("values.str is `foo`") {
-                    expect(event.values.string(forKey: "str")).to(equal(str))
-                }
-                
-                it("values.bool is true") {
-                    expect(event.values.bool(forKey: "bool")).to(beTrue())
-                }
-                
-                it("values.date is now") {
-                    expect(event.values.date(forKey: "date")).to(beCloseTo(date, within: 0.0001))
-                }
-                
-                it("values.arr.0 is `value1`") {
-                    expect(event.values.string(forKeyPath: "arr.0")).to(equal(arrValue1))
-                }
-                
-                it("values.arr.1 is `value2`") {
-                    expect(event.values.string(forKeyPath: "arr.1")).to(equal(arrValue2))
-                }
-                
-                it("values.dict.key is `value`") {
-                    expect(event.values.string(forKeyPath: "dict.key")).to(equal(dictValue))
-                }
-                
-                it("values._local_event_date is not nil") {
-                    expect(event.values.date(forKey: field(.localEventDate))).toNot(beNil())
-                }
-                
-                it("values._retry is nil") {
-                    expect(event.values.bool(forKey: field(.retry))).to(beNil())
-                }
-            }
+        guard let event = module.wait().event(.view) else {
+            XCTFail("event for view should not be nil")
+            return
         }
+
+        XCTAssertEqual(event.eventName, .view, "event name")
+        XCTAssertEqual(event.values.string(forKey: field(.viewName)), "view_name", "values.view_name")
+        XCTAssertEqual(event.values.string(forKey: field(.viewId)), "view_id", "values.view_id")
+        XCTAssertEqual(event.values.string(forKey: field(.title)), "title", "values.title")
+        XCTAssertEqual(event.values.integer(forKey: "num"), num, "values.num")
+        XCTAssertEqual(event.values.string(forKey: "str"), str, "values.str")
+        XCTAssertEqual(event.values.bool(forKey: "bool"), true, "values.bool")
+        XCTAssertEqual(event.values.date(forKey: "date"), date, "values.date")
+        XCTAssertEqual(event.values.string(forKeyPath: "arr.0"), arrValue1, "values.arr.0")
+        XCTAssertEqual(event.values.string(forKeyPath: "arr.1"), arrValue2, "values.arr.1")
+        XCTAssertEqual(event.values.string(forKeyPath: "dict.key"), dictValue, "values.dict.key")
+        XCTAssertNotNil(event.values.date(forKey: field(.localEventDate)), "values._local_event_date should not be nil")
+        XCTAssertNil(event.values.bool(forKey: field(.retry)), "values._retry should be nil")
+    }
+
+    func testViewWithoutViewIdAndTitle() {
+        let num = 100
+        let str = "foo"
+        let bool = true
+        let date = Date(timeIntervalSince1970: 1577836800.123)
+        let dictValue = "value"
+        let dict: [String: JSONConvertible] = ["key": dictValue]
+        let arrValue1 = "value1"
+        let arrValue2 = "value2"
+        let arr: [JSONConvertible] = [arrValue1, arrValue2]
+        let values: [String: JSONConvertible] = [
+            "num": num,
+            "str": str,
+            "bool": bool,
+            "date": date,
+            "arr": arr,
+            "dict": dict
+        ]
+
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
+        }
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        Tracker.view("view_name", title: nil, values: values)
+
+        guard let event = module.wait().event(.view) else {
+            XCTFail("event for view should not be nil")
+            return
+        }
+
+        XCTAssertEqual(event.values.string(forKey: field(.viewName)), "view_name", "values.view_name")
+        XCTAssertNil(event.values.string(forKey: field(.viewId)), "values.view_id should be nil")
+        XCTAssertEqual(event.values.string(forKey: field(.title)), "view_name", "values.title should fallback to view_name")
     }
 }
