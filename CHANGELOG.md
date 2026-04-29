@@ -91,13 +91,13 @@
 # Releases - 2025.10.27
 ## Version 2.28.0
 
-### CrashReporting 2.11.0
-**🔨CHANGED**
-- 依存先のCrashReporterライブラリを更新しました。
-
 ### InAppMessaging 2.23.0
 **🔨CHANGED**
 - InAppMessaging2.21.0で追加した接客の非表示対象に`SFSafariViewController`を追加しました。
+
+### CrashReporting 2.11.0
+**🔨CHANGED**
+- 依存先のCrashReporterライブラリを更新しました。
 
 # Releases - 2025.09.25
 ## Version 2.27.0
@@ -193,7 +193,7 @@
 ## Version 2.24.0
 
 ### Debugger 1.0.0
-**🎉 FEATURE**
+**🎉FEATURE**
 - デバッグ用のモジュールを追加しました。
 - 機能の詳細は[サポートサイト](https://support.karte.io/post/qTf6oZNjT5UzCv16lIPY6)をご確認ください。
 
@@ -232,14 +232,14 @@
 # Releases - 2025.02.14
 ## Version 2.20.0
 
+### Variables 2.11.0
+**🔨CHANGED**
+- 一部のプロパティの可視性をpublicに変更しました。
+
 ### InAppFrame 0.1.0
 **🎉FEATURE**
 - アプリ内に管理画面で設定したネイティブコンポーネントを追加できるモジュールをOSSとして公開しました（β版）。
   - ご利用いただくには別途お手続きが必要です。
-
-### Variables 2.11.0
-**🔨CHANGED**
-- 一部のプロパティの可視性をpublicに変更しました。
 
 # Releases - 2025.02.12
 ## Version 2.19.0
@@ -285,13 +285,13 @@
 # Releases - 2024.06.13
 ## Version 2.15.0
 
-### CrashReporting 2.8.0
-**🔨CHANGED**
-- Privacy manifestの設定を更新しました。
- 
 ### InAppMessaging 2.17.1
 **💊FIXED**
 - 一部の別ライブラリと併用した場合にcrashする不具合を修正しました。
+
+### CrashReporting 2.8.0
+**🔨CHANGED**
+- Privacy manifestの設定を更新しました。
 
 # Releases - 2024.05.09
 ## Version 2.14.0
@@ -300,7 +300,7 @@
 **🔨CHANGED**
 - サポート改善のため、ログにタイムスタンプを出力するようにしました。
 
-### Veriables 2.10.0
+### Variables 2.10.0
 **🔨CHANGED**
 - 特定の条件にマッチする変数オブジェクトをリスト形式で取得できるメソッドを追加しました。 
 
@@ -572,12 +572,12 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 ## Version 2.5.1
 
 ### RemoteNotification 2.7.1
-**💊FIXED** 
+**💊FIXED**
 - 一部のファイルがStatic Library としてビルドできない問題を修正しました
 - Xcode 13.3以降でVariablesモジュールとあわせて導入した際にコンパイルエラーになる問題を修正しました
 
 ### Variables 2.4.1
-**💊FIXED** 
+**💊FIXED**
 - 一部のファイルがStatic Library としてビルドできない問題を修正しました
 - Xcode 13.3以降でRemoteNotificationモジュールとあわせて導入した際にコンパイルエラーになる問題を修正しました
 
@@ -609,11 +609,11 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 **🔨CHANGED**
 - Deployment Targetの変更 iOS9 → iOS10
 
-### Utilities 3.7.0
+### CrashReporting 2.3.0
 **🔨CHANGED**
 - Deployment Targetの変更 iOS9 → iOS10
 
-### CrashReporting 2.3.0
+### Utilities 3.7.0
 **🔨CHANGED**
 - Deployment Targetの変更 iOS9 → iOS10
 
@@ -665,13 +665,13 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 - イベント名とフィールド名に非推奨な名前が使われていた場合に、warningログを出力するようにしました。
   - イベント名とフィールド名に関する制限については[こちら](https://support.karte.io/post/44VkfBjO7JdRnDv9YOfbFB)を参考ください。
 
-### Utilities 3.6.0
-**💊FIXED**
-- コンパイラの警告を修正しました。
-
 ### InAppMessaging 2.10.1
 **💊FIXED**
 - iOS14以降でまれにクラッシュする問題に対策を加えました。
+
+### Utilities 3.6.0
+**💊FIXED**
+- コンパイラの警告を修正しました。
 
 # Releases - 2021.10.28
 
@@ -730,14 +730,14 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 **🎉FEATURE**
 - サブモジュールの設定をConfigクラス経由で設定・取得するAPIを追加しました。
 
+### InAppMessaging 2.9.0
+**🔨CHANGED**
+- 常駐接客を表示中に画面遷移をすると接客表示イベント(message_open)が発生するように修正しました。
+
 ### RemoteNotification 2.5.0
 **🔨CHANGED**
 - モジュール設定の方法をCoreモジュールのConfigクラス経由のものに変更しました。
    以前の方法は非推奨になりました。
-
-### InAppMessaging 2.9.0
-**🔨CHANGED**
-- 常駐接客を表示中に画面遷移をすると接客表示イベント(message_open)が発生するように修正しました。
 
 # Releases - 2021.04.20
 
@@ -809,12 +809,12 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 # Releases - 2020.11.16
 ### Utilities 3.2.0
-**💊FIXED** 
+**💊FIXED**
 - 端末のストレージ不足時にクラッシュしていた問題を修正しました。（[issue](https://github.com/plaidev/karte-ios-sdk/issues/5))
 
 # Releases - 2020.10.09
 ### Core 2.11.0
-**💊FIXED** 
+**💊FIXED**
 - SDKの初期化時に稀にクラッシュしていた問題を修正しました。（[issue](https://github.com/plaidev/karte-ios-sdk/issues/2))
   この対応により、同原因によるクラッシュが発生する状況では SDK の初期化自体が行われなくなります。
 - アプリ実行中の端末の広告トラッキング許可状況の変化時にイベントにIDFAを含む/除外する処理が次回起動時まで遅れる問題を修正しました。
@@ -822,7 +822,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 # Releases - 2020.09.29
 ### Core 2.10.0
-**💊FIXED** 
+**💊FIXED**
 - SDKの初期化時に稀にクラッシュしていた問題を修正しました。
 
 # Releases - 2020.09.29
@@ -837,7 +837,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 # Releases - 2020.09.12
 ### InAppMessaging 2.7.0
-**💊FIXED** 
+**💊FIXED**
 - どの操作ができない範囲が一部の接客において背後のコンテンツに対してスクロールなどの操作ができない範囲があった問題を修正しました。
 
 # Releases - 2020.09.09
@@ -855,7 +855,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 # Releases - 2020.08.31
 ### Core 2.7.1
-**💊FIXED** 
+**💊FIXED**
 - 設定値配信取得処理のコールバックが呼び出されない問題を修正しました。
 
 # Releases - 2020.08.28
@@ -865,7 +865,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
   これにより接客の表示パフォーマンスが若干向上します。
 
 ### RemoteNotification 2.3.0
-**💊FIXED** 
+**💊FIXED**
 - 通知をタップした際にクラッシュする問題を修正しました。
   本問題は Xamarin.iOS 上で動作させた場合に限り発生する問題であるため、Xamarin以外ではアップデートの必要はありません。
 
@@ -891,7 +891,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 - Static Library としてビルドできるようにするために一部のヘッダーファイルのインポート方法を変更しました。
 
 ### VisualTracking 2.2.0
-**🔨CHANGED**　
+**🔨CHANGED**
 - Static Library としてビルドできるようにするために一部のヘッダーファイルのインポート方法を変更しました。
 
 ### CrashReporting 2.2.0
@@ -928,7 +928,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 - suppressメソッドを利用により接客の表示抑制が有効な状態で、接客の表示が抑制された時に表示抑制イベント（_message_suppressed）を飛ばすようにしました。
 
 ### RemoteNotification 2.0.3
-**💊FIXED** 
+**💊FIXED**
 - バックグラウンドから復帰した際に最新の通知設定が送信されない問題を修正しました。
 - 通知設定で `ロック画面` `通知センター` のみ有効かつ `バナー` `サウンド` `バッジ` が無効な場合に通知のsubscribe値が `false` となってしまう問題を修正しました（iOS10以上の場合に限る）
 
@@ -942,7 +942,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 # Releases - 2020.06.23
 ### InAppMessaging 2.2.1
-**💊FIXED** 
+**💊FIXED**
 - 特定の条件下において接客表示時に無限ループが発生する問題を修正しました。([issue](https://github.com/plaidev/karte-ios-sdk/issues/4))
 
 # Releases - 2020.06.22
@@ -959,7 +959,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 # Releases - 2020.06.10
 ### Core 2.2.2
-**💊FIXED** 
+**💊FIXED**
 - SDKが自動で発火させる一部のイベントが特定の条件下においてキューに滞留し意図したタイミングで送信されない問題を修正しました。
 
 # Releases - 2020.05.14
@@ -983,7 +983,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 **🔨CHANGED**
 - 依存する Utilities のバージョンを 3.0.0 に変更しました。
 
-**💊FIXED** 
+**💊FIXED**
 - ペアリング中に送信する操作ログに ViewController の一部の操作（viewDidAppear / present / dismiss）が含まれない問題を修正しました。
 
 ### Utilities 3.0.0
@@ -1072,7 +1072,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 - ペアリング中にアプリがバックグラウンドに遷移してもペアリングが切れづらくなりました。
 - ペアリング中は端末がスリープ状態にならないようにしました。
 
-**🔨CHANGED**　
+**🔨CHANGED**
 
 - インターフェースを全面的に見直しました。
   詳細は [SDK v1からv2のアップグレード方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-upgrade-ios-sdk-v2.md) をご覧ください。
