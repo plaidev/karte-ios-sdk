@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "app-ai-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "plaidev/app-ai"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "changelog-lint@app-ai-plugins": true
+  }
+}
