@@ -24,7 +24,6 @@ jobs:
     # NOTE: Run only in private repo.
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' }}
     permissions:
-      id-token: write # for using OIDC in codecov/codecov-action
       contents: read
     steps:
       - name: Checkout repository
@@ -61,16 +60,6 @@ jobs:
                           -resultBundlePath "output/KarteTests_${{ env.IOS_VERSION }}.xcresult" \
                           -skipPackagePluginValidation \
                           -skipMacroValidation
-      - name: Generate coverage report
-        run: bundle exec slather
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
-        with:
-          use_oidc: true
-          files: ./cobertura.xml
-          flags: unittests
-          fail_ci_if_error: false
-          verbose: true
       # NOTE: Upload test results only on failure to save storage costs
       - name: Upload test results
         if: failure()

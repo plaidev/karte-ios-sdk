@@ -14,6 +14,5 @@ group :development, :ci do
   gem 'jazzy'
   gem 'danger'
   gem 'danger-swiftlint'
-  gem 'slather'
 end
 
