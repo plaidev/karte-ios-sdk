@@ -14,43 +14,26 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class TrackEventRejectionFilterSpec: QuickSpec {
-    override class func spec() {        
-        describe("check track event filter") {
-            var filter: TrackEventRejectionFilter!
-            
-            beforeEach {
-                filter = TrackEventRejectionFilter()
-                filter.add(rule: TestRule(libraryName: "m1", eventName: EventName("e1"), value: "v1"))
-            }
-            
-            context("included in the test") {
-                it("the result is false when the condition is matched") {
-                    let event = Event(eventName: EventName("e1"), values: ["f1": "v1"], libraryName: "m1")
-                    expect(filter.reject(event: event)).to(beFalse())
-                }
-                it("the result is true when the condition is not matched") {
-                    let event = Event(eventName: EventName("e1"), values: ["f1": "v2"], libraryName: "m1")
-                    expect(filter.reject(event: event)).to(beTrue())
-                }
-            }
-            
-            context("not included in the test") {
-                it("the result is false when the module name is not matched") {
-                    let event = Event(eventName: EventName("e1"), values: ["f1": "v1"], libraryName: "m2")
-                    expect(filter.reject(event: event)).to(beFalse())
-                }
-                
-                it("the result is false when the event name is not matched") {
-                    let event = Event(eventName: EventName("e2"), values: ["f1": "v1"], libraryName: "m1")
-                    expect(filter.reject(event: event)).to(beFalse())
-                }
-            }
-        }
+class TrackEventRejectionFilterSpec: XCTestCase {
+
+    func testRejectFilter() {
+        var filter = TrackEventRejectionFilter()
+        filter.add(rule: TestRule(libraryName: "m1", eventName: EventName("e1"), value: "v1"))
+
+        let matchedValue = Event(eventName: EventName("e1"), values: ["f1": "v1"], libraryName: "m1")
+        XCTAssertFalse(filter.reject(event: matchedValue), "should not reject when value matches")
+
+        let mismatchedValue = Event(eventName: EventName("e1"), values: ["f1": "v2"], libraryName: "m1")
+        XCTAssertTrue(filter.reject(event: mismatchedValue), "should reject when value does not match")
+
+        let wrongLibrary = Event(eventName: EventName("e1"), values: ["f1": "v1"], libraryName: "m2")
+        XCTAssertFalse(filter.reject(event: wrongLibrary), "should not reject when libraryName does not match")
+
+        let wrongEvent = Event(eventName: EventName("e2"), values: ["f1": "v1"], libraryName: "m1")
+        XCTAssertFalse(filter.reject(event: wrongEvent), "should not reject when eventName does not match")
     }
 }
 
@@ -59,13 +42,13 @@ extension TrackEventRejectionFilterSpec {
         var libraryName: String
         var eventName: EventName
         var value: String
-        
+
         init(libraryName: String, eventName: EventName, value: String) {
             self.libraryName = libraryName
             self.eventName = eventName
             self.value = value
         }
-        
+
         func reject(event: Event) -> Bool {
             return event.values.string(forKeyPath: "f1") != value
         }
