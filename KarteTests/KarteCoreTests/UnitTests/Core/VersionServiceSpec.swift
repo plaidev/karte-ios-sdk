@@ -14,72 +14,68 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 
-class VersionServiceSpec: QuickSpec {
-    
-    override class func spec() {
-        var versionRetriever: VersionRetrieverMock!
-        
-        beforeEach {
-            versionRetriever = VersionRetrieverMock()
-            
-            Resolver.root = Resolver.submock
-            Resolver.root.register(name: "version_service.current_version_retriever") {
-                versionRetriever as VersionRetriever
-            }
-        }
-        
-        afterEach {
-            VersionService().clean()
-            Resolver.root = Resolver.mock
-        }
-        
-        describe("its state") {
-            context("when launch after installation") {
-                it("state is install") {
-                    let service = VersionService()
-                    expect(service.installationStatus).to(equal(.install))
-                }
-            }
-            
-            context("when launch after update") {
-                beforeEach {
-                    _ = VersionService()
-                }
-                
-                it("state is update") {
-                    versionRetriever.ver = "1.0.1"
-                    
-                    let service = VersionService()
-                    expect(service.installationStatus).to(equal(.update))
-                }
-            }
-            
-            context("when normal launch") {
-                beforeEach {
-                    versionRetriever.ver = "1.0.1"
-                    _ = VersionService()
-                }
+class VersionServiceSpec: XCTestCase {
 
-                it("state is unknown") {
-                    let service = VersionService()
-                    expect(service.installationStatus).to(equal(.unknown))
-                }
-            }
-        }
-        
-        describe("its delete") {
-            it("previous version is nil") {
-                versionRetriever.ver = "9.9.9"
-                let service = VersionService()
-                service.clean()
+    private var versionRetriever: VersionRetrieverMock!
 
-                expect(VersionService().previousVersion).to(beNil())
-            }
+    override func setUp() {
+        super.setUp()
+
+        versionRetriever = VersionRetrieverMock()
+        Resolver.root = Resolver.submock
+        Resolver.root.register(name: "version_service.current_version_retriever") { [unowned self] in
+            self.versionRetriever as VersionRetriever
         }
     }
+
+    override func tearDown() {
+        VersionService().clean()
+        Resolver.root = Resolver.mock
+
+        super.tearDown()
+    }
+
+    func testStateAfterInstallation() {
+        let service = VersionService()
+
+        XCTAssertEqual(service.installationStatus, .install, "installationStatus")
+        XCTAssertEqual(service.currentVersion, "1.0.0", "currentVersion")
+        XCTAssertNil(service.previousVersion, "previousVersion should be nil on first install")
+    }
+
+    func testStateAfterUpdate() {
+        _ = VersionService()
+
+        versionRetriever.ver = "1.0.1"
+        let service = VersionService()
+
+        XCTAssertEqual(service.installationStatus, .update, "installationStatus")
+        XCTAssertEqual(service.currentVersion, "1.0.1", "currentVersion")
+        XCTAssertEqual(service.previousVersion, "1.0.0", "previousVersion")
+    }
+
+    func testStateAfterNormalLaunch() {
+        versionRetriever.ver = "1.0.1"
+        _ = VersionService()
+
+        let service = VersionService()
+
+        XCTAssertEqual(service.installationStatus, .unknown, "installationStatus")
+        XCTAssertEqual(service.currentVersion, "1.0.1", "currentVersion")
+        XCTAssertEqual(service.previousVersion, "1.0.1", "previousVersion")
+    }
+
+    func testCleanDeletesStoredVersions() {
+        versionRetriever.ver = "9.9.9"
+        let service = VersionService()
+        service.clean()
+
+        let freshService = VersionService()
+        XCTAssertNil(freshService.previousVersion, "previousVersion should be nil after clean")
+    }
+
 }
