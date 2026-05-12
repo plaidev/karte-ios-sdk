@@ -14,41 +14,16 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class ATTStatusUpdatedSpec: QuickSpec {
+class ATTStatusUpdatedSpec: XCTestCase {
 
-    override class func spec() {
-        describe("a `att_status_updated` event") {
-            var event: Event!
+    func testATTStatusUpdatedEvent() {
+        let event = Event(.attStatusUpdated(attStatus: "denied"))
 
-            beforeEach {
-                event = Event(.attStatusUpdated(attStatus: "denied"))
-            }
-
-            describe("its eventName") {
-                it("is attStatusUpdated") {
-                    expect(event.eventName).to(equal(.attStatusUpdated))
-                }
-            }
-
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-            }
-
-            describe("its build values") {
-                it("count is 1") {
-                    expect(event.values.count).to(equal(1))
-                }
-
-                it("values.attStatus is `denied`") {
-                    expect(event.values.string(forKey: "att_status")).to(equal("denied"))
-                }
-            }
-        }
+        XCTAssertEqual(event.eventName, .attStatusUpdated, "eventName")
+        XCTAssertEqual(event.values.count, 1, "values count")
+        XCTAssertEqual(event.values.string(forKey: "att_status"), "denied", "values.att_status")
     }
 }
