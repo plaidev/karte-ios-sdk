@@ -14,64 +14,27 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 @testable import KarteRemoteNotification
 
-class PluginNativeAppIdentifyEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a plugin native app identify event") {
-            var event: Event!
-            
-            context("when fcmToken is not nil and subscribe is true") {
-                beforeEach {
-                    event = Event(.pluginNativeAppIdentify(subscribe: true, fcmToken: "fcm_token"))
-                }
-                
-                describe("its eventName") {
-                    it("is pluginNativeAppIdentify") {
-                        expect(event.eventName).to(equal(.pluginNativeAppIdentify))
-                    }
-                }
-                
-                describe("its values") {
-                    it("is not nil") {
-                        expect(event.values).toNot(beNil())
-                    }
-                }
-                
-                describe("its build values") {
-                    it("count is 2") {
-                        expect(event.values.count).to(equal(2))
-                    }
-                    
-                    it("values.fcm_token is `fcm_token`") {
-                        expect(event.values.string(forKey: "fcm_token")).to(equal("fcm_token"))
-                    }
-                    
-                    it("values.subscribe is `true`") {
-                        expect(event.values.bool(forKey: "subscribe")).to(beTrue())
-                    }
-                }
-            }
-            
-            context("when subscribe is false") {
-                beforeEach {
-                    event = Event(.pluginNativeAppIdentify(subscribe: false, fcmToken: nil))
-                }
-                
-                describe("its build values") {
-                    it("count is 1") {
-                        expect(event.values.count).to(equal(1))
-                    }
-                    
-                    it("values.subscribe is `false`") {
-                        expect(event.values.bool(forKey: "subscribe")).to(beFalse())
-                    }
-                }
-            }
-        }
+class PluginNativeAppIdentifyEventSpec: XCTestCase {
+
+    func testPluginNativeAppIdentifyEventWithFCMTokenAndSubscribeTrue() throws {
+        let event = Event(.pluginNativeAppIdentify(subscribe: true, fcmToken: "fcm_token"))
+
+        XCTAssertEqual(event.eventName, .pluginNativeAppIdentify, "eventName")
+        XCTAssertEqual(event.values.count, 2, "values count")
+        XCTAssertEqual(event.values.string(forKey: "fcm_token"), "fcm_token", "values.fcm_token")
+        let subscribe = try XCTUnwrap(event.values.bool(forKey: "subscribe"), "values.subscribe")
+        XCTAssertTrue(subscribe, "values.subscribe")
+    }
+
+    func testPluginNativeAppIdentifyEventWithSubscribeFalse() throws {
+        let event = Event(.pluginNativeAppIdentify(subscribe: false, fcmToken: nil))
+
+        XCTAssertEqual(event.values.count, 1, "values count")
+        let subscribe = try XCTUnwrap(event.values.bool(forKey: "subscribe"), "values.subscribe")
+        XCTAssertFalse(subscribe, "values.subscribe")
     }
 }
