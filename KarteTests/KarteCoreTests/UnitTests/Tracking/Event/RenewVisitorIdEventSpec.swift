@@ -14,59 +14,23 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class RenewVisitorIdEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a renew visitor id event") {
-            var event: Event!
-            
-            context("when old visitor id is not nil") {
-                beforeEach {
-                    event = Event(.renewVisitorId(old: "old_visitor_id", new: nil))
-                }
-                
-                describe("its eventName") {
-                    it("is nativeAppRenewVisitorId") {
-                        expect(event.eventName).to(equal(.nativeAppRenewVisitorId))
-                    }
-                }
-                
-                describe("its values") {
-                    it("is not nil") {
-                        expect(event.values).toNot(beNil())
-                    }
-                }
-                            
-                describe("its build values") {
-                    it("count is 1") {
-                        expect(event.values.count).to(equal(1))
-                    }
-                    
-                    it("values.old_visitor_id is `old_visitor_id`") {
-                        expect(event.values.string(forKey: "old_visitor_id")).to(equal("old_visitor_id"))
-                    }
-                }
-            }
-            
-            context("when new visitor id is not nil") {
-                beforeEach {
-                    event = Event(.renewVisitorId(old: nil, new: "new_visitor_id"))
-                }
-                
-                describe("its build values") {
-                    it("count is 1") {
-                        expect(event.values.count).to(equal(1))
-                    }
-                    
-                    it("values.new_visitor_id is `new_visitor_id`") {
-                        expect(event.values.string(forKey: "new_visitor_id")).to(equal("new_visitor_id"))
-                    }
-                }
-            }
-        }
+class RenewVisitorIdEventSpec: XCTestCase {
+
+    func testRenewVisitorIdEventWithOldVisitorId() {
+        let event = Event(.renewVisitorId(old: "old_visitor_id", new: nil))
+
+        XCTAssertEqual(event.eventName, .nativeAppRenewVisitorId, "eventName")
+        XCTAssertEqual(event.values.count, 1, "values count")
+        XCTAssertEqual(event.values.string(forKey: "old_visitor_id"), "old_visitor_id", "values.old_visitor_id")
+    }
+
+    func testRenewVisitorIdEventWithNewVisitorId() {
+        let event = Event(.renewVisitorId(old: nil, new: "new_visitor_id"))
+
+        XCTAssertEqual(event.values.count, 1, "values count")
+        XCTAssertEqual(event.values.string(forKey: "new_visitor_id"), "new_visitor_id", "values.new_visitor_id")
     }
 }
