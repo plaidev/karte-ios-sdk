@@ -49,6 +49,12 @@ internal class IAMWebView: WKWebView {
         self.scrollView.bounces = false
 
         self.scrollView.contentInsetAdjustmentBehavior = .never
+
+        #if DEBUG
+        if #available(iOS 16.4, *) {
+            self.isInspectable = true
+        }
+        #endif
     }
 
     // swiftlint:disable:next unavailable_function

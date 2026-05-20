@@ -3,7 +3,7 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.36.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.25.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.26.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.14.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.14.0 |
@@ -21,6 +21,10 @@
 
 **💊FIXED**
 - `KarteApp.setup` を複数回呼び出した場合、2回目以降は警告ログを出力して初期化をスキップするよう修正しました。
+
+### InAppMessaging 2.26.0
+**🔨CHANGED**
+- デバッグビルド時かつiOS 16.4以降で、アプリ内メッセージのWebViewでのSafari Webインスペクターの利用を有効化しました。
 
 ### RemoteNotification 2.14.0
 **💊FIXED**
