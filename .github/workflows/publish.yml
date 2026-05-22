@@ -14,7 +14,7 @@ on:
           - dry_run
         default: 'dry_run'
 env:
-  IOS_VERSION: "26.0.1"
+  IOS_VERSION: "26.5"
   DEVICE_NAME: "iPhone 17"
   EXECUTION_MODE: ${{ inputs.mode || 'publish' }}
 jobs:
