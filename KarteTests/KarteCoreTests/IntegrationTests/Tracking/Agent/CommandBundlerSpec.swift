@@ -14,8 +14,6 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
 import XCTest
 @testable import KarteUtilities
 @testable import KarteCore
@@ -75,9 +73,8 @@ class CommandBundlerSpy {
     var actualCount = 0
     var bundles = [CommandBundle]()
 
-    init(metadata: ExampleMetadata? = nil, count: Int) {
-        let metadataLabel = metadata?.example.name ?? "test"
-        self.expectation = XCTestExpectation(description: "Wait for finish => \(metadataLabel)")
+    init(count: Int, testName: String = #function) {
+        self.expectation = XCTestExpectation(description: "Wait for finish => \(testName)")
         self.estimatedCount = count
     }
 
@@ -102,314 +99,204 @@ extension CommandBundlerSpy: CommandBundlerDelegate {
     }
 }
 
-class CommandBundlerSpec: QuickSpec {
-    override class func spec() {
-        describe("a command bundler") {
-            describe("its user bundle rule") {
-                var spy: CommandBundlerSpy!
+class CommandBundlerSpec: XCTestCase {
+    func testUserBundlerRule() {
+        let spy = CommandBundlerSpy(count: 2)
 
-                beforeEach { (metadata: ExampleMetadata) in
-                    spy = CommandBundlerSpy(metadata: metadata, count: 2)
-                    
-                    let bundler = CommandBundler(
-                        beforeBundleRules: [UserBundleRule()],
-                        afterBundleRules: [],
-                        asyncBundleRules: []
-                    )
-                    bundler.delegate = spy
-                    
-                    spy.wait {
-                        bundler.addCommand(buildCommand(visitorId: "dummy-vis-a"))
-                        bundler.addCommand(buildCommand(visitorId: "dummy-vis-b"))
-                        bundler.addCommand(buildCommand(visitorId: "dummy-vis-b"))
-                        bundler.addCommand(buildCommand(visitorId: "dummy-vis-c"))
-                    }
-                }
-                
-                it("count is 2") {
-                    expect(spy.actualCount).to(equal(2))
-                }
-                
-                it("bundle[0] has 1 command") {
-                    expect(spy.bundles[0].commands.count).to(equal(1))
-                }
-                
-                it("bundle[1] has 2 command") {
-                    expect(spy.bundles[1].commands.count).to(equal(2))
-                }
-            }
-            
-            describe("its scene bundle rule") {
-                var spy: CommandBundlerSpy!
+        let bundler = CommandBundler(
+            beforeBundleRules: [UserBundleRule()],
+            afterBundleRules: [],
+            asyncBundleRules: []
+        )
+        bundler.delegate = spy
 
-                beforeEach { (metadata: ExampleMetadata) in
-                    spy = CommandBundlerSpy(metadata: metadata, count: 5)
-                    
-                    let bundler = CommandBundler(
-                        beforeBundleRules: [SceneBundleRule()],
-                        afterBundleRules: [],
-                        asyncBundleRules: []
-                    )
-                    bundler.delegate = spy
-                    
-                    spy.wait {
-                        bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-1"), sceneId: SceneId("dummy-scene-id-1")))
-                        bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-2"), sceneId: SceneId("dummy-scene-id-1")))
-                        bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-2"), sceneId: SceneId("dummy-scene-id-1")))
-                        bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-3"), sceneId: SceneId("dummy-scene-id-1")))
-                        bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-3"), sceneId: SceneId("dummy-scene-id-2")))
-                        bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-3"), sceneId: SceneId("dummy-scene-id-2")))
-                        bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-4"), sceneId: SceneId("dummy-scene-id-1")))
-                        bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-5"), sceneId: SceneId("dummy-scene-id-1")))
-                    }
-                }
-                
-                it("count is 5") {
-                    expect(spy.actualCount).to(equal(5))
-                }
-                
-                it("bundle[0] has 1 command") {
-                    expect(spy.bundles[0].commands.count).to(equal(1))
-                }
-                
-                it("bundle[1] has 2 command") {
-                    expect(spy.bundles[1].commands.count).to(equal(2))
-                }
-                
-                it("bundle[2] has 1 command") {
-                    expect(spy.bundles[2].commands.count).to(equal(1))
-                }
-                
-                it("bundle[3] has 2 command") {
-                    expect(spy.bundles[3].commands.count).to(equal(2))
-                }
-                
-                it("bundle[4] has 1 command") {
-                    expect(spy.bundles[4].commands.count).to(equal(1))
-                }
-            }
-            
-            describe("its count bundle rule") {
-                var spy: CommandBundlerSpy!
-
-                beforeEach { (metadata: ExampleMetadata) in
-                    spy = CommandBundlerSpy(metadata: metadata, count: 2)
-                    
-                    let bundler = CommandBundler(
-                        beforeBundleRules: [],
-                        afterBundleRules: [CommandCountBundleRule(count: 2)],
-                        asyncBundleRules: []
-                    )
-                    bundler.delegate = spy
-                    
-                    spy.wait {
-                        bundler.addCommand(buildCommand())
-                        bundler.addCommand(buildCommand())
-                        bundler.addCommand(buildCommand())
-                        bundler.addCommand(buildCommand())
-                        bundler.addCommand(buildCommand())
-                    }
-                }
-                
-                it("count is 2") {
-                    expect(spy.actualCount).to(equal(2))
-                }
-                
-                it("bundle[0] has 2 command") {
-                    expect(spy.bundles[0].commands.count).to(equal(2))
-                }
-                
-                it("bundle[1] has 2 command") {
-                    expect(spy.bundles[1].commands.count).to(equal(2))
-                }
-            }
-            
-            describe("its time window bundle rule") {
-                context("isImmediatelyBundlable is true") {
-                    var spy: CommandBundlerSpy!
-
-                    beforeEach { (metadata: ExampleMetadata) in
-                        spy = CommandBundlerSpy(metadata: metadata, count: 3)
-
-                        let scheduler = MockScheduler()
-                        let timeWindowBundleRule = TimeWindowBundleRule(scheduler: scheduler, interval: .milliseconds(1000))
-                        let bundler = CommandBundler(
-                            beforeBundleRules: [],
-                            afterBundleRules: [],
-                            asyncBundleRules: [timeWindowBundleRule]
-                        )
-                        bundler.delegate = spy
-                        spy.wait(timeout: 1) {
-                            // 0ms: 2コマンド追加
-                            bundler.addCommand(buildCommand())
-                            bundler.addCommand(buildCommand())
-
-                            // 1000ms: interval経過 → 1つ目のバンドル完了
-                            scheduler.advance(to: 1000)
-
-                            // 1200ms: 3コマンド追加
-                            scheduler.advance(to: 1200)
-                            bundler.addCommand(buildCommand())
-                            bundler.addCommand(buildCommand())
-                            bundler.addCommand(buildCommand())
-
-                            // 2200ms: interval経過 → 2つ目のバンドル完了
-                            scheduler.advance(to: 2200)
-
-                            // 2400ms: 1コマンド追加
-                            scheduler.advance(to: 2400)
-                            bundler.addCommand(buildCommand())
-
-                            // 3400ms: interval経過 → 3つ目のバンドル完了
-                            scheduler.advance(to: 3400)
-                        }
-                    }
-
-                    it("count is 3") {
-                        expect(spy.actualCount).to(equal(3))
-                    }
-
-                    it("bundle[0] has 2 command") {
-                        expect(spy.bundles[0].commands.count).to(equal(2))
-                    }
-
-                    it("bundle[1] has 3 command") {
-                        expect(spy.bundles[1].commands.count).to(equal(3))
-                    }
-                }
-
-                context("isImmediatelyBundlable is true to false to true") {
-                    var spy: CommandBundlerSpy!
-
-                    beforeEach { (metadata: ExampleMetadata) in
-                        spy = CommandBundlerSpy(metadata: metadata, count: 2)
-
-                        let scheduler = MockScheduler()
-                        let timeWindowBundleRule = TimeWindowBundleRule(scheduler: scheduler, interval: .milliseconds(1000))
-                        let bundler = CommandBundler(
-                            beforeBundleRules: [],
-                            afterBundleRules: [],
-                            asyncBundleRules: [timeWindowBundleRule]
-                        )
-                        bundler.delegate = spy
-
-                        spy.wait(timeout: 1) {
-                            // 0ms: 2コマンド追加
-                            bundler.addCommand(buildCommand())
-                            bundler.addCommand(buildCommand())
-
-                            // 1000ms: interval経過 → 1つ目のバンドル完了
-                            scheduler.advance(to: 1000)
-
-                            // 1200ms: 3コマンド追加
-                            scheduler.advance(to: 1200)
-                            bundler.addCommand(buildCommand())
-                            bundler.addCommand(buildCommand())
-                            bundler.addCommand(buildCommand())
-
-                            // 1500ms: isImmediatelyBundlable = false
-                            scheduler.advance(to: 1500)
-                            timeWindowBundleRule.isImmediatelyBundlable = false
-
-                            // 2200ms: interval経過するが、false なのでバンドルされない
-                            scheduler.advance(to: 2200)
-
-                            // 2400ms: 1コマンド追加（バンドルに追加される）
-                            scheduler.advance(to: 2400)
-                            bundler.addCommand(buildCommand())
-
-                            // 4000ms: isImmediatelyBundlable = true → 2つ目のバンドル完了
-                            scheduler.advance(to: 4000)
-                            timeWindowBundleRule.isImmediatelyBundlable = true
-                            scheduler.advance(to: 5000)
-                        }
-                    }
-
-                    it("count is 2") {
-                        expect(spy.actualCount).to(equal(2))
-                    }
-
-                    it("bundle[0] has 2 command") {
-                        expect(spy.bundles[0].commands.count).to(equal(2))
-                    }
-
-                    it("bundle[1] has 4 command") {
-                        expect(spy.bundles[1].commands.count).to(equal(4))
-                    }
-                }
-
-                context("complex rules") {
-                    var spy: CommandBundlerSpy!
-
-                    beforeEach { (metadata: ExampleMetadata) in
-                        spy = CommandBundlerSpy(metadata: metadata, count: 2)
-
-                        let scheduler = MockScheduler()
-                        let timeWindowBundleRule = TimeWindowBundleRule(scheduler: scheduler, interval: .milliseconds(100))
-                        let bundler = CommandBundler(
-                            beforeBundleRules: [SceneBundleRule()],
-                            afterBundleRules: [],
-                            asyncBundleRules: [timeWindowBundleRule]
-                        )
-                        bundler.delegate = spy
-
-                        spy.wait(timeout: 1) {
-                            // 0ms: 2コマンド追加（同じ pvId）
-                            bundler.addCommand(buildCommand())
-                            bundler.addCommand(buildCommand())
-
-                            // 100ms: interval経過 → 1つ目のバンドル完了
-                            scheduler.advance(to: 100)
-
-                            // 100ms〜: 3コマンド追加（別の pvId）
-                            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-1")))
-                            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-1")))
-                            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-1")))
-
-                            // 200ms: interval経過 → 2つ目のバンドル完了
-                            scheduler.advance(to: 200)
-                        }
-                    }
-
-                    it("count is 2") {
-                        expect(spy.actualCount).to(equal(2))
-                    }
-
-                    it("bundle[0] has 2 command") {
-                        expect(spy.bundles[0].commands.count).to(equal(2))
-                    }
-
-                    it("bundle[1] has 3 command") {
-                        expect(spy.bundles[1].commands.count).to(equal(3))
-                    }
-                }
-
-                context("with real DispatchQueueScheduler") {
-                    var spy: CommandBundlerSpy!
-
-                    beforeEach { (metadata: ExampleMetadata) in
-                        spy = CommandBundlerSpy(metadata: metadata, count: 1)
-
-                        // 実際の DispatchQueue を使用（統合テスト）
-                        let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(50))
-                        let bundler = CommandBundler(
-                            beforeBundleRules: [],
-                            afterBundleRules: [],
-                            asyncBundleRules: [timeWindowBundleRule]
-                        )
-                        bundler.delegate = spy
-                        spy.wait(timeout: 3) {
-                            bundler.addCommand(buildCommand())
-                            bundler.addCommand(buildCommand())
-                        }
-                    }
-
-                    it("bundles commands after interval") {
-                        expect(spy.actualCount).to(equal(1))
-                        expect(spy.bundles[0].commands.count).to(equal(2))
-                    }
-                }
-            }
+        spy.wait {
+            bundler.addCommand(buildCommand(visitorId: "dummy-vis-a"))
+            bundler.addCommand(buildCommand(visitorId: "dummy-vis-b"))
+            bundler.addCommand(buildCommand(visitorId: "dummy-vis-b"))
+            bundler.addCommand(buildCommand(visitorId: "dummy-vis-c"))
         }
+
+        XCTAssertEqual(spy.actualCount, 2, "actualCount")
+        XCTAssertEqual(spy.bundles[0].commands.count, 1, "bundle[0].commands.count")
+        XCTAssertEqual(spy.bundles[1].commands.count, 2, "bundle[1].commands.count")
+    }
+
+    func testSceneBundlerRule() {
+        let spy = CommandBundlerSpy(count: 5)
+
+        let bundler = CommandBundler(
+            beforeBundleRules: [SceneBundleRule()],
+            afterBundleRules: [],
+            asyncBundleRules: []
+        )
+        bundler.delegate = spy
+
+        spy.wait {
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-1"), sceneId: SceneId("dummy-scene-id-1")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-2"), sceneId: SceneId("dummy-scene-id-1")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-2"), sceneId: SceneId("dummy-scene-id-1")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-3"), sceneId: SceneId("dummy-scene-id-1")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-3"), sceneId: SceneId("dummy-scene-id-2")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-3"), sceneId: SceneId("dummy-scene-id-2")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-4"), sceneId: SceneId("dummy-scene-id-1")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-5"), sceneId: SceneId("dummy-scene-id-1")))
+        }
+
+        XCTAssertEqual(spy.actualCount, 5, "actualCount")
+        XCTAssertEqual(spy.bundles[0].commands.count, 1, "bundle[0].commands.count")
+        XCTAssertEqual(spy.bundles[1].commands.count, 2, "bundle[1].commands.count")
+        XCTAssertEqual(spy.bundles[2].commands.count, 1, "bundle[2].commands.count")
+        XCTAssertEqual(spy.bundles[3].commands.count, 2, "bundle[3].commands.count")
+        XCTAssertEqual(spy.bundles[4].commands.count, 1, "bundle[4].commands.count")
+    }
+
+    func testCommandCountBundlerRule() {
+        let spy = CommandBundlerSpy(count: 2)
+
+        let bundler = CommandBundler(
+            beforeBundleRules: [],
+            afterBundleRules: [CommandCountBundleRule(count: 2)],
+            asyncBundleRules: []
+        )
+        bundler.delegate = spy
+
+        spy.wait {
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+        }
+
+        XCTAssertEqual(spy.actualCount, 2, "actualCount")
+        XCTAssertEqual(spy.bundles[0].commands.count, 2, "bundle[0].commands.count")
+        XCTAssertEqual(spy.bundles[1].commands.count, 2, "bundle[1].commands.count")
+    }
+
+    func testTimeWindowBundlerRuleIsImmediatelyBundlable() {
+        let spy = CommandBundlerSpy(count: 3)
+
+        let scheduler = MockScheduler()
+        let timeWindowBundleRule = TimeWindowBundleRule(scheduler: scheduler, interval: .milliseconds(1000))
+        let bundler = CommandBundler(
+            beforeBundleRules: [],
+            afterBundleRules: [],
+            asyncBundleRules: [timeWindowBundleRule]
+        )
+        bundler.delegate = spy
+        spy.wait(timeout: 1) {
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+
+            scheduler.advance(to: 1000)
+
+            scheduler.advance(to: 1200)
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+
+            scheduler.advance(to: 2200)
+
+            scheduler.advance(to: 2400)
+            bundler.addCommand(buildCommand())
+
+            scheduler.advance(to: 3400)
+        }
+
+        XCTAssertEqual(spy.actualCount, 3, "actualCount")
+        XCTAssertEqual(spy.bundles[0].commands.count, 2, "bundle[0].commands.count")
+        XCTAssertEqual(spy.bundles[1].commands.count, 3, "bundle[1].commands.count")
+        XCTAssertEqual(spy.bundles[2].commands.count, 1, "bundle[2].commands.count")
+    }
+
+    func testTimeWindowBundlerRuleIsImmediatelyBundlableTransition() {
+        let spy = CommandBundlerSpy(count: 2)
+
+        let scheduler = MockScheduler()
+        let timeWindowBundleRule = TimeWindowBundleRule(scheduler: scheduler, interval: .milliseconds(1000))
+        let bundler = CommandBundler(
+            beforeBundleRules: [],
+            afterBundleRules: [],
+            asyncBundleRules: [timeWindowBundleRule]
+        )
+        bundler.delegate = spy
+
+        spy.wait(timeout: 1) {
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+
+            scheduler.advance(to: 1000)
+
+            scheduler.advance(to: 1200)
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+
+            scheduler.advance(to: 1500)
+            timeWindowBundleRule.isImmediatelyBundlable = false
+
+            scheduler.advance(to: 2200)
+
+            scheduler.advance(to: 2400)
+            bundler.addCommand(buildCommand())
+
+            scheduler.advance(to: 4000)
+            timeWindowBundleRule.isImmediatelyBundlable = true
+            scheduler.advance(to: 5000)
+        }
+
+        XCTAssertEqual(spy.actualCount, 2, "actualCount")
+        XCTAssertEqual(spy.bundles[0].commands.count, 2, "bundle[0].commands.count")
+        XCTAssertEqual(spy.bundles[1].commands.count, 4, "bundle[1].commands.count")
+    }
+
+    func testTimeWindowBundlerRuleComplexRules() {
+        let spy = CommandBundlerSpy(count: 2)
+
+        let scheduler = MockScheduler()
+        let timeWindowBundleRule = TimeWindowBundleRule(scheduler: scheduler, interval: .milliseconds(100))
+        let bundler = CommandBundler(
+            beforeBundleRules: [SceneBundleRule()],
+            afterBundleRules: [],
+            asyncBundleRules: [timeWindowBundleRule]
+        )
+        bundler.delegate = spy
+
+        spy.wait(timeout: 1) {
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+
+            scheduler.advance(to: 100)
+
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-1")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-1")))
+            bundler.addCommand(buildCommand(pvId: PvId("dummy-pv-id-1")))
+
+            scheduler.advance(to: 200)
+        }
+
+        XCTAssertEqual(spy.actualCount, 2, "actualCount")
+        XCTAssertEqual(spy.bundles[0].commands.count, 2, "bundle[0].commands.count")
+        XCTAssertEqual(spy.bundles[1].commands.count, 3, "bundle[1].commands.count")
+    }
+
+    func testTimeWindowBundlerRuleWithRealDispatchQueueScheduler() {
+        let spy = CommandBundlerSpy(count: 1)
+
+        let timeWindowBundleRule = TimeWindowBundleRule(queue: spy.queue, interval: .milliseconds(50))
+        let bundler = CommandBundler(
+            beforeBundleRules: [],
+            afterBundleRules: [],
+            asyncBundleRules: [timeWindowBundleRule]
+        )
+        bundler.delegate = spy
+        spy.wait(timeout: 3) {
+            bundler.addCommand(buildCommand())
+            bundler.addCommand(buildCommand())
+        }
+
+        XCTAssertEqual(spy.actualCount, 1, "actualCount")
+        XCTAssertEqual(spy.bundles[0].commands.count, 2, "bundle[0].commands.count")
     }
 }
