@@ -186,8 +186,8 @@ def main
   generator = AtomFeedGenerator.new(release_info, feed_url, link_url)
   feed_xml = generator.generate
 
-  # Output to stdout
-  puts feed_xml
+  # Prepend UTF-8 BOM so browsers detect encoding correctly without relying on HTTP charset header
+  puts "\xEF\xBB\xBF#{feed_xml}"
 end
 
 main if __FILE__ == $PROGRAM_NAME
