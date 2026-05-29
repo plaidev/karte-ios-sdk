@@ -1,0 +1,38 @@
+name: Trigger Claude PR Review
+on:
+  issue_comment:
+    types: [created]
+permissions:
+  pull-requests: read
+jobs:
+  trigger:
+    # PR のコメントかつ @claude-review を含む場合のみ
+    if: |
+      github.event.repository.private &&
+      github.event.repository.name != 'karte-ios-sdk' &&
+      github.event.issue.pull_request != null &&
+      contains(github.event.comment.body, '@claude-review') &&
+      (github.event.comment.author_association == 'MEMBER' || github.event.comment.author_association == 'OWNER')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: dispatch-token
+        with:
+          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
+          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
+          owner: plaidev
+          repositories: app-ai
+          permission-actions: write
+      - name: Dispatch review request
+        env:
+          GH_TOKEN: ${{ steps.dispatch-token.outputs.token }}
+          SOURCE_REPO: ${{ github.event.repository.name }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          gh workflow run claude-code-review.yml \
+            --repo "plaidev/app-ai" \
+            --ref main \
+            --field "source_repo=${SOURCE_REPO}" \
+            --field "pr_number=${PR_NUMBER}"
