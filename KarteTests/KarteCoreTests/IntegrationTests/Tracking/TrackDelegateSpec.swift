@@ -14,13 +14,12 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 
 class TrackDelegate: NSObject, TrackerDelegate {
-    
+
     func intercept(_ event: Event) -> Event {
         var event = event
         event.merge(["foo": "bar"])
@@ -28,45 +27,31 @@ class TrackDelegate: NSObject, TrackerDelegate {
     }
 }
 
-class TrackDelegateSpec: QuickSpec {
-    
-    override class func spec() {
-        var delegate: TrackDelegate!
-        var builder: Builder!
-        
-        beforeSuite {
-            delegate = TrackDelegate()
-            builder = { request in
-                let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
-                let data = try! createJSONEncoder().encode(response)
-                return jsonData(data)(request)
-            }
-        }
-        
-        afterSuite {
-            Tracker.setDelegate(nil)
-        }
-        
-        describe("a tracker") {
-            describe("its delegate") {
-                var event: Event!
-                beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(metadata: metadata, builder: builder)
+class TrackDelegateSpec: XCTestCase {
 
-                    Tracker.setDelegate(delegate)
-                    KarteApp.setup(appKey: APP_KEY)
+    override func tearDown() {
+        Tracker.setDelegate(nil)
+        super.tearDown()
+    }
 
-                    event = module.wait().event(.nativeAppOpen)
-                }
-                
-                it("event name is `native_app_open`") {
-                    expect(event.eventName).to(equal(.nativeAppOpen))
-                }
-                
-                it("values.foo is `bar`") {
-                    expect(event.values.string(forKey: "foo")).to(equal("bar"))
-                }
-            }
+    func testTrackDelegate() {
+        let delegate = TrackDelegate()
+        let builder: Builder = { request in
+            let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
+            let data = try! createJSONEncoder().encode(response)
+            return jsonData(data)(request)
         }
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        Tracker.setDelegate(delegate)
+        KarteApp.setup(appKey: APP_KEY)
+
+        guard let event = module.wait().event(.nativeAppOpen) else {
+            XCTFail("event for native_app_open should not be nil")
+            return
+        }
+
+        XCTAssertEqual(event.eventName, .nativeAppOpen, "event name is native_app_open")
+        XCTAssertEqual(event.values.string(forKey: "foo"), "bar", "values.foo is bar")
     }
 }
