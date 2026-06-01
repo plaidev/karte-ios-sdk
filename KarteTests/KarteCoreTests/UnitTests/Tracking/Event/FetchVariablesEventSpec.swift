@@ -14,38 +14,16 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 @testable import KarteVariables
 
-class FetchVariablesEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a fetch variables event") {
-            var event: Event!
-            
-            beforeEach {
-                event = Event(.fetchVariables)
-            }
-            
-            describe("its eventName") {
-                it("is fetchVariables") {
-                    expect(event.eventName).to(equal(.fetchVariables))
-                }
-            }
-            
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-            }
-                        
-            describe("its build values") {
-                it("is empty") {
-                    expect(event.values.isEmpty).to(beTrue())
-                }
-            }
-        }
+class FetchVariablesEventSpec: XCTestCase {
+
+    func testFetchVariablesEvent() {
+        let event = Event(.fetchVariables)
+
+        XCTAssertEqual(event.eventName, .fetchVariables, "eventName is fetchVariables")
+        XCTAssertTrue(event.values.isEmpty, "values is empty")
     }
 }
