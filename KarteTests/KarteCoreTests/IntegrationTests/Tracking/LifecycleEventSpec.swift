@@ -14,117 +14,72 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 
-class LifecycleEventSpec: QuickSpec {
-    
-    override class func spec() {
-        var builder: Builder!
-        
-        beforeSuite {
-            builder = StubBuilder(spec: self, resource: .empty).build()
+class LifecycleEventSpec: XCTestCase {
+
+    func testAfterLaunch() {
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        KarteApp.setup(appKey: APP_KEY)
+
+        XCTAssertNotNil(module.wait().event(.nativeAppOpen), "occurred native_app_open event")
+    }
+
+    func testAfterInstallation() {
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        KarteApp.setup(appKey: APP_KEY)
+
+        XCTAssertNotNil(module.wait().event(.nativeAppInstall), "occurred native_app_install event")
+    }
+
+    func testAfterUpdate() {
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        Resolver.root = Resolver.submock
+        Resolver.root.register(name: "version_service.current_version_retriever") {
+            VersionRetrieverMock("1.0.0") as VersionRetriever
         }
-        
-        describe("a karte app") {
-            describe("its setup") {
-                context("when use default config") {
-                    context("when after launch") {
-                        var event: Event!
-                        beforeEach { (metadata: ExampleMetadata) in
-                            let module = StubActionModule(metadata: metadata, builder: builder)
+        defer { Resolver.root = Resolver.mock }
 
-                            KarteApp.setup(appKey: APP_KEY)
+        _ = VersionService()
 
-                            event = module.wait().event(.nativeAppOpen)
-                        }
-
-                        it("occurred native_app_open event") {
-                            expect(event).toNot(beNil())
-                        }
-                    }
-                    context("when after installation") {
-                        var event: Event!
-                        beforeEach { (metadata: ExampleMetadata) in
-                            let module = StubActionModule(metadata: metadata, builder: builder)
-
-                            KarteApp.setup(appKey: APP_KEY)
-
-                            event = module.wait().event(.nativeAppInstall)
-                        }
-
-                        it("occurred native_app_install event") {
-                            expect(event).toNot(beNil())
-                        }
-                    }
-                    context("when after update") {
-                        var event: Event!
-                        var versionRetriever: VersionRetrieverMock!
-
-                        beforeEach { (metadata: ExampleMetadata) in
-                            let module = StubActionModule(metadata: metadata, builder: builder)
-                            
-                            versionRetriever = VersionRetrieverMock()
-                            
-                            Resolver.root = Resolver.submock
-                            Resolver.root.register(name: "version_service.current_version_retriever") {
-                                versionRetriever as VersionRetriever
-                            }
-                            
-                            _ = VersionService()
-                            versionRetriever.ver = "1.0.1"
-                            
-                            KarteApp.setup(appKey: APP_KEY)
-                            
-                            event = module.wait().event(.nativeAppUpdate)
-                        }
-                        
-                        afterEach {
-                            Resolver.root = Resolver.mock
-                        }
-                        
-                        it("occurred native_app_update event") {
-                            expect(event).toNot(beNil())
-                        }
-                        
-                        it("values.prev_version_name is `1.0.0`") {
-                            expect(event.values.string(forKey: field(.previousVersionName))).to(equal("1.0.0"))
-                        }
-                    }
-                    context("when not after installation or update") {
-                        var events: [Event] = []
-                        var versionRetriever: VersionRetrieverMock!
-
-                        beforeEach { (metadata: ExampleMetadata) in
-                            let module = StubActionModule(metadata: metadata, builder: builder)
-
-                            versionRetriever = VersionRetrieverMock()
-
-                            Resolver.root = Resolver.submock
-                            Resolver.root.register(name: "version_service.current_version_retriever") {
-                                versionRetriever as VersionRetriever
-                            }
-
-                            _ = VersionService()
-                            versionRetriever.ver = "1.0.0"
-
-                            KarteApp.setup(appKey: APP_KEY)
-
-                            events.append(contentsOf: module.wait().events([.nativeAppInstall, .nativeAppUpdate]))
-                        }
-
-                        afterEach {
-                            Resolver.root = Resolver.mock
-                        }
-
-                        it("not occurred native_app_install and native_app_update event") {
-                            expect(events.count).to(equal(0))
-                        }
-                    }
-                }
-            }
+        Resolver.root.register(name: "version_service.current_version_retriever") {
+            VersionRetrieverMock("1.0.1") as VersionRetriever
         }
+
+        KarteApp.setup(appKey: APP_KEY)
+
+        guard let event = module.wait().event(.nativeAppUpdate) else {
+            XCTFail("native_app_update event should not be nil")
+            return
+        }
+        XCTAssertEqual(event.values.string(forKey: field(.previousVersionName)), "1.0.0", "values.prev_version_name")
+    }
+
+    func testNotAfterInstallationOrUpdate() {
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        let versionRetriever = VersionRetrieverMock("1.0.0")
+
+        Resolver.root = Resolver.submock
+        Resolver.root.register(name: "version_service.current_version_retriever") {
+            versionRetriever as VersionRetriever
+        }
+        defer { Resolver.root = Resolver.mock }
+
+        _ = VersionService()
+
+        KarteApp.setup(appKey: APP_KEY)
+
+        let events = module.wait().events([.nativeAppInstall, .nativeAppUpdate])
+        XCTAssertEqual(events.count, 0, "not occurred native_app_install and native_app_update event")
     }
 }
