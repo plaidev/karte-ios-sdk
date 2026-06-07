@@ -14,48 +14,36 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class RequestReviewCommandSpec: QuickSpec {
-    override class func spec() {
-        describe("its run") {
-            context("when invalid value passed") {
-                let examples = [
-                    "test:",
-                    "krt:",
-                    "krt://request-review",
-                    "aaa-krt://request-review",
-                    "krt-hSZM://request-review",
-                    "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://register-push",
-                ]
-                examples.forEach { (input) in
-                    context("\(input)") {
-                        it("returns false") {
-                            let c = RequestReviewCommand()
-                            let u = URL(string: input)!
-                            expect(c.run(url: u)).to(beFalse())
-                        }
-                    }
-                }
-            }
-            
-            context("when valid value passed") {
-                let examples = [
-                    "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://request-review",
-                    "krt-HRTwj9QEZGJrTaTkADrtdxFTyuXUJVMh://request-review"
-                ]
-                examples.forEach { (input) in
-                    context("\(input)") {
-                        it("returns true") {
-                            let c = RequestReviewCommand()
-                            let u = URL(string: input)!
-                            expect(c.run(url: u)).to(beTrue())
-                        }
-                    }
-                }
-            }
+class RequestReviewCommandSpec: XCTestCase {
+
+    func testRunReturnsFalseForInvalidURLs() {
+        let inputs = [
+            "test:",
+            "krt:",
+            "krt://request-review",
+            "aaa-krt://request-review",
+            "krt-hSZM://request-review",
+            "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://register-push",
+        ]
+        for input in inputs {
+            let c = RequestReviewCommand()
+            let u = URL(string: input)!
+            XCTAssertFalse(c.run(url: u), "\(input) returns false")
+        }
+    }
+
+    func testRunReturnsTrueForValidURLs() {
+        let inputs = [
+            "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://request-review",
+            "krt-HRTwj9QEZGJrTaTkADrtdxFTyuXUJVMh://request-review",
+        ]
+        for input in inputs {
+            let c = RequestReviewCommand()
+            let u = URL(string: input)!
+            XCTAssertTrue(c.run(url: u), "\(input) returns true")
         }
     }
 }
