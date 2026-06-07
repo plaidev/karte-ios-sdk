@@ -14,48 +14,36 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class OpenSettingsCommandSpec: QuickSpec {
-    override class func spec() {
-        describe("its run") {
-            context("when invalid value passed") {
-                let examples = [
-                    "test:",
-                    "krt:",
-                    "krt://open-settings",
-                    "aaa-karte-sdk://open-settings",
-                    "krt-hSZM://open-settings",
-                    "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://request-review",
-                ]
-                examples.forEach { (input) in
-                    context("\(input)") {
-                        it("returns false") {
-                            let c = OpenSettingsCommand()
-                            let u = URL(string: input)!
-                            expect(c.run(url: u)).to(beFalse())
-                        }
-                    }
-                }
-            }
-            
-            context("when valid value passed") {
-                let examples = [
-                    "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://open-settings",
-                    "krt-HRTwj9QEZGJrTaTkADrtdxFTyuXUJVMh://open-settings"
-                ]
-                examples.forEach { (input) in
-                    context("\(input)") {
-                        it("returns true") {
-                            let c = OpenSettingsCommand()
-                            let u = URL(string: input)!
-                            expect(c.run(url: u)).to(beTrue())
-                        }
-                    }
-                }
-            }
+class OpenSettingsCommandSpec: XCTestCase {
+
+    func testRunReturnsFalseForInvalidURLs() {
+        let inputs = [
+            "test:",
+            "krt:",
+            "krt://open-settings",
+            "aaa-karte-sdk://open-settings",
+            "krt-hSZM://open-settings",
+            "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://request-review",
+        ]
+        for input in inputs {
+            let c = OpenSettingsCommand()
+            let u = URL(string: input)!
+            XCTAssertFalse(c.run(url: u), "\(input) returns false")
+        }
+    }
+
+    func testRunReturnsTrueForValidURLs() {
+        let inputs = [
+            "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://open-settings",
+            "krt-HRTwj9QEZGJrTaTkADrtdxFTyuXUJVMh://open-settings",
+        ]
+        for input in inputs {
+            let c = OpenSettingsCommand()
+            let u = URL(string: input)!
+            XCTAssertTrue(c.run(url: u), "\(input) returns true")
         }
     }
 }
