@@ -4,14 +4,14 @@ on:
     inputs:
       # Allows manual recovery when the runner's Xcode version path changes.
       xcodeVersion:
-        description: 'Xcode version (e.g., 26.0.1 for /Applications/Xcode_26.0.1.app)'
+        description: 'Xcode version (e.g., 26.4.1 for /Applications/Xcode_26.4.1.app)'
         required: false
-        default: '26.0.1'
+        default: '26.4.1'
         type: string
 env:
   # https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md 
-  # Xcode path: `/Applications/Xcode_26.0.1.app`
-  XCODE_VERSION: ${{ inputs.xcodeVersion || '26.0.1' }}
+  # Xcode path: `/Applications/Xcode_26.4.1.app`
+  XCODE_VERSION: ${{ inputs.xcodeVersion || '26.4.1' }}
 jobs:
   publish-docs:
     runs-on: macos-26
