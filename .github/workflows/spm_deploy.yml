@@ -66,11 +66,12 @@ jobs:
           done
           echo "TARGETS=${RELEASE_TARGETS}" >> $GITHUB_OUTPUT
       - name: Create XCFrameworks
+        if: steps.find-release-targets.outputs.TARGETS != ''
         run: |
           ./scripts/create_xcframeworks.sh ${{ steps.find-release-targets.outputs.TARGETS }}
       - name: Upload xcframeworks to aws s3
         # Skipped in dry-run (workflow_dispatch).
-        if: github.event_name != 'workflow_dispatch'
+        if: github.event_name != 'workflow_dispatch' && steps.find-release-targets.outputs.TARGETS != ''
         run: |
           aws sts get-caller-identity
           aws s3 ls s3://production-native-sdk/
@@ -80,11 +81,11 @@ jobs:
           done
       - name: Backup Swift-PM manifest file
         # Skipped in dry-run (workflow_dispatch).
-        if: github.event_name != 'workflow_dispatch'
+        if: github.event_name != 'workflow_dispatch' && steps.find-release-targets.outputs.TARGETS != ''
         run: cp Package.swift Package.swift.back
       - name: Configure Git
         # Skipped in dry-run (workflow_dispatch).
-        if: github.event_name != 'workflow_dispatch'
+        if: github.event_name != 'workflow_dispatch' && steps.find-release-targets.outputs.TARGETS != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -93,7 +94,7 @@ jobs:
           git config --global user.email "git@users.noreply.github.com"
       - name: Update Swift-PM manifest file
         # Skipped in dry-run (workflow_dispatch).
-        if: github.event_name != 'workflow_dispatch'
+        if: github.event_name != 'workflow_dispatch' && steps.find-release-targets.outputs.TARGETS != ''
         run: |
           rm Package.swift
           mv Package.swift.back Package.swift

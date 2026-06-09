@@ -139,18 +139,31 @@ jobs:
         run: |
           bundle exec pod trunk me
           bundle exec pod lib lint --verbose --allow-warnings
+      # Determine unpublished podspecs by checking whether Git tags exist.
+      - name: Detect unpublished podspecs
+        id: detect
+        run: |
+          set -euo pipefail
+          PODSPECS=""
+          for PODSPEC in *.podspec; do
+            TARGET=${PODSPEC%.podspec}
+            TAG=$(ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t $TARGET)
+            if ! git tag -l "$TAG" | grep -Fxq "$TAG"; then
+              PODSPECS="${PODSPECS:+$PODSPECS }$PODSPEC"
+            fi
+          done
+          echo "podspecs=$PODSPECS" >> "$GITHUB_OUTPUT"
+          echo "Podspecs to be released: ${PODSPECS:-none}"
       - name: Publish
         id: publish
         if: env.EXECUTION_MODE == 'publish'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-          README_API_KEY: ${{ secrets.README_API_KEY }}
+          UNPUBLISHED_PODSPECS: ${{ steps.detect.outputs.podspecs }}
         run: |
-          PODSPEC_CHANGES=$(git diff HEAD~1..HEAD --name-only | grep '\.podspec$' || true)
-          if [ -n "$PODSPEC_CHANGES" ]; then
-            echo "Changed podspecs:"
-            echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
+          if [ -n "$UNPUBLISHED_PODSPECS" ]; then
+            echo "Podspecs to be released: $UNPUBLISHED_PODSPECS"
             bash ./scripts/publish.sh
             echo "published=true" >> $GITHUB_OUTPUT
           else
@@ -164,12 +177,6 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           gh workflow run publish-docs.yml --ref master
-      - name: Trigger release notes publish
-        if: env.EXECUTION_MODE == 'publish' && success()
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
-          gh workflow run publish-release-notes.yml --ref master
       - name: Trigger sync iOS SDK changelog
         if: env.EXECUTION_MODE == 'publish' && success()
         env:
