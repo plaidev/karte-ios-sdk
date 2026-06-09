@@ -14,8 +14,7 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteUtilities
 @testable import KarteCore
 
@@ -31,95 +30,74 @@ class CommandBundlerProxySpy: CommandBundler {
     }
 }
 
-class CommandBundlerProxySpec: AsyncSpec {
-    override class func spec() {
-        var provider: CommandBundlerApplicationStateProviderMock!
+final class CommandBundlerProxySpec: XCTestCase {
+    var provider: CommandBundlerApplicationStateProviderMock!
 
-        beforeSuite {
-            provider = CommandBundlerApplicationStateProviderMock()
+    override func setUp() {
+        super.setUp()
+        provider = CommandBundlerApplicationStateProviderMock()
 
-            Resolver.root = Resolver.submock
-            Resolver.root.register {
-                provider as CommandBundlerApplicationStateProvider
-            }
+        Resolver.root = Resolver.submock
+        let currentProvider = provider!
+        Resolver.root.register {
+            currentProvider as CommandBundlerApplicationStateProvider
         }
+    }
 
-        afterSuite {
-            Resolver.root = Resolver.mock
-        }
+    override func tearDown() {
+        Resolver.root = Resolver.mock
+        super.tearDown()
+    }
 
-        describe("a command bundler proxy") {
-            context("when active") {
-                var spy: CommandBundlerProxySpy!
+    func testActivePassesThrough() {
+        provider.state = .active
+        let spy = CommandBundlerProxySpy()
 
-                beforeEach {
-                    provider.state = .active
-                    spy = CommandBundlerProxySpy()
+        let proxy = StateCommandBundlerProxy(bundler: spy)
+        proxy.addCommand(buildCommand(event: Event(.open)))
+        proxy.addCommand(buildCommand())
 
-                    let proxy = StateCommandBundlerProxy(bundler: spy)
-                    proxy.addCommand(buildCommand(event: Event(.open)))
-                    proxy.addCommand(buildCommand())
-                }
+        XCTAssertEqual(spy.commands.count, 2, "All commands should pass through when active")
+    }
 
-                it("commands count is 2") {
-                    expect(spy.commands.count).to(equal(2))
-                }
-            }
+    func testInactivePassesThrough() {
+        provider.state = .inactive
+        let spy = CommandBundlerProxySpy()
 
-            context("when inactive") {
-                var spy: CommandBundlerProxySpy!
+        let proxy = StateCommandBundlerProxy(bundler: spy)
+        proxy.addCommand(buildCommand(event: Event(.open)))
+        proxy.addCommand(buildCommand())
 
-                beforeEach {
-                    provider.state = .inactive
-                    spy = CommandBundlerProxySpy()
+        XCTAssertEqual(spy.commands.count, 2, "All commands should pass through when inactive")
+    }
 
-                    let proxy = StateCommandBundlerProxy(bundler: spy)
-                    proxy.addCommand(buildCommand(event: Event(.open)))
-                    proxy.addCommand(buildCommand())
-                }
+    func testBackgroundFiltersCommands() {
+        provider.state = .background
+        let spy = CommandBundlerProxySpy()
 
-                it("commands count is 0") {
-                    expect(spy.commands.count).to(equal(2))
-                }
-            }
+        let proxy = StateCommandBundlerProxy(bundler: spy)
+        proxy.addCommand(buildCommand(event: Event(.open)))
+        proxy.addCommand(buildCommand())
 
-            context("when background") {
-                var spy: CommandBundlerProxySpy!
+        XCTAssertEqual(spy.commands.count, 1, "Only isReadyOnBackground commands should pass through when background")
+    }
 
-                beforeEach {
-                    provider.state = .background
-                    spy = CommandBundlerProxySpy()
+    func testBackgroundToForegroundFlushesBuffer() async {
+        provider.state = .background
+        let spy = CommandBundlerProxySpy()
 
-                    let proxy = StateCommandBundlerProxy(bundler: spy)
-                    proxy.addCommand(buildCommand(event: Event(.open)))
-                    proxy.addCommand(buildCommand())
-                }
+        let proxy = StateCommandBundlerProxy(bundler: spy)
+        proxy.addCommand(buildCommand(event: Event(.open)))
+        proxy.addCommand(buildCommand(event: Event(.install)))
 
-                it("commands count is 0") {
-                    expect(spy.commands.count).to(equal(1))
-                }
-            }
+        try? await Task.sleep(nanoseconds: 200_000_000)
+        provider.state = .inactive
+        proxy.addCommand(buildCommand())
 
-            context("when background to inactive to active") {
-                it("commands count is 4") {
-                    provider.state = .background
-                    let spy = CommandBundlerProxySpy()
+        try? await Task.sleep(nanoseconds: 200_000_000)
+        provider.state = .active
+        proxy.addCommand(buildCommand())
 
-                    let proxy = StateCommandBundlerProxy(bundler: spy)
-                    proxy.addCommand(buildCommand(event: Event(.open)))
-                    proxy.addCommand(buildCommand(event: Event(.install)))
-
-                    try? await Task.sleep(nanoseconds: 200_000_000) // 200ms
-                    provider.state = .inactive
-                    proxy.addCommand(buildCommand())
-
-                    try? await Task.sleep(nanoseconds: 200_000_000) // 200ms more
-                    provider.state = .active
-                    proxy.addCommand(buildCommand())
-
-                    expect(spy.commands.count).to(equal(4))
-                }
-            }
-        }
+        XCTAssertEqual(spy.commands.count, 4, "Buffered commands should be flushed when returning to foreground")
     }
 }

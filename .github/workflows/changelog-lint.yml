@@ -1,0 +1,85 @@
+name: "CHANGELOG Lint"
+on:
+  pull_request:
+    branches:
+      - 'develop'
+      - 'master'
+    paths:
+      - 'CHANGELOG.md'
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  changelog-lint:
+    if: github.repository == 'plaidev/karte-ios-dev'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
+          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
+          owner: plaidev
+          repositories: ${{ vars.CLAUDE_PLUGIN_REPO_NAME }}
+          permission-contents: read
+      - name: Clone changelog-lint plugin
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          CLAUDE_PLUGIN_REPO_NAME: ${{ vars.CLAUDE_PLUGIN_REPO_NAME }}
+        run: |
+          git clone --depth=1 "https://x-access-token:${APP_TOKEN}@github.com/plaidev/${CLAUDE_PLUGIN_REPO_NAME}.git" /tmp/plugin-repo
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      - uses: anthropics/claude-code-action@df37d2f0760a4b5683a6e617c9325bc1a36443f6 # v1.0.75
+        env:
+          ANTHROPIC_VERTEX_PROJECT_ID: ${{ vars.ANTHROPIC_VERTEX_PROJECT_ID }}
+          ANTHROPIC_VERTEX_REGION: ${{ vars.ANTHROPIC_VERTEX_REGION }}
+          CLOUD_ML_REGION: ${{ vars.ANTHROPIC_VERTEX_REGION }}
+          ANTHROPIC_VERTEX_ENABLE_PROMPT_CACHING: "true"
+        with:
+          github_token: ${{ github.token }}
+          allowed_bots: "app-team-github-app[bot]"
+          use_vertex: true
+          claude_args: |
+            --plugin-dir /tmp/plugin-repo/plugins/changelog-lint
+            --allowedTools 'Read,Write'
+            --model claude-sonnet-4-6
+          prompt: |
+            changelog-lintスキルを使ってCHANGELOG.mdをチェックしてください。
+            チェック結果を /tmp/changelog_lint_result.txt に書き出してください。
+      - name: Check lint result
+        run: |
+          if [ ! -f /tmp/changelog_lint_result.txt ]; then
+            echo "❌ Changelog lint result file not found."
+            exit 1
+          fi
+          cat /tmp/changelog_lint_result.txt
+          if grep -q "❌" /tmp/changelog_lint_result.txt; then
+            exit 1
+          fi
+      - name: Post lint errors as PR comment
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -f /tmp/changelog_lint_result.txt ] || ! grep -q "❌" /tmp/changelog_lint_result.txt; then
+            exit 0
+          fi
+          {
+            echo "## ❌ CHANGELOG Lint エラー"
+            echo ""
+            cat /tmp/changelog_lint_result.txt
+          } | gh pr comment "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --body-file -

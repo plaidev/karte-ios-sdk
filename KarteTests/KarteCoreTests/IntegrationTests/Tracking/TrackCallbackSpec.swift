@@ -14,73 +14,54 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
-import Mockingjay
+import XCTest
 @testable import KarteCore
 
-class TrackCallbackSpec: QuickSpec {
+class TrackCallbackSpec: XCTestCase {
 
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
+    func testTrackCallbackRequestSuccess() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
-        
-        describe("a tracker") {
-            describe("its track callback") {
-                context("request success") {
-                    var result: Bool!
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let builder = StubBuilder(spec: TrackCallbackSpec.self, resource: .empty).build()
-                        let module = StubActionModule(TrackCallbackSpec.self, metadata: metadata, builder: builder)
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
+        let module = StubActionModule(metadata: name, builder: builder)
 
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                        let event = Event(eventName: EventName("test"))
-                        let task = Tracker.track(event: event)
-                        task.completion = { (res) in
-                            result = res
-                        }
-
-                        module.wait()
-                    }
-                    
-                    it("result is true") {
-                        expect(result).to(beTrue())
-                    }
-                }
-                
-                context("request failure") {
-                    var result: Bool!
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let stub = MockingjayProtocol.addStub(matcher: uri("/v0/native/track"), builder: http(500))
-                        let module = StubActionModule(
-                            TrackCallbackSpec.self,
-                            metadata: metadata,
-                            stub: stub
-                        )
-
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-
-                        let event = Event(eventName: .fetchVariables)
-                        let task = Tracker.track(event: event)
-                        task.completion = { (res) in
-                            result = res
-                            module.finish()
-                        }
-
-                        module.wait()
-                    }
-                    
-                    it("result is false") {
-                        expect(result).to(beFalse())
-                    }
-                }
-            }
+        var result: Bool?
+        let event = Event(eventName: EventName("test"))
+        let task = Tracker.track(event: event)
+        task.completion = { res in
+            result = res
         }
+
+        module.wait()
+
+        XCTAssertEqual(result, true, "result is true")
+    }
+
+    func testTrackCallbackRequestFailure() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
+        }
+        let stub = HTTPStubProtocol.addStub(matcher: uri("/v0/native/track"), builder: http(500))
+        let module = StubActionModule(
+            metadata: name,
+            stub: stub
+        )
+
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        var result: Bool?
+        let event = Event(eventName: .fetchVariables)
+        let task = Tracker.track(event: event)
+        task.completion = { res in
+            result = res
+            module.finish()
+        }
+
+        module.wait()
+
+        XCTAssertEqual(result, false, "result is false")
     }
 }

@@ -14,37 +14,15 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class OpenEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a open event") {
-            var event: Event!
-            
-            beforeEach {
-                event = Event(.open)
-            }
-            
-            describe("its eventName") {
-                it("is nativeAppOpen") {
-                    expect(event.eventName).to(equal(.nativeAppOpen))
-                }
-            }
-            
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-            }
-            
-            describe("its build values") {
-                it("is empty") {
-                    expect(event.values.isEmpty).to(beTrue())
-                }
-            }
-        }
+class OpenEventSpec: XCTestCase {
+
+    func testOpenEvent() {
+        let event = Event(.open)
+
+        XCTAssertEqual(event.eventName, .nativeAppOpen, "eventName")
+        XCTAssertTrue(event.values.isEmpty, "values is empty")
     }
 }

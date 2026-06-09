@@ -14,12 +14,11 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteUtilities
 @testable import KarteCore
 
-func getBody() -> TrackBody {
+private func makeBody() -> TrackBody {
     let appInfo = AppInfo()
     Resolver.registerAppInfo()
     return TrackBody(
@@ -27,37 +26,25 @@ func getBody() -> TrackBody {
         events: [Event(.foreground)],
         keys: TrackBody.Keys(
             visitorId: "dummy_vis_id",
-            pvId: PvId(UUID().uuidString),
-            originalPvId: PvId(UUID().uuidString)))
+            pvId: PvId("dummy_pv_id"),
+            originalPvId: PvId("dummy_original_pv_id")))
 }
 
-class TrackBodySpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a track body parameters") {
-            var body: TrackBody!
-            
-            beforeEach {
-                body = getBody()
-            }
-            
-            describe("its build") {
-                it("is gzipped") {
-                    let data = try! body.asData()
-                    expect(data.isGzipped).to(beTrue())
-                }
-            }
+class TrackBodySpec: XCTestCase {
 
-            describe("its encoding") {
-                it("uses correct coding keys") {
-                    let encodedData = try! createJSONEncoder().encode(body)
-                    let jsonObject = try! JSONSerialization.jsonObject(with: encodedData, options: []) as! [String: Any]
-                    
-                    expect(jsonObject["app_info"]).toNot(beNil())
-                    expect(jsonObject["events"]).toNot(beNil())
-                    expect(jsonObject["keys"]).toNot(beNil())
-                }
-            }
-        }
+    func testTrackBodyIsGzipped() {
+        let body = makeBody()
+        let data = try! body.asData()
+        XCTAssertTrue(data.isGzipped, "is gzipped")
+    }
+
+    func testTrackBodyUsesCorrectCodingKeys() {
+        let body = makeBody()
+        let encodedData = try! createJSONEncoder().encode(body)
+        let jsonObject = try! JSONSerialization.jsonObject(with: encodedData, options: []) as! [String: Any]
+
+        XCTAssertNotNil(jsonObject["app_info"], "app_info key exists")
+        XCTAssertNotNil(jsonObject["events"], "events key exists")
+        XCTAssertNotNil(jsonObject["keys"], "keys key exists")
     }
 }

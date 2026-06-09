@@ -14,60 +14,16 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
-import KarteUtilities
+import XCTest
 @testable import KarteCore
 
-class UpdateEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a update event") {
-            var service: VersionService!
-            var event: Event!
-            
-            var versionRetriever: VersionRetrieverMock!
+class UpdateEventSpec: XCTestCase {
 
-            afterEach {
-                service.clean()
-                Resolver.root = Resolver.mock
-            }
-            beforeEach {
-                versionRetriever = VersionRetrieverMock()
-                Resolver.root = Resolver.submock
-                Resolver.root.register(name: "version_service.current_version_retriever") {
-                    versionRetriever as VersionRetriever
-                }
-                
-                _ = VersionService()
-                
-                versionRetriever.ver = "1.0.1"
-                service = VersionService()
-                event = Event(.update(version: service.previousVersion))
-            }
-            
-            describe("its eventName") {
-                it("is nativeAppUpdate") {
-                    expect(event.eventName).to(equal(.nativeAppUpdate))
-                }
-            }
-            
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-            }
-            
-            describe("its build values") {
-                it("count is 1") {
-                    expect(event.values.count).to(equal(1))
-                }
-                
-                it("values.prev_version_name is `1.0.0`") {
-                    expect(event.values.string(forKey: "prev_version_name")).to(equal("1.0.0"))
-                }
-            }
-        }
+    func testUpdateEvent() {
+        let event = Event(.update(version: "1.0.0"))
 
+        XCTAssertEqual(event.eventName, .nativeAppUpdate, "eventName")
+        XCTAssertEqual(event.values.count, 1, "values count")
+        XCTAssertEqual(event.values.string(forKey: "prev_version_name"), "1.0.0", "prev_version_name")
     }
 }

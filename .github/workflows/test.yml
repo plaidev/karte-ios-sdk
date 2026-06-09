@@ -9,36 +9,38 @@ on:
     branches:
       - develop
       - master
-permissions:
-  id-token: write # for using OIDC in codecov/codecov-action
-  contents: read
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 env:
-  IOS_VERSION: "26.0.1"
+  IOS_VERSION: "26.5"
   DEVICE_NAME: "iPhone 17"
 jobs:
   test:
     # NOTE: Using `macos-26-xlarge` to avoid timing-dependent test failures.
     runs-on: macos-26-xlarge
-    timeout-minutes: 20
+    # NOTE: Using short timeout for recognizing hangs / slow tests.
+    timeout-minutes: 10
     # NOTE: Run only in private repo.
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' }}
+    permissions:
+      contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
       - name: Checkout git submodules
         run: |
           git submodule sync
           git submodule update --init
       - name: Set up Ruby
-        uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
+        uses: ruby/setup-ruby@4fc31e1c823882afd7ef55985266a526c589de90 # v1.282.0
         with:
           ruby-version: '3.4'
           bundler-cache: true # Runs 'bundle install' and caches installed gems automatically
       - name: Cache CocoaPods
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -58,21 +60,25 @@ jobs:
                           -resultBundlePath "output/KarteTests_${{ env.IOS_VERSION }}.xcresult" \
                           -skipPackagePluginValidation \
                           -skipMacroValidation
-      - name: Generate coverage report
-        run: bundle exec slather
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
-        with:
-          use_oidc: true
-          files: ./cobertura.xml
-          flags: unittests
-          fail_ci_if_error: false
-          verbose: true
       # NOTE: Upload test results only on failure to save storage costs
       - name: Upload test results
         if: failure()
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: KarteTests-${{ env.IOS_VERSION }}-Test-${{ github.run_number }}.xcresult
           path: output/KarteTests_${{ env.IOS_VERSION }}.xcresult
           retention-days: 1
+  notify-slack-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [test]
+    if: always() && github.ref == 'refs/heads/develop' && github.repository != 'plaidev/karte-ios-sdk'
+    permissions: {}
+    steps:
+      - name: Notify Slack on test failure
+        if: needs.test.result == 'failure'
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Test workflow: Test job failed on develop branch'
+          SLACK_COLOR: failure

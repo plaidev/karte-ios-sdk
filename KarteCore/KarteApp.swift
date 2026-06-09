@@ -282,7 +282,15 @@ public extension KarteApp {
 }
 
 extension KarteApp {
+    private var isInitialized: Bool {
+        !appKey.isEmpty
+    }
+
     func setup(configuration: Configuration) {
+        guard !isInitialized else {
+            Logger.warn(tag: .core, message: "KarteApp is already set up.")
+            return
+        }
         let service = CoreService(configuration: configuration)
         guard service.isEnabled else {
             return
@@ -366,5 +374,6 @@ extension Resolver: @retroactive ResolverRegistering {
         registerIsReachable()
         registerExponentialBackoff()
         registerCircuitBreaker()
+        registerTrackingCommandRepository()
     }
 }

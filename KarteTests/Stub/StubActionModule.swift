@@ -14,8 +14,6 @@
 //  limitations under the License.
 //
 
-import Quick
-import Mockingjay
 import XCTest
 @testable import KarteCore
 
@@ -23,54 +21,44 @@ class StubActionModule {
     typealias TrackResponseData = (request: URLRequest, body: TrackBody, event: Event)
 
     var exp: XCTestExpectation
-    var testCase: XCTestCase
     var stub: Stub?
 
     var request: URLRequest?
     var responses: [String: TrackResponseData] = [:]
 
-    init(_ testCase: Any, metadata: ExampleMetadata? = nil, stub: Stub?) {
-        let metadataLabel = metadata?.example.name ?? "test"
-
-        // Accept both QuickSpec and QuickSpec.Type
-        if let spec = testCase as? XCTestCase {
-            self.testCase = spec
-        } else if testCase is XCTestCase.Type {
-            // For class methods, try to get the current test instance
-            // This is a workaround for Quick 7.x where spec() is a class method
-            self.testCase = XCTestCase()
-        } else {
-            fatalError("testCase must be XCTestCase or XCTestCase.Type")
-        }
-
-        self.exp = self.testCase.expectation(description: "Wait for finish => \(metadataLabel)")
+    init(metadata: Any? = nil, stub: Stub?) {
+        let metadataLabel = metadata.map { String(describing: $0) } ?? "test"
+        self.exp = XCTestExpectation(description: "Wait for finish => \(metadataLabel)")
         self.stub = stub
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(observeTrackingAgentHasNoCommandsNotification(_:)),
             name: TrackingAgent.trackingAgentHasNoCommandsNotification,
             object: nil
         )
-        
+
         KarteApp.shared.register(module: .action(self))
     }
-    
-    convenience init(_ testCase: Any, metadata: ExampleMetadata? = nil, path: String = "/v0/native/track", builder: @escaping Builder) {
-        // Initialize without stub first
-        self.init(testCase, metadata: metadata, stub: nil)
 
-        // Now create stub using MockingjayProtocol.addStub directly (works in both instance and class method contexts)
-        // We can now capture self since initialization is complete
-        self.stub = MockingjayProtocol.addStub(matcher: uri(path), builder: { [weak self] (request) -> (Response) in
-            self?.request = request
-            return builder(request)
-        })
+    convenience init(metadata: Any? = nil, path: String = "/v0/native/track", builder: @escaping Builder) {
+        self.init(metadata: metadata, stub: nil)
+
+        self.stub = HTTPStubProtocol.addStub(
+            matcher: HTTPStubProtocol.pathMatcher(path),
+            builder: { [weak self] request in
+                self?.request = request
+                return builder(request)
+            }
+        )
     }
 
     @discardableResult
     func wait(timeout: TimeInterval = 10) -> StubActionModule {
-        testCase.wait(for: [self.exp], timeout: timeout)
+        let result = XCTWaiter.wait(for: [self.exp], timeout: timeout)
+        if result != .completed {
+            XCTFail("Expectation not fulfilled: \(result)")
+        }
         return self
     }
 
@@ -79,13 +67,16 @@ class StubActionModule {
         DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(Int(timeout) - 1)) {
             self.finish()
         }
-        testCase.wait(for: [self.exp], timeout: timeout)
+        let result = XCTWaiter.wait(for: [self.exp], timeout: timeout)
+        if result != .completed {
+            XCTFail("Expectation not fulfilled: \(result)")
+        }
         return self
     }
 
     func finish() {
         if let stub = stub {
-            MockingjayProtocol.removeStub(stub)
+            HTTPStubProtocol.removeStub(stub)
         }
         KarteApp.shared.unregister(module: .action(self))
 

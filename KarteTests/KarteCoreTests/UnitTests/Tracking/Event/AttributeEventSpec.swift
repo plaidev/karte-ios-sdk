@@ -14,40 +14,18 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class AttributeEventSpec: QuickSpec {
+class AttributeEventSpec: XCTestCase {
 
-    override class func spec() {
-        describe("a attribute event") {
-            var event: Event!
-            
-            beforeEach {
-                event = Event(.attribute(values: [
-                    "key": "value"
-                ]))
-            }
-            
-            describe("its eventName") {
-                it("is attribute") {
-                    expect(event.eventName).to(equal(.attribute))
-                }
-            }
-            
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-                it("count is 1") {
-                    expect(event.values.count).to(equal(1))
-                }
-                
-                it("values.key is `value`") {
-                    expect(event.values.string(forKey: "key")).to(equal("value"))
-                }
-            }
-        }
+    func testAttributeEvent() {
+        let event = Event(.attribute(values: [
+            "key": "value"
+        ]))
+
+        XCTAssertEqual(event.eventName, .attribute, "eventName")
+        XCTAssertEqual(event.values.count, 1, "values count")
+        XCTAssertEqual(event.values.string(forKey: "key"), "value", "values.key")
     }
 }

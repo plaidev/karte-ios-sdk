@@ -14,35 +14,17 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 import AppTrackingTransparency
 
 
-class ATTServiceSpec: QuickSpec {
+class ATTServiceSpec: XCTestCase {
 
-    override class func spec() {
-        describe("its run") {
-            it("returns authorized label") {
-                let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.authorized)
-                expect(result).to(equal("authorized"))
-            }
-
-            it("returns denied label") {
-                let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.denied)
-                expect(result).to(equal("denied"))
-            }
-
-            it("returns restricted label") {
-                let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.restricted)
-                expect(result).to(equal("restricted"))
-            }
-
-            it("returns notDetermined label") {
-                let result = ATTService.getATTStatusLabel(attStatus: ATTrackingManager.AuthorizationStatus.notDetermined)
-                expect(result).to(equal("notDetermined"))
-            }
-        }
+    func testGetATTStatusLabel() {
+        XCTAssertEqual(ATTService.getATTStatusLabel(attStatus: .authorized), "authorized")
+        XCTAssertEqual(ATTService.getATTStatusLabel(attStatus: .denied), "denied")
+        XCTAssertEqual(ATTService.getATTStatusLabel(attStatus: .restricted), "restricted")
+        XCTAssertEqual(ATTService.getATTStatusLabel(attStatus: .notDetermined), "notDetermined")
     }
 }

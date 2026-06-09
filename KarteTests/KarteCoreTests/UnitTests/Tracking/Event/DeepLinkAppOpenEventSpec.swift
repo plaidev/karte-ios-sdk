@@ -14,41 +14,16 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class DeepLinkAppOpenEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a `deep_link_app_open` event") {
-            var event: Event!
-            
-            beforeEach {
-                event = Event(.deepLinkAppOpen(url: "deep-link"))
-            }
-            
-            describe("its eventName") {
-                it("is deepLinkAppOpen") {
-                    expect(event.eventName).to(equal(.deepLinkAppOpen))
-                }
-            }
-            
-            describe("its values") {
-                it("is not nil") {
-                    expect(event.values).toNot(beNil())
-                }
-            }
-            
-            describe("its build values") {
-                it("count is 1") {
-                    expect(event.values.count).to(equal(1))
-                }
-                
-                it("values.url is `deep-link`") {
-                    expect(event.values.string(forKey: "url")).to(equal("deep-link"))
-                }
-            }
-        }
+class DeepLinkAppOpenEventSpec: XCTestCase {
+
+    func testDeepLinkAppOpenEvent() {
+        let event = Event(.deepLinkAppOpen(url: "deep-link"))
+
+        XCTAssertEqual(event.eventName, .deepLinkAppOpen, "eventName")
+        XCTAssertEqual(event.values.count, 1, "values count")
+        XCTAssertEqual(event.values.string(forKey: "url"), "deep-link", "values.url")
     }
 }

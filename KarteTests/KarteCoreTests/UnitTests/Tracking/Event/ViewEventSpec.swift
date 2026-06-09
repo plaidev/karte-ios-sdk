@@ -14,46 +14,21 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class ViewEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a view event") {
-            context("when view_id is not nil") {
-                var event: Event!
-                
-                beforeEach {
-                    event = Event(.view(viewName: "view_name", title: "title", values: [
-                        "key": "value",
-                        "view_id": "view_id"
-                    ]))
-                }
-                
-                describe("its values") {
-                    it("count is 4") {
-                        expect(event.values.count).to(equal(4))
-                    }
+class ViewEventSpec: XCTestCase {
 
-                    it("values.key is `value`") {
-                        expect(event.values.string(forKey: "key")).to(equal("value"))
-                    }
-                    
-                    it("values.view_name is `view_name") {
-                        expect(event.values.string(forKey: "view_name")).to(equal("view_name"))
-                    }
-                    
-                    it("values.view_id is `view_id`") {
-                        expect(event.values.string(forKey: "view_id")).to(equal("view_id"))
-                    }
-                    
-                    it("values.title is `title`") {
-                        expect(event.values.string(forKey: "title")).to(equal("title"))
-                    }
-                }
-            }
-        }
+    func testViewEventWhenViewIdIsNotNil() {
+        let event = Event(.view(viewName: "view_name", title: "title", values: [
+            "key": "value",
+            "view_id": "view_id"
+        ]))
+
+        XCTAssertEqual(event.values.count, 4, "values count")
+        XCTAssertEqual(event.values.string(forKey: "key"), "value", "values.key")
+        XCTAssertEqual(event.values.string(forKey: "view_name"), "view_name", "values.view_name")
+        XCTAssertEqual(event.values.string(forKey: "view_id"), "view_id", "values.view_id")
+        XCTAssertEqual(event.values.string(forKey: "title"), "title", "values.title")
     }
 }

@@ -1,0 +1,46 @@
+name: "Publish Release Notes"
+on:
+  workflow_dispatch:
+    inputs:
+      rubyVersion:
+        description: 'Ruby version (e.g., 3.3.10)'
+        required: false
+        default: '3.3.10'
+        type: string
+permissions:
+  contents: read
+jobs:
+  publish-release-notes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ github.repository != 'plaidev/karte-ios-sdk' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@4fc31e1c823882afd7ef55985266a526c589de90 # v1.282.0
+        with:
+          # Using Ruby 3.3.10 to avoid ruby/openssl issue
+          # https://github.com/ruby/openssl/issues/949#issuecomment-3388132260
+          ruby-version: ${{ inputs.rubyVersion || '3.3.10' }}
+      - name: Publish release notes to ReadMe
+        env:
+          README_API_KEY: ${{ secrets.README_API_KEY }}
+        run: |
+          ruby scripts/publish_changelog.rb
+      - name: Notify Slack on success
+        if: success()
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Release notes published successfully to ReadMe'
+          SLACK_COLOR: success
+      - name: Notify Slack on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: 'Failed to publish release notes to ReadMe'
+          SLACK_COLOR: failure

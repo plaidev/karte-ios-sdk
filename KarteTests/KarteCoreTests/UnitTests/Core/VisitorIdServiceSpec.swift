@@ -14,87 +14,53 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 
-class VisitorIdServiceSpec: QuickSpec {
+class VisitorIdServiceSpec: XCTestCase {
 
-    override class func spec() {
-        var visitorIdGeneratorMock: VisitorIdGeneratorMock!
-        
-        beforeEach {
-            visitorIdGeneratorMock = VisitorIdGeneratorMock()
-            
-            Resolver.root = Resolver.submock
-            Resolver.root.register(name: "visitor_id_service.generator") {
-                visitorIdGeneratorMock as IdGenerator
-            }
+    var visitorIdGeneratorMock: VisitorIdGeneratorMock!
+
+    override func setUp() {
+        super.setUp()
+        visitorIdGeneratorMock = VisitorIdGeneratorMock()
+        Resolver.root = Resolver.submock
+        Resolver.root.register(name: "visitor_id_service.generator") {
+            self.visitorIdGeneratorMock as IdGenerator
         }
-        
-        afterEach {
-            Resolver.root = Resolver.mock
-            VisitorIdService().clean()
-        }
-        
-        describe("its initialize") {
-            var service: VisitorIdService!
-            
-            beforeEach {
-                service = VisitorIdService()
-            }
-            
-            it("visitor_id is `dummy_visitor_id`") {
-                expect(service.visitorId).to(equal("dummy_visitor_id"))
-            }
-            
-            it("stored visitor_id is `dummy_visitor_id`") {
-                let service = VisitorIdService()
-                expect(service.visitorId).to(equal("dummy_visitor_id"))
-            }
-        }
-        
-        describe("its renew") {
-            var service: VisitorIdService!
-            
-            beforeEach {
-                // Generate new visitor_id
-                _ = VisitorIdService().visitorId
-                
-                visitorIdGeneratorMock.id = "renew_visitor_id"
-                
-                service = VisitorIdService()
-                service.renew()
-            }
-            
-            it("visitor_id is `renew_visitor_id`") {
-                expect(service.visitorId).to(equal("renew_visitor_id"))
-            }
-            
-            it("stored visitor_id is `renew_visitor_id`") {
-                let service = VisitorIdService()
-                expect(service.visitorId).to(equal("renew_visitor_id"))
-            }
-        }
-        
-        describe("its delete") {
-            beforeEach {
-                Resolver.root = Resolver.main
-            }
-            
-            afterEach {
-                Resolver.root = Resolver.mock
-            }
-            
-            it("not match visitor id") {
-                let service = VisitorIdService()
-                let visitorId = service.visitorId
-                
-                service.clean()
-                
-                expect(VisitorIdService().visitorId).toNot(equal(visitorId))
-            }
-        }
+    }
+
+    override func tearDown() {
+        Resolver.root = Resolver.mock
+        VisitorIdService().clean()
+        super.tearDown()
+    }
+
+    func testInitialize() {
+        let service = VisitorIdService()
+        XCTAssertEqual(service.visitorId, "dummy_visitor_id", "initial visitorId")
+        XCTAssertEqual(VisitorIdService().visitorId, "dummy_visitor_id", "stored visitorId")
+    }
+
+    func testRenew() {
+        _ = VisitorIdService().visitorId
+        visitorIdGeneratorMock.id = "renew_visitor_id"
+
+        let service = VisitorIdService()
+        service.renew()
+
+        XCTAssertEqual(service.visitorId, "renew_visitor_id", "visitorId after renew")
+        XCTAssertEqual(VisitorIdService().visitorId, "renew_visitor_id", "stored visitorId after renew")
+    }
+
+    func testCleanResetsVisitorId() {
+        Resolver.root = Resolver.main
+
+        let service = VisitorIdService()
+        let visitorId = service.visitorId
+        service.clean()
+
+        XCTAssertNotEqual(VisitorIdService().visitorId, visitorId, "visitorId changes after clean")
     }
 }

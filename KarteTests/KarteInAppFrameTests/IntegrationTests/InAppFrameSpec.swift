@@ -17,12 +17,11 @@
 import XCTest
 import Quick
 import Nimble
-import Mockingjay
 
 final class InAppFrameSpec: XCTestCase {
     func test_fetchMessagesShouldBeParsedWithoutError() async throws {
         let successResponse = StubBuilder(test: self, resource: .inappframe_carousel_without_margin).build()
-        stub(http(.post, uri: "/v2native/inbox/fetchMessages"), successResponse)
+        stub(http(.post, path: "/v2native/inbox/fetchMessages"), successResponse)
 //        guard let res = await Inbox.fetchMessages() else {
 //            XCTFail("Should never be executed")
 //            return

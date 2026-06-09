@@ -17,7 +17,7 @@
 import Foundation
 
 internal struct ClassLoader {
-    static var compoingViewClass: AnyClass? {
+    static var compositingViewClass: AnyClass? {
         load("V0tDb21wb3NpdGluZ1ZpZXc=")
     }
 

@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2026 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -14,20 +14,25 @@
 //  limitations under the License.
 //
 
-import Quick
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 
-class SpecConfiguration: QuickConfiguration {
+class KarteTestObserver: NSObject, XCTestObservation {
 
-    override class func configure(_ configuration: QCKConfiguration) {
-        configuration.beforeSuite {
-            KarteApp.setLogLevel(.off)
-            KarteApp.shared.teardown()
-            Resolver.registerMockServices()
-        }
-        configuration.afterEach {
-            KarteApp.shared.teardown()
-        }
+    override init() {
+        super.init()
+        XCTestObservationCenter.shared.addTestObserver(self)
+    }
+
+    func testBundleWillStart(_ testBundle: Bundle) {
+        KarteApp.setLogLevel(.off)
+        KarteApp.shared.teardown()
+        Resolver.registerMockServices()
+        URLProtocol.registerClass(HTTPStubProtocol.self)
+    }
+
+    func testCaseDidFinish(_ testCase: XCTestCase) {
+        KarteApp.shared.teardown()
     }
 }

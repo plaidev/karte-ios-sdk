@@ -15,7 +15,6 @@
 //
 
 import XCTest
-import Mockingjay
 import Nimble
 import KarteUtilities
 @testable import KarteCore
@@ -30,6 +29,7 @@ class VisualTrackDelegate: VisualTrackingDelegate {
     }
 }
 
+@MainActor
 class TracerTests: XCTestCase {
     let idfa = IDFA()
     let visualTrackDelegate = VisualTrackDelegate()
@@ -47,12 +47,12 @@ class TracerTests: XCTestCase {
     func testPairingAndTrace() {
         let exp = expectation(description: "Wait for pairing and trace tests")
 
-        func buildContent() -> (URLRequest) -> Response {
+        func buildContent() -> Builder {
             let data = "OK".data(using: .utf8)!
             return http(200, headers: nil, download: .content(data))
         }
 
-        let pairingStub = stub(uri("/v0/native/auto-track/pairing-start")) { (request) -> (Response) in
+        let pairingStub = stub(uri("/v0/native/auto-track/pairing-start")) { request in
             let body = request.pairingRequestBody()!
 
             expect(request.allHTTPHeaderFields?["X-KARTE-App-Key"]).to(equal(APP_KEY))
@@ -75,7 +75,7 @@ class TracerTests: XCTestCase {
         }
 
         var pass = false
-        let heartbeatStub = stub(uri("/v0/native/auto-track/pairing-heartbeat")) { (request) -> (Response) in
+        let heartbeatStub = stub(uri("/v0/native/auto-track/pairing-heartbeat")) { request in
             let body = request.pairingHeartbeatRequestBody()!
             if pass {
                 return buildContent()(request)
@@ -95,7 +95,7 @@ class TracerTests: XCTestCase {
             return buildContent()(request)
         }
 
-        let traceStub = stub(uri("/v0/native/auto-track/trace")) { (request) -> (Response) in
+        let traceStub = stub(uri("/v0/native/auto-track/trace")) { request in
 
             expect(request.allHTTPHeaderFields?["X-KARTE-App-Key"]).to(equal(APP_KEY))
             expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-Account-Id"]).to(equal("dummy_account_id"))

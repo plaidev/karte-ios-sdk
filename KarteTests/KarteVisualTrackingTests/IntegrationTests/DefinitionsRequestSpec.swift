@@ -16,7 +16,6 @@
 
 import Quick
 import Nimble
-import Mockingjay
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteVisualTracking
@@ -40,7 +39,7 @@ class DefinitionsRequestSpec: AsyncSpec {
             var definitions: AutoTrackDefinition?
 
             beforeEach {
-                mockStub = MockingjayProtocol.addStub(matcher: uri("/v0/native/auto-track/definitions"), builder: {(r) -> (Response) in
+                mockStub = HTTPStubProtocol.addStub(matcher: uri("/v0/native/auto-track/definitions"), builder: {r in
                     request = r
                     return builder(request)
                 })
@@ -56,7 +55,7 @@ class DefinitionsRequestSpec: AsyncSpec {
 
             afterEach {
                 if mockStub != nil {
-                    MockingjayProtocol.removeStub(mockStub)
+                    HTTPStubProtocol.removeStub(mockStub)
                 }
             }
 

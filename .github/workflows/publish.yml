@@ -13,11 +13,8 @@ on:
           - publish
           - dry_run
         default: 'dry_run'
-permissions:
-  id-token: write # for using OIDC in codecov/codecov-action
-  contents: write
 env:
-  IOS_VERSION: "26.0.1"
+  IOS_VERSION: "26.5"
   DEVICE_NAME: "iPhone 17"
   EXECUTION_MODE: ${{ inputs.mode || 'publish' }}
 jobs:
@@ -27,9 +24,13 @@ jobs:
     timeout-minutes: 20
     # NOTE: Run only in private repo. Block publish mode on non-master branches.
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode == 'dry_run') }}
+    permissions:
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          persist-credentials: false
       - name: Checkout git submodules
         run: |
           git submodule sync
@@ -60,16 +61,6 @@ jobs:
                           -resultBundlePath "output/KarteTests_${{ env.IOS_VERSION }}.xcresult" \
                           -skipPackagePluginValidation \
                           -skipMacroValidation
-      - name: Generate coverage report
-        run: bundle exec slather
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
-        with:
-          use_oidc: true
-          files: ./cobertura.xml
-          flags: unittests
-          fail_ci_if_error: false
-          verbose: true
       # NOTE: Upload test results only on failure to save storage costs
       - name: Upload test results
         if: failure()
@@ -84,6 +75,8 @@ jobs:
     timeout-minutes: 30
     # NOTE: Run only in private repo. Block publish mode on non-master branches.
     if: ${{ github.repository != 'plaidev/karte-ios-sdk' && (github.ref == 'refs/heads/master' || inputs.mode == 'dry_run') }}
+    permissions:
+      contents: write
     steps:
       - name: Generate GitHub App token
         uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
@@ -95,6 +88,10 @@ jobs:
           repositories: |
             karte-ios-sdk
             karte-ios-dev
+            karte-app-dev-docs
+          permission-contents: write
+          permission-actions: write
+          permission-workflows: write
       - name: Checkout repository
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
@@ -119,16 +116,17 @@ jobs:
           git config --global url."https://x-access-token:${GH_TOKEN}@github.com/plaidev/karte-ios-dev".insteadOf "https://github.com/plaidev/karte-ios-dev"
           git config --global user.name "github actions"
           git config --global user.email "git@users.noreply.github.com"
+      - name: Set up sync repository
+        run: |
+          git remote add sync_repo https://github.com/plaidev/karte-ios-sdk.git || true
+          git fetch sync_repo
       # NOTE: Verify Git authentication and push permissions before actual publish.
       - name: Dry run (Git authentication check)
         if: env.EXECUTION_MODE == 'dry_run'
         env:
-          GITHUB_REMOTE_ADDRESS: https://github.com/plaidev/karte-ios-sdk.git
           TEMP_BRANCH: ci-auth-test-${{ github.run_id }}
           TEMP_TAG: ci-auth-test-tag-${{ github.run_id }}
         run: |
-          git remote add sync_repo ${GITHUB_REMOTE_ADDRESS} || true
-          git fetch sync_repo
           git push --dry-run sync_repo HEAD:refs/heads/${TEMP_BRANCH}
           git tag ${TEMP_TAG}
           git push --dry-run origin ${TEMP_TAG}
@@ -142,13 +140,10 @@ jobs:
           bundle exec pod trunk me
           bundle exec pod lib lint --verbose --allow-warnings
       - name: Publish
+        id: publish
         if: env.EXECUTION_MODE == 'publish'
         env:
-          GITHUB_REMOTE_ADDRESS: https://github.com/plaidev/karte-ios-sdk.git
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          GITHUB_USER_NAME: 'github actions'
-          GITHUB_USER_EMAIL: 'git@users.noreply.github.com'
-          EXEC_ENV: 'private'
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
           README_API_KEY: ${{ secrets.README_API_KEY }}
         run: |
@@ -156,11 +151,12 @@ jobs:
           if [ -n "$PODSPEC_CHANGES" ]; then
             echo "Changed podspecs:"
             echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
-            echo "Running full publish flow..."
             bash ./scripts/publish.sh
+            echo "published=true" >> $GITHUB_OUTPUT
           else
             echo "Running sync only..."
-            bash ./scripts/sync_repository.sh
+            git push sync_repo master
+            echo "published=false" >> $GITHUB_OUTPUT
           fi
       - name: Trigger documentation publish
         if: env.EXECUTION_MODE == 'publish' && success()
@@ -168,12 +164,32 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           gh workflow run publish-docs.yml --ref master
+      - name: Trigger release notes publish
+        if: env.EXECUTION_MODE == 'publish' && success()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh workflow run publish-release-notes.yml --ref master
+      - name: Trigger sync iOS SDK changelog
+        if: env.EXECUTION_MODE == 'publish' && success()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh workflow run sync-ios-sdk-changelog.yml --repo plaidev/karte-app-dev-docs --ref main
+      - name: Trigger deploy release feed in public repo
+        if: env.EXECUTION_MODE == 'publish' && steps.publish.outputs.published == 'true' && success()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh workflow run deploy-release-feed.yml --repo plaidev/karte-ios-sdk --ref master
   # NOTE: Running on `ubuntu-latest` since `rtCamp/action-slack-notify` cannot be used on macOS runners.
   # https://github.com/rtCamp/action-slack-notify/issues/22
   notify-slack-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [test]
     if: always() && github.repository != 'plaidev/karte-ios-sdk'
+    permissions: {}
     steps:
       - name: Notify Slack on test failure
         if: needs.test.result == 'failure'
@@ -184,8 +200,10 @@ jobs:
           SLACK_COLOR: failure
   notify-slack-publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [publish]
     if: always() && github.repository != 'plaidev/karte-ios-sdk'
+    permissions: {}
     steps:
       - name: Notify Slack on publish success
         if: needs.publish.result == 'success'

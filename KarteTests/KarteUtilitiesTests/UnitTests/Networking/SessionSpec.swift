@@ -1,6 +1,5 @@
 import Quick
 import Nimble
-import Mockingjay
 @testable import KarteUtilities
 
 class SessionSpec: AsyncSpec {
@@ -9,7 +8,7 @@ class SessionSpec: AsyncSpec {
 
             describe("static send method") {
                 it("delegates to shared instance and returns a task") {
-                    _ = MockingjayProtocol.addStub(matcher: http(.get, uri: "https://example.com/test"), builder: jsonData("test response".data(using: .utf8)!))
+                    _ = HTTPStubProtocol.addStub(matcher: http(.get, uri: "https://example.com/test"), builder: jsonData("test response".data(using: .utf8)!))
 
                     let request = RequestMock()
                     var task: URLSessionTask?
@@ -45,7 +44,7 @@ class SessionSpec: AsyncSpec {
                         it("calls handler with success result") {
                             let request = RequestMock(baseURL: URL(string: "https://example.com")!, path: "/test", parseResult: "mocked response")
 
-                            _ = MockingjayProtocol.addStub(matcher: http(.get, uri: "https://example.com/test"), builder: jsonData("test response".data(using: .utf8)!))
+                            _ = HTTPStubProtocol.addStub(matcher: http(.get, uri: "https://example.com/test"), builder: jsonData("test response".data(using: .utf8)!))
 
                             let result: Result<String, NetworkingError> = await withCheckedContinuation { continuation in
                                 _ = Session.send(request) { res in
@@ -66,7 +65,7 @@ class SessionSpec: AsyncSpec {
                         it("calls handler with invalidStatusCode error") {
                             let request = RequestMock(baseURL: URL(string: "https://example.com")!, path: "/test-fail")
 
-                            _ = MockingjayProtocol.addStub(matcher: http(.get, uri: "https://example.com/test-fail"), builder: http(500))
+                            _ = HTTPStubProtocol.addStub(matcher: http(.get, uri: "https://example.com/test-fail"), builder: http(500))
 
                             let result: Result<String, NetworkingError> = await withCheckedContinuation { continuation in
                                 _ = Session.send(request) { res in
@@ -95,7 +94,7 @@ class SessionSpec: AsyncSpec {
                         it("calls handler with responseError") {
                             let request = RequestMock(baseURL: URL(string: "https://example.com")!, path: "/test-parse", shouldThrowFromParse: true)
 
-                            _ = MockingjayProtocol.addStub(matcher: http(.get, uri: "https://example.com/test-parse"), builder: jsonData("valid response".data(using: .utf8)!))
+                            _ = HTTPStubProtocol.addStub(matcher: http(.get, uri: "https://example.com/test-parse"), builder: jsonData("valid response".data(using: .utf8)!))
 
                             let result: Result<String, NetworkingError> = await withCheckedContinuation { continuation in
                                 _ = Session.send(request) { res in

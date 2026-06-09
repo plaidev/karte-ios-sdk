@@ -16,7 +16,6 @@
 
 import Quick
 import Nimble
-import Mockingjay
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteVariables
@@ -30,7 +29,7 @@ class TrackVariablesSpec: QuickSpec {
             configuration = Configuration { (configuration) in
                 configuration.isSendInitializationEventEnabled = false
             }
-            builder = { (request) -> Response in
+            builder = { request in
                 let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
                 let data = try! createJSONEncoder().encode(response)
                 return jsonData(data)(request)
@@ -40,7 +39,7 @@ class TrackVariablesSpec: QuickSpec {
         describe("track message_open") {
             var event: Event!
             beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(self, metadata: metadata, builder: builder)
+                let module = StubActionModule(metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
@@ -87,7 +86,7 @@ class TrackVariablesSpec: QuickSpec {
         describe("track message_click") {
             var event: Event!
             beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(self, metadata: metadata, builder: builder)
+                let module = StubActionModule(metadata: metadata, builder: builder)
                 
                 KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 

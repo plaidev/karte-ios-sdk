@@ -18,6 +18,7 @@ import Quick
 import Nimble
 @testable import KarteVisualTracking
 
+@MainActor
 class ActionAppropriateViewDetectorSpec: QuickSpec {
     
     override class func spec() {

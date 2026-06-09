@@ -16,7 +16,6 @@
 
 import Quick
 import Nimble
-import Mockingjay
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteRemoteNotification
@@ -33,7 +32,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
             configuration = Configuration { (configuration) in
                 configuration.isSendInitializationEventEnabled = false
             }
-            builder = { (request) -> Response in
+            builder = { request in
                 let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
                 let data = try! createJSONEncoder().encode(response)
                 return jsonData(data)(request)
@@ -44,7 +43,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
             context("first time") {
                 var event: Event!
                 beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
+                    let module = StubActionModule(metadata: metadata, builder: builder)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     
@@ -77,7 +76,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
                 func runTest(metadata: ExampleMetadata?, fcmToken: String?, subscribe: Bool) -> StubActionModule {
                     event = nil
 
-                    let module1 = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
+                    let module1 = StubActionModule(metadata: metadata, builder: builder)
 
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
@@ -90,7 +89,7 @@ class FCMTokenRegistrarSpec: QuickSpec {
 
                     module1.wait()
 
-                    let module2 = StubActionModule(FCMTokenRegistrarSpec.self, metadata: metadata, builder: builder)
+                    let module2 = StubActionModule(metadata: metadata, builder: builder)
                     
                     provider.fcmTokenResolver = { fcmToken }
                     provider.availabilityResolver = { subscribe }

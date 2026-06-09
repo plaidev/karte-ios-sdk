@@ -14,18 +14,13 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
-import Mockingjay
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 
-class TrackSpec: QuickSpec {
-    
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
-        
+class TrackSpec: XCTestCase {
+
+    private func performTrackTest(trackAction: ([String: JSONConvertible]) -> Void) throws {
         let num = 100
         let str = "foo"
         let bool = true
@@ -44,123 +39,47 @@ class TrackSpec: QuickSpec {
             "dict": dict
         ]
 
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = { (request) -> Response in
-                let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
-                let data = try! createJSONEncoder().encode(response)
-                return jsonData(data)(request)
-            }
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
-        
-        describe("a tracker") {
-            describe("its track") {
-                var event: Event!
-                beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        let builder: Builder = { request in
+            let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
+            let data = try! createJSONEncoder().encode(response)
+            return jsonData(data)(request)
+        }
+        let module = StubActionModule(metadata: name, builder: builder)
 
-                    Tracker.track(event: Event(eventName: EventName("test"), values: values))
-                    
-                    event = module.wait().event(EventName("test"))
-                }
-                
-                it("event name is `test`") {
-                    expect(event.eventName).to(equal(EventName("test")))
-                }
-                
-                it("values.num is 100") {
-                    expect(event.values.integer(forKey: "num")).to(equal(num))
-                }
-                
-                it("values.str is `foo`") {
-                    expect(event.values.string(forKey: "str")).to(equal(str))
-                }
-                
-                it("values.bool is true") {
-                    expect(event.values.bool(forKey: "bool")).to(beTrue())
-                }
-                
-                it("values.date is now") {
-                    expect(event.values.date(forKey: "date")).to(beCloseTo(date, within: 0.0001))
-                }
-                
-                it("values.arr.0 is `value1`") {
-                    expect(event.values.string(forKeyPath: "arr.0")).to(equal(arrValue1))
-                }
-                
-                it("values.arr.1 is `value2`") {
-                    expect(event.values.string(forKeyPath: "arr.1")).to(equal(arrValue2))
-                }
-                
-                it("values.dict.key is `value`") {
-                    expect(event.values.string(forKeyPath: "dict.key")).to(equal(dictValue))
-                }
-                
-                it("values._local_event_date is not nil") {
-                    expect(event.values.date(forKey: field(.localEventDate))).toNot(beNil())
-                }
-                
-                it("values._retry is nil") {
-                    expect(event.values.bool(forKey: field(.retry))).to(beNil())
-                }
-            }
-            
-            describe("its track compatible") {
-                var event: Event!
-                beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                    Tracker.track("test", values: values)
-                    
-                    event = module.wait().event(EventName("test"))
-                }
-                
-                it("event name is `test`") {
-                    expect(event.eventName).to(equal(EventName("test")))
-                }
-                
-                it("values.num is 100") {
-                    expect(event.values.integer(forKey: "num")).to(equal(num))
-                }
-                
-                it("values.str is `foo`") {
-                    expect(event.values.string(forKey: "str")).to(equal(str))
-                }
-                
-                it("values.bool is true") {
-                    expect(event.values.bool(forKey: "bool")).to(beTrue())
-                }
-                
-                it("values.date is now") {
-                    expect(event.values.date(forKey: "date")).to(beCloseTo(date, within: 0.0001))
-                }
-                
-                it("values.arr.0 is `value1`") {
-                    expect(event.values.string(forKeyPath: "arr.0")).to(equal(arrValue1))
-                }
-                
-                it("values.arr.1 is `value2`") {
-                    expect(event.values.string(forKeyPath: "arr.1")).to(equal(arrValue2))
-                }
-                
-                it("values.dict.key is `value`") {
-                    expect(event.values.string(forKeyPath: "dict.key")).to(equal(dictValue))
-                }
-                
-                it("values._local_event_date is not nil") {
-                    expect(event.values.date(forKey: field(.localEventDate))).toNot(beNil())
-                }
-                
-                it("values._retry is nil") {
-                    expect(event.values.bool(forKey: field(.retry))).to(beNil())
-                }
-            }
+        trackAction(values)
+
+        guard let event = module.wait().event(EventName("test")) else {
+            XCTFail("event for 'test' should not be nil")
+            return
+        }
+
+        XCTAssertEqual(event.eventName, EventName("test"), "event name")
+        XCTAssertEqual(event.values.integer(forKey: "num"), num, "values.num")
+        XCTAssertEqual(event.values.string(forKey: "str"), str, "values.str")
+        XCTAssertEqual(event.values.bool(forKey: "bool"), true, "values.bool")
+        let eventDate = try XCTUnwrap(event.values.date(forKey: "date"), "values.date should not be nil")
+        XCTAssertEqual(eventDate.timeIntervalSince1970, date.timeIntervalSince1970, accuracy: 0.0001, "values.date")
+        XCTAssertEqual(event.values.string(forKeyPath: "arr.0"), arrValue1, "values.arr.0")
+        XCTAssertEqual(event.values.string(forKeyPath: "arr.1"), arrValue2, "values.arr.1")
+        XCTAssertEqual(event.values.string(forKeyPath: "dict.key"), dictValue, "values.dict.key")
+        XCTAssertNotNil(event.values.date(forKey: field(.localEventDate)), "values._local_event_date should not be nil")
+        XCTAssertNil(event.values.bool(forKey: field(.retry)), "values._retry should be nil")
+    }
+
+    func testTrack() throws {
+        try performTrackTest { values in
+            Tracker.track(event: Event(eventName: EventName("test"), values: values))
+        }
+    }
+
+    func testTrackCompatible() throws {
+        try performTrackTest { values in
+            Tracker.track("test", values: values)
         }
     }
 }

@@ -16,10 +16,17 @@
 
 import Quick
 import Nimble
-import Mockingjay
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteVariables
+
+// MARK: - Test Helper
+
+/// テスト用: lastFetch 情報をシミュレート
+private func simulateLastFetch(secondsAgo: TimeInterval, status: LastFetchStatus = .success) {
+    UserDefaults.standard.set(Date(timeIntervalSinceNow: -secondsAgo), forKey: .lastFetchTime)
+    UserDefaults.standard.set(status.rawValue, forKey: .lastFetchStatus)
+}
 
 class VariablesSpec: QuickSpec {
     
@@ -47,14 +54,14 @@ class VariablesSpec: QuickSpec {
                 describe("action is control group") {
                     var event: Event!
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder3)
+                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder3)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         Variables.fetch()
 
                         module.wait()
                         
-                        event = StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
+                        event = StubActionModule(metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
                     }
                     
                     it("campaign_id is match") {
@@ -85,14 +92,14 @@ class VariablesSpec: QuickSpec {
                 describe("action is not control group") {
                     var event: Event!
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2)
+                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder2)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         Variables.fetch()
 
                         module.wait()
                         
-                        event = StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
+                        event = StubActionModule(metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
                     }
                     
                     it("campaign_id is match") {
@@ -124,14 +131,14 @@ class VariablesSpec: QuickSpec {
                 describe("no action") {
                     var event: Event!
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder4)
+                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder4)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         Variables.fetch()
 
                         module.wait()
                         
-                        event = StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
+                        event = StubActionModule(metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
                     }
                     
                     it("campaign_id is match") {
@@ -166,14 +173,14 @@ class VariablesSpec: QuickSpec {
             
             describe("its fetch") {
                 beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1)
+                    let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder1)
                     
                     KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                     Variables.fetch()
 
                     module.wait()
                     
-                    StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait()
+                    StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
                 }
 
                 describe("get All Keys") {
@@ -260,14 +267,14 @@ class VariablesSpec: QuickSpec {
                 
                 describe("clear variables") {
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2)
+                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder2)
 
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         Variables.fetch()
 
                         module.wait()
                         
-                        StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait()
+                        StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
                     }
 
                     it("var1 is nil") {
@@ -303,14 +310,14 @@ class VariablesSpec: QuickSpec {
 
                 describe("override variables") {
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2)
+                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder2)
 
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         Tracker.track(event: Event(.view(viewName: "foo", title: "bar", values: [:])))
 
                         module.wait()
                         
-                        StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait()
+                        StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
                     }
 
                     it("var1 is not nil") {
@@ -378,14 +385,14 @@ class VariablesSpec: QuickSpec {
                 
                 describe("update lastFetch information") {
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder2)
+                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder2)
 
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         Variables.fetch()
 
                         module.wait()
                         
-                        StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait()
+                        StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
                     }
 
                     it("lastFetchTime is not nil") {
@@ -407,7 +414,7 @@ class VariablesSpec: QuickSpec {
                     }
                     
                     it("hasSuccessfulLastFetch returns false") {
-                        Thread.sleep(until: Date(timeIntervalSinceNow: 1))
+                        simulateLastFetch(secondsAgo: 2)
                         let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 1)
                         expect(hasSuccessfulLastFetch).to(beFalse())
                     }
@@ -423,7 +430,7 @@ class VariablesSpec: QuickSpec {
                 context("when online") {
                     var result: Bool!
                     beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1)
+                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder1)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         Variables.fetch { (isSuccess) in
@@ -432,7 +439,7 @@ class VariablesSpec: QuickSpec {
 
                         module.wait()
                         
-                        StubActionModule(self, metadata: metadata, builder: otherStubBuilder).wait()
+                        StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
                     }
                     
                     it("result is true") {
@@ -448,7 +455,7 @@ class VariablesSpec: QuickSpec {
                             false
                         }
 
-                        let module = StubActionModule(self, metadata: metadata, builder: fetchStubBuilder1)
+                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder1)
                         
                         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
                         Variables.fetch { (isSuccess) in

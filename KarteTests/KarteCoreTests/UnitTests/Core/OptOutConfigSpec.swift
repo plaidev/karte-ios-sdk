@@ -14,101 +14,68 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class OptOutConfigSpec: QuickSpec {
+class OptOutConfigSpec: XCTestCase {
 
-    override class func spec() {
-        describe("a optout config") {
-            var configuration: KarteCore.Configuration!
-            
-            context("Configuration.isOptOut is true") {
-                beforeEach {
-                    UserDefaults.standard.removeObject(forKey: .optout)
-                    configuration = Configuration { (config) in
-                        config.isOptOut = true
-                    }
-                }
-                
-                context("when not set optout") {
-                    it("isOptOut is true") {
-                        let service = OptOutService(configuration: configuration)
-                        expect(service.isOptOut).to(beTrue())
-                    }
-                }
-                
-                context("when set optout") {
-                    it("isOptOut is true") {
-                        let service = OptOutService(configuration: configuration)
-                        service.optOut()
-                        
-                        expect(service.isOptOut).to(beTrue())
-                    }
-                }
-                
-                context("when set optouttemporarily") {
-                    it("isOptOut is true") {
-                        let service = OptOutService(configuration: configuration)
-                        service.optOutTemporarily()
-                        
-                        expect(service.isOptOut).to(beTrue())
-                    }
-                }
+    override func setUp() {
+        super.setUp()
+        UserDefaults.standard.removeObject(forKey: .optout)
+    }
 
-                context("when set optin") {
-                    it("isOptOut is false") {
-                        let service = OptOutService(configuration: configuration)
-                        service.optIn()
-                        
-                        expect(service.isOptOut).to(beFalse())
-                    }
-                }
-            }
-            
-            context("Configuration.isOptOut is false") {
-                beforeEach {
-                    UserDefaults.standard.removeObject(forKey: .optout)
-                    configuration = Configuration { (config) in
-                        config.isOptOut = false
-                    }
-                }
-                
-                context("when not set optout") {
-                    it("isOptOut is false") {
-                        let service = OptOutService(configuration: configuration)
-                        expect(service.isOptOut).to(beFalse())
-                    }
-                }
-                
-                context("when set optout") {
-                    it("isOptOut is true") {
-                        let service = OptOutService(configuration: configuration)
-                        service.optOut()
-                        
-                        expect(service.isOptOut).to(beTrue())
-                    }
-                }
-                
-                context("when set optouttemporarily") {
-                    it("isOptOut is true") {
-                        let service = OptOutService(configuration: configuration)
-                        service.optOutTemporarily()
-                        
-                        expect(service.isOptOut).to(beTrue())
-                    }
-                }
+    override class func tearDown() {
+        UserDefaults.standard.removeObject(forKey: .optout)
+        super.tearDown()
+    }
 
-                context("when set optin") {
-                    it("isOptOut is false") {
-                        let service = OptOutService(configuration: configuration)
-                        service.optIn()
-                        
-                        expect(service.isOptOut).to(beFalse())
-                    }
-                }
-            }
-        }
+    // MARK: - config.isOptOut is true
+
+    func testIsOptOutConfigIsTrueDefault() {
+        let service = OptOutService(configuration: Configuration { $0.isOptOut = true })
+        XCTAssertTrue(service.isOptOut, "isOptOut should be true by default")
+    }
+
+    func testIsOptOutConfigIsTrueCalledOptOut() {
+        let service = OptOutService(configuration: Configuration { $0.isOptOut = true })
+        service.optOut()
+        XCTAssertTrue(service.isOptOut, "isOptOut should be true after optOut()")
+    }
+
+    func testIsOptOutConfigIsTrueCalledOptOutTemporarily() {
+        let service = OptOutService(configuration: Configuration { $0.isOptOut = true })
+        service.optOutTemporarily()
+        XCTAssertTrue(service.isOptOut, "isOptOut should be true after optOutTemporarily()")
+    }
+
+    func testIsOptOutConfigIsTrueCalledOptIn() {
+        let service = OptOutService(configuration: Configuration { $0.isOptOut = true })
+        service.optIn()
+        XCTAssertFalse(service.isOptOut, "isOptOut should be false after optIn()")
+    }
+
+    // MARK: - config.isOptOut is false
+
+    func testIsOptOutConfigIsFalseDefault() {
+        let service = OptOutService(configuration: Configuration { $0.isOptOut = false })
+        XCTAssertFalse(service.isOptOut, "isOptOut should be false by default")
+    }
+
+    func testIsOptOutConfigIsFalseCalledOptOut() {
+        let service = OptOutService(configuration: Configuration { $0.isOptOut = false })
+        service.optOut()
+        XCTAssertTrue(service.isOptOut, "isOptOut should be true after optOut()")
+    }
+
+    func testIsOptOutConfigIsFalseCalledOptOutTemporarily() {
+        let service = OptOutService(configuration: Configuration { $0.isOptOut = false })
+        service.optOutTemporarily()
+        XCTAssertTrue(service.isOptOut, "isOptOut should be true after optOutTemporarily()")
+    }
+
+    func testIsOptOutConfigIsFalseCalledOptIn() {
+        let service = OptOutService(configuration: Configuration { $0.isOptOut = false })
+        service.optIn()
+        XCTAssertFalse(service.isOptOut, "isOptOut should be false after optIn()")
     }
 }

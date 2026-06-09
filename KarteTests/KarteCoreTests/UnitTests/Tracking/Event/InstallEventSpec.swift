@@ -14,37 +14,15 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class InstallEventSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a install event") {
-            var event: Event!
-            
-            beforeEach {
-                event = Event(.install)
-            }
-            
-            describe("its eventName") {
-                it("is nativeAppInstall") {
-                    expect(event.eventName).to(equal(.nativeAppInstall))
-                }
-            }
-            
-            describe("its values") {
-                it("is nil") {
-                    expect(event.values).toNot(beNil())
-                }
-            }
-                        
-            describe("its build values") {
-                it("is empty") {
-                    expect(event.values.isEmpty).to(beTrue())
-                }
-            }
-        }
+class InstallEventSpec: XCTestCase {
+
+    func testInstallEvent() {
+        let event = Event(.install)
+
+        XCTAssertEqual(event.eventName, .nativeAppInstall, "eventName")
+        XCTAssertTrue(event.values.isEmpty, "values is empty")
     }
 }

@@ -27,75 +27,154 @@ func mockImage(_ size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
 }
 
 class ActionFactorySpec: QuickSpec {
-    
+
     override class func spec() {
         describe("a action") {
             describe("its init") {
                 context("without image provider") {
-                    let action = ActionFactory.createForUIKit(actionName: "test_touch",
-                                                              view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
-                                                              viewController: nil,
-                                                              targetText: "test_text",
-                                                              actionId: "test_action_id")
-                    it("action  is `touch`") {
+                    it("action is `touch`") {
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id")
                         expect(action?.action).to(equal("test_touch"))
                     }
-                    
-                    it("screenName  is not nil") {
+
+                    it("screenName is not nil") {
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id")
                         expect(action?.screenName).toNot(beNil())
                     }
-                    
-                    it("screenHostName  is nil") {
+
+                    it("screenHostName is nil") {
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id")
                         expect(action?.screenHostName).to(beNil())
                     }
-                    
-                    it("targetText  is `test_text`") {
+
+                    it("targetText is `test_text`") {
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id")
                         expect(action?.targetText).to(equal("test_text"))
                     }
-                                    
-                    it("actionId  is `test_action_id`") {
+
+                    it("actionId is `test_action_id`") {
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id")
                         expect(action?.actionId).to(equal("test_action_id"))
                     }
-                    
+
                     it("image is not nil") {
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id")
                         expect(action?.image()).toNot(beNil())
                     }
                 }
                 context("with image provider") {
-                    let image = mockImage()
-                    let action = ActionFactory.createForUIKit(actionName: "test_touch",
-                                                              view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
-                                                              viewController: nil,
-                                                              targetText: "test_text",
-                                                              actionId: "test_action_id",
-                                                              imageProvider: {
-                                                                image
-                                                              })
-                    it("action  is `touch`") {
+                    it("action is `touch`") {
+                        let image = mockImage()
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id",
+                                                                  imageProvider: {
+                                                                    image
+                                                                  })
                         expect(action?.action).to(equal("test_touch"))
                     }
-                    
-                    it("screenName  is not nil") {
+
+                    it("screenName is not nil") {
+                        let image = mockImage()
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id",
+                                                                  imageProvider: {
+                                                                    image
+                                                                  })
                         expect(action?.screenName).toNot(beNil())
                     }
-                    
-                    it("screenHostName  is nil") {
+
+                    it("screenHostName is nil") {
+                        let image = mockImage()
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id",
+                                                                  imageProvider: {
+                                                                    image
+                                                                  })
                         expect(action?.screenHostName).to(beNil())
                     }
-                    
-                    it("targetText  is `test_text`") {
+
+                    it("targetText is `test_text`") {
+                        let image = mockImage()
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id",
+                                                                  imageProvider: {
+                                                                    image
+                                                                  })
                         expect(action?.targetText).to(equal("test_text"))
                     }
-                                    
-                    it("actionId  is `test_action_id`") {
+
+                    it("actionId is `test_action_id`") {
+                        let image = mockImage()
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id",
+                                                                  imageProvider: {
+                                                                    image
+                                                                  })
                         expect(action?.actionId).to(equal("test_action_id"))
                     }
-                    
+
                     it("image is not nil") {
+                        let image = mockImage()
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id",
+                                                                  imageProvider: {
+                                                                    image
+                                                                  })
                         expect(action?.image()).toNot(beNil())
                     }
-                    
+
                     it("action.image is equal to image") {
+                        let image = mockImage()
+                        let action = ActionFactory.createForUIKit(actionName: "test_touch",
+                                                                  view: UIView.init(frame: .init(x: 0, y: 0, width: 100, height: 100)),
+                                                                  viewController: nil,
+                                                                  targetText: "test_text",
+                                                                  actionId: "test_action_id",
+                                                                  imageProvider: {
+                                                                    image
+                                                                  })
                         expect(action?.image()).to(equal(image))
                     }
                 }

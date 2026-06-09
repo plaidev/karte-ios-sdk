@@ -14,82 +14,50 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
-import Mockingjay
+import XCTest
 @testable import KarteCore
 
-class FindMyselfSpec: QuickSpec {
-    
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = StubBuilder(spec: self, resource: .empty).build()
+class FindMyselfSpec: XCTestCase {
+
+    func testFindMyself_whenHostIsNotKarteIo_returnsFalse() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
-        
-        beforeEach {
-            Thread.sleep(forTimeInterval: 1)
+        let url = URL(string: "app://karte.com/find_myself")!
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        let result = KarteApp.shared.application(UIApplication.shared, open: url)
+        XCTAssertFalse(result, "host が karte.io でない場合は false を返す")
+    }
+
+    func testFindMyself_whenPathIsNotFindMyself_returnsFalse() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
-        
-        describe("a find myself") {
-            context("when host is not `karte.io`") {
-                var url: URL!
-                
-                beforeEach {
-                    url = URL(string: "app://karte.com/find_myself")!
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                }
-                
-                it("return false") {
-                    let result = KarteApp.shared.application(UIApplication.shared, open: url)
-                    expect(result).to(beFalse())
-                }
-            }
-            
-            context("when path is not `/find_myself`") {
-                var url: URL!
-                
-                beforeEach {
-                    url = URL(string: "app://karte.io/foo")!
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                }
-                
-                it("return false") {
-                    let result = KarteApp.shared.application(UIApplication.shared, open: url)
-                    expect(result).to(beFalse())
-                }
-            }
-            
-            context("when valid url") {
-                var result: Bool!
-                var event: Event!
-                beforeEach { (metadata: ExampleMetadata) in
-                    let url = URL(string: "app://karte.io/find_myself?k=v")!
-                    let module = StubActionModule(self, metadata: metadata, builder: builder)
+        let url = URL(string: "app://karte.io/foo")!
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    result = KarteApp.shared.application(UIApplication.shared, open: url)
+        let result = KarteApp.shared.application(UIApplication.shared, open: url)
+        XCTAssertFalse(result, "path が /find_myself でない場合は false を返す")
+    }
 
-                    event = module.wait().event(.nativeFindMyself)
-                }
-
-                it("return true") {
-                    expect(result).to(beTrue())
-                }
-
-                it("event name is `native_find_myself`") {
-                    expect(event.eventName).to(equal(.nativeFindMyself))
-                }
-
-                it("values.k is `v`") {
-                    expect(event.values.string(forKey: "k")).to(equal("v"))
-                }
-            }
+    func testFindMyself_whenValidUrl() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
+        let builder = StubBuilder(spec: Self.self, resource: .empty).build()
+        let url = URL(string: "app://karte.io/find_myself?k=v")!
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        let result = KarteApp.shared.application(UIApplication.shared, open: url)
+        guard let event = module.wait().event(.nativeFindMyself) else {
+            XCTFail("native_find_myself イベントが取得できなかった")
+            return
+        }
+
+        XCTAssertTrue(result, "有効な URL の場合は true を返す")
+        XCTAssertEqual(event.eventName, .nativeFindMyself, "event name は native_find_myself")
+        XCTAssertEqual(event.values.string(forKey: "k"), "v", "values.k は v")
     }
 }
