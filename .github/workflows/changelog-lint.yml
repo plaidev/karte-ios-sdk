@@ -49,6 +49,7 @@ jobs:
           ANTHROPIC_VERTEX_ENABLE_PROMPT_CACHING: "true"
         with:
           github_token: ${{ github.token }}
+          allowed_bots: "app-team-github-app[bot]"
           use_vertex: true
           claude_args: |
             --plugin-dir /tmp/plugin-repo/plugins/changelog-lint
