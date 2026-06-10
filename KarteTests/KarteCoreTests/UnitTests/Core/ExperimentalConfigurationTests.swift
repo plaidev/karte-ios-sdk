@@ -14,192 +14,78 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 
-class ExperimentalConfigurationTestsSpec: QuickSpec {
+class ExperimentalConfigurationTestsSpec: XCTestCase {
 
-    override class func spec() {
-        describe("a configuration") {
-            context("when use default configuration") {
-                var configuration: KarteCore.ExperimentalConfiguration!
-                
-                beforeSuite {
-                    configuration = KarteCore.ExperimentalConfiguration.defaultConfiguration
-                }
-                
-                it("appKey is empty text") {
-                    expect(configuration.appKey).to(beEmpty())
-                }
-                
-                it("apiKey is empty text") {
-                    expect(configuration.apiKey).to(beEmpty())
-                }
-                
-                it("baseURL is `https://b.karte.io`") {
-                    expect(configuration.baseURL.absoluteString).to(equal("https://b.karte.io"))
-                }
-                
-                it("dataLocation is `tw`") {
-                    expect(configuration.dataLocation).to(equal("tw"))
-                }
-                
-                it("overlayBaseURL is `https://cf-native.karte.io`") {
-                    expect(configuration.overlayBaseURL.absoluteString).to(equal("https://cf-native.karte.io"))
-                }
-                
-                it("isDryRun is false") {
-                    expect(configuration.isDryRun).to(beFalse())
-                }
-                
-                it("isOptOut is false") {
-                    expect(configuration.isOptOut).to(beFalse())
-                }
-                
-                it("mode is normal") {
-                    expect(configuration.operationMode).to(equal(.default))
-                }
-                
-                it("isEnabledSendInitializationEvent is true") {
-                    expect(configuration.isSendInitializationEventEnabled).to(beTrue())
-                }
-                
-                it("libraryConfigrations is empty") {
-                    expect(configuration.libraryConfigurations).to(beEmpty())
-                }
-                
-                it("IDFADelegate is nil") {
-                    expect(configuration.idfaDelegate).to(beNil())
-                }
-            }
-            
-            context("when use custom configuration") {
-                var configuration: KarteCore.ExperimentalConfiguration!
-                var idfa: IDFA!
-                
-                beforeSuite {
-                    idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
-                    configuration = KarteCore.ExperimentalConfiguration { (configuration) in
-                        configuration.appKey = "dummy_application_key"
-                        configuration.apiKey = "dummy_api_key"
-                        configuration.baseURL = URL(string: "https://example.com")!
-                        configuration.dataLocation = "jp"
-                        configuration.overlayBaseURL = URL(string: "https://example.com")!
-                        configuration.isDryRun = true
-                        configuration.isOptOut = true
-                        configuration.operationMode = .ingest
-                        configuration.isSendInitializationEventEnabled = false
-                        configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
-                        configuration.idfaDelegate = idfa
-                    }
-                }
-                
-                it("appKey is `dummy_application_key`") {
-                    expect(configuration.appKey).to(equal("dummy_application_key"))
-                }
-                
-                it("apiKey is `dummy_api_key`") {
-                    expect(configuration.apiKey).to(equal("dummy_api_key"))
-                }
-                
-                it("baseURL is `https://example.com`") {
-                    expect(configuration.baseURL.absoluteString).to(equal("https://example.com"))
-                }
-                
-                it("dataLocation is `jp`") {
-                    expect(configuration.dataLocation).to(equal("jp"))
-                }
-                
-                it("overlayBaseURL is `https://example.com`") {
-                    expect(configuration.overlayBaseURL.absoluteString).to(equal("https://example.com"))
-                }
-                
-                it("isDryRun is true") {
-                    expect(configuration.isDryRun).to(beTrue())
-                }
-                
-                it("isOptOut is true") {
-                    expect(configuration.isOptOut).to(beTrue())
-                }
-                
-                it("mode is ingest") {
-                    expect(configuration.operationMode).to(equal(.ingest))
-                }
-                
-                it("isEnabledSendInitializationEvent is false") {
-                    expect(configuration.isSendInitializationEventEnabled).to(beFalse())
-                }
-                
-                it("libraryConfiguration is not empty") {
-                    expect(configuration.libraryConfigurations).toNot(beEmpty())
-                }
-                
-                it("IDFADelegate is not nil") {
-                    expect(configuration.idfaDelegate).toNot(beNil())
-                }
-                
-                it("isAdvertisingTrackingEnabled is true") {
-                    expect(configuration.idfaDelegate!.isAdvertisingTrackingEnabled).to(beTrue())
-                }
-                
-                it("advertisingIdentifierString is `dummy_idfa`") {
-                    expect(configuration.idfaDelegate!.advertisingIdentifierString).to(equal("dummy_idfa"))
-                }
-            }
-            
-            context("when read from plist") {
-                var configuration: KarteCore.ExperimentalConfiguration!
-                
-                beforeSuite {
-                    let path = Bundle(for: SetupSpec.self).path(forResource: "Karte-custom-Info", ofType: "plist")
-                    configuration = KarteCore.ExperimentalConfiguration.from(plistPath: path!)
-                }
-                
-                it("appKey is `dummy_application_key_customized`") {
-                    expect(configuration.appKey).to(equal("dummy_application_key_customized"))
-                }
-                
-                it("apiKey is `dummy_karte_api_key`") {
-                    expect(configuration.apiKey).to(equal("dummy_karte_api_key"))
-                }
-                
-                it("baseURL is `https://b-jp.karte.io`") {
-                    expect(configuration.baseURL.absoluteString).to(equal("https://b-jp.karte.io"))
-                }
-                
-                it("dataLocation is `jp`") {
-                    expect(configuration.dataLocation).to(equal("jp"))
-                }
-                
-                it("overlayBaseURL is `https://cf-native.karte.io`") {
-                    expect(configuration.overlayBaseURL.absoluteString).to(equal("https://cf-native.karte.io"))
-                }
-                
-                it("isDryRun is false") {
-                    expect(configuration.isDryRun).to(beFalse())
-                }
-                
-                it("isOptOut is false") {
-                    expect(configuration.isOptOut).to(beFalse())
-                }
-                
-                it("mode is normal") {
-                    expect(configuration.operationMode).to(equal(.default))
-                }
-                
-                it("isEnabledSendInitializationEvent is true") {
-                    expect(configuration.isSendInitializationEventEnabled).to(beTrue())
-                }
-                
-                it("libraryConfigrations is empty") {
-                    expect(configuration.libraryConfigurations).to(beEmpty())
-                }
-                
-                it("IDFADelegate is nil") {
-                    expect(configuration.idfaDelegate).to(beNil())
-                }
-            }
+    func testDefaultConfiguration() {
+        let configuration = KarteCore.ExperimentalConfiguration.defaultConfiguration
+
+        XCTAssertTrue(configuration.appKey.isEmpty, "appKey should be empty")
+        XCTAssertTrue(configuration.apiKey.isEmpty, "apiKey should be empty")
+        XCTAssertEqual(configuration.baseURL.absoluteString, "https://b.karte.io", "baseURL should be https://b.karte.io")
+        XCTAssertEqual(configuration.dataLocation, "tw", "dataLocation should be tw")
+        XCTAssertEqual(configuration.overlayBaseURL.absoluteString, "https://cf-native.karte.io", "overlayBaseURL should be https://cf-native.karte.io")
+        XCTAssertFalse(configuration.isDryRun, "isDryRun should be false")
+        XCTAssertFalse(configuration.isOptOut, "isOptOut should be false")
+        XCTAssertEqual(configuration.operationMode, .default, "operationMode should be default")
+        XCTAssertTrue(configuration.isSendInitializationEventEnabled, "isSendInitializationEventEnabled should be true")
+        XCTAssertTrue(configuration.libraryConfigurations.isEmpty, "libraryConfigurations should be empty")
+        XCTAssertNil(configuration.idfaDelegate, "idfaDelegate should be nil")
+    }
+
+    func testCustomConfiguration() {
+        let idfa = IDFA(isEnabled: true, idfa: "dummy_idfa")
+        let configuration = KarteCore.ExperimentalConfiguration { configuration in
+            configuration.appKey = "dummy_application_key"
+            configuration.apiKey = "dummy_api_key"
+            configuration.baseURL = URL(string: "https://example.com")!
+            configuration.dataLocation = "jp"
+            configuration.overlayBaseURL = URL(string: "https://example.com")!
+            configuration.isDryRun = true
+            configuration.isOptOut = true
+            configuration.operationMode = .ingest
+            configuration.isSendInitializationEventEnabled = false
+            configuration.libraryConfigurations = [DummyLibraryConfiguration(name: "dummy")]
+            configuration.idfaDelegate = idfa
         }
+
+        XCTAssertEqual(configuration.appKey, "dummy_application_key", "appKey should be dummy_application_key")
+        XCTAssertEqual(configuration.apiKey, "dummy_api_key", "apiKey should be dummy_api_key")
+        XCTAssertEqual(configuration.baseURL.absoluteString, "https://example.com", "baseURL should be https://example.com")
+        XCTAssertEqual(configuration.dataLocation, "jp", "dataLocation should be jp")
+        XCTAssertEqual(configuration.overlayBaseURL.absoluteString, "https://example.com", "overlayBaseURL should be https://example.com")
+        XCTAssertTrue(configuration.isDryRun, "isDryRun should be true")
+        XCTAssertTrue(configuration.isOptOut, "isOptOut should be true")
+        XCTAssertEqual(configuration.operationMode, .ingest, "operationMode should be ingest")
+        XCTAssertFalse(configuration.isSendInitializationEventEnabled, "isSendInitializationEventEnabled should be false")
+        XCTAssertFalse(configuration.libraryConfigurations.isEmpty, "libraryConfigurations should not be empty")
+        guard let idfaDelegate = configuration.idfaDelegate else {
+            XCTFail("idfaDelegate should not be nil")
+            return
+        }
+        XCTAssertTrue(idfaDelegate.isAdvertisingTrackingEnabled, "isAdvertisingTrackingEnabled should be true")
+        XCTAssertEqual(idfaDelegate.advertisingIdentifierString, "dummy_idfa", "advertisingIdentifierString should be dummy_idfa")
+    }
+
+    func testConfigurationFromPlist() {
+        let path = Bundle(for: SetupSpec.self).path(forResource: "Karte-custom-Info", ofType: "plist")
+        guard let configuration = KarteCore.ExperimentalConfiguration.from(plistPath: path!) else {
+            XCTFail("Configuration should not be nil")
+            return
+        }
+
+        XCTAssertEqual(configuration.appKey, "dummy_application_key_customized", "appKey should be dummy_application_key_customized")
+        XCTAssertEqual(configuration.apiKey, "dummy_karte_api_key", "apiKey should be dummy_karte_api_key")
+        XCTAssertEqual(configuration.baseURL.absoluteString, "https://b-jp.karte.io", "baseURL should be https://b-jp.karte.io")
+        XCTAssertEqual(configuration.dataLocation, "jp", "dataLocation should be jp")
+        XCTAssertEqual(configuration.overlayBaseURL.absoluteString, "https://cf-native.karte.io", "overlayBaseURL should be https://cf-native.karte.io")
+        XCTAssertFalse(configuration.isDryRun, "isDryRun should be false")
+        XCTAssertFalse(configuration.isOptOut, "isOptOut should be false")
+        XCTAssertEqual(configuration.operationMode, .default, "operationMode should be default")
+        XCTAssertTrue(configuration.isSendInitializationEventEnabled, "isSendInitializationEventEnabled should be true")
+        XCTAssertTrue(configuration.libraryConfigurations.isEmpty, "libraryConfigurations should be empty")
+        XCTAssertNil(configuration.idfaDelegate, "idfaDelegate should be nil")
     }
 }
