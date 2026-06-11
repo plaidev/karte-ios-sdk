@@ -3,7 +3,7 @@
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
 | KarteCore | イベントトラッキング機能を提供します。 | 2.36.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.26.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.27.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.14.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.14.0 |
@@ -12,6 +12,13 @@
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.14.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
+
+# Releases - xxxx.xx.xx
+
+### InAppMessaging 2.27.0
+**💊FIXED**
+- アプリ内メッセージ(接客)表示用のWebViewの初期化時にネットワークエラー等でロードに失敗した場合、オンラインに復帰後も接客が表示されなくなる不具合を修正しました。
+  - キャッシュが有効な場合、WKNavigationDelegateの仕様によりサブリソース(JSファイル)のロード失敗を検知できないため、この修正では対応できないケースがあります。
 
 # Releases - 2026.06.09
 ## Version 2.33.0
