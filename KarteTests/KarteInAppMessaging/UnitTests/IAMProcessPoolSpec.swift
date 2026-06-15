@@ -14,105 +14,78 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 @testable import KarteInAppMessaging
 
 @MainActor
-class IAMProcessPoolSpec: QuickSpec {
-    override class func spec() {
-        describe("Check wether it can be created a process") {
-            context("SceneId exists with specific id in pool") {
-                it("`canCreateProcess` returns false") {
-                    let pool = IAMProcessPool()
-                    let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
-                    pool.storeProcess(process)
-                    expect(pool.processes.isEmpty).to(beFalse())
-                    expect(pool.canCreateProcess(sceneId: SceneId("DEFAULT"))).to(beFalse())
-                }
-            }
-            context("SceneId does not exists with specific id in pool") {
-                context("when there is connected scene with the same id") {
-                    // TBD, Write a test as soon as we figure out how to make the condition of it.
-                }
-                context("when there is no connected scene with the same id") {
-                    it("`canCreateProcess` returns false due to pool.processes is blank") {
-                        let pool = IAMProcessPool()
-                        expect(pool.processes.isEmpty).to(beTrue())
-                        expect(pool.canCreateProcess(sceneId: SceneId("DEFAULT"))).to(beFalse())
-                    }
-                }
-            }
-        }
-        describe("Retrive a process with SceneId") {
-            context("If the process is matched with id of view") {
-                it("`retrieveProcess` returns the IAMProcess") {
-                    let pool = IAMProcessPool()
-                    let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
-                    pool.storeProcess(process)
-                    let actual = pool.retrieveProcess(sceneId: SceneId("DEFAULT"))
-                    expect(actual).toNot(beNil())
-                    expect(actual?.sceneId.identifier).to(equal("DEFAULT"))
-                }
-            }
-            context("If the process is not matched with id of view") {
-                it("`retrieveProcess` returns nil") {
-                    let pool = IAMProcessPool()
-                    let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
-                    process.sceneId.identifier = "NOT DEFAULT"
-                    pool.storeProcess(process)
-                    let actual = pool.retrieveProcess(sceneId: SceneId("DEFAULT"))
-                    expect(actual).to(beNil())
-                }
-            }
-        }
-        describe("Retrive a process with View") {
-            context("If the process is matched with id of view") {
-                it("`retrieveProcess` returns the IAMProcess") {
-                    let pool = IAMProcessPool()
-                    let view = UIView()
-                    let process = IAMProcess(view: view, configuration: IAMProcessConfiguration(app: KarteApp.shared))
-                    pool.storeProcess(process)
-                    let actual = pool.retrieveProcess(view: view)
-                    expect(actual).toNot(beNil())
-                    expect(actual?.sceneId.identifier).to(equal("DEFAULT"))
-                }
-            }
-            context("If the process is not matched with id of view") {
-                it("`retrieveProcess` returns nil") {
-                    let pool = IAMProcessPool()
-                    let view = UIView()
-                    let process = IAMProcess(view: view, configuration: IAMProcessConfiguration(app: KarteApp.shared))
-                    process.sceneId.identifier = "NOT DEFAULT"
-                    pool.storeProcess(process)
-                    let actual = pool.retrieveProcess(view: view)
-                    expect(actual).to(beNil())
-                }
-            }
-        }
-        describe("Store a process") {
-            context("When a process is stored") {
-                it("`pool.processes` has the process after `storeProcess`") {
-                    let pool = IAMProcessPool()
-                    let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
-                    expect(pool.processes.isEmpty).to(beTrue())
-                    pool.storeProcess(process)
-                    expect(pool.processes.isEmpty).toNot(beTrue())
-                }
-            }
-        }
-        describe("Remove a process") {
-            context("When a process is removed with SceneId ") {
-                it("`pool.processes` has not the process after execute `removeProcess`") {
-                    let pool = IAMProcessPool()
-                    let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
-                    pool.storeProcess(process)
-                    expect(pool.processes.isEmpty).toNot(beTrue())
-                    pool.removeProcess(sceneId: SceneId("DEFAULT"))
-                    expect(pool.processes.isEmpty).to(beTrue())
-                }
-            }
-        }
+class IAMProcessPoolSpec: XCTestCase {
+    func testCanCreateProcessReturnsFalseWhenSceneIdExistsInPool() {
+        let pool = IAMProcessPool()
+        let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
+        pool.storeProcess(process)
+        XCTAssertFalse(pool.processes.isEmpty, "pool should not be empty after store")
+        XCTAssertFalse(pool.canCreateProcess(sceneId: SceneId("DEFAULT")), "should not create process when sceneId already exists")
+    }
+
+    func testCanCreateProcessReturnsFalseWhenPoolIsEmpty() {
+        let pool = IAMProcessPool()
+        XCTAssertTrue(pool.processes.isEmpty, "pool should be empty initially")
+        XCTAssertFalse(pool.canCreateProcess(sceneId: SceneId("DEFAULT")), "should not create process when pool is empty")
+    }
+
+    func testRetrieveProcessBySceneIdReturnsProcessWhenMatched() {
+        let pool = IAMProcessPool()
+        let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
+        pool.storeProcess(process)
+        let actual = pool.retrieveProcess(sceneId: SceneId("DEFAULT"))
+        XCTAssertNotNil(actual, "should retrieve process with matching sceneId")
+        XCTAssertEqual(actual?.sceneId.identifier, "DEFAULT", "sceneId identifier should match")
+    }
+
+    func testRetrieveProcessBySceneIdReturnsNilWhenNotMatched() {
+        let pool = IAMProcessPool()
+        let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
+        process.sceneId.identifier = "NOT DEFAULT"
+        pool.storeProcess(process)
+        let actual = pool.retrieveProcess(sceneId: SceneId("DEFAULT"))
+        XCTAssertNil(actual, "should return nil when sceneId does not match")
+    }
+
+    func testRetrieveProcessByViewReturnsProcessWhenMatched() {
+        let pool = IAMProcessPool()
+        let view = UIView()
+        let process = IAMProcess(view: view, configuration: IAMProcessConfiguration(app: KarteApp.shared))
+        pool.storeProcess(process)
+        let actual = pool.retrieveProcess(view: view)
+        XCTAssertNotNil(actual, "should retrieve process with matching view")
+        XCTAssertEqual(actual?.sceneId.identifier, "DEFAULT", "sceneId identifier should match")
+    }
+
+    func testRetrieveProcessByViewReturnsNilWhenNotMatched() {
+        let pool = IAMProcessPool()
+        let view = UIView()
+        let process = IAMProcess(view: view, configuration: IAMProcessConfiguration(app: KarteApp.shared))
+        process.sceneId.identifier = "NOT DEFAULT"
+        pool.storeProcess(process)
+        let actual = pool.retrieveProcess(view: view)
+        XCTAssertNil(actual, "should return nil when sceneId does not match")
+    }
+
+    func testStoreProcessAddsProcessToPool() {
+        let pool = IAMProcessPool()
+        let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
+        XCTAssertTrue(pool.processes.isEmpty, "pool should be empty before store")
+        pool.storeProcess(process)
+        XCTAssertFalse(pool.processes.isEmpty, "pool should not be empty after store")
+    }
+
+    func testRemoveProcessRemovesProcessFromPool() {
+        let pool = IAMProcessPool()
+        let process = IAMProcess(view: UIView(), configuration: IAMProcessConfiguration(app: KarteApp.shared))
+        pool.storeProcess(process)
+        XCTAssertFalse(pool.processes.isEmpty, "pool should not be empty after store")
+        pool.removeProcess(sceneId: SceneId("DEFAULT"))
+        XCTAssertTrue(pool.processes.isEmpty, "pool should be empty after remove")
     }
 }
