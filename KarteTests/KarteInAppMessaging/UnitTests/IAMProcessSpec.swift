@@ -15,98 +15,52 @@
 //
 
 import UIKit
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 @testable import KarteInAppMessaging
 
 @MainActor
-class IAMProcessSpec: QuickSpec {
-    
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var iamConfiguration: IAMProcessConfiguration!
-        var view: UIView!
-        var iamProcess: IAMProcess!
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
+class IAMProcessSpec: XCTestCase {
+    override func setUp() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
-        
-        describe("its init") {
-            beforeEach {
-                KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                iamConfiguration = IAMProcessConfiguration(app: KarteApp.shared)
-                view = UIView.init()
-                iamProcess = IAMProcess(view: view, configuration: iamConfiguration)
-            }
-            it("is not nil") {
-                expect(iamProcess).toNot(beNil())
-            }
-            it("sceneId is not nil") {
-                expect(iamProcess.sceneId).toNot(beNil())
-            }
-            it("isActivated is true") {
-                expect(iamProcess.isActivated).to(beTrue())
-            }
-            it("isPresenting is false") {
-                expect(iamProcess.isPresenting).to(beFalse())
-            }
-            it("isSuppressed is false") {
-                expect(iamProcess.isSuppressed).to(beFalse())
-            }
-        }
-        
-        describe("its terminate") {
-            beforeEach {
-                KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                iamConfiguration = IAMProcessConfiguration(app: KarteApp.shared)
-                view = UIView.init()
-                iamProcess = IAMProcess(view: view, configuration: iamConfiguration)
-                iamProcess.terminate()
-            }
-            
-            it("is not nil") {
-                expect(iamProcess).toNot(beNil())
-            }
-            it("sceneId is not nil") {
-                expect(iamProcess.sceneId).toNot(beNil())
-            }
-            it("isActivated is false") {
-                expect(iamProcess.isActivated).to(beFalse())
-            }
-            it("isPresenting is false") {
-                expect(iamProcess.isPresenting).to(beFalse())
-            }
-            it("isSuppressed is false") {
-                expect(iamProcess.isSuppressed).to(beFalse())
-            }
-        }
-        
-        describe("its activate") {
-            beforeEach {
-                KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                iamConfiguration = IAMProcessConfiguration(app: KarteApp.shared)
-                view = UIView.init()
-                iamProcess = IAMProcess(view: view, configuration: iamConfiguration)
-            }
-            context("only activated") {
-                it("isActivated is true") {
-                    iamProcess.activate()
-                    expect(iamProcess.isActivated).to(beTrue())
-                }
-            }
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+    }
 
-            context("after terminate") {
-                it("isActivated is true") {
-                    iamProcess.terminate()
-                    expect(iamProcess.isActivated).to(beFalse())
-                    iamProcess.activate()
-                    expect(iamProcess.isActivated).to(beTrue())
-                }
-            }
-        }
+    private func makeProcess() -> IAMProcess {
+        let iamConfiguration = IAMProcessConfiguration(app: KarteApp.shared)
+        return IAMProcess(view: UIView(), configuration: iamConfiguration)
+    }
+
+    func testInitialState() {
+        let process = makeProcess()
+        XCTAssertNotNil(process.sceneId, "sceneId should not be nil")
+        XCTAssertTrue(process.isActivated, "isActivated should be true")
+        XCTAssertFalse(process.isPresenting, "isPresenting should be false")
+        XCTAssertFalse(process.isSuppressed, "isSuppressed should be false")
+    }
+
+    func testStateAfterTerminate() {
+        let process = makeProcess()
+        process.terminate()
+        XCTAssertNotNil(process.sceneId, "sceneId should not be nil after terminate")
+        XCTAssertFalse(process.isActivated, "isActivated should be false after terminate")
+        XCTAssertFalse(process.isPresenting, "isPresenting should be false after terminate")
+        XCTAssertFalse(process.isSuppressed, "isSuppressed should be false after terminate")
+    }
+
+    func testActivateWhenAlreadyActivated() {
+        let process = makeProcess()
+        process.activate()
+        XCTAssertTrue(process.isActivated, "isActivated should remain true")
+    }
+
+    func testActivateAfterTerminate() {
+        let process = makeProcess()
+        process.terminate()
+        XCTAssertFalse(process.isActivated, "isActivated should be false after terminate")
+        process.activate()
+        XCTAssertTrue(process.isActivated, "isActivated should be true after re-activate")
     }
 }
