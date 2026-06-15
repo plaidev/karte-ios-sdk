@@ -14,119 +14,63 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteVariables
 
-class TrackVariablesSpec: QuickSpec {
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
+class TrackVariablesSpec: XCTestCase {
+    private let configuration = Configuration { configuration in
+        configuration.isSendInitializationEventEnabled = false
+    }
 
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = { request in
-                let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
-                let data = try! createJSONEncoder().encode(response)
-                return jsonData(data)(request)
-            }
+    private let builder: Builder = { request in
+        let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
+        let data = try! createJSONEncoder().encode(response)
+        return jsonData(data)(request)
+    }
+
+    func testTrackMessageOpen() {
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        let variable = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: "t1", eventHash: "h1")
+        Tracker.trackOpen(variables: [variable], values: ["foo": "bar"])
+
+        guard let event = module.wait().event(.messageOpen) else {
+            XCTFail("messageOpen event not found")
+            return
         }
+        XCTAssertEqual(event.eventName, EventName.messageOpen, "event name")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.campaign_id"), "c1", "campaign_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.shorten_id"), "s1", "shorten_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_id"), "t1_s1", "response_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_timestamp"), "t1", "response_timestamp")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.trigger.event_hashes"), "h1", "event_hashes")
+        XCTAssertNil(event.values.bool(forKeyPath: "no_action"), "no_action should be nil")
+        XCTAssertEqual(event.values.string(forKeyPath: "foo"), "bar", "custom value foo")
+    }
 
-        describe("track message_open") {
-            var event: Event!
-            beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(metadata: metadata, builder: builder)
-                
-                KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+    func testTrackMessageClick() {
+        let module = StubActionModule(metadata: name, builder: builder)
 
-                let variable = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: "t1", eventHash: "h1")
-                Tracker.trackOpen(variables: [variable], values: ["foo": "bar"])
-                
-                event = module.wait().event(.messageOpen)
-            }
-            
-            it("event name is `message_open`") {
-                expect(event.eventName).to(equal(.messageOpen))
-            }
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-            it("values.message.campaign_id is `c1`") {
-                expect(event.values.string(forKeyPath: "message.campaign_id")).to(equal("c1"))
-            }
+        let variable = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: "t1", eventHash: "h1")
+        Tracker.trackClick(variables: [variable], values: ["foo": "bar"])
 
-            it("values.message.shorten_id is `s1`") {
-                expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("s1"))
-            }
-
-            it("values.message.response_id is `t1_s1`") {
-                expect(event.values.string(forKeyPath: "message.response_id")).to(equal("t1_s1"))
-            }
-
-            it("values.message.response_timestamp is `t1`") {
-                expect(event.values.string(forKeyPath: "message.response_timestamp")).to(equal("t1"))
-            }
-
-            it("values.message.trigger.event_hashes is `h1`") {
-                expect(event.values.string(forKeyPath: "message.trigger.event_hashes")).to(equal("h1"))
-            }
-
-            it("values.no_action is false") {
-                expect(event.values.bool(forKeyPath: "no_action")).to(beNil())
-            }
-            
-            it("values.foo is `bar`") {
-                expect(event.values.string(forKeyPath: "foo")).to(equal("bar"))
-            }
+        guard let event = module.wait().event(.messageClick) else {
+            XCTFail("messageClick event not found")
+            return
         }
-        
-        
-        describe("track message_click") {
-            var event: Event!
-            beforeEach { (metadata: ExampleMetadata) in
-                let module = StubActionModule(metadata: metadata, builder: builder)
-                
-                KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-
-                let variable = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: "t1", eventHash: "h1")
-                Tracker.trackClick(variables: [variable], values: ["foo": "bar"])
-                
-                event = module.wait().event(.messageClick)
-            }
-            
-            it("event name is `message_click`") {
-                expect(event.eventName).to(equal(.messageClick))
-            }
-
-            it("values.message.campaign_id is `c1`") {
-                expect(event.values.string(forKeyPath: "message.campaign_id")).to(equal("c1"))
-            }
-
-            it("values.message.shorten_id is `s1`") {
-                expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("s1"))
-            }
-
-            it("values.message.response_id is `t1_s1`") {
-                expect(event.values.string(forKeyPath: "message.response_id")).to(equal("t1_s1"))
-            }
-
-            it("values.message.response_timestamp is `t1`") {
-                expect(event.values.string(forKeyPath: "message.response_timestamp")).to(equal("t1"))
-            }
-
-            it("values.message.trigger.event_hashes is `h1`") {
-                expect(event.values.string(forKeyPath: "message.trigger.event_hashes")).to(equal("h1"))
-            }
-
-            it("values.no_action is false") {
-                expect(event.values.bool(forKeyPath: "no_action")).to(beNil())
-            }
-            
-            it("values.foo is `bar`") {
-                expect(event.values.string(forKeyPath: "foo")).to(equal("bar"))
-            }
-        }
+        XCTAssertEqual(event.eventName, EventName.messageClick, "event name")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.campaign_id"), "c1", "campaign_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.shorten_id"), "s1", "shorten_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_id"), "t1_s1", "response_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_timestamp"), "t1", "response_timestamp")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.trigger.event_hashes"), "h1", "event_hashes")
+        XCTAssertNil(event.values.bool(forKeyPath: "no_action"), "no_action should be nil")
+        XCTAssertEqual(event.values.string(forKeyPath: "foo"), "bar", "custom value foo")
     }
 }
