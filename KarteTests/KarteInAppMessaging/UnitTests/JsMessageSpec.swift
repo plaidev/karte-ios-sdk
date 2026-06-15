@@ -15,8 +15,7 @@
 //
 
 import WebKit
-import Quick
-import Nimble
+import XCTest
 @testable import KarteInAppMessaging
 
 class TestMessage: WKScriptMessage {
@@ -41,38 +40,32 @@ class TestMessage: WKScriptMessage {
     }
 }
 
-class JsMessageSpec: QuickSpec {
-    override class func spec() {
-        describe("its init") {
-            it("is no error") {
-                let testBody = [
-                    "event_name": "test",
-                    "values": ["name": "test name"]
-                ] as [String : Any]
-                let testMessage = TestMessage(messageBody: testBody,
-                                              messageName: JsMessageName.event.rawValue)
-                expect({
-                    try JsMessage.init(scriptMessage: testMessage)
-                }).notTo(throwError())
-            }
+class JsMessageSpec: XCTestCase {
+    func testInitWithValidBodyDoesNotThrow() {
+        let testBody = [
+            "event_name": "test",
+            "values": ["name": "test name"]
+        ] as [String: Any]
+        let testMessage = TestMessage(messageBody: testBody,
+                                      messageName: JsMessageName.event.rawValue)
+        XCTAssertNoThrow(try JsMessage(scriptMessage: testMessage), "valid body should not throw")
+    }
 
-            it("is throw invalidBody") {
-                let testBody = ["test_key": NSDate.now]
-                let testMessage = TestMessage(messageBody: testBody,
-                                              messageName: JsMessageName.event.rawValue)
-                expect({
-                    try JsMessage.init(scriptMessage: testMessage)
-                }).to(throwError(JsMessageError.invalidBody))
-            }
+    func testInitWithInvalidBodyThrowsInvalidBody() {
+        let testBody = ["test_key": NSDate.now]
+        let testMessage = TestMessage(messageBody: testBody,
+                                      messageName: JsMessageName.event.rawValue)
+        XCTAssertThrowsError(try JsMessage(scriptMessage: testMessage), "invalid body should throw") { error in
+            XCTAssertEqual(error as? JsMessageError, JsMessageError.invalidBody, "should throw invalidBody")
+        }
+    }
 
-            it("is throw invalidName") {
-                let testBody = ["test_key": "test_value"]
-                let testMessage = TestMessage(messageBody: testBody,
-                                              messageName: "test name")
-                expect({
-                    try JsMessage.init(scriptMessage: testMessage)
-                }).to(throwError(JsMessageError.invalidName))
-            }
+    func testInitWithInvalidNameThrowsInvalidName() {
+        let testBody = ["test_key": "test_value"]
+        let testMessage = TestMessage(messageBody: testBody,
+                                      messageName: "test name")
+        XCTAssertThrowsError(try JsMessage(scriptMessage: testMessage), "invalid name should throw") { error in
+            XCTAssertEqual(error as? JsMessageError, JsMessageError.invalidName, "should throw invalidName")
         }
     }
 }
