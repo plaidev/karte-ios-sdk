@@ -14,1138 +14,313 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 @testable import KarteVariables
 
-class VariableSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a variable") {
-            context("variable is not defined") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "name")
-                }
-                
-                it("name is `name`") {
-                    expect(variable.name).to(equal("name"))
-                }
-                
-                it("campaign_id is nil") {
-                    expect(variable.campaignId).to(beNil())
-                }
-                
-                it("shorten_id is nil") {
-                    expect(variable.shortenId).to(beNil())
-                }
-                
-                it("value is nil") {
-                    expect(variable.value).to(beNil())
-                }
-                
-                it("isDefined is false") {
-                    expect(variable.isDefined).to(beFalse())
-                }
-                
-                it("timestamp is nil") {
-                    expect(variable.timestamp).to(beNil())
-                }
-                
-                it("eventHash is nil") {
-                    expect(variable.eventHash).to(beNil())
-                }
-            }
-            
-            context("variable is defined") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "name", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: "timestamp", eventHash: "eventHash")
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
+class VariableSpec: XCTestCase {
 
-                it("name is `name`") {
-                    expect(variable.name).to(equal("name"))
-                }
-                
-                it("campaign_id is `campaign_id`") {
-                    expect(variable.campaignId).to(equal("campaign_id"))
-                }
-                
-                it("shorten_id is `shorten_id`") {
-                    expect(variable.shortenId).to(equal("shorten_id"))
-                }
-                
-                it("value is `foo`") {
-                    expect(variable.value).to(equal("foo"))
-                }
-                
-                it("isDefined is true") {
-                    expect(variable.isDefined).to(beTrue())
-                }
-                
-                it("timestamp is `timestamp`") {
-                    expect(variable.timestamp).to(equal("timestamp"))
-                }
-                
-                it("eventHash is `eventHash`") {
-                    expect(variable.eventHash).to(equal("eventHash"))
-                }
-            }
-            
-            context("basic parameters") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
+    // MARK: - variable is not defined
 
-                it("name is `value`") {
-                    let variable = Variable(name: "value")
-                    expect(variable.name).to(equal("value"))
-                }
-                
-                it("campaignId is `campaign_id`") {
-                    let variable = Variable(name: "value")
-                    expect(variable.campaignId).to(equal("campaign_id"))
-                }
-                
-                it("shortenId is `shorten_id`") {
-                    let variable = Variable(name: "value")
-                    expect(variable.shortenId).to(equal("shorten_id"))
-                }
-            }
-            
-            context("value is `foo`") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `foo`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("foo"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `foo`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "bar")).to(equal("foo"))
-                    }
-                }
-                
-                context("its integer with default") {
-                    it("value is 100") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(100))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 100.1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(100.1))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is true") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: true)).toNot(beTrue())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is 0") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "0", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `0`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("0"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `0`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "1")).to(equal("0"))
-                    }
-                }
+    func testVariableNotDefined() {
+        let variable = Variable(name: "name")
+        XCTAssertEqual(variable.name, "name", "name")
+        XCTAssertNil(variable.campaignId, "campaignId should be nil")
+        XCTAssertNil(variable.shortenId, "shortenId should be nil")
+        XCTAssertNil(variable.value, "value should be nil")
+        XCTAssertFalse(variable.isDefined, "isDefined should be false")
+        XCTAssertNil(variable.timestamp, "timestamp should be nil")
+        XCTAssertNil(variable.eventHash, "eventHash should be nil")
+    }
 
-                context("its integer with default") {
-                    it("value is 0") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(0))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 0") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(0))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is false") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: true)).to(beFalse())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is 1") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "1", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `1`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("1"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `1`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "0")).to(equal("1"))
-                    }
-                }
+    // MARK: - variable is defined
 
-                context("its integer with default") {
-                    it("value is 1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(1))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(1))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is true") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: false)).to(beTrue())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is MAX_INT") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: String(Int.max), timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `MAX_INT`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal(String(Int.max)))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `MAX_INT`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "0")).to(equal(String(Int.max)))
-                    }
-                }
+    func testVariableDefined() {
+        let variable = Variable(name: "name", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: "timestamp", eventHash: "eventHash")
+        variable.save()
+        defer { variable.clear() }
 
-                context("its integer with default") {
-                    it("value is MAX_INT") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(Int.max))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is MAX_INT") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(Double(Int.max)))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is true") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: false)).to(beTrue())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is MAX_INT + 1") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "9223372036854775808", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `MAX_INT + 1`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("9223372036854775808"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `MAX_INT + 1`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "0")).to(equal("9223372036854775808"))
-                    }
-                }
+        XCTAssertEqual(variable.name, "name", "name")
+        XCTAssertEqual(variable.campaignId, "campaign_id", "campaignId")
+        XCTAssertEqual(variable.shortenId, "shorten_id", "shortenId")
+        XCTAssertEqual(variable.value, "foo", "value")
+        XCTAssertTrue(variable.isDefined, "isDefined should be true")
+        XCTAssertEqual(variable.timestamp, "timestamp", "timestamp")
+        XCTAssertEqual(variable.eventHash, "eventHash", "eventHash")
+    }
 
-                context("its integer with default") {
-                    it("value is 100") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(Int.max))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is MAX_INT + 1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(Double(Int.max) + 1))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is true") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: false)).to(beTrue())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is MIN_INT") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: String(Int.min), timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `MIN_INT`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal(String(Int.min)))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `MIN_INT`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "0")).to(equal(String(Int.min)))
-                    }
-                }
+    // MARK: - basic parameters
 
-                context("its integer with default") {
-                    it("value is MIN_INT") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(Int.min))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is MIN_INT") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(Double(Int.min)))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is true") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: false)).to(beTrue())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is MIN_INT - 1") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "-9223372036854775809", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `MIN_INT - 1`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("-9223372036854775809"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `MIN_INT - 1`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "0")).to(equal("-9223372036854775809"))
-                    }
-                }
+    func testBasicParametersFromCache() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
 
-                context("its integer with default") {
-                    it("value is 100") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(Int.min))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 100.1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(Double(Int.min) - 1))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is true") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: false)).to(beTrue())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is 0.0") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "0.0", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `0.0`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("0.0"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `0.0`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "0")).to(equal("0.0"))
-                    }
-                }
+        let variable = Variable(name: "value")
+        XCTAssertEqual(variable.name, "value", "name")
+        XCTAssertEqual(variable.campaignId, "campaign_id", "campaignId")
+        XCTAssertEqual(variable.shortenId, "shorten_id", "shortenId")
+    }
 
-                context("its integer with default") {
-                    it("value is 0") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(0))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 0.0") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(0.0))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is false") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: true)).to(beFalse())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is 1.0") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "1.0", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `1.0`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("1.0"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `1.0`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "0")).to(equal("1.0"))
-                    }
-                }
+    // MARK: - value is "foo"
 
-                context("its integer with default") {
-                    it("value is 1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(1))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 1.0") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(1.0))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is true") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: false)).to(beTrue())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is true") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "true", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `true`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("true"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `true`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "false")).to(equal("true"))
-                    }
-                }
+    func testValueFoo() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "foo", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
 
-                context("its integer with default") {
-                    it("value is 100") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(100))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 100.1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(100.1))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is true") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: false)).to(beTrue())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is false") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "false", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `false`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("false"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `false`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "true")).to(equal("false"))
-                    }
-                }
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "foo", "string")
+        XCTAssertEqual(v.string(default: "bar"), "foo", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 100, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 100.1, "double(default:)")
+        XCTAssertFalse(v.bool(default: true), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
 
-                context("its integer with default") {
-                    it("value is 100") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(100))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 100.1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(100.1))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is false") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: true)).to(beFalse())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is [\"foo\", \"bar\"]") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "[\"foo\", \"bar\"]", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `[\"foo\", \"bar\"]`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("[\"foo\", \"bar\"]"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `[\"foo\", \"bar\"]`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "[]")).to(equal("[\"foo\", \"bar\"]"))
-                    }
-                }
+    // MARK: - value is "0"
 
-                context("its integer with default") {
-                    it("value is 100") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(100))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 100.1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(100.1))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is false") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: true)).to(beFalse())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["bar", "foo"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary).to(beNil())
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is [\"foo\": \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["foo": "bar"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-            
-            context("value is {\"foo\": \"bar\"}") {
-                var variable: Variable!
-                
-                beforeEach {
-                    variable = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "{\"foo\": \"bar\"}", timestamp: nil, eventHash: nil)
-                    variable.save()
-                }
-                
-                afterEach {
-                    variable.clear()
-                }
-                
-                context("its string") {
-                    it("value is `{\"foo\": \"bar\"}`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string).to(equal("{\"foo\": \"bar\"}"))
-                    }
-                }
-                
-                context("its string with default") {
-                    it("value is `{\"foo\": \"bar\"}`") {
-                        let variable = Variable(name: "value")
-                        expect(variable.string(default: "{}")).to(equal("{\"foo\": \"bar\"}"))
-                    }
-                }
+    func testValue0() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "0", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
 
-                context("its integer with default") {
-                    it("value is 100") {
-                        let variable = Variable(name: "value")
-                        expect(variable.integer(default: 100)).to(equal(100))
-                    }
-                }
-                
-                context("its double with default") {
-                    it("value is 100.1") {
-                        let variable = Variable(name: "value")
-                        expect(variable.double(default: 100.1)).to(equal(100.1))
-                    }
-                }
-                
-                context("its bool with default") {
-                    it("value is false") {
-                        let variable = Variable(name: "value")
-                        expect(variable.bool(default: true)).to(beFalse())
-                    }
-                }
-                
-                context("its array") {
-                    it("value is nil") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array).to(beNil())
-                    }
-                }
-                
-                context("its array with default") {
-                    it("value is [\"foo\", \"bar\"]") {
-                        let variable = Variable(name: "value")
-                        expect(variable.array(default: ["foo", "bar"]) as? [String]).to(equal(["foo", "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is {\"foo\": \"bar\"}") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-                
-                context("its dictionary with default") {
-                    it("value is {\"foo\": \"bar\"}") {
-                        let variable = Variable(name: "value")
-                        expect(variable.dictionary(default: ["bar": "foo"]) as? [String: String]).to(equal(["foo": "bar"]))
-                    }
-                }
-            }
-        }
-        
-        describe("backward compatibility check") {
-            var variable: Variable!
-            
-            beforeSuite {
-                let v = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: nil, eventHash: nil)
-                Variables.bulkSave(variables: [v])
-                
-                variable = Variables.variable(forKey: "foo")
-            }
-            
-            it("value is `bar`") {
-                expect(variable.string).to(equal("bar"))
-            }
-            
-            it("campaignId is `c1`") {
-                expect(variable.campaignId).to(equal("c1"))
-            }
-            
-            it("shortenId is `s1`") {
-                expect(variable.shortenId).to(equal("s1"))
-            }
-            
-            it("timestamp is nil") {
-                expect(variable.timestamp).to(beNil())
-            }
-            
-            it("eventHash is nil") {
-                expect(variable.eventHash).to(beNil())
-            }
-        }
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "0", "string")
+        XCTAssertEqual(v.string(default: "1"), "0", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 0, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 0, "double(default:)")
+        XCTAssertFalse(v.bool(default: true), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is "1"
+
+    func testValue1() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "1", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "1", "string")
+        XCTAssertEqual(v.string(default: "0"), "1", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 1, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 1, "double(default:)")
+        XCTAssertTrue(v.bool(default: false), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is MAX_INT
+
+    func testValueMaxInt() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: String(Int.max), timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, String(Int.max), "string")
+        XCTAssertEqual(v.string(default: "0"), String(Int.max), "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), Int.max, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), Double(Int.max), "double(default:)")
+        XCTAssertTrue(v.bool(default: false), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is MAX_INT + 1
+
+    func testValueMaxIntPlus1() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "9223372036854775808", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "9223372036854775808", "string")
+        XCTAssertEqual(v.string(default: "0"), "9223372036854775808", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), Int.max, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), Double(Int.max) + 1, "double(default:)")
+        XCTAssertTrue(v.bool(default: false), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is MIN_INT
+
+    func testValueMinInt() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: String(Int.min), timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, String(Int.min), "string")
+        XCTAssertEqual(v.string(default: "0"), String(Int.min), "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), Int.min, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), Double(Int.min), "double(default:)")
+        XCTAssertTrue(v.bool(default: false), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is MIN_INT - 1
+
+    func testValueMinIntMinus1() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "-9223372036854775809", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "-9223372036854775809", "string")
+        XCTAssertEqual(v.string(default: "0"), "-9223372036854775809", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), Int.min, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), Double(Int.min) - 1, "double(default:)")
+        XCTAssertTrue(v.bool(default: false), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is "0.0"
+
+    func testValue0_0() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "0.0", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "0.0", "string")
+        XCTAssertEqual(v.string(default: "0"), "0.0", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 0, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 0.0, "double(default:)")
+        XCTAssertFalse(v.bool(default: true), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is "1.0"
+
+    func testValue1_0() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "1.0", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "1.0", "string")
+        XCTAssertEqual(v.string(default: "0"), "1.0", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 1, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 1.0, "double(default:)")
+        XCTAssertTrue(v.bool(default: false), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is "true"
+
+    func testValueTrue() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "true", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "true", "string")
+        XCTAssertEqual(v.string(default: "false"), "true", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 100, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 100.1, "double(default:)")
+        XCTAssertTrue(v.bool(default: false), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is "false"
+
+    func testValueFalse() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "false", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "false", "string")
+        XCTAssertEqual(v.string(default: "true"), "false", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 100, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 100.1, "double(default:)")
+        XCTAssertFalse(v.bool(default: true), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is array
+
+    func testValueArray() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "[\"foo\", \"bar\"]", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "[\"foo\", \"bar\"]", "string")
+        XCTAssertEqual(v.string(default: "[]"), "[\"foo\", \"bar\"]", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 100, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 100.1, "double(default:)")
+        XCTAssertFalse(v.bool(default: true), "bool(default:)")
+        XCTAssertEqual(v.array as? [String], ["foo", "bar"], "array")
+        XCTAssertEqual(v.array(default: ["bar", "foo"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertNil(v.dictionary, "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["foo": "bar"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - value is dictionary
+
+    func testValueDictionary() {
+        let saved = Variable(name: "value", campaignId: "campaign_id", shortenId: "shorten_id", value: "{\"foo\": \"bar\"}", timestamp: nil, eventHash: nil)
+        saved.save()
+        defer { saved.clear() }
+
+        let v = Variable(name: "value")
+        XCTAssertEqual(v.string, "{\"foo\": \"bar\"}", "string")
+        XCTAssertEqual(v.string(default: "{}"), "{\"foo\": \"bar\"}", "string(default:)")
+        XCTAssertEqual(v.integer(default: 100), 100, "integer(default:)")
+        XCTAssertEqual(v.double(default: 100.1), 100.1, "double(default:)")
+        XCTAssertFalse(v.bool(default: true), "bool(default:)")
+        XCTAssertNil(v.array, "array")
+        XCTAssertEqual(v.array(default: ["foo", "bar"]) as? [String], ["foo", "bar"], "array(default:)")
+        XCTAssertEqual(v.dictionary as? [String: String], ["foo": "bar"], "dictionary")
+        XCTAssertEqual(v.dictionary(default: ["bar": "foo"]) as? [String: String], ["foo": "bar"], "dictionary(default:)")
+    }
+
+    // MARK: - backward compatibility
+
+    func testBackwardCompatibility() {
+        let v = Variable(name: "foo", campaignId: "c1", shortenId: "s1", value: "bar", timestamp: nil, eventHash: nil)
+        Variables.bulkSave(variables: [v])
+        defer { v.clear() }
+
+        let variable = Variables.variable(forKey: "foo")
+        XCTAssertEqual(variable.string, "bar", "value")
+        XCTAssertEqual(variable.campaignId, "c1", "campaignId")
+        XCTAssertEqual(variable.shortenId, "s1", "shortenId")
+        XCTAssertNil(variable.timestamp, "timestamp should be nil")
+        XCTAssertNil(variable.eventHash, "eventHash should be nil")
     }
 }
