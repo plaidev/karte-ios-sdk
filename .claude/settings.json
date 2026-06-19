@@ -8,6 +8,7 @@
     }
   },
   "enabledPlugins": {
-    "changelog-lint@app-ai-plugins": true
+    "changelog-lint@app-ai-plugins": true,
+    "update-actions@app-ai-plugins": true
   }
 }

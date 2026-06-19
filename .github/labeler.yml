@@ -1,28 +1,41 @@
 # Pull Requestの変更に対応するラベルの定義
 # https://github.com/actions/labeler
 'Module:Core':
-  - KarteCore/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteCore/**'
 'Module:CrashReport':
-  - KarteCrashReporting/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteCrashReporting/**'
 'Module:IAM':
-  - KarteInAppMessaging/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteInAppMessaging/**'
 'Module:Notification':
-  - KarteRemoteNotification/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteRemoteNotification/**'
 'Module:Variables':
-  - KarteVariables/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteVariables/**'
 'Module:VT':
-  - KarteVisualTracking/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteVisualTracking/**'
 'Module:Inbox':
-  - KarteInbox/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteInbox/**'
 'Module:IAF':
-  - KarteInAppFrame/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteInAppFrame/**'
 'Module:Detectors':
-  - KarteDetectors/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteDetectors/**'
 'Module:Utilities':
-  - KarteUtilities/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteUtilities/**'
 'Module:NotificationServiceExtension':
-  - KarteNotificationServiceExtension/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteNotificationServiceExtension/**'
 'Module:Debugger':
-  - KarteDebugger/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteDebugger/**'
 'Test':
-  - KarteTests/**
+- changed-files:
+  - any-glob-to-any-file: 'KarteTests/**'
