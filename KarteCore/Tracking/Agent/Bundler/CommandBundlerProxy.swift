@@ -43,11 +43,14 @@ internal class StateCommandBundlerProxy: CommandBundlerProxy {
     @Injected
     var provider: CommandBundlerApplicationStateProvider
 
+    private let queue: DispatchQueue
+
     var state = UIApplication.shared.applicationState
     var commands = [TrackingCommand]()
 
-    init(bundler: CommandBundler) {
+    init(bundler: CommandBundler, queue: DispatchQueue) {
         self.bundler = bundler
+        self.queue = queue
         self.provider.delegate = self
     }
 
@@ -64,7 +67,15 @@ internal class StateCommandBundlerProxy: CommandBundlerProxy {
 
 extension StateCommandBundlerProxy: CommandBundlerApplicationStateProviderDelegate {
     func commandBundlerApplicationStateProvider(_ provider: CommandBundlerApplicationStateProvider, didChangeApplicationState applicationState: UIApplication.State) {
-        self.state = applicationState
+        queue.async { [weak self] in
+            self?.handleApplicationStateChange(applicationState)
+        }
+    }
+}
+
+private extension StateCommandBundlerProxy {
+    func handleApplicationStateChange(_ applicationState: UIApplication.State) {
+        state = applicationState
 
         guard applicationState != .background else {
             return

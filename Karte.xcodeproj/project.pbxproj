@@ -44,7 +44,6 @@
 		0C060E5C2383D116006AF974 /* CrashReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C060E5A2383D116006AF974 /* CrashReport.m */; };
 		0C068A8F29A3AE400000560D /* TrackEventRejectionFilterRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C068A8E29A3AE400000560D /* TrackEventRejectionFilterRule.swift */; };
 		0C068A9129A3C9280000560D /* ExpiredMessageOpenEventRejectionFilterRuleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C068A9029A3C9280000560D /* ExpiredMessageOpenEventRejectionFilterRuleSpec.swift */; };
-		CEFDA32005734338BF7CDB3E /* IAMWebViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C3C2B8878B4FD49ABDC38A /* IAMWebViewSpec.swift */; };
 		0C068A9329A44D570000560D /* TrackEventRejectionFilterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C068A9229A44D570000560D /* TrackEventRejectionFilterSpec.swift */; };
 		0C068A9829A45E8A0000560D /* ExpiredMessageOpenEventFilterRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C068A9729A45E8A0000560D /* ExpiredMessageOpenEventFilterRule.swift */; };
 		0C068A9A29A4646E0000560D /* Tracker+InAppMessaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C068A9929A4646E0000560D /* Tracker+InAppMessaging.swift */; };
@@ -429,6 +428,7 @@
 		AFCAF2C4299F6809005B4DCC /* FetchMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */; };
 		AFD9D7EE2D5357E400A63977 /* IAFCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9D7ED2D5357E400A63977 /* IAFCarousel.swift */; };
 		AFEDE0ED2D5E547200F1CE01 /* LoadingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEDE0EC2D5E547200F1CE01 /* LoadingDelegate.swift */; };
+		CEFDA32005734338BF7CDB3E /* IAMWebViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C3C2B8878B4FD49ABDC38A /* IAMWebViewSpec.swift */; };
 		EF68529C06AE4D8B9EC16F5D /* HTTPStubProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FEC02ED5D7499D85E4AB68 /* HTTPStubProtocol.swift */; };
 /* End PBXBuildFile section */
 
@@ -642,7 +642,6 @@
 		0C060E982384D76C006AF974 /* KarteUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C068A8E29A3AE400000560D /* TrackEventRejectionFilterRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackEventRejectionFilterRule.swift; sourceTree = "<group>"; };
 		0C068A9029A3C9280000560D /* ExpiredMessageOpenEventRejectionFilterRuleSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredMessageOpenEventRejectionFilterRuleSpec.swift; sourceTree = "<group>"; };
-		83C3C2B8878B4FD49ABDC38A /* IAMWebViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMWebViewSpec.swift; sourceTree = "<group>"; };
 		0C068A9229A44D570000560D /* TrackEventRejectionFilterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackEventRejectionFilterSpec.swift; sourceTree = "<group>"; };
 		0C068A9729A45E8A0000560D /* ExpiredMessageOpenEventFilterRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredMessageOpenEventFilterRule.swift; sourceTree = "<group>"; };
 		0C068A9929A4646E0000560D /* Tracker+InAppMessaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tracker+InAppMessaging.swift"; sourceTree = "<group>"; };
@@ -994,6 +993,7 @@
 		777D605A2742217500339D7E /* InvalidEventNameFilterRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvalidEventNameFilterRule.swift; sourceTree = "<group>"; };
 		777D605C274267FC00339D7E /* InvalidEventFieldNameFilterRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvalidEventFieldNameFilterRule.swift; sourceTree = "<group>"; };
 		77DFA95C274630B70093FB65 /* AttributeEventSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeEventSpec.swift; sourceTree = "<group>"; };
+		83C3C2B8878B4FD49ABDC38A /* IAMWebViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMWebViewSpec.swift; sourceTree = "<group>"; };
 		8424E2552AFC653C003AC32E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		843BC1042AF314F300D1C0A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		843BC1062AF316ED00D1C0A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -3944,7 +3944,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.36.0;
+				MARKETING_VERSION = 2.37.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3979,7 +3979,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.36.0;
+				MARKETING_VERSION = 2.37.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
