@@ -14,69 +14,55 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 @testable import KarteRemoteNotification
 
-class RemoteNotificationSetupSpec: QuickSpec {
-    
-    override class func spec() {
-        
-        describe("a remote notification module") {
-            beforeEach {
-                RemoteNotification.isEnabledAutoMeasurement = true
-            }
-            context("its setup with default configuration") {
-                beforeEach {
-                    if let configuration = Configuration.default {
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    }
-                }
-                
-                it("RemoteNotificationProxy is enabled") {
-                    expect(RemoteNotificationProxy.shared.isEnabled).to(beTrue())
-                }
-            }
-                
-            context("its setup with default library configration") {
-                beforeEach {
-                    if let configuration = Configuration.default {
-                        configuration.libraryConfigurations = [RemoteNotificationConfiguration()]
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    }
-                }
-                
-                it("RemoteNotificationProxy is enabled") {
-                    expect(RemoteNotificationProxy.shared.isEnabled).to(beTrue())
-                }
-            }
-            
-            context("its setup with custom library configration") {
-                beforeEach {
-                    if let configuration = Configuration.default {
-                        let remoteNotificationConfiguration = RemoteNotificationConfiguration()
-                        remoteNotificationConfiguration.isEnabledAutoMeasurement = false
-                        configuration.libraryConfigurations = [remoteNotificationConfiguration]
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    }
-                }
-                
-                it("RemoteNotificationProxy is disabled") {
-                    expect(RemoteNotificationProxy.shared.isEnabled).to(beFalse())
-                }
-            }
-            
-            context("its setup with deprecated static config") {
-                beforeEach {
-                    RemoteNotification.isEnabledAutoMeasurement = false
-                    KarteApp.setup(appKey: APP_KEY)
-                }
-                
-                it("RemoteNotificationProxy is disabled") {
-                    expect(RemoteNotificationProxy.shared.isEnabled).to(beFalse())
-                }
-            }
+class RemoteNotificationSetupSpec: XCTestCase {
+
+    override func setUp() {
+        super.setUp()
+        RemoteNotification.isEnabledAutoMeasurement = true
+    }
+
+    func testSetupWithDefaultConfiguration_RemoteNotificationProxyIsEnabled() {
+        guard let configuration = Configuration.default else {
+            XCTFail("Configuration.default should not be nil")
+            return
         }
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        XCTAssertTrue(RemoteNotificationProxy.shared.isEnabled, "RemoteNotificationProxy should be enabled")
+    }
+
+    func testSetupWithDefaultLibraryConfiguration_RemoteNotificationProxyIsEnabled() {
+        guard let configuration = Configuration.default else {
+            XCTFail("Configuration.default should not be nil")
+            return
+        }
+        configuration.libraryConfigurations = [RemoteNotificationConfiguration()]
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        XCTAssertTrue(RemoteNotificationProxy.shared.isEnabled, "RemoteNotificationProxy should be enabled")
+    }
+
+    func testSetupWithCustomLibraryConfiguration_RemoteNotificationProxyIsDisabled() {
+        guard let configuration = Configuration.default else {
+            XCTFail("Configuration.default should not be nil")
+            return
+        }
+        let remoteNotificationConfiguration = RemoteNotificationConfiguration()
+        remoteNotificationConfiguration.isEnabledAutoMeasurement = false
+        configuration.libraryConfigurations = [remoteNotificationConfiguration]
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        XCTAssertFalse(RemoteNotificationProxy.shared.isEnabled, "RemoteNotificationProxy should be disabled")
+    }
+
+    func testSetupWithDeprecatedStaticConfig_RemoteNotificationProxyIsDisabled() {
+        RemoteNotification.isEnabledAutoMeasurement = false
+        KarteApp.setup(appKey: APP_KEY)
+
+        XCTAssertFalse(RemoteNotificationProxy.shared.isEnabled, "RemoteNotificationProxy should be disabled")
     }
 }
