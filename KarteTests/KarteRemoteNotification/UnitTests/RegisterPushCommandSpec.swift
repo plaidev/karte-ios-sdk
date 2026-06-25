@@ -14,48 +14,37 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteRemoteNotification
 
-class RegisterPushCommandSpec: QuickSpec {
-    override class func spec() {
-        describe("its run") {
-            context("when invalid value passed") {
-                let examples = [
-                    "test:",
-                    "krt:",
-                    "krt://request-review",
-                    "krt://register-push",
-                    "krt://register-push",
-                    "krt-hSZM://register-push",
-                ]
-                examples.forEach { (input) in
-                    context("\(input)") {
-                        it("returns false") {
-                            let c = RegisterPushCommand()
-                            let u = URL(string: input)!
-                            expect(c.run(url: u)).to(beFalse())
-                        }
-                    }
-                }
-            }
-            
-            context("when valid value passed") {
-                let examples = [
-                    "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://register-push",
-                    "krt-HRTwj9QEZGJrTaTkADrtdxFTyuXUJVMh://register-push"
-                ]
-                examples.forEach { (input) in
-                    context("\(input)") {
-                        it("returns true") {
-                            let c = RegisterPushCommand()
-                            let u = URL(string: input)!
-                            expect(c.validate(u)).to(beTrue())
-                        }
-                    }
-                }
-            }
+class RegisterPushCommandSpec: XCTestCase {
+
+    func testRunWithInvalidValues_returnsFalse() {
+        let invalidInputs = [
+            "test:",
+            "krt:",
+            "krt://request-review",
+            "krt://register-push",
+            "krt-hSZM://register-push",
+        ]
+
+        let command = RegisterPushCommand()
+        for input in invalidInputs {
+            let url = URL(string: input)!
+            XCTAssertFalse(command.run(url: url), "Expected false for invalid input: \(input)")
+        }
+    }
+
+    func testValidateWithValidValues_returnsTrue() {
+        let validInputs = [
+            "krt-hSZMcVyjwg6Y7pdYMa4YPqmyQ77EpALw://register-push",
+            "krt-HRTwj9QEZGJrTaTkADrtdxFTyuXUJVMh://register-push"
+        ]
+
+        let command = RegisterPushCommand()
+        for input in validInputs {
+            let url = URL(string: input)!
+            XCTAssertTrue(command.validate(url), "Expected true for valid input: \(input)")
         }
     }
 }

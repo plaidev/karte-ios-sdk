@@ -14,8 +14,6 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
 @testable import KarteUtilities
 
 struct RequestMock: Request {

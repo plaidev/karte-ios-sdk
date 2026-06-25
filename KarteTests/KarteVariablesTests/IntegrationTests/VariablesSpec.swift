@@ -14,8 +14,7 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteVariables
@@ -28,468 +27,253 @@ private func simulateLastFetch(secondsAgo: TimeInterval, status: LastFetchStatus
     UserDefaults.standard.set(status.rawValue, forKey: .lastFetchStatus)
 }
 
-class VariablesSpec: QuickSpec {
-    
-    override class func spec() {        
-        var configuration: KarteCore.Configuration!
-        var fetchStubBuilder1: Builder!
-        var fetchStubBuilder2: Builder!
-        var fetchStubBuilder3: Builder!
-        var fetchStubBuilder4: Builder!
-        var otherStubBuilder: Builder!
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            fetchStubBuilder1 = StubBuilder(spec: self, resource: .variables1).build()
-            fetchStubBuilder2 = StubBuilder(spec: self, resource: .variables2).build()
-            fetchStubBuilder3 = StubBuilder(spec: self, resource: .variables3).build()
-            fetchStubBuilder4 = StubBuilder(spec: self, resource: .variables4).build()
-            otherStubBuilder = StubBuilder(spec: self, resource: .empty).build()
+class VariablesSpec: XCTestCase {
+    private let configuration = Configuration { configuration in
+        configuration.isSendInitializationEventEnabled = false
+    }
+
+    private lazy var fetchStubBuilder1 = StubBuilder(test: self, resource: .variables1).build()
+    private lazy var fetchStubBuilder2 = StubBuilder(test: self, resource: .variables2).build()
+    private lazy var fetchStubBuilder3 = StubBuilder(test: self, resource: .variables3).build()
+    private lazy var fetchStubBuilder4 = StubBuilder(test: self, resource: .variables4).build()
+    private lazy var otherStubBuilder = StubBuilder(test: self, resource: .empty).build()
+
+    private func setupAndFetch(builder: @escaping Builder) {
+        let module = StubActionModule(metadata: name, builder: builder)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        Variables.fetch()
+        module.wait()
+        StubActionModule(metadata: name, builder: otherStubBuilder).wait()
+    }
+
+    // MARK: - message_ready event
+
+    func testMessageReadyEventForControlGroup() {
+        let module = StubActionModule(metadata: name, builder: fetchStubBuilder3)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        Variables.fetch()
+        module.wait()
+
+        guard let event = StubActionModule(metadata: name, builder: otherStubBuilder).wait().event(.messageReady) else {
+            XCTFail("messageReady event not found")
+            return
         }
-        
-        describe("a variables") {
-            describe("its occurred _message_ready event") {
-                describe("action is control group") {
-                    var event: Event!
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder3)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        Variables.fetch()
+        XCTAssertEqual(event.values.string(forKeyPath: "message.campaign_id"), "5e7dab7215bd5200119c9658", "campaign_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.shorten_id"), "__5e7dab7215bd5200119c9658", "shorten_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_id"), "2020-03-27T14:25:37.151Z___5e7dab7215bd5200119c9658", "response_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_timestamp"), "2020-03-27T14:25:37.151Z", "response_timestamp")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.trigger.event_hashes"), "a001", "event_hashes")
+        XCTAssertEqual(event.values.bool(forKeyPath: "no_action"), false, "no_action")
+    }
 
-                        module.wait()
-                        
-                        event = StubActionModule(metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
-                    }
-                    
-                    it("campaign_id is match") {
-                        expect(event.values.string(forKeyPath: "message.campaign_id")).to(equal("5e7dab7215bd5200119c9658"))
-                    }
-                    
-                    it("shorten_id is match") {
-                        expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("__5e7dab7215bd5200119c9658"))
-                    }
-                    
-                    it("response_id is match") {
-                        expect(event.values.string(forKeyPath: "message.response_id")).to(equal("2020-03-27T14:25:37.151Z___5e7dab7215bd5200119c9658"))
-                    }
-                    
-                    it("response_timestamp is match") {
-                        expect(event.values.string(forKeyPath: "message.response_timestamp")).to(equal("2020-03-27T14:25:37.151Z"))
-                    }
-                    
-                    it("event_hashes is match") {
-                        expect(event.values.string(forKeyPath: "message.trigger.event_hashes")).to(equal("a001"))
-                    }
-                    
-                    it("no_action is match") {
-                        expect(event.values.bool(forKeyPath: "no_action")).to(beFalse())
-                    }
-                }
-                
-                describe("action is not control group") {
-                    var event: Event!
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder2)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        Variables.fetch()
+    func testMessageReadyEventForNonControlGroup() {
+        let module = StubActionModule(metadata: name, builder: fetchStubBuilder2)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        Variables.fetch()
+        module.wait()
 
-                        module.wait()
-                        
-                        event = StubActionModule(metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
-                    }
-                    
-                    it("campaign_id is match") {
-                        expect(event.values.string(forKeyPath: "message.campaign_id")).to(equal("5b750a095db3aa091ed1f590"))
-                    }
-                    
-                    it("shorten_id is match") {
-                        expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("14kU"))
-                    }
-                    
-                    it("response_id is match") {
-                        expect(event.values.string(forKeyPath: "message.response_id")).to(equal("2019-11-24T02:05:12.616Z_14kU"))
-                    }
-                    
-                    it("response_timestamp is match") {
-                        expect(event.values.string(forKeyPath: "message.response_timestamp")).to(equal("2019-11-24T02:05:12.616Z"))
-                    }
-                    
-                    it("event_hashes is match") {
-                        expect(event.values.string(forKeyPath: "message.trigger.event_hashes")).to(equal("a001"))
-                    }
-                    
-                    it("no_action is match") {
-                        expect(event.values.bool(forKeyPath: "no_action")).to(beFalse())
-                    }
-                }
-                
-                
-                describe("no action") {
-                    var event: Event!
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder4)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        Variables.fetch()
-
-                        module.wait()
-                        
-                        event = StubActionModule(metadata: metadata, builder: otherStubBuilder).wait().event(.messageReady)
-                    }
-                    
-                    it("campaign_id is match") {
-                        expect(event.values.string(forKeyPath: "message.campaign_id")).to(equal("5b750a095db3aa091ed1f590"))
-                    }
-                    
-                    it("shorten_id is match") {
-                        expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("14kU"))
-                    }
-                       
-                    it("response_id is match") {
-                        expect(event.values.string(forKeyPath: "message.response_id")).to(equal("2019-11-24T02:05:12.616Z_14kU"))
-                    }
-                    
-                    it("response_timestamp is match") {
-                        expect(event.values.string(forKeyPath: "message.response_timestamp")).to(equal("2019-11-24T02:05:12.616Z"))
-                    }
-                    
-                    it("event_hashes is match") {
-                        expect(event.values.string(forKeyPath: "message.trigger.event_hashes")).to(equal("a001"))
-                    }
-
-                    it("no_action is match") {
-                        expect(event.values.bool(forKeyPath: "no_action")).to(beTrue())
-                    }
-                    
-                    it("reason is match") {
-                        expect(event.values.string(forKeyPath: "reason")).to(equal("foo"))
-                    }
-                }
-            }
-            
-            describe("its fetch") {
-                beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder1)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    Variables.fetch()
-
-                    module.wait()
-                    
-                    StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
-                }
-
-                describe("get All Keys") {
-                    it ("get all keys") {
-                        let keys = Variables.getAllKeys()
-                        expect(keys.contains("var1")).to(beTrue())
-                        expect(keys.contains("var2")).to(beTrue())
-                        expect(keys.contains("var3")).to(beTrue())
-                        expect(keys.contains("var4")).to(beFalse())
-                        expect(keys.contains("lastFetchTime")).to(beFalse())
-                        expect(keys.contains("lastFetchStatus")).to(beFalse())
-                    }
-                }
-
-                describe("clear All Cache") {
-                    it ("clear All Cache") {
-                        Variables.clearCacheAll()
-                        let variable1 = Variable(name: "var1")
-                        let variable2 = Variable(name: "var2")
-                        expect(variable1.value).to(beNil())
-                        expect(variable2.value).to(beNil())
-                    }
-                }
-
-                describe("clear Cache By Key") {
-                    it ("clear Cache By Key") {
-                        Variables.clearCache(forKey: "var1")
-                        let variable1 = Variable(name: "var1")
-                        let variable2 = Variable(name: "var2")
-                        expect(variable1.value).to(beNil())
-                        expect(variable2.value).toNot(beNil())
-                    }
-                }
-
-                describe("filter") {
-                    it ("return matched variables") {
-                        let filteredVariables = Variables.filter {
-                            $0.hasPrefix("var")
-                        }.sorted { $0.name < $1.name }
-                        expect(filteredVariables.count).to(equal(3))
-                        expect(filteredVariables[0].string).to(equal("変数1"))
-                        expect(filteredVariables[1].string).to(equal("変数2a"))
-                        expect(filteredVariables[2].string).to(equal("変数3a"))
-                    }
-                    it("won't return when not matched") {
-                        let filteredVariables = Variables.filter {
-                            $0.hasPrefix("let")
-                        }
-                        expect(filteredVariables.count).to(equal(0))
-                    }
-                }
-
-                describe("retrieve variable") {
-                    it("var1 is not nil") {
-                        let variable = Variable(name: "var1")
-                        expect(variable.value).toNot(beNil())
-                    }
-
-                    it("var1 is `変数1`") {
-                        let variable = Variable(name: "var1")
-                        expect(variable.string).to(equal("変数1"))
-                    }
-
-                    it("var2 is not nil") {
-                        let variable = Variable(name: "var2")
-                        expect(variable.value).toNot(beNil())
-                    }
-
-                    it("var2 is `変数2a`") {
-                        let variable = Variable(name: "var2")
-                        expect(variable.string).to(equal("変数2a"))
-                    }
-                    
-                    it("var3 is not nil") {
-                        let variable = Variable(name: "var3")
-                        expect(variable.value).toNot(beNil())
-                    }
-                    
-                    it("var3 is `変数3`") {
-                        let variable = Variable(name: "var3")
-                        expect(variable.string).to(equal("変数3a"))
-                    }
-                }
-                
-                describe("clear variables") {
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder2)
-
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        Variables.fetch()
-
-                        module.wait()
-                        
-                        StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
-                    }
-
-                    it("var1 is nil") {
-                        let variable = Variable(name: "var1")
-                        expect(variable.value).to(beNil())
-                    }
-
-                    it("var2 is nil") {
-                        let variable = Variable(name: "var2")
-                        expect(variable.value).to(beNil())
-                    }
-
-                    it("var3 is not nil") {
-                        let variable = Variable(name: "var3")
-                        expect(variable.value).toNot(beNil())
-                    }
-
-                    it("var3 is `変数3b`") {
-                        let variable = Variable(name: "var3")
-                        expect(variable.string).to(equal("変数3b"))
-                    }
-
-                    it("var4 is not nil") {
-                        let variable = Variable(name: "var4")
-                        expect(variable.value).toNot(beNil())
-                    }
-
-                    it("var4 is `変数4`") {
-                        let variable = Variable(name: "var4")
-                        expect(variable.string).to(equal("変数4"))
-                    }
-                }
-
-                describe("override variables") {
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder2)
-
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        Tracker.track(event: Event(.view(viewName: "foo", title: "bar", values: [:])))
-
-                        module.wait()
-                        
-                        StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
-                    }
-
-                    it("var1 is not nil") {
-                        let variable = Variable(name: "var1")
-                        expect(variable.value).toNot(beNil())
-                    }
-
-                    it("var1 is `変数1`") {
-                        let variable = Variable(name: "var1")
-                        expect(variable.string).to(equal("変数1"))
-                    }
-
-                    it("var2 is not nil") {
-                        let variable = Variable(name: "var2")
-                        expect(variable.value).toNot(beNil())
-                    }
-
-                    it("var2 is `変数2a`") {
-                        let variable = Variable(name: "var2")
-                        expect(variable.string).to(equal("変数2a"))
-                    }
-
-                    it("var3 is not nil") {
-                        let variable = Variable(name: "var3")
-                        expect(variable.value).toNot(beNil())
-                    }
-
-                    it("var3 is `変数3b`") {
-                        let variable = Variable(name: "var3")
-                        expect(variable.string).to(equal("変数3b"))
-                    }
-
-                    it("var4 is not nil") {
-                        let variable = Variable(name: "var4")
-                        expect(variable.value).toNot(beNil())
-                    }
-
-                    it("var4 is `変数4`") {
-                        let variable = Variable(name: "var4")
-                        expect(variable.string).to(equal("変数4"))
-                    }
-                }
-                
-                describe("default lastFetch information") {
-                    beforeEach {
-                        UserDefaults.standard.removeObject(forKey: .lastFetchStatus)
-                        UserDefaults.standard.removeObject(forKey: .lastFetchTime)
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    }
-
-                    it("lastFetchStatus is notyet") {
-                        let lastFetchStatus = Variables.lastFetchStatus
-                        expect(lastFetchStatus).to(equal(.nofetchYet))
-                    }
-                    it("lastFetchTime is nil") {
-                        let lastFetchTime = Variables.lastFetchTime
-                        expect(lastFetchTime).to(beNil())
-                    }
-                    
-                    it("hasSuccessfulLastFetch returns false") {
-                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 100)
-                        expect(hasSuccessfulLastFetch).to(beFalse())
-                    }
-                }
-                
-                describe("update lastFetch information") {
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder2)
-
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        Variables.fetch()
-
-                        module.wait()
-                        
-                        StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
-                    }
-
-                    it("lastFetchTime is not nil") {
-                        let lastFetchTime = Variables.lastFetchTime
-                        expect(lastFetchTime).toNot(beNil())
-                    }
-                    
-                    it("lastFetchStatus is success") {
-                        let lastFetchStatus = Variables.lastFetchStatus
-                        expect(lastFetchStatus).to(equal(.success))
-                    }
-
-                    it("hasSuccessfulLastFetch returns true") {
-                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 1)
-                        expect(hasSuccessfulLastFetch).to(beTrue())
-                        
-                        let hasSuccessfulLastFetch60 = Variables.hasSuccessfulLastFetch(inSeconds: 60)
-                        expect(hasSuccessfulLastFetch60).to(beTrue())
-                    }
-                    
-                    it("hasSuccessfulLastFetch returns false") {
-                        simulateLastFetch(secondsAgo: 2)
-                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 1)
-                        expect(hasSuccessfulLastFetch).to(beFalse())
-                    }
-                    
-                    it("hasSuccessfulLastFetch returns false when specify minus value") {
-                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: -60)
-                        expect(hasSuccessfulLastFetch).to(beFalse())
-                    }
-                }
-            }
-            
-            describe("its fetchCompletion") {
-                context("when online") {
-                    var result: Bool!
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder1)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        Variables.fetch { (isSuccess) in
-                            result = isSuccess
-                        }
-
-                        module.wait()
-                        
-                        StubActionModule(metadata: metadata, builder: otherStubBuilder).wait()
-                    }
-                    
-                    it("result is true") {
-                        expect(result).to(beTrue())
-                    }
-                }
-                context("when offline") {
-                    var result: Bool!
-                    beforeEach { (metadata: ExampleMetadata) in
-
-                        Resolver.root = Resolver.submock
-                        Resolver.root.register(Bool.self, name: "isReachable") {
-                            false
-                        }
-
-                        let module = StubActionModule(metadata: metadata, builder: fetchStubBuilder1)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        Variables.fetch { (isSuccess) in
-                            result = isSuccess
-                            module.finish()
-                        }
-
-                        module.wait()
-                    }
-                    
-                    afterEach {
-                        Resolver.root = Resolver.mock
-                    }
-                    
-                    it("result is false") {
-                        expect(result).to(beFalse())
-                    }
-
-                    it("lastFetchTime is not nil") {
-                        let lastFetchTime = Variables.lastFetchTime
-                        expect(lastFetchTime).toNot(beNil())
-                    }
-                    
-                    it("lastFetchStatus is failure") {
-                        let lastFetchStatus = Variables.lastFetchStatus
-                        expect(lastFetchStatus).to(equal(.failure))
-                    }
-                    
-                    it("hasSuccessfulLastFetch returns false") {
-                        let hasSuccessfulLastFetch = Variables.hasSuccessfulLastFetch(inSeconds: 10)
-                        expect(hasSuccessfulLastFetch).to(beFalse())
-                    }
-                }
-            }
+        guard let event = StubActionModule(metadata: name, builder: otherStubBuilder).wait().event(.messageReady) else {
+            XCTFail("messageReady event not found")
+            return
         }
+        XCTAssertEqual(event.values.string(forKeyPath: "message.campaign_id"), "5b750a095db3aa091ed1f590", "campaign_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.shorten_id"), "14kU", "shorten_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_id"), "2019-11-24T02:05:12.616Z_14kU", "response_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_timestamp"), "2019-11-24T02:05:12.616Z", "response_timestamp")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.trigger.event_hashes"), "a001", "event_hashes")
+        XCTAssertEqual(event.values.bool(forKeyPath: "no_action"), false, "no_action")
+    }
+
+    func testMessageReadyEventForNoAction() {
+        let module = StubActionModule(metadata: name, builder: fetchStubBuilder4)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        Variables.fetch()
+        module.wait()
+
+        guard let event = StubActionModule(metadata: name, builder: otherStubBuilder).wait().event(.messageReady) else {
+            XCTFail("messageReady event not found")
+            return
+        }
+        XCTAssertEqual(event.values.string(forKeyPath: "message.campaign_id"), "5b750a095db3aa091ed1f590", "campaign_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.shorten_id"), "14kU", "shorten_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_id"), "2019-11-24T02:05:12.616Z_14kU", "response_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.response_timestamp"), "2019-11-24T02:05:12.616Z", "response_timestamp")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.trigger.event_hashes"), "a001", "event_hashes")
+        XCTAssertEqual(event.values.bool(forKeyPath: "no_action"), true, "no_action")
+        XCTAssertEqual(event.values.string(forKeyPath: "reason"), "foo", "reason")
+    }
+
+    // MARK: - fetch and retrieve
+
+    func testGetAllKeys() {
+        setupAndFetch(builder: fetchStubBuilder1)
+        let keys = Variables.getAllKeys()
+        XCTAssertTrue(keys.contains("var1"), "should contain var1")
+        XCTAssertTrue(keys.contains("var2"), "should contain var2")
+        XCTAssertTrue(keys.contains("var3"), "should contain var3")
+        XCTAssertFalse(keys.contains("var4"), "should not contain var4")
+        XCTAssertFalse(keys.contains("lastFetchTime"), "should not contain lastFetchTime")
+        XCTAssertFalse(keys.contains("lastFetchStatus"), "should not contain lastFetchStatus")
+    }
+
+    func testClearAllCache() {
+        setupAndFetch(builder: fetchStubBuilder1)
+        Variables.clearCacheAll()
+        XCTAssertNil(Variable(name: "var1").value, "var1 should be nil after clearAll")
+        XCTAssertNil(Variable(name: "var2").value, "var2 should be nil after clearAll")
+    }
+
+    func testClearCacheByKey() {
+        setupAndFetch(builder: fetchStubBuilder1)
+        Variables.clearCache(forKey: "var1")
+        XCTAssertNil(Variable(name: "var1").value, "var1 should be nil after clear")
+        XCTAssertNotNil(Variable(name: "var2").value, "var2 should not be nil")
+    }
+
+    func testFilter() {
+        setupAndFetch(builder: fetchStubBuilder1)
+
+        let matched = Variables.filter { $0.hasPrefix("var") }.sorted { $0.name < $1.name }
+        XCTAssertEqual(matched.count, 3, "matched count")
+        XCTAssertEqual(matched[0].string, "変数1", "var1 value")
+        XCTAssertEqual(matched[1].string, "変数2a", "var2 value")
+        XCTAssertEqual(matched[2].string, "変数3a", "var3 value")
+
+        let notMatched = Variables.filter { $0.hasPrefix("let") }
+        XCTAssertEqual(notMatched.count, 0, "not matched count")
+    }
+
+    func testRetrieveVariable() {
+        setupAndFetch(builder: fetchStubBuilder1)
+
+        let var1 = Variable(name: "var1")
+        XCTAssertNotNil(var1.value, "var1 should not be nil")
+        XCTAssertEqual(var1.string, "変数1", "var1 value")
+
+        let var2 = Variable(name: "var2")
+        XCTAssertNotNil(var2.value, "var2 should not be nil")
+        XCTAssertEqual(var2.string, "変数2a", "var2 value")
+
+        let var3 = Variable(name: "var3")
+        XCTAssertNotNil(var3.value, "var3 should not be nil")
+        XCTAssertEqual(var3.string, "変数3a", "var3 value")
+    }
+
+    func testClearVariablesAfterSecondFetch() {
+        setupAndFetch(builder: fetchStubBuilder1)
+        setupAndFetch(builder: fetchStubBuilder2)
+
+        XCTAssertNil(Variable(name: "var1").value, "var1 should be nil")
+        XCTAssertNil(Variable(name: "var2").value, "var2 should be nil")
+
+        let var3 = Variable(name: "var3")
+        XCTAssertNotNil(var3.value, "var3 should not be nil")
+        XCTAssertEqual(var3.string, "変数3b", "var3 value")
+
+        let var4 = Variable(name: "var4")
+        XCTAssertNotNil(var4.value, "var4 should not be nil")
+        XCTAssertEqual(var4.string, "変数4", "var4 value")
+    }
+
+    func testOverrideVariables() {
+        setupAndFetch(builder: fetchStubBuilder1)
+
+        let module = StubActionModule(metadata: name, builder: fetchStubBuilder2)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        Tracker.track(event: Event(.view(viewName: "foo", title: "bar", values: [:])))
+        module.wait()
+        StubActionModule(metadata: name, builder: otherStubBuilder).wait()
+
+        let var1 = Variable(name: "var1")
+        XCTAssertNotNil(var1.value, "var1 should not be nil")
+        XCTAssertEqual(var1.string, "変数1", "var1 value")
+
+        let var2 = Variable(name: "var2")
+        XCTAssertNotNil(var2.value, "var2 should not be nil")
+        XCTAssertEqual(var2.string, "変数2a", "var2 value")
+
+        let var3 = Variable(name: "var3")
+        XCTAssertNotNil(var3.value, "var3 should not be nil")
+        XCTAssertEqual(var3.string, "変数3b", "var3 value")
+
+        let var4 = Variable(name: "var4")
+        XCTAssertNotNil(var4.value, "var4 should not be nil")
+        XCTAssertEqual(var4.string, "変数4", "var4 value")
+    }
+
+    // MARK: - lastFetch information
+
+    func testDefaultLastFetchInformation() {
+        UserDefaults.standard.removeObject(forKey: .lastFetchStatus)
+        UserDefaults.standard.removeObject(forKey: .lastFetchTime)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        XCTAssertEqual(Variables.lastFetchStatus, .nofetchYet, "lastFetchStatus")
+        XCTAssertNil(Variables.lastFetchTime, "lastFetchTime should be nil")
+        XCTAssertFalse(Variables.hasSuccessfulLastFetch(inSeconds: 100), "hasSuccessfulLastFetch")
+    }
+
+    func testUpdateLastFetchInformation() {
+        setupAndFetch(builder: fetchStubBuilder1)
+        setupAndFetch(builder: fetchStubBuilder2)
+
+        XCTAssertNotNil(Variables.lastFetchTime, "lastFetchTime should not be nil")
+        XCTAssertEqual(Variables.lastFetchStatus, .success, "lastFetchStatus")
+        XCTAssertTrue(Variables.hasSuccessfulLastFetch(inSeconds: 1), "hasSuccessfulLastFetch(1s)")
+        XCTAssertTrue(Variables.hasSuccessfulLastFetch(inSeconds: 60), "hasSuccessfulLastFetch(60s)")
+    }
+
+    func testHasSuccessfulLastFetchReturnsFalseWhenExpired() {
+        setupAndFetch(builder: fetchStubBuilder1)
+        setupAndFetch(builder: fetchStubBuilder2)
+
+        simulateLastFetch(secondsAgo: 2)
+        XCTAssertFalse(Variables.hasSuccessfulLastFetch(inSeconds: 1), "should return false when expired")
+    }
+
+    func testHasSuccessfulLastFetchReturnsFalseForMinusValue() {
+        setupAndFetch(builder: fetchStubBuilder1)
+        setupAndFetch(builder: fetchStubBuilder2)
+
+        XCTAssertFalse(Variables.hasSuccessfulLastFetch(inSeconds: -60), "should return false for minus value")
+    }
+
+    // MARK: - fetchCompletion
+
+    func testFetchCompletionWhenOnline() {
+        let module = StubActionModule(metadata: name, builder: fetchStubBuilder1)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        var result: Bool!
+        Variables.fetch { isSuccess in
+            result = isSuccess
+        }
+        module.wait()
+        StubActionModule(metadata: name, builder: otherStubBuilder).wait()
+
+        XCTAssertTrue(result, "result should be true when online")
+    }
+
+    func testFetchCompletionWhenOffline() {
+        Resolver.root = Resolver.submock
+        Resolver.root.register(Bool.self, name: "isReachable") {
+            false
+        }
+        defer { Resolver.root = Resolver.mock }
+
+        let module = StubActionModule(metadata: name, builder: fetchStubBuilder1)
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        var result: Bool!
+        Variables.fetch { isSuccess in
+            result = isSuccess
+            module.finish()
+        }
+        module.wait()
+
+        XCTAssertFalse(result, "result should be false when offline")
+        XCTAssertNotNil(Variables.lastFetchTime, "lastFetchTime should not be nil")
+        XCTAssertEqual(Variables.lastFetchStatus, .failure, "lastFetchStatus")
+        XCTAssertFalse(Variables.hasSuccessfulLastFetch(inSeconds: 10), "hasSuccessfulLastFetch should be false")
     }
 }

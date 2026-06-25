@@ -1,17 +1,20 @@
 name: "Create XCFramework and Deploy Swift-PM"
 on:
-  # Dry-run when triggered manually: builds XCFrameworks but skips S3 upload and Package.swift push.
   workflow_dispatch:
     inputs:
+      branch:
+        description: 'Release branch to build (e.g. release/2025.06.25T12.00.00)'
+        required: true
+      dry_run:
+        description: 'Build only; skip S3 upload and Package.swift push'
+        type: boolean
+        default: true
       xcodeVersion:
         description: "Xcode version to use"
         required: false
         default: "26.4.1"
-  pull_request:
-    branches:
-      - master
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ inputs.branch }}
   cancel-in-progress: true
 env:
   # https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md
@@ -20,16 +23,16 @@ env:
 jobs:
   build:
     runs-on: macos-26
-    if: github.repository != 'plaidev/karte-ios-sdk'
+    if: github.repository != 'plaidev/karte-ios-sdk' && (inputs.dry_run == true || startsWith(inputs.branch, 'release/'))
     timeout-minutes: 30
     permissions:
       contents: write
       id-token: write # Required for AWS OIDC authentication
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ inputs.branch }}
           submodules: 'true'
           persist-credentials: false
           fetch-depth: 0
@@ -38,7 +41,8 @@ jobs:
           git config user.email "git@users.noreply.github.com"
           git config user.name "github actions"
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # v5.1.1
+        if: inputs.dry_run != true
+        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6.2.0
         with:
           aws-region: ap-northeast-1
           role-to-assume: ${{ secrets.SPM_DEPLOY_AWS_ROLE_ARN }}
@@ -70,8 +74,7 @@ jobs:
         run: |
           ./scripts/create_xcframeworks.sh ${{ steps.find-release-targets.outputs.TARGETS }}
       - name: Upload xcframeworks to aws s3
-        # Skipped in dry-run (workflow_dispatch).
-        if: github.event_name != 'workflow_dispatch' && steps.find-release-targets.outputs.TARGETS != ''
+        if: inputs.dry_run != true && steps.find-release-targets.outputs.TARGETS != ''
         run: |
           aws sts get-caller-identity
           aws s3 ls s3://production-native-sdk/
@@ -80,21 +83,26 @@ jobs:
             aws s3 cp ./xcframeworks/${TARGET}.xcframework.zip s3://production-native-sdk/ios/swiftpm/${TAG}/ --acl public-read
           done
       - name: Backup Swift-PM manifest file
-        # Skipped in dry-run (workflow_dispatch).
-        if: github.event_name != 'workflow_dispatch' && steps.find-release-targets.outputs.TARGETS != ''
+        if: inputs.dry_run != true && steps.find-release-targets.outputs.TARGETS != ''
         run: cp Package.swift Package.swift.back
+      - name: Generate GitHub App token
+        if: inputs.dry_run != true && steps.find-release-targets.outputs.TARGETS != ''
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
+          private-key: ${{ secrets.APP_TEAM_GITHUB_APP_PRIVATE_KEY }}
+          permission-contents: write
       - name: Configure Git
-        # Skipped in dry-run (workflow_dispatch).
-        if: github.event_name != 'workflow_dispatch' && steps.find-release-targets.outputs.TARGETS != ''
+        if: inputs.dry_run != true && steps.find-release-targets.outputs.TARGETS != ''
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
           git config --global user.name "github actions"
           git config --global user.email "git@users.noreply.github.com"
       - name: Update Swift-PM manifest file
-        # Skipped in dry-run (workflow_dispatch).
-        if: github.event_name != 'workflow_dispatch' && steps.find-release-targets.outputs.TARGETS != ''
+        if: inputs.dry_run != true && steps.find-release-targets.outputs.TARGETS != ''
         run: |
           rm Package.swift
           mv Package.swift.back Package.swift

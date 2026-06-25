@@ -19,10 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
-      - uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         id: app-token
         with:
           app-id: ${{ secrets.APP_TEAM_GITHUB_APP_ID }}
@@ -38,19 +38,23 @@ jobs:
           git clone --depth=1 "https://x-access-token:${APP_TOKEN}@github.com/plaidev/${CLAUDE_PLUGIN_REPO_NAME}.git" /tmp/plugin-repo
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        id: auth_gcp
         with:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - uses: anthropics/claude-code-action@df37d2f0760a4b5683a6e617c9325bc1a36443f6 # v1.0.75
+          token_format: 'id_token'
+          id_token_audience: ${{ vars.SHARED_LITELLM_PROXY_URL }}
+          id_token_include_email: true
+      - name: Mask id_token
+        run: echo "::add-mask::${{ steps.auth_gcp.outputs.id_token }}"
+      - uses: anthropics/claude-code-action@9dd8b95a392eb34b6f5fb56cf5a64cb735912d4b # v1.0.150
         env:
-          ANTHROPIC_VERTEX_PROJECT_ID: ${{ vars.ANTHROPIC_VERTEX_PROJECT_ID }}
-          ANTHROPIC_VERTEX_REGION: ${{ vars.ANTHROPIC_VERTEX_REGION }}
-          CLOUD_ML_REGION: ${{ vars.ANTHROPIC_VERTEX_REGION }}
-          ANTHROPIC_VERTEX_ENABLE_PROMPT_CACHING: "true"
+          ANTHROPIC_BASE_URL: ${{ vars.SHARED_LITELLM_PROXY_URL }}
         with:
           github_token: ${{ github.token }}
           allowed_bots: "app-team-github-app[bot]"
-          use_vertex: true
+          # WIF の id_token を Authorization: Bearer で送る（litellm の JWT 認証用）
+          claude_code_oauth_token: ${{ steps.auth_gcp.outputs.id_token }}
           claude_args: |
             --plugin-dir /tmp/plugin-repo/plugins/changelog-lint
             --allowedTools 'Read,Write'

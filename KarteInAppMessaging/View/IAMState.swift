@@ -19,5 +19,6 @@ import Foundation
 internal enum IAMState {
     case waiting
     case loading
+    case failed
     case ready
 }

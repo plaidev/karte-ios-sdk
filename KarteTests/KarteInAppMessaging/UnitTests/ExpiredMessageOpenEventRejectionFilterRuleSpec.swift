@@ -14,47 +14,32 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteUtilities
 @testable import KarteCore
 @testable import KarteInAppMessaging
 
-class ExpiredMessageOpenEventRejectionFilterRuleSpec: QuickSpec {
-    override class func spec() {
-        var now: Date!
-        var rule: ExpiredMessageOpenEventRejectionFilterRule!
+class ExpiredMessageOpenEventRejectionFilterRuleSpec: XCTestCase {
+    private let stubDate = Date(timeIntervalSince1970: 1700000000)
+    private lazy var rule = ExpiredMessageOpenEventRejectionFilterRule(interval: -180) { [self] in
+        return stubDate
+    }
 
-        func runTest(type: Event.MessageType, responseTimestamp: Date) -> Bool {
-            let event = Event(.message(type: type, campaignId: "cid", shortenId: "sid", values: [
-                "message": [
-                    "response_timestamp": iso8601DateTimeFormatter.string(from: responseTimestamp)
-                ]
-            ]))
-            return rule.reject(event: event)
-        }
-        
-        beforeSuite {
-            now = Date()
-            rule = ExpiredMessageOpenEventRejectionFilterRule(interval: -180) {
-                return now
-            }
-        }
-        
-        describe("expired check") {
-            context("expired - 181 seconds elapsed") {
-                it("be true") {
-                    let flag = runTest(type: .open, responseTimestamp: now.addingTimeInterval(-181))
-                    expect(flag).to(beTrue())
-                }
-            }
-            
-            context("not expired - 180 seconds elapsed") {
-                it("be false") {
-                    let flag = runTest(type: .open, responseTimestamp: now.addingTimeInterval(-180))
-                    expect(flag).to(beFalse())
-                }
-            }
-        }
+    func testRejectWhenResponseTimestampExceedsInterval() {
+        let event = Event(.message(type: .open, campaignId: "cid", shortenId: "sid", values: [
+            "message": [
+                "response_timestamp": iso8601DateTimeFormatter.string(from: stubDate.addingTimeInterval(-181))
+            ]
+        ]))
+        XCTAssertTrue(rule.reject(event: event), "should reject when response timestamp exceeds interval")
+    }
+
+    func testNotRejectWhenResponseTimestampWithinInterval() {
+        let event = Event(.message(type: .open, campaignId: "cid", shortenId: "sid", values: [
+            "message": [
+                "response_timestamp": iso8601DateTimeFormatter.string(from: stubDate.addingTimeInterval(-180))
+            ]
+        ]))
+        XCTAssertFalse(rule.reject(event: event), "should not reject when response timestamp is within interval")
     }
 }

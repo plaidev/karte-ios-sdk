@@ -14,8 +14,7 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteRemoteNotification
@@ -26,34 +25,34 @@ class UserInfoBuilder {
     var campaignId = "dummy_campaign_id"
     var shortenId = "dummy_shorten_id"
     var url: String? = "https://karte.io"
-    
+
     func setPushNotification(_ isEnabled: Bool) -> UserInfoBuilder {
         self.isPushNotificationEnabled = isEnabled
         self.isMassPushNotificationEnabled = !isEnabled
         return self
     }
-    
+
     func setMassPushNotification(_ isEnabled: Bool) -> UserInfoBuilder {
         self.isPushNotificationEnabled = !isEnabled
         self.isMassPushNotificationEnabled = isEnabled
         return self
     }
-    
+
     func setCampaignId(_ campaignId: String) -> UserInfoBuilder {
         self.campaignId = campaignId
         return self
     }
-    
+
     func setShortenId(_ shortenId: String) -> UserInfoBuilder {
         self.shortenId = shortenId
         return self
     }
-    
+
     func setURL(_ url: String?) -> UserInfoBuilder {
         self.url = url
         return self
     }
-    
+
     func build() -> [AnyHashable: Any] {
         var userInfo: [AnyHashable: Any] = [
             "krt_campaign_id": campaignId,
@@ -75,114 +74,82 @@ class UserInfoBuilder {
     }
 }
 
+// MARK: - Track Tests
 
-class MeasurementSpec: QuickSpec {
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = StubBuilder(spec: self, resource: .empty).build()
+class MeasurementSpec: XCTestCase {
+    private var builder: Builder!
+
+    override func setUp() {
+        super.setUp()
+
+        builder = StubBuilder(spec: Self.self, resource: .empty).build()
+
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
+        }
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+    }
+
+    func testTrackDefaultPushNotification() throws {
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        let userInfo = UserInfoBuilder().build()
+        let notification = RemoteNotification(userInfo: userInfo)!
+        notification.track()
+
+        guard let event = module.wait().event(.messageClick) else {
+            XCTFail("event should not be nil")
+            return
         }
 
-        describe("a measurement") {
-            describe("a track") {
-                context("from default") {
-                    var event: Event!
+        XCTAssertEqual(event.eventName, .messageClick, "event name is message_click")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.campaign_id"), "dummy_campaign_id", "campaign_id is dummy_campaign_id")
+        XCTAssertEqual(event.values.string(forKeyPath: "message.shorten_id"), "dummy_shorten_id", "shorten_id is dummy_shorten_id")
+        let v = try XCTUnwrap(event.values.bool(forKey: "v"), "v should not be nil")
+        XCTAssertTrue(v, "v is true")
+    }
 
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: builder)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        
-                        let userInfo = UserInfoBuilder().build()
-                        let notification = RemoteNotification(userInfo: userInfo)!
-                        notification.track()
-                        
-                        event = module.wait().event(.messageClick)
-                    }
-                    
-                    it("event name is `message_click`") {
-                        expect(event.eventName).to(equal(.messageClick))
-                    }
-                    
-                    it("values.message.campaign_id is `dummy_campaign_id`") {
-                        expect(event.values.string(forKeyPath: "message.campaign_id")).to(equal("dummy_campaign_id"))
-                    }
-                    
-                    it("values.message.shorten_id is `dummy_shorten_id`") {
-                        expect(event.values.string(forKeyPath: "message.shorten_id")).to(equal("dummy_shorten_id"))
-                    }
-                    
-                    it("values.v is true") {
-                        expect(event.values.bool(forKey: "v")).to(beTrue())
-                    }
-                }
-                
-                context("from masspush") {
-                    var event: Event!
+    func testTrackMassPushNotification() throws {
+        let module = StubActionModule(metadata: name, builder: builder)
 
-                    beforeEach { (metadata: ExampleMetadata) in
-                        let module = StubActionModule(metadata: metadata, builder: builder)
-                        
-                        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                        
-                        let userInfo = UserInfoBuilder().setMassPushNotification(true).build()
-                        let notification = RemoteNotification(userInfo: userInfo)!
-                        notification.track()
-                        
-                        event = module.wait().event(.massPushClick)
-                    }
-                    
-                    it("event name is `mass_push_click`") {
-                        expect(event.eventName).to(equal(.massPushClick))
-                    }
-                    
-                    it("values.message.campaign_id is nil") {
-                        expect(event.values.string(forKeyPath: "message.campaign_id")).to(beNil())
-                    }
-                    
-                    it("values.message.shorten_id is nil") {
-                        expect(event.values.string(forKeyPath: "message.shorten_id")).to(beNil())
-                    }
-                    
-                    it("values.v is true") {
-                        expect(event.values.bool(forKey: "v")).to(beTrue())
-                    }
-                }
-            }
-            
-            describe("a url") {
-                context("url is valid") {
-                    let userInfo = UserInfoBuilder().build()
-                    let notification = RemoteNotification(userInfo: userInfo)!
-                    
-                    it("url is `https://karte.io`") {
-                        expect(notification.url?.absoluteString).to(equal("https://karte.io"))
-                    }
-                }
-                
-                context("url is not valid") {
-                    let userInfo = UserInfoBuilder().setURL("NOT URL!!!").build()
-                    let notification = RemoteNotification(userInfo: userInfo)!
-                    
-                    it("url is nil") {
-                        expect(notification.url).to(beNil())
-                    }
-                }
-                
-                context("url is not contain") {
-                    let userInfo = UserInfoBuilder().setURL(nil).build()
-                    let notification = RemoteNotification(userInfo: userInfo)!
-                    
-                    it("url is nil") {
-                        expect(notification.url).to(beNil())
-                    }
-                }
-            }
+        let userInfo = UserInfoBuilder().setMassPushNotification(true).build()
+        let notification = RemoteNotification(userInfo: userInfo)!
+        notification.track()
+
+        guard let event = module.wait().event(.massPushClick) else {
+            XCTFail("event should not be nil")
+            return
         }
+
+        XCTAssertEqual(event.eventName, .massPushClick, "event name is mass_push_click")
+        XCTAssertNil(event.values.string(forKeyPath: "message.campaign_id"), "campaign_id is nil")
+        XCTAssertNil(event.values.string(forKeyPath: "message.shorten_id"), "shorten_id is nil")
+        let v = try XCTUnwrap(event.values.bool(forKey: "v"), "v should not be nil")
+        XCTAssertTrue(v, "v is true")
+    }
+}
+
+// MARK: - URL Tests
+
+class MeasurementURLSpec: XCTestCase {
+    func testUrlIsValid() {
+        let userInfo = UserInfoBuilder().build()
+        let notification = RemoteNotification(userInfo: userInfo)!
+
+        XCTAssertEqual(notification.url?.absoluteString, "https://karte.io", "url is https://karte.io")
+    }
+
+    func testUrlIsNotValid() {
+        let userInfo = UserInfoBuilder().setURL("NOT URL!!!").build()
+        let notification = RemoteNotification(userInfo: userInfo)!
+
+        XCTAssertNil(notification.url, "url is nil for invalid url")
+    }
+
+    func testUrlIsNotContained() {
+        let userInfo = UserInfoBuilder().setURL(nil).build()
+        let notification = RemoteNotification(userInfo: userInfo)!
+
+        XCTAssertNil(notification.url, "url is nil when not contained")
     }
 }

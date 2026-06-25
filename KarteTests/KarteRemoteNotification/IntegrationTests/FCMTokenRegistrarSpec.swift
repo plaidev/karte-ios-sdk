@@ -14,143 +14,136 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteRemoteNotification
 
+class FCMTokenRegistrarSpec: XCTestCase {
+    private var builder: Builder!
 
+    override func setUp() {
+        super.setUp()
 
-class FCMTokenRegistrarSpec: QuickSpec {
-    
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = { request in
-                let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
-                let data = try! createJSONEncoder().encode(response)
-                return jsonData(data)(request)
-            }
+        builder = { request in
+            let response = TrackResponse(success: 1, status: 200, response: EMPTY_RESPONSE, error: nil)
+            let data = try! createJSONEncoder().encode(response)
+            return jsonData(data)(request)
         }
-        
-        describe("token registrar") {
-            context("first time") {
-                var event: Event!
-                beforeEach { (metadata: ExampleMetadata) in
-                    let module = StubActionModule(metadata: metadata, builder: builder)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    
-                    let provider = NotificationSettingsProviderMock()
-                    provider.fcmTokenResolver = { "dummy_fcm_token" }
-                    provider.availabilityResolver = { true }
-                    
-                    let registrar = FCMTokenRegistrar(provider)
-                    registrar.registerFCMToken()
-                    
-                    event = module.wait().event(.pluginNativeAppIdentify)
-                }
-                
-                it("event name is `plugin_native_app_identify`") {
-                    expect(event.eventName).to(equal(.pluginNativeAppIdentify))
-                }
-                
-                it("values.fcm_token is `dummy_fcm_token`") {
-                    expect(event.values.string(forKey: field(.fcmToken))).to(equal("dummy_fcm_token"))
-                }
-                
-                it("values.subscribe is true") {
-                    expect(event.values.bool(forKey: field(.subscribe))).to(beTrue())
-                }
-            }
-            
-            context("second time") {
-                var event: Event!
-                
-                func runTest(metadata: ExampleMetadata?, fcmToken: String?, subscribe: Bool) -> StubActionModule {
-                    event = nil
 
-                    let module1 = StubActionModule(metadata: metadata, builder: builder)
-
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-
-                    let provider = NotificationSettingsProviderMock()
-                    provider.fcmTokenResolver = { "dummy_fcm_token" }
-                    provider.availabilityResolver = { true }
-
-                    let registrar = FCMTokenRegistrar(provider)
-                    registrar.registerFCMToken()
-
-                    module1.wait()
-
-                    let module2 = StubActionModule(metadata: metadata, builder: builder)
-                    
-                    provider.fcmTokenResolver = { fcmToken }
-                    provider.availabilityResolver = { subscribe }
-                    registrar.registerFCMToken()
-                    
-                    return module2
-                }
-                
-
-                context("when the token is updated") {
-                    beforeEach { (metadata: ExampleMetadata) in
-                        event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token_2", subscribe: true)
-                            .wait()
-                            .event(.pluginNativeAppIdentify)
-                    }
-                    
-                    it("event name is `plugin_native_app_identify`") {
-                        expect(event.eventName).to(equal(.pluginNativeAppIdentify))
-                    }
-                    
-                    it("values.fcm_token is `dummy_fcm_token_2`") {
-                        expect(event.values.string(forKey: field(.fcmToken))).to(equal("dummy_fcm_token_2"))
-                    }
-                    
-                    it("values.subscribe is true") {
-                        expect(event.values.bool(forKey: field(.subscribe))).to(beTrue())
-                    }
-                }
-                
-                context("when the subscribe is updated") {
-                    beforeEach { (metadata: ExampleMetadata) in
-                        event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token", subscribe: false)
-                            .wait()
-                            .event(.pluginNativeAppIdentify)
-                    }
-                    
-                    it("event name is `plugin_native_app_identify`") {
-                        expect(event.eventName).to(equal(.pluginNativeAppIdentify))
-                    }
-                    
-                    it("values.fcm_token is `dummy_fcm_token`") {
-                        expect(event.values.string(forKey: field(.fcmToken))).to(equal("dummy_fcm_token"))
-                    }
-                    
-                    it("values.subscribe is false") {
-                        expect(event.values.bool(forKey: field(.subscribe))).to(beFalse())
-                    }
-                }
-
-                context("same settings as before") {
-                    beforeEach { (metadata: ExampleMetadata) in
-                        event = runTest(metadata: metadata, fcmToken: "dummy_fcm_token", subscribe: true)
-                            .verify()
-                            .event(.pluginNativeAppIdentify)
-                    }
-                    
-                    it("event is nil") {
-                        expect(event).to(beNil())
-                    }
-                }
-            }
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+    }
+
+    // MARK: - first time
+
+    func testFirstTimeRegisterFCMToken() throws {
+        let module = StubActionModule(metadata: name, builder: builder)
+
+        let provider = NotificationSettingsProviderMock()
+        provider.fcmTokenResolver = { "dummy_fcm_token" }
+        provider.availabilityResolver = { true }
+
+        let registrar = FCMTokenRegistrar(provider)
+        registrar.registerFCMToken()
+
+        guard let event = module.wait().event(.pluginNativeAppIdentify) else {
+            XCTFail("event should not be nil")
+            return
+        }
+
+        XCTAssertEqual(event.eventName, .pluginNativeAppIdentify, "event name is plugin_native_app_identify")
+        XCTAssertEqual(event.values.string(forKey: field(.fcmToken)), "dummy_fcm_token", "fcm_token is dummy_fcm_token")
+        let subscribe = try XCTUnwrap(event.values.bool(forKey: field(.subscribe)), "subscribe should not be nil")
+        XCTAssertTrue(subscribe, "subscribe is true")
+    }
+
+    // MARK: - second time (token updated)
+
+    func testSecondTimeTokenUpdated() throws {
+        let module1 = StubActionModule(metadata: name, builder: builder)
+
+        let provider = NotificationSettingsProviderMock()
+        provider.fcmTokenResolver = { "dummy_fcm_token" }
+        provider.availabilityResolver = { true }
+
+        let registrar = FCMTokenRegistrar(provider)
+        registrar.registerFCMToken()
+
+        module1.wait()
+
+        let module2 = StubActionModule(metadata: name, builder: builder)
+
+        provider.fcmTokenResolver = { "dummy_fcm_token_2" }
+        provider.availabilityResolver = { true }
+        registrar.registerFCMToken()
+
+        guard let event = module2.wait().event(.pluginNativeAppIdentify) else {
+            XCTFail("event should not be nil")
+            return
+        }
+
+        XCTAssertEqual(event.eventName, .pluginNativeAppIdentify, "event name is plugin_native_app_identify")
+        XCTAssertEqual(event.values.string(forKey: field(.fcmToken)), "dummy_fcm_token_2", "fcm_token is dummy_fcm_token_2")
+        let subscribe = try XCTUnwrap(event.values.bool(forKey: field(.subscribe)), "subscribe should not be nil")
+        XCTAssertTrue(subscribe, "subscribe is true")
+    }
+
+    // MARK: - second time (subscribe updated)
+
+    func testSecondTimeSubscribeUpdated() throws {
+        let module1 = StubActionModule(metadata: name, builder: builder)
+
+        let provider = NotificationSettingsProviderMock()
+        provider.fcmTokenResolver = { "dummy_fcm_token" }
+        provider.availabilityResolver = { true }
+
+        let registrar = FCMTokenRegistrar(provider)
+        registrar.registerFCMToken()
+
+        module1.wait()
+
+        let module2 = StubActionModule(metadata: name, builder: builder)
+
+        provider.fcmTokenResolver = { "dummy_fcm_token" }
+        provider.availabilityResolver = { false }
+        registrar.registerFCMToken()
+
+        guard let event = module2.wait().event(.pluginNativeAppIdentify) else {
+            XCTFail("event should not be nil")
+            return
+        }
+
+        XCTAssertEqual(event.eventName, .pluginNativeAppIdentify, "event name is plugin_native_app_identify")
+        XCTAssertEqual(event.values.string(forKey: field(.fcmToken)), "dummy_fcm_token", "fcm_token is dummy_fcm_token")
+        let subscribe = try XCTUnwrap(event.values.bool(forKey: field(.subscribe)), "subscribe should not be nil")
+        XCTAssertFalse(subscribe, "subscribe is false")
+    }
+
+    // MARK: - second time (same settings)
+
+    func testSecondTimeSameSettings() {
+        let module1 = StubActionModule(metadata: name, builder: builder)
+
+        let provider = NotificationSettingsProviderMock()
+        provider.fcmTokenResolver = { "dummy_fcm_token" }
+        provider.availabilityResolver = { true }
+
+        let registrar = FCMTokenRegistrar(provider)
+        registrar.registerFCMToken()
+
+        module1.wait()
+
+        let module2 = StubActionModule(metadata: name, builder: builder)
+
+        provider.fcmTokenResolver = { "dummy_fcm_token" }
+        provider.availabilityResolver = { true }
+        registrar.registerFCMToken()
+
+        let event = module2.verify().event(.pluginNativeAppIdentify)
+
+        XCTAssertNil(event, "event should be nil when settings unchanged")
     }
 }

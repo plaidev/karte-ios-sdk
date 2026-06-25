@@ -15,7 +15,6 @@
 //
 
 import XCTest
-import Nimble
 import KarteUtilities
 @testable import KarteCore
 
@@ -117,51 +116,51 @@ class TrackClientTests: XCTestCase {
         Tracker.view("test4")
 
         TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(1)) {
-            expect(self.session.tasks.count).to(equal(1))
-            expect(TrackClient.shared.tasks.count).to(equal(3))
-            expect(TrackClient.shared.state).to(equal(.running))
+            XCTAssertEqual(self.session.tasks.count, 1)
+            XCTAssertEqual(TrackClient.shared.tasks.count, 3)
+            XCTAssertEqual(TrackClient.shared.state, .running)
             self.session.flush()
         }
         
         TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(3)) {
-            expect(self.session.tasks.count).to(equal(1))
-            expect(TrackClient.shared.tasks.count).to(equal(2))
-            expect(TrackClient.shared.state).to(equal(.running))
+            XCTAssertEqual(self.session.tasks.count, 1)
+            XCTAssertEqual(TrackClient.shared.tasks.count, 2)
+            XCTAssertEqual(TrackClient.shared.state, .running)
             self.reachabilityService.notify(false)
         }
         
         TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(5)) {
-            expect(self.session.tasks.count).to(equal(1))
-            expect(TrackClient.shared.tasks.count).to(equal(2))
-            expect(TrackClient.shared.state).to(equal(.running))
+            XCTAssertEqual(self.session.tasks.count, 1)
+            XCTAssertEqual(TrackClient.shared.tasks.count, 2)
+            XCTAssertEqual(TrackClient.shared.state, .running)
             self.session.flush()
         }
 
         TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(7)) {
-            expect(self.session.tasks.count).to(equal(0))
-            expect(TrackClient.shared.tasks.count).to(equal(1))
-            expect(TrackClient.shared.state).to(equal(.running))
+            XCTAssertEqual(self.session.tasks.count, 0)
+            XCTAssertEqual(TrackClient.shared.tasks.count, 1)
+            XCTAssertEqual(TrackClient.shared.state, .running)
             self.reachabilityService.notify(true)
         }
         
         TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(9)) {
-            expect(self.session.tasks.count).to(equal(1))
-            expect(TrackClient.shared.tasks.count).to(equal(1))
-            expect(TrackClient.shared.state).to(equal(.running))
+            XCTAssertEqual(self.session.tasks.count, 1)
+            XCTAssertEqual(TrackClient.shared.tasks.count, 1)
+            XCTAssertEqual(TrackClient.shared.state, .running)
             self.session.flush()
         }
         
         TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(11)) {
-            expect(self.session.tasks.count).to(equal(1))
-            expect(TrackClient.shared.tasks.count).to(equal(1))
-            expect(TrackClient.shared.state).to(equal(.running))
+            XCTAssertEqual(self.session.tasks.count, 1)
+            XCTAssertEqual(TrackClient.shared.tasks.count, 1)
+            XCTAssertEqual(TrackClient.shared.state, .running)
             self.session.flush()
         }
 
         TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(13)) {
-            expect(self.session.tasks.count).to(equal(0))
-            expect(TrackClient.shared.tasks.count).to(equal(0))
-            expect(TrackClient.shared.state).to(equal(.waiting))
+            XCTAssertEqual(self.session.tasks.count, 0)
+            XCTAssertEqual(TrackClient.shared.tasks.count, 0)
+            XCTAssertEqual(TrackClient.shared.state, .waiting)
         }
         
         waitTrackingAgentHasNoCommandsNotification()
@@ -184,7 +183,7 @@ class TrackClientTests: XCTestCase {
         self.stub = stub(uri("/v0/native/track"), successResponse)
         Tracker.view("test1")
         waitTrackingAgentHasNoCommandsNotification {
-            expect(self.circuitBreaker.count).to(equal(0))
+            XCTAssertEqual(self.circuitBreaker.count, 0)
         }
         
         // status: 400 の時はリトライしない(失敗にカウントしない)
@@ -192,7 +191,7 @@ class TrackClientTests: XCTestCase {
         self.stub = stub(uri("/v0/native/track"), badRequestResponse)
         Tracker.view("test2")
         waitTrackingAgentHasNoCommandsNotification {
-            expect(self.circuitBreaker.count).to(equal(0))
+            XCTAssertEqual(self.circuitBreaker.count, 0)
         }
         
         self.removeStub(self.stub)
@@ -218,7 +217,7 @@ class TrackClientTests: XCTestCase {
         Tracker.view("test1")
         self.exp = keyValueObservingExpectation(for: circuitBreaker.counter, keyPath: "count", expectedValue: maxRetryCount + 1)
         wait(for: [self.exp], timeout: 20)
-        expect(self.circuitBreaker.canRequest).to(beTrue())
+        XCTAssertTrue(self.circuitBreaker.canRequest)
         
         // circuitBreakerが有効の時は域値まで制限される
         circuitBreaker.reset()
@@ -226,7 +225,7 @@ class TrackClientTests: XCTestCase {
         Tracker.view("test2")
         self.exp = keyValueObservingExpectation(for: circuitBreaker.counter, keyPath: "count", expectedValue: circuitBreaker.threshold)
         wait(for: [self.exp], timeout: 20)
-        expect(self.circuitBreaker.canRequest).to(beFalse())
+        XCTAssertFalse(self.circuitBreaker.canRequest)
         
         self.removeStub(self.stub)
     }

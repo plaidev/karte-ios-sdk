@@ -428,6 +428,7 @@
 		AFCAF2C4299F6809005B4DCC /* FetchMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */; };
 		AFD9D7EE2D5357E400A63977 /* IAFCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD9D7ED2D5357E400A63977 /* IAFCarousel.swift */; };
 		AFEDE0ED2D5E547200F1CE01 /* LoadingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEDE0EC2D5E547200F1CE01 /* LoadingDelegate.swift */; };
+		CEFDA32005734338BF7CDB3E /* IAMWebViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C3C2B8878B4FD49ABDC38A /* IAMWebViewSpec.swift */; };
 		EF68529C06AE4D8B9EC16F5D /* HTTPStubProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FEC02ED5D7499D85E4AB68 /* HTTPStubProtocol.swift */; };
 /* End PBXBuildFile section */
 
@@ -992,6 +993,7 @@
 		777D605A2742217500339D7E /* InvalidEventNameFilterRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvalidEventNameFilterRule.swift; sourceTree = "<group>"; };
 		777D605C274267FC00339D7E /* InvalidEventFieldNameFilterRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvalidEventFieldNameFilterRule.swift; sourceTree = "<group>"; };
 		77DFA95C274630B70093FB65 /* AttributeEventSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeEventSpec.swift; sourceTree = "<group>"; };
+		83C3C2B8878B4FD49ABDC38A /* IAMWebViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMWebViewSpec.swift; sourceTree = "<group>"; };
 		8424E2552AFC653C003AC32E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		843BC1042AF314F300D1C0A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		843BC1062AF316ED00D1C0A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -2266,6 +2268,7 @@
 				68C9FA0C25C38E830069EA3D /* JsMessageSpec.swift */,
 				93E00F8D28745FF500116B5B /* IAMProcessPoolSpec.swift */,
 				0C068A9029A3C9280000560D /* ExpiredMessageOpenEventRejectionFilterRuleSpec.swift */,
+				83C3C2B8878B4FD49ABDC38A /* IAMWebViewSpec.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -3367,6 +3370,7 @@
 				7366E88C2E55D385005D0CF3 /* WindowSceneDetectorSpec.swift in Sources */,
 				777D6057273DA68300339D7E /* AttributeSpec.swift in Sources */,
 				0C068A9129A3C9280000560D /* ExpiredMessageOpenEventRejectionFilterRuleSpec.swift in Sources */,
+				CEFDA32005734338BF7CDB3E /* IAMWebViewSpec.swift in Sources */,
 				0C6619CE299DBF08006FF9E1 /* TrackMessageOpenSpec.swift in Sources */,
 				0CE79311238653AD00F0D932 /* StubActionModule.swift in Sources */,
 				AF9677FF29CAE5FD008C80BC /* TestUtil.swift in Sources */,
@@ -3940,7 +3944,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.36.0;
+				MARKETING_VERSION = 2.37.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3975,7 +3979,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.36.0;
+				MARKETING_VERSION = 2.37.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -4008,7 +4012,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.26.0;
+				MARKETING_VERSION = 2.27.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -4041,7 +4045,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.26.0;
+				MARKETING_VERSION = 2.27.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.karte.KarteInAppMessaging;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

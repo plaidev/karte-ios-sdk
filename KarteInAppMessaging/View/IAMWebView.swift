@@ -96,6 +96,10 @@ internal class IAMWebView: WKWebView {
         case .loading:
             responses.append(response)
 
+        case .failed:
+            responses.append(response)
+            loadRequest()
+
         case .ready:
             guard let value = base64EncodedString(response: response) else {
                 return
@@ -127,7 +131,7 @@ internal class IAMWebView: WKWebView {
             views.append(values)
             loadRequestIfNeeded()
 
-        case .loading:
+        case .loading, .failed:
             views.append(values)
 
         case .ready:
@@ -412,10 +416,23 @@ extension IAMWebView: WKNavigationDelegate {
     // swiftlint:disable:next implicitly_unwrapped_optional
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         Logger.error(tag: .inAppMessaging, message: "WebView did fail navigation: \(error.localizedDescription)")
+        handleNavigationFailure()
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         Logger.error(tag: .inAppMessaging, message: "WebView did fail provisional navigation: \(error.localizedDescription)")
+        handleNavigationFailure()
+    }
+
+    private func handleNavigationFailure() {
+        // この WebView がオーバーレイ表示用でない場合は無視する (通常は発生しないが予期せぬ誤反応への防衛対応)
+        guard contentUrl.absoluteString.contains("/native/overlay") else {
+            Logger.warn(tag: .inAppMessaging, message: "Unexpected navigation failure for non-overlay URL: \(contentUrl)")
+            return
+        }
+        if state == .loading {
+            self.state = .failed
+        }
     }
 
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {

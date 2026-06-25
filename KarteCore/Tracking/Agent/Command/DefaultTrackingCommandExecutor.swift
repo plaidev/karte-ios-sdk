@@ -33,7 +33,7 @@ internal class DefaultTrackingCommandExecutor: TrackingCommandExecutor {
             afterBundleRules: [CommandCountBundleRule()],
             asyncBundleRules: [timeWindowBundleRule]
         )
-        self.bundler = StateCommandBundlerProxy(bundler: bundler)
+        self.bundler = StateCommandBundlerProxy(bundler: bundler, queue: queue)
         self.repository = repository
         self.app = app
 
