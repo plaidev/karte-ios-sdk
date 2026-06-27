@@ -14,86 +14,54 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteVisualTracking
 
-class DefinitionsRequestSpec: AsyncSpec {
+class DefinitionsRequestSpec: XCTestCase {
 
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
+    func testDefinitionsRequestAndDefinitions() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
+        }
+        let builder = StubBuilder(spec: Self.self, resource: .vt_definitions).build()
 
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = StubBuilder(spec: self, resource: .vt_definitions).build()
+        var request: URLRequest!
+        let mockStub = HTTPStubProtocol.addStub(matcher: uri("/v0/native/auto-track/definitions"), builder: { r in
+            request = r
+            return builder(request)
+        })
+        defer {
+            HTTPStubProtocol.removeStub(mockStub)
         }
 
-        describe("a definition get") {
-            var request: URLRequest!
-            var mockStub: Stub!
-            var definitions: AutoTrackDefinition?
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-            beforeEach {
-                mockStub = HTTPStubProtocol.addStub(matcher: uri("/v0/native/auto-track/definitions"), builder: {r in
-                    request = r
-                    return builder(request)
-                })
-                KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        let exp = expectation(description: "refreshDefinitions")
+        VisualTrackingManager.shared.tracker?.refreshDefinitions {
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 10)
 
-                await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-                    VisualTrackingManager.shared.tracker?.refreshDefinitions {
-                        continuation.resume()
-                    }
-                }
-                definitions = VisualTrackingManager.shared.tracker?.definitions
-            }
+        guard let headers = request?.allHTTPHeaderFields else {
+            XCTFail("request should not be nil")
+            return
+        }
+        XCTAssertTrue(headers.keys.contains("X-KARTE-Auto-Track-OS"), "has X-KARTE-Auto-Track-OS header")
+        XCTAssertEqual(headers["X-KARTE-Auto-Track-OS"], "iOS", "X-KARTE-Auto-Track-OS header value is iOS")
+        XCTAssertTrue(headers.keys.contains("X-KARTE-Auto-Track-If-Modified-Since"), "has X-KARTE-Auto-Track-If-Modified-Since header")
+        XCTAssertEqual(headers["X-KARTE-Auto-Track-If-Modified-Since"], "0", "X-KARTE-Auto-Track-If-Modified-Since header value is 0")
 
-            afterEach {
-                if mockStub != nil {
-                    HTTPStubProtocol.removeStub(mockStub)
-                }
-            }
-
-            describe("its request") {
-                it("has `X-KARTE-Auto-Track-OS` header") {
-                    expect(request.allHTTPHeaderFields?.keys.contains("X-KARTE-Auto-Track-OS")).to(beTrue())
-                }
-
-                it("`X-KARTE-Auto-Track-OS` header value is `iOS`") {
-                    expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-OS"]).to(equal("iOS"))
-                }
-
-                it("has `X-KARTE-Auto-Track-If-Modified-Since` header") {
-                    expect(request.allHTTPHeaderFields?.keys.contains("X-KARTE-Auto-Track-If-Modified-Since")).to(beTrue())
-                }
-
-                it("`has X-KARTE-Auto-Track-If-Modified-Since` header that value is `0`") {
-                    expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-If-Modified-Since"]).to(equal("0"))
-                }
-            }
-
-            describe("its definitions") {
-                it("is not nil") {
-                    expect(definitions).toNot(beNil())
-                }
-
-                it("only has valid trigger") {
-                    expect(definitions?.definitions?.first?.triggers.count).to(equal(2))
-                }
-
-                it("only has valid conditions") {
-                    if case let .and(c) = definitions?.definitions?.first?.triggers.first?.condition {
-                        expect(c.count).to(equal(2))
-                    } else {
-                        fail()
-                    }
-                }
-            }
+        guard let definitions = VisualTrackingManager.shared.tracker?.definitions else {
+            XCTFail("definitions should not be nil")
+            return
+        }
+        XCTAssertEqual(definitions.definitions?.first?.triggers.count, 2, "only has valid trigger")
+        if case let .and(c) = definitions.definitions?.first?.triggers.first?.condition {
+            XCTAssertEqual(c.count, 2, "only has valid conditions")
+        } else {
+            XCTFail("condition should be .and")
         }
     }
 }
