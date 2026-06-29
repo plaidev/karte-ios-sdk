@@ -6,12 +6,22 @@
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.27.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.14.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
-| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.14.0 |
+| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.15.0 |
 | KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.7.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.11.1 |
-| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.14.0 |
+| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.15.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
+
+# Releases - xxxx.xx.xx
+
+### VisualTracking 2.15.0
+**💊FIXED**
+- モジュールのMARKETING_VERSIONとCHANGELOGの不一致を修正するためバージョンを更新しました。機能面での変更はなく、ユーザーへの影響はありません。
+
+### Utilities 3.15.0
+**💊FIXED**
+- モジュールのMARKETING_VERSIONとCHANGELOGの不一致を修正するためバージョンを更新しました。機能面での変更はなく、ユーザーへの影響はありません。
 
 # Releases - 2026.06.25
 ## Version 2.34.0
@@ -93,6 +103,7 @@
 ### CrashReporting 2.11.1
 **💊FIXED**
 - SwiftPackageManagerでインストールした際にビルドエラーになる問題を修正しました。
+- モジュールのMARKETING_VERSIONとCHANGELOGの不一致を修正するためバージョンを更新しました。機能面での変更はなく、ユーザーへの影響はありません。
 
 # Releases - 2025.10.28
 ## Version 2.30.0
