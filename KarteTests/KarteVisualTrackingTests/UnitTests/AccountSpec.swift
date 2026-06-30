@@ -14,43 +14,29 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteVisualTracking
 
-class AccountSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a account") {
-            context("when host is not `_krtp`") {
-                it("account is nil") {
-                    let account = Account(url: URL(string: "app://karte.io/dummy_account_id")!)
-                    expect(account).to(beNil())
-                }
-            }
-            
-            context("when last path component is empty") {
-                it("account is nil") {
-                    let account = Account(url: URL(string: "app://karte.io/")!)
-                    expect(account).to(beNil())
-                }
-            }
-            
-            context("when valid url") {
-                var account: Account?
-                
-                beforeEach {
-                    account = Account(url: URL(string: "app://_krtp/dummy_account_id")!)
-                }
-                
-                it("account is not nil") {
-                    expect(account).toNot(beNil())
-                }
-                
-                it("id is `dummy_account_id`") {
-                    expect(account?.id).to(equal("dummy_account_id"))
-                }
-            }
+class AccountSpec: XCTestCase {
+
+    func testAccountIsNilWhenHostIsNotKrtp() throws {
+        let url = try XCTUnwrap(URL(string: "app://karte.io/dummy_account_id"))
+        let account = Account(url: url)
+        XCTAssertNil(account, "account is nil when host is not `_krtp`")
+    }
+
+    func testAccountIsNilWhenLastPathComponentIsEmpty() throws {
+        let url = try XCTUnwrap(URL(string: "app://karte.io/"))
+        let account = Account(url: url)
+        XCTAssertNil(account, "account is nil when last path component is empty")
+    }
+
+    func testValidURL() throws {
+        let url = try XCTUnwrap(URL(string: "app://_krtp/dummy_account_id"))
+        guard let account = Account(url: url) else {
+            XCTFail("account should not be nil for valid url")
+            return
         }
+        XCTAssertEqual(account.id, "dummy_account_id", "id is `dummy_account_id`")
     }
 }
