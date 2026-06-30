@@ -14,164 +14,139 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteVisualTracking
 
 @MainActor
-class ActionAppropriateViewDetectorSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a appropriate view detector") {
-            describe("its detect") {
-                context("when passing UIView") {
-                    it("return is UIView") {
-                        let view = UIView()
-                        let action = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(action?.detect()).to(beAnInstanceOf(UIView.self))
-                    }
-                }
-                
-                context("when passing UITableViewCellContentView included in UITableViewCell") {
-                    it("return is UITableViewCell") {
-                        let cell = UITableViewCell()
-                        let action = UIKitAction.AppropriateViewDetector(view: cell.contentView)
-                        expect(action?.detect()).to(beAKindOf(UITableViewCell.self))
-                    }
-                }
-                
-                context("when passing a enabled UIButton contained in UITableViewCell") {
-                    it("return is UIButton") {
-                        let button = UIButton()
-                        let cell = UITableViewCell()
-                        cell.addSubview(button)
-                        
-                        let action = UIKitAction.AppropriateViewDetector(view: button)
-                        expect(action?.detect()).to(beAKindOf(UIButton.self))
-                    }
-                }
-                
-                context("when passing a disabled UIButton contained in UITableViewCell") {
-                    it("return is UITableViewCell") {
-                        let button = UIButton()
-                        button.isEnabled = false
-                        let cell = UITableViewCell()
-                        cell.addSubview(button)
-                        
-                        let action = UIKitAction.AppropriateViewDetector(view: button)
-                        expect(action?.detect()).to(beAKindOf(UITableViewCell.self))
-                    }
-                }
-            }
-            
-            describe("its isAppropriateView") {
-                context("when passing UITableView") {
-                    it("return true") {
-                        let view = UITableView()
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-                
-                context("when passing UIScrollView") {
-                    it("return true") {
-                        let view = UIScrollView()
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-                
-                context("when passing UICollectionView") {
-                    it("return true") {
-                        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-                
-                context("when passing UIButton is enable") {
-                    it("return true") {
-                        let view = UIButton()
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-                
-                context("when a UILabel containing one or more enable gestures is passed") {
-                    it("return true") {
-                        let view = UILabel()
-                        view.addGestureRecognizer(UIGestureRecognizer())
-                        
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-                
-                context("when a UIImageView containing one or more enable gestures is passed") {
-                    it("return true") {
-                        let view = UIImageView()
-                        view.addGestureRecognizer(UIGestureRecognizer())
-                        
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-                
-                context("when passing UITableViewCell") {
-                    it("return true") {
-                        let view = UITableViewCell()
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-                
-                context("when passing UIButton is disable") {
-                    it("return false") {
-                        let view = UIButton()
-                        view.isEnabled = false
-                        view.isUserInteractionEnabled = false
-                        
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beFalse())
-                    }
-                }
-                
-                context("when a UILabel containing disable gestures is passed") {
-                    it("return false") {
-                        let gesture = UIGestureRecognizer()
-                        gesture.isEnabled = false
-                        let view = UILabel()
-                        view.addGestureRecognizer(gesture)
-                        
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beFalse())
-                    }
-                }
-                
-                context("when passing UITableViewCellContentView") {
-                    it("return false") {
-                        let view = UITableViewCell().contentView
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beFalse())
-                    }
-                }
-                
-                context("when passing UIPickerView") {
-                    it("return true") {
-                        let view = UIPickerView()
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-                
-                context("when passing UIDatePicker") {
-                    it("return true") {
-                        let view = UIDatePicker()
-                        let detector = UIKitAction.AppropriateViewDetector(view: view)
-                        expect(detector?.isAppropriateView).to(beTrue())
-                    }
-                }
-            }
+class ActionAppropriateViewDetectorSpec: XCTestCase {
+
+    // MARK: - detect
+
+    func testDetectReturnsUIViewWhenPassingUIView() {
+        let view = UIView()
+        guard let detected = UIKitAction.AppropriateViewDetector(view: view)?.detect() else {
+            XCTFail("detected view should not be nil")
+            return
         }
+        XCTAssertTrue(type(of: detected) == UIView.self, "return is UIView")
+    }
+
+    func testDetectReturnsUITableViewCellWhenPassingContentView() {
+        let cell = UITableViewCell()
+        guard let detected = UIKitAction.AppropriateViewDetector(view: cell.contentView)?.detect() else {
+            XCTFail("detected view should not be nil")
+            return
+        }
+        XCTAssertTrue(detected is UITableViewCell, "return is UITableViewCell")
+    }
+
+    func testDetectReturnsUIButtonWhenEnabledButtonInCell() {
+        let button = UIButton()
+        let cell = UITableViewCell()
+        cell.addSubview(button)
+
+        guard let detected = UIKitAction.AppropriateViewDetector(view: button)?.detect() else {
+            XCTFail("detected view should not be nil")
+            return
+        }
+        XCTAssertTrue(detected is UIButton, "return is UIButton")
+    }
+
+    func testDetectReturnsUITableViewCellWhenDisabledButtonInCell() {
+        let button = UIButton()
+        button.isEnabled = false
+        let cell = UITableViewCell()
+        cell.addSubview(button)
+
+        guard let detected = UIKitAction.AppropriateViewDetector(view: button)?.detect() else {
+            XCTFail("detected view should not be nil")
+            return
+        }
+        XCTAssertTrue(detected is UITableViewCell, "return is UITableViewCell")
+    }
+
+    // MARK: - isAppropriateView
+
+    func testIsAppropriateViewTrueForUITableView() {
+        let view = UITableView()
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewTrueForUIScrollView() {
+        let view = UIScrollView()
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewTrueForUICollectionView() {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewTrueForEnabledUIButton() {
+        let view = UIButton()
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewTrueForUILabelWithEnabledGesture() {
+        let view = UILabel()
+        view.addGestureRecognizer(UIGestureRecognizer())
+
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewTrueForUIImageViewWithEnabledGesture() {
+        let view = UIImageView()
+        view.addGestureRecognizer(UIGestureRecognizer())
+
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewTrueForUITableViewCell() {
+        let view = UITableViewCell()
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewTrueForUIPickerView() {
+        let view = UIPickerView()
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewTrueForUIDatePicker() {
+        let view = UIDatePicker()
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, true, "return true")
+    }
+
+    func testIsAppropriateViewFalseForDisabledUIButton() {
+        let view = UIButton()
+        view.isEnabled = false
+        view.isUserInteractionEnabled = false
+
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, false, "return false")
+    }
+
+    func testIsAppropriateViewFalseForUILabelWithDisabledGesture() {
+        let gesture = UIGestureRecognizer()
+        gesture.isEnabled = false
+        let view = UILabel()
+        view.addGestureRecognizer(gesture)
+
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, false, "return false")
+    }
+
+    func testIsAppropriateViewFalseForUITableViewCellContentView() {
+        let view = UITableViewCell().contentView
+        let detector = UIKitAction.AppropriateViewDetector(view: view)
+        XCTAssertEqual(detector?.isAppropriateView, false, "return false")
     }
 }
