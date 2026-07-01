@@ -294,7 +294,7 @@ extension IAMProcess {
             return
         }
 
-        let selector = #selector(InAppMessagingDelegate.inAppMessagingIsPresented(_:campaignId:shortenId:onScene:))
+        let selector = #selector((any InAppMessagingDelegate).inAppMessagingIsPresented(_:campaignId:shortenId:onScene:))
         if (delegate as AnyObject).responds(to: selector), let scene = window?.windowScene {
             delegate.inAppMessagingIsPresented?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
             return
@@ -308,7 +308,7 @@ extension IAMProcess {
             return
         }
 
-        let selector = #selector(InAppMessagingDelegate.inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:))
+        let selector = #selector((any InAppMessagingDelegate).inAppMessagingIsDismissed(_:campaignId:shortenId:onScene:))
         if (delegate as AnyObject).responds(to: selector), let scene = window?.windowScene {
             delegate.inAppMessagingIsDismissed?(iam, campaignId: campaignId, shortenId: shortenId, onScene: scene)
             return
@@ -367,7 +367,7 @@ extension IAMProcess: IAMWebViewDelegate {
             return true
         }
 
-        let selector = #selector(InAppMessagingDelegate.inAppMessaging(_:shouldOpenURL:onScene:))
+        let selector = #selector((any InAppMessagingDelegate).inAppMessaging(_:shouldOpenURL:onScene:))
         if (delegate as AnyObject).responds(to: selector), let scene = WindowSceneDetector.retrieveWindowScene(from: sceneId.identifier) {
             return delegate.inAppMessaging?(iam, shouldOpenURL: url, onScene: scene) ?? true
         }

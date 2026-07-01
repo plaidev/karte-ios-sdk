@@ -41,7 +41,7 @@ public struct WindowDetector {
     /// - Returns: `UIWindow` の配列
     public static func retrieveRelatedWindows(
         from persistentIdentifier: String? = nil,
-        application: UIApplicationProtocol? = UIApplication.shared
+        application: (any UIApplicationProtocol)? = UIApplication.shared
     ) -> [UIWindow] {
         guard let application else {
             return []

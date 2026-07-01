@@ -22,7 +22,7 @@ internal class IAMProxy: NSObject {
     static let shared = IAMProxy()
 
     // swiftlint:disable:next identifier_name
-    private let applicationSupportedInterfaceOrientationsForWindowSelector = #selector(UIApplicationDelegate.application(_:supportedInterfaceOrientationsFor:))
+    private let applicationSupportedInterfaceOrientationsForWindowSelector = #selector((any UIApplicationDelegate).application(_:supportedInterfaceOrientationsFor:))
 
     private let scope = SafeSwizzler.scope { builder in
         builder

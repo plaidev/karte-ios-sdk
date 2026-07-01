@@ -24,7 +24,7 @@ extension Tracker {
     /// - Parameters:
     ///   - variable: IAF用設定値
     ///   - values: イベントに紐付けるカスタムオブジェクト
-    class func trackOpen(variable: Variable, values: [String: JSONConvertible] = [:]) {
+    class func trackOpen(variable: Variable, values: [String: any JSONConvertible] = [:]) {
         guard let campaignId = variable.campaignId,
               let shortenId = variable.shortenId,
               let timestamp = variable.timestamp,
@@ -40,7 +40,7 @@ extension Tracker {
     /// - Parameters:
     ///   - variable: IAF用設定値
     ///   - values: イベントに紐付けるカスタムオブジェクト
-    class func trackClick(variable: Variable, values: [String: JSONConvertible] = [:]) {
+    class func trackClick(variable: Variable, values: [String: any JSONConvertible] = [:]) {
         guard let campaignId = variable.campaignId,
               let shortenId = variable.shortenId,
               let timestamp = variable.timestamp,
@@ -58,7 +58,7 @@ extension Tracker {
         type: Event.MessageType,
         campaignId: String,
         shortenId: String,
-        values: [String: JSONConvertible],
+        values: [String: any JSONConvertible],
         timestamp: String?,
         eventHash: String?
     ) {

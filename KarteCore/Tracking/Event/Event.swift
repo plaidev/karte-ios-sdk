@@ -50,7 +50,7 @@ public struct Event: Codable {
         eventName.isRetryable
     }
 
-    public init(eventName: EventName, values: [String: JSONConvertible] = [:], libraryName: String? = nil) {
+    public init(eventName: EventName, values: [String: any JSONConvertible] = [:], libraryName: String? = nil) {
         self.eventName = eventName
         self.values = values.mapValues { $0.jsonValue }
         self.libraryName = libraryName
@@ -61,12 +61,12 @@ public struct Event: Codable {
         self.libraryName = libraryName
     }
 
-    public mutating func merge(_ other: [String: JSONConvertible]) {
+    public mutating func merge(_ other: [String: any JSONConvertible]) {
         values.mergeRecursive(other.mapValues { $0.jsonValue })
     }
 
     mutating func mergeAdditionalParameter(date: Date, isRetry: Bool) {
-        var other: [String: JSONConvertible] = [
+        var other: [String: any JSONConvertible] = [
             field(.localEventDate): date
         ]
         if isRetry {
@@ -81,11 +81,11 @@ public extension Event {
     /// 各イベントのエイリアスを定義した列挙型です。
     enum Alias {
         /// `view` イベント
-        case view(viewName: String, title: String, values: [String: JSONConvertible])
+        case view(viewName: String, title: String, values: [String: any JSONConvertible])
         /// `identify` イベント
-        case identify(userId: String, values: [String: JSONConvertible])
+        case identify(userId: String, values: [String: any JSONConvertible])
         /// `attribute` イベント
-        case attribute(values: [String: JSONConvertible])
+        case attribute(values: [String: any JSONConvertible])
         /// `native_app_open` イベント
         case open
         /// `native_app_foreground` イベント
@@ -99,7 +99,7 @@ public extension Event {
         /// `deep_link_app_open` イベント
         case deepLinkAppOpen(url: String)
         /// `message_xxxxx` イベント
-        case message(type: MessageType, campaignId: String, shortenId: String, values: [String: JSONConvertible])
+        case message(type: MessageType, campaignId: String, shortenId: String, values: [String: any JSONConvertible])
         /// `native_app_renew_visitor_id` イベント
         case renewVisitorId(old: String?, new: String?)
         /// `plugin_native_app_identify` イベント
@@ -113,10 +113,10 @@ public extension Event {
         func build() -> (EventName, [String: JSONValue]) {
             // swiftlint:disable:previous cyclomatic_complexity function_body_length
             let name: EventName
-            let vals: [String: JSONConvertible]
+            let vals: [String: any JSONConvertible]
             switch self {
             case let .view(viewName: viewName, title: title, values: values):
-                let other: [String: JSONConvertible] = [
+                let other: [String: any JSONConvertible] = [
                     field(.viewName): viewName,
                     field(.title): title
                 ]
@@ -124,7 +124,7 @@ public extension Event {
                 vals = values.mergingRecursive(other)
 
             case let .identify(userId: userId, values: values):
-                let other: [String: JSONConvertible] = [
+                let other: [String: any JSONConvertible] = [
                     field(.userId): userId
                 ]
                 name = .identify
@@ -159,7 +159,7 @@ public extension Event {
                 vals = [field(.url): url].compactMapValues { $0 }
 
             case let .message(type: type, campaignId: campaignId, shortenId: shortenId, values: values):
-                let other: [String: JSONConvertible] = [
+                let other: [String: any JSONConvertible] = [
                     field(.message): [
                         field(.campaignId): campaignId,
                         field(.shortenId): shortenId
@@ -169,7 +169,7 @@ public extension Event {
                 vals = values.mergingRecursive(other)
 
             case let .renewVisitorId(old: old, new: new):
-                var values = [String: JSONConvertible]()
+                var values = [String: any JSONConvertible]()
                 if let old = old {
                     values[field(.oldVisitorId)] = old
                 }
@@ -180,7 +180,7 @@ public extension Event {
                 vals = values
 
             case let .pluginNativeAppIdentify(subscribe: subscribe, fcmToken: fcmToken):
-                let values: [String: JSONConvertible?] = [
+                let values: [String: (any JSONConvertible)?] = [
                     field(.subscribe): subscribe,
                     field(.fcmToken): fcmToken
                 ]
@@ -188,7 +188,7 @@ public extension Event {
                 vals = values.compactMapValues { $0 }
 
             case let .attStatusUpdated(attStatus: attStatus):
-                let values: [String: JSONConvertible?] = [
+                let values: [String: (any JSONConvertible)?] = [
                     field(.attStatus): attStatus
                 ]
 

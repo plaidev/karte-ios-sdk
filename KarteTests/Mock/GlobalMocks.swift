@@ -83,10 +83,10 @@ extension Resolver {
 
         //
         resolver.register(name: "visitor_id_service.generator") {
-            VisitorIdGeneratorMock() as IdGenerator
+            VisitorIdGeneratorMock() as any IdGenerator
         }
         resolver.register(name: "version_service.current_version_retriever") {
-            VersionRetrieverMock() as VersionRetriever
+            VersionRetrieverMock() as any VersionRetriever
         }
         resolver.register(name: "pv_service.pv_id_bucket") { () -> PvIdBucket? in
             var bucket = PvIdBucket()
@@ -100,7 +100,7 @@ extension Resolver {
             bucket.set(pvId, forKey: SceneId(view: nil))
             return bucket
         }
-        resolver.register { CommandBundlerApplicationStateProviderMock() as CommandBundlerApplicationStateProvider }
+        resolver.register { CommandBundlerApplicationStateProviderMock() as any CommandBundlerApplicationStateProvider }
         
         resolver.register(name: "configuration") { () -> Configuration? in
             let config = Configuration()
@@ -117,7 +117,7 @@ extension Resolver {
         }
 
         // TrackingCommandRepository - インメモリ実装でSQLiteを使わない
-        resolver.register { TrackingCommandRepositoryInMemoryMock() as TrackingCommandRepository }
+        resolver.register { TrackingCommandRepositoryInMemoryMock() as any TrackingCommandRepository }
 
         Resolver.root = Resolver.mock
     }

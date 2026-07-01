@@ -27,7 +27,8 @@ Pod::Spec.new do |s|
 
   s.requires_arc            = true
   s.pod_target_xcconfig = {
-    'GCC_PREPROCESSOR_DEFINITIONS' => 'VISUAL_TRACKING_VERSION=' + s.version.to_s
+    'GCC_PREPROCESSOR_DEFINITIONS' => 'VISUAL_TRACKING_VERSION=' + s.version.to_s,
+    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
   }
 
   s.dependency 'KarteCore', '~> 2.32'

@@ -72,7 +72,7 @@ internal class DefaultTrackingCommandRepository: TrackingCommandRepository {
         }
 
         let statement = "SELECT * FROM \(schema.name) WHERE command_id = ?;"
-        let rows: [[String: SQLiteValue?]]
+        let rows: [[String: (any SQLiteValue)?]]
         do {
             rows = try table.query(statement, parameters: [command.identifier])
         } catch {
@@ -142,12 +142,12 @@ internal class DefaultTrackingCommandRepository: TrackingCommandRepository {
 }
 
 private extension DefaultTrackingCommandRepository {
-    func fetchCommands(statement: String, parameters: [SQLiteValue]) -> [TrackingCommand] {
+    func fetchCommands(statement: String, parameters: [any SQLiteValue]) -> [TrackingCommand] {
         guard let table = table else {
             return []
         }
 
-        let rows: [[String: SQLiteValue?]]
+        let rows: [[String: (any SQLiteValue)?]]
         do {
             rows = try table.query(statement, parameters: parameters)
         } catch {

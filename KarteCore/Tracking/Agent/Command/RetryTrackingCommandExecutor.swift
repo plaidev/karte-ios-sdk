@@ -18,13 +18,13 @@ import Foundation
 import KarteUtilities
 
 internal class RetryTrackingCommandExecutor: TrackingCommandExecutor {
-    weak var delegate: TrackingCommandExecutorDelegate?
-    var repository: TrackingCommandRepository
+    weak var delegate: (any TrackingCommandExecutorDelegate)?
+    var repository: any TrackingCommandRepository
 
     private var app: KarteApp
-    private var bundler: CommandBundlerProxy
+    private var bundler: any CommandBundlerProxy
 
-    init(app: KarteApp, queue: DispatchQueue, repository: TrackingCommandRepository) {
+    init(app: KarteApp, queue: DispatchQueue, repository: any TrackingCommandRepository) {
         let timeWindowBundleRule = TimeWindowBundleRule(queue: queue, interval: .seconds(1))
         TrackClient.shared.addObserver(timeWindowBundleRule)
 

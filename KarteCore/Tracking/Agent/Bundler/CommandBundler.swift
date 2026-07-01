@@ -21,15 +21,15 @@ internal protocol CommandBundlerDelegate: AnyObject {
 }
 
 internal class CommandBundler {
-    private var beforeBundleRules: [CommandBundleRule]
-    private var afterBundleRules: [CommandBundleRule]
-    private var asyncBundleRules: [AsyncCommandBundleRule]
+    private var beforeBundleRules: [any CommandBundleRule]
+    private var afterBundleRules: [any CommandBundleRule]
+    private var asyncBundleRules: [any AsyncCommandBundleRule]
 
     private var bundle = CommandBundle()
 
-    weak var delegate: CommandBundlerDelegate?
+    weak var delegate: (any CommandBundlerDelegate)?
 
-    init(beforeBundleRules: [CommandBundleRule], afterBundleRules: [CommandBundleRule], asyncBundleRules: [AsyncCommandBundleRule]) {
+    init(beforeBundleRules: [any CommandBundleRule], afterBundleRules: [any CommandBundleRule], asyncBundleRules: [any AsyncCommandBundleRule]) {
         self.beforeBundleRules = beforeBundleRules
         self.afterBundleRules = afterBundleRules
         self.asyncBundleRules = asyncBundleRules
@@ -54,13 +54,13 @@ internal class CommandBundler {
 }
 
 private extension CommandBundler {
-    func evaluateRules(_ rules: [CommandBundleRule], command: TrackingCommand) -> Bool {
+    func evaluateRules(_ rules: [any CommandBundleRule], command: TrackingCommand) -> Bool {
         rules.contains { rule -> Bool in
             rule.evaluate(bundle: self.bundle, command: command)
         }
     }
 
-    func evaluateAsyncRules(_ rules: [AsyncCommandBundleRule], command: TrackingCommand) {
+    func evaluateAsyncRules(_ rules: [any AsyncCommandBundleRule], command: TrackingCommand) {
         for rule in rules {
             rule.schedule(bundle: bundle, command: command) { [weak self] isBoundary in
                 if isBoundary {

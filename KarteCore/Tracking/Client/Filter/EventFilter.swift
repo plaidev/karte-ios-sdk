@@ -18,12 +18,12 @@ import Foundation
 
 internal struct EventFilter {
     class Builder {
-        var rules: [EventFilterRule] = []
+        var rules: [any EventFilterRule] = []
 
         deinit {
         }
 
-        func add(_ rule: EventFilterRule, isEnabled: Bool = true) -> Builder {
+        func add(_ rule: any EventFilterRule, isEnabled: Bool = true) -> Builder {
             if isEnabled {
                 rules.append(rule)
             }
@@ -35,9 +35,9 @@ internal struct EventFilter {
         }
     }
 
-    private let rules: [EventFilterRule]
+    private let rules: [any EventFilterRule]
 
-    private init(_ rules: [EventFilterRule]) {
+    private init(_ rules: [any EventFilterRule]) {
         self.rules = rules
     }
 

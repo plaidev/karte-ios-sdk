@@ -40,7 +40,7 @@ public enum ActionFactory {
         targetText: String?,
         actionId: String?,
         imageProvider: ImageProvider? = nil
-    ) -> ActionProtocol? {
+    ) -> (any ActionProtocol)? {
         UIKitAction(
             actionName,
             view: UIKitAction.AppropriateViewDetector(view: view)?.detect(),

@@ -23,13 +23,13 @@ internal struct Trigger: Codable {
     var fields: [String: String]
     var dynamicFields: [DynamicField]?
 
-    func dynamicValues(window: UIWindow?) -> [String: JSONConvertible]? {
+    func dynamicValues(window: UIWindow?) -> [String: any JSONConvertible]? {
         guard let dynamicFields = self.dynamicFields,
               let window = window,
               !dynamicFields.isEmpty else {
             return nil
         }
-        var result: [String: JSONConvertible] = [:]
+        var result: [String: any JSONConvertible] = [:]
         for dynamicField in dynamicFields {
             guard let dynamicFieldActionId = dynamicField.actionId,
                   let dynamicFieldName = dynamicField.name

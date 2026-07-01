@@ -24,7 +24,7 @@ class CommandBundlerApplicationStateProviderMock: CommandBundlerApplicationState
         }
     }
     
-    weak var delegate: CommandBundlerApplicationStateProviderDelegate? {
+    weak var delegate: (any CommandBundlerApplicationStateProviderDelegate)? {
         didSet {
             self.delegate?.commandBundlerApplicationStateProvider(self, didChangeApplicationState: state)
         }

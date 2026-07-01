@@ -38,7 +38,7 @@ import UIKit
 /// iPad OS の Split View / Slide Over に対応するために、イニシャライザに `UIView` を引数として取るものがあります。<br>
 /// Split View / Slide Over を有効がアプリケーションでは、`UIView` を引数として取るイニシャライザを利用することで適切なシーンにアプリ内メッセージを表示することが可能です。
 public class Tracker: NSObject {
-    static weak var delegate: TrackerDelegate? {
+    static weak var delegate: (any TrackerDelegate)? {
         didSet {
             KarteApp.shared.trackingClient?.delegate = delegate
         }
@@ -66,7 +66,7 @@ public class Tracker: NSObject {
     /// トラッカー処理のデリゲートインスタンスを設定します。
     ///
     /// - Parameter delegate: 委譲先インスタンス
-    public static func setDelegate(_ delegate: TrackerDelegate?) {
+    public static func setDelegate(_ delegate: (any TrackerDelegate)?) {
         self.delegate = delegate
     }
 
@@ -77,7 +77,7 @@ public class Tracker: NSObject {
     ///   - values: イベントに紐付けるカスタムオブジェクト
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
-    public static func track(_ name: String, values: [String: JSONConvertible] = [:]) -> TrackingTask {
+    public static func track(_ name: String, values: [String: any JSONConvertible] = [:]) -> TrackingTask {
         let task = Tracker().track(name, values: values)
         return task
     }
@@ -88,7 +88,7 @@ public class Tracker: NSObject {
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
     @available(*, deprecated, message: "userId is a required parameter")
-    public static func identify(_ values: [String: JSONConvertible]) -> TrackingTask {
+    public static func identify(_ values: [String: any JSONConvertible]) -> TrackingTask {
         let task = Tracker().identify(values)
         return task
     }
@@ -100,7 +100,7 @@ public class Tracker: NSObject {
     ///   - values: Identifyイベントに紐付けるカスタムオブジェクト
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
-    public static func identify(_ userId: String, _ values: [String: JSONConvertible] = [:]) -> TrackingTask {
+    public static func identify(_ userId: String, _ values: [String: any JSONConvertible] = [:]) -> TrackingTask {
         let task = Tracker().identify(userId, values)
         return task
     }
@@ -111,7 +111,7 @@ public class Tracker: NSObject {
     ///   - values: Attributeイベントに紐付けるカスタムオブジェクト
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
-    public static func attribute(_ values: [String: JSONConvertible] = [:]) -> TrackingTask {
+    public static func attribute(_ values: [String: any JSONConvertible] = [:]) -> TrackingTask {
         let task = Tracker().attribute(values)
         return task
     }
@@ -124,7 +124,7 @@ public class Tracker: NSObject {
     ///   - values: Viewイベントに紐付けるカスタムオブジェクト
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
-    public static func view(_ viewName: String, title: String? = nil, values: [String: JSONConvertible] = [:]) -> TrackingTask {
+    public static func view(_ viewName: String, title: String? = nil, values: [String: any JSONConvertible] = [:]) -> TrackingTask {
         let task = Tracker().view(viewName, title: title, values: values)
         return task
     }
@@ -136,7 +136,7 @@ public class Tracker: NSObject {
     ///   - values: イベントに紐付けるカスタムオブジェクト
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
-    public func track(_ name: String, values: [String: JSONConvertible] = [:]) -> TrackingTask {
+    public func track(_ name: String, values: [String: any JSONConvertible] = [:]) -> TrackingTask {
         let event = Event(eventName: EventName(name), values: values)
         let task = track(event: event)
         return task
@@ -148,7 +148,7 @@ public class Tracker: NSObject {
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
     @available(*, deprecated, message: "userId is a required parameter")
-    public func identify(_ values: [String: JSONConvertible]) -> TrackingTask {
+    public func identify(_ values: [String: any JSONConvertible]) -> TrackingTask {
         let task = track("identify", values: values)
         return task
     }
@@ -160,7 +160,7 @@ public class Tracker: NSObject {
     ///   - values: Identifyイベントに紐付けるカスタムオブジェクト
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
-    public func identify(_ userId: String, _ values: [String: JSONConvertible] = [:]) -> TrackingTask {
+    public func identify(_ userId: String, _ values: [String: any JSONConvertible] = [:]) -> TrackingTask {
         let event = Event(.identify(userId: userId, values: values))
         let task = track(event: event)
         return task
@@ -172,7 +172,7 @@ public class Tracker: NSObject {
     ///   - values: Attributeイベントに紐付けるカスタムオブジェクト
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
-    public func attribute(_ values: [String: JSONConvertible] = [:]) -> TrackingTask {
+    public func attribute(_ values: [String: any JSONConvertible] = [:]) -> TrackingTask {
         let event = Event(.attribute(values: values))
         let task = track(event: event)
         return task
@@ -186,7 +186,7 @@ public class Tracker: NSObject {
     ///   - values: Viewイベントに紐付けるカスタムオブジェクト
     /// - Returns: トラッキングタスクの状態を保持するオブジェクトを返します。
     @discardableResult
-    public func view(_ viewName: String, title: String? = nil, values: [String: JSONConvertible] = [:]) -> TrackingTask {
+    public func view(_ viewName: String, title: String? = nil, values: [String: any JSONConvertible] = [:]) -> TrackingTask {
         let event = Event(.view(viewName: viewName, title: title ?? viewName, values: values))
         let task = track(event: event)
         return task

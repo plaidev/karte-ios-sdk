@@ -27,7 +27,7 @@ class VisitorIdServiceSpec: XCTestCase {
         visitorIdGeneratorMock = VisitorIdGeneratorMock()
         Resolver.root = Resolver.submock
         Resolver.root.register(name: "visitor_id_service.generator") {
-            self.visitorIdGeneratorMock as IdGenerator
+            self.visitorIdGeneratorMock as any IdGenerator
         }
     }
 

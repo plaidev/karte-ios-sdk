@@ -21,7 +21,7 @@ class InAppCarouselViewModel {
     private(set) var model: InAppCarouselModel
     private(set) var imageData: [ParsedImageData] = []
     private(set) var loadingState: LoadingState = .initialized
-    weak var loadingDelegate: LoadingDelegate?
+    weak var loadingDelegate: (any LoadingDelegate)?
 
     var templateType: InAppCarouselModel.TemplateType {
         model.config.templateType

@@ -70,10 +70,10 @@ class TrackClientTests: XCTestCase {
         
         Resolver.root = Resolver.submock
         Resolver.root.register {
-            session as TrackClientSession
+            session as any TrackClientSession
         }
-        Resolver.root.register { (_, _) -> ReachabilityService in
-            reachabilityService as ReachabilityService
+        Resolver.root.register { (_, _) -> any ReachabilityService in
+            reachabilityService as any ReachabilityService
         }
         Resolver.root.register { ExponentialBackoff(interval: 0, randomFactor: 0, multiplier: 0, maxCount: self.maxRetryCount) }
         Resolver.root.register { circuitBreaker as CircuitBreaker }

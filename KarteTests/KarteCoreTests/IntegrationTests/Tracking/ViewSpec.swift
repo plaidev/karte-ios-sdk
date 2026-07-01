@@ -25,11 +25,11 @@ class ViewSpec: XCTestCase {
         let bool = true
         let date = Date(timeIntervalSince1970: 1577836800.123)
         let dictValue = "value"
-        let dict: [String: JSONConvertible] = ["key": dictValue]
+        let dict: [String: any JSONConvertible] = ["key": dictValue]
         let arrValue1 = "value1"
         let arrValue2 = "value2"
-        let arr: [JSONConvertible] = [arrValue1, arrValue2]
-        let values: [String: JSONConvertible] = [
+        let arr: [any JSONConvertible] = [arrValue1, arrValue2]
+        let values: [String: any JSONConvertible] = [
             "num": num,
             "str": str,
             "bool": bool,
@@ -78,11 +78,11 @@ class ViewSpec: XCTestCase {
         let bool = true
         let date = Date(timeIntervalSince1970: 1577836800.123)
         let dictValue = "value"
-        let dict: [String: JSONConvertible] = ["key": dictValue]
+        let dict: [String: any JSONConvertible] = ["key": dictValue]
         let arrValue1 = "value1"
         let arrValue2 = "value2"
-        let arr: [JSONConvertible] = [arrValue1, arrValue2]
-        let values: [String: JSONConvertible] = [
+        let arr: [any JSONConvertible] = [arrValue1, arrValue2]
+        let values: [String: any JSONConvertible] = [
             "num": num,
             "str": str,
             "bool": bool,

@@ -48,7 +48,7 @@ public struct AppInfo: Codable {
     init() {
     }
 
-    public init(from decoder: Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.versionName = try container.decodeIfPresent(String.self, forKey: .versionName)
         self.versionCode = try container.decodeIfPresent(String.self, forKey: .versionCode)
@@ -57,7 +57,7 @@ public struct AppInfo: Codable {
         self.systemInfo = try container.decode(SystemInfo.self, forKey: .systemInfo)
     }
 
-    public func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(versionName, forKey: .versionName)
         try container.encodeIfPresent(versionCode, forKey: .versionCode)

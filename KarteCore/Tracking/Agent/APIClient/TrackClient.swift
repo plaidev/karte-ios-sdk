@@ -36,9 +36,9 @@ internal class TrackClient {
 
     private(set) var state = TrackClientState.waiting
     private(set) var tasks = [Task]()
-    private(set) var observers = [TrackClientObserver]()
+    private(set) var observers = [any TrackClientObserver]()
 
-    private(set) var reachability: ReachabilityService?
+    private(set) var reachability: (any ReachabilityService)?
     private(set) var isReachable = true
     private(set) var isSending = false
 
@@ -48,7 +48,7 @@ internal class TrackClient {
     }
 
     func configure(app: KarteApp, callbackQueue: DispatchQueue) {
-        let reachability = Resolver.resolve(ReachabilityService.self, args: app.configuration.baseURL)
+        let reachability = Resolver.resolve((any ReachabilityService).self, args: app.configuration.baseURL)
         reachability.whenReachable = { [weak self] in
             Logger.info(tag: .track, message: "Communication is possible.")
             self?.callbackQueue.async {
@@ -81,7 +81,7 @@ internal class TrackClient {
         send(task: task)
     }
 
-    func addObserver(_ observer: TrackClientObserver) {
+    func addObserver(_ observer: any TrackClientObserver) {
         if containsObserver(observer) {
             return
         }
@@ -110,7 +110,7 @@ private extension TrackClient {
 
             self.logRequestDetails(of: task.request)
 
-            let session = Resolver.resolve(TrackClientSession.self)
+            let session = Resolver.resolve((any TrackClientSession).self)
             session.send(task.request) { result in
                 self.callbackQueue.async {
                     Logger.debug(tag: .track, message: "Request end. request_id=\(task.request.requestId)")
@@ -153,7 +153,7 @@ private extension TrackClient {
         }
     }
 
-    func containsObserver(_ observer: TrackClientObserver) -> Bool {
+    func containsObserver(_ observer: any TrackClientObserver) -> Bool {
         observers.map { observer -> ObjectIdentifier in
             ObjectIdentifier(observer)
         }.contains(ObjectIdentifier(observer))
@@ -193,11 +193,11 @@ private extension TrackClient {
 extension Resolver {
     static func registerTrackClientSession() {
         let session = DefaultTrackClientSession()
-        register { session as TrackClientSession }
+        register { session as any TrackClientSession }
     }
 
     static func registerReachabilityService() {
-        register { _, arg -> ReachabilityService in
+        register { _, arg -> any ReachabilityService in
             let baseURL = arg as? URL ?? KarteApp.shared.configuration.baseURL
             return DefaultReachabilityService(baseURL: baseURL)
         }

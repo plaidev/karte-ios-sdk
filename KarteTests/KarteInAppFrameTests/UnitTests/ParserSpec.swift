@@ -35,7 +35,7 @@ final class ParserSpec: QuickSpec {
                         
                         expect(arg.version).to(equal(.v1))
                         expect(arg.componentType).to(equal(.iafCarousel))
-                        expect(arg.content).to(beAKindOf(InAppFrameModel.self))
+                        expect(arg.content).to(beAKindOf((any InAppFrameModel).self))
                     }
                     
                     it("can parse data with corresponding properties") {
@@ -88,7 +88,7 @@ final class ParserSpec: QuickSpec {
                         
                         expect(arg.version).to(equal(.v1))
                         expect(arg.componentType).to(equal(.iafCarousel))
-                        expect(arg.content).to(beAKindOf(InAppFrameModel.self))
+                        expect(arg.content).to(beAKindOf((any InAppFrameModel).self))
                     }
                     
                     it("can parse data with corresponding properties") {
@@ -141,7 +141,7 @@ final class ParserSpec: QuickSpec {
                         
                         expect(arg.version).to(equal(.v1))
                         expect(arg.componentType).to(equal(.iafCarousel))
-                        expect(arg.content).to(beAKindOf(InAppFrameModel.self))
+                        expect(arg.content).to(beAKindOf((any InAppFrameModel).self))
                     }
                     
                     it("can parse data with corresponding properties") {
@@ -194,7 +194,7 @@ final class ParserSpec: QuickSpec {
                         
                         expect(arg.version).to(equal(.v1))
                         expect(arg.componentType).to(equal(.iafCarousel))
-                        expect(arg.content).to(beAKindOf(InAppFrameModel.self))
+                        expect(arg.content).to(beAKindOf((any InAppFrameModel).self))
                     }
                     
                     it("can parse data with corresponding properties") {

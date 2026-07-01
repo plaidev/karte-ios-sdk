@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteCore'
-  s.version                 = '2.37.0'
+  s.version                 = '2.38.0'
   s.summary                 = 'KARTE Core SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -28,7 +28,8 @@ Pod::Spec.new do |s|
   
   s.requires_arc            = true
   s.pod_target_xcconfig     = {
-    'GCC_PREPROCESSOR_DEFINITIONS' => 'CORE_VERSION=' + s.version.to_s
+    'GCC_PREPROCESSOR_DEFINITIONS' => 'CORE_VERSION=' + s.version.to_s,
+    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
   }
 
   s.dependency 'KarteUtilities', '~> 3.13'

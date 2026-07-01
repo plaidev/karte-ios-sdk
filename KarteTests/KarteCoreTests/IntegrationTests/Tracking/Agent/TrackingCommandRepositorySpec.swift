@@ -19,7 +19,7 @@ import XCTest
 @testable import KarteCore
 
 class TrackingCommandRepositorySpec: XCTestCase {
-    private var repository: TrackingCommandRepository!
+    private var repository: (any TrackingCommandRepository)!
 
     override func setUp() {
         super.setUp()

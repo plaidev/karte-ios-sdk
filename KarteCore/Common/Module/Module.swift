@@ -21,15 +21,15 @@ import Foundation
 /// **サブモジュールと連携するために用意している機能であり、通常利用で使用することはありません。**
 public enum Module: Equatable {
     /// アクションモジュール
-    case action(ActionModule)
+    case action(any ActionModule)
     /// ユーザーモジュール
-    case user(UserModule)
+    case user(any UserModule)
     /// 通知モジュール
-    case notification(NotificationModule)
+    case notification(any NotificationModule)
     /// ディープリンクモジュール
-    case deeplink(DeepLinkModule)
+    case deeplink(any DeepLinkModule)
     /// トラックモジュール
-    case track(TrackModule)
+    case track(any TrackModule)
 
     var type: String {
         switch self {
@@ -47,7 +47,7 @@ public enum Module: Equatable {
     }
 
     var name: String {
-        let module: ModuleBase
+        let module: any ModuleBase
         switch self {
         case .action(let mod):
             module = mod

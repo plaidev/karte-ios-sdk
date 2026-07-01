@@ -21,7 +21,7 @@ import KarteVariables
 final class KRTInAppCarousel: UIView {
     private let key: String
     private let vm: InAppCarouselViewModel
-    private var loadingTask: Task<Void, Error>?
+    private var loadingTask: Task<Void, any Error>?
     private var autoplayTimer: Timer?
     private lazy var collectionView = setupCollectionView()
     private lazy var dataSource: UICollectionViewDiffableDataSource<Section, ParsedImageData> = createDataSource()
@@ -39,7 +39,7 @@ final class KRTInAppCarousel: UIView {
         case main
     }
 
-    init(for key: String, model: InAppCarouselModel, loadingDelegate: LoadingDelegate? = nil) {
+    init(for key: String, model: InAppCarouselModel, loadingDelegate: (any LoadingDelegate)? = nil) {
         self.key = key
         self.vm = InAppCarouselViewModel(model: model)
         self.vm.loadingDelegate = loadingDelegate
@@ -289,7 +289,7 @@ private class KRTCarouselCell: UICollectionViewCell, UIContentView {
         @objc
         private func imageTapped(_ sender: UrlLinkedTapGestureRecognizer) {
             if variable.isDefined {
-                let values: [String: JSONConvertible] = [
+                let values: [String: any JSONConvertible] = [
                     "url": JSONConvertibleConverter.convert(sender.linkUrl.absoluteString),
                     "in_app_frame": [
                         "position_no": JSONConvertibleConverter.convert(sender.index),

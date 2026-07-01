@@ -17,15 +17,15 @@
 import UIKit
 
 internal protocol CommandBundlerApplicationStateProviderDelegate: AnyObject {
-    func commandBundlerApplicationStateProvider(_ provider: CommandBundlerApplicationStateProvider, didChangeApplicationState applicationState: UIApplication.State)
+    func commandBundlerApplicationStateProvider(_ provider: any CommandBundlerApplicationStateProvider, didChangeApplicationState applicationState: UIApplication.State)
 }
 
 internal protocol CommandBundlerApplicationStateProvider {
-    var delegate: CommandBundlerApplicationStateProviderDelegate? { get set }
+    var delegate: (any CommandBundlerApplicationStateProviderDelegate)? { get set }
 }
 
 internal class DefaultCommandBundlerApplicationStateProvider: CommandBundlerApplicationStateProvider {
-    weak var delegate: CommandBundlerApplicationStateProviderDelegate?
+    weak var delegate: (any CommandBundlerApplicationStateProviderDelegate)?
 
     init() {
         NotificationCenter.default.addObserver(

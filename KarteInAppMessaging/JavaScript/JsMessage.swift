@@ -93,7 +93,7 @@ extension JsMessage {
             self = try createJSONDecoder().decode(type(of: self).self, from: body)
         }
 
-        init(from decoder: Decoder) throws {
+        init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let urlString = try container.decode(String.self, forKey: .url)
             self.url = conformToRFC2396(urlString: urlString)

@@ -60,7 +60,7 @@ public class ExperimentalConfiguration: Configuration {
     ///
     /// **SDK内部で利用する初期化関数であるため、通常のSDK利用においてこちらの関数を利用する必要はありません。**
     /// - Parameter decoder: デコーダー
-    public required init(from decoder: Decoder) throws {
+    public required init(from decoder: any Decoder) throws {
         try super.init(from: decoder)
     }
 

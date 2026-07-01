@@ -93,7 +93,7 @@ public class PvService {
 
 extension Resolver {
     static func registerPvService() {
-        register(name: "pv_service.generator") { PvIdGenerator() as IdGenerator }
+        register(name: "pv_service.generator") { PvIdGenerator() as any IdGenerator }
         register(name: "pv_service.pv_id_bucket") { PvIdBucket() }
         register(name: "pv_service.original_pv_id_bucket") { PvIdBucket() }
     }

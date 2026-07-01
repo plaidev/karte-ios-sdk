@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteCrashReporting'
-  s.version                 = '2.11.1'
+  s.version                 = '2.12.0'
   s.summary                 = 'KARTE Crash reporting SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -33,7 +33,8 @@ Pod::Spec.new do |s|
     'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/KarteCrashReporter"',
     # NOTE: CLANG_WARN_DOCUMENTATION_COMMENTS is disabled to avoid the following lint error:
     # warning: empty paragraph passed to '@par' command [-Wdocumentation]
-    'CLANG_WARN_DOCUMENTATION_COMMENTS' => 'NO'
+    'CLANG_WARN_DOCUMENTATION_COMMENTS' => 'NO',
+    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
   }
 
   s.dependency 'KarteCore', '~> 2.32'

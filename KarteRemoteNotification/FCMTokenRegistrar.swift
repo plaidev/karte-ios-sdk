@@ -20,11 +20,11 @@ import UIKit
 internal class FCMTokenRegistrar {
     static let shared = FCMTokenRegistrar(DefaultNotificationSettingsProvider())
 
-    private var notificationSettingsProvider: NotificationSettingsProvider
+    private var notificationSettingsProvider: any NotificationSettingsProvider
     private var token: String?
     private var subscribe = false
 
-    init(_ notificationSettingsProvider: NotificationSettingsProvider) {
+    init(_ notificationSettingsProvider: any NotificationSettingsProvider) {
         self.notificationSettingsProvider = notificationSettingsProvider
 
         NotificationCenter.default.addObserver(

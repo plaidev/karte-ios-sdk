@@ -2,26 +2,64 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.37.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.27.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.14.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.13.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.38.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.28.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.15.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.14.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.15.0 |
-| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.7.0 |
-| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.11.1 |
+| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.8.0 |
+| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.12.0 |
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.15.0 |
-| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.3.0 |
-| KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.1.0 |
+| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.4.0 |
+| KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.2.0 |
 
 # Releases - xxxx.xx.xx
+
+### Core 2.38.0
+**🔨CHANGED**
+- Swift Evolution proposal SE-0335 (Existential Any) に対応し、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化しました。すべての existential type 宣言に `any` キーワードを追加しました。
+
+### InAppMessaging 2.28.0
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+
+### RemoteNotification 2.15.0
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+
+### Variables 2.14.0
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
 
 ### VisualTracking 2.15.0
 **💊FIXED**
 - モジュールのMARKETING_VERSIONとCHANGELOGの不一致を修正するためバージョンを更新しました。機能面での変更はなく、ユーザーへの影響はありません。
 
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+
+### InAppFrame 0.8.0
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+
+### CrashReporting 2.12.0
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+
 ### Utilities 3.15.0
 **💊FIXED**
 - モジュールのMARKETING_VERSIONとCHANGELOGの不一致を修正するためバージョンを更新しました。機能面での変更はなく、ユーザーへの影響はありません。
+
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+
+### NotificationServiceExtension 1.4.0
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+
+### Debugger 1.2.0
+**🔨CHANGED**
+- Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
 
 # Releases - 2026.06.25
 ## Version 2.34.0

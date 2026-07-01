@@ -20,14 +20,14 @@ import UIKit
 internal class VisualTrackingManager {
     static let shared = VisualTrackingManager()
 
-    private var receivers: [ActionReceiver] = []
+    private var receivers: [any ActionReceiver] = []
     var tracer: ActionTracer?
     var tracker: ActionTracker?
     var isPaired: Bool {
         tracer?.pairingClient?.isPaired ?? false
     }
 
-    private var notificationObserverToken: NSObjectProtocol?
+    private var notificationObserverToken: (any NSObjectProtocol)?
 
     init() {
     }
@@ -70,11 +70,11 @@ internal class VisualTrackingManager {
         tracker = nil
     }
 
-    func register(receiver: ActionReceiver) {
+    func register(receiver: any ActionReceiver) {
         receivers.append(receiver)
     }
 
-    func dispatch(action: ActionProtocol?) {
+    func dispatch(action: (any ActionProtocol)?) {
         guard let action = action else {
             Logger.warn(tag: .visualTracking, message: "Action is invalid.")
             return
@@ -122,7 +122,7 @@ extension VisualTrackingManager: ActionModule, DeepLinkModule, TrackModule {
         return try tracker.intercept(urlRequest: urlRequest)
     }
 
-    func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
+    func provideEventRejectionFilterRules() -> [any TrackEventRejectionFilterRule] {
         return []
     }
 }

@@ -44,14 +44,14 @@ class LifecycleEventSpec: XCTestCase {
 
         Resolver.root = Resolver.submock
         Resolver.root.register(name: "version_service.current_version_retriever") {
-            VersionRetrieverMock("1.0.0") as VersionRetriever
+            VersionRetrieverMock("1.0.0") as any VersionRetriever
         }
         defer { Resolver.root = Resolver.mock }
 
         _ = VersionService()
 
         Resolver.root.register(name: "version_service.current_version_retriever") {
-            VersionRetrieverMock("1.0.1") as VersionRetriever
+            VersionRetrieverMock("1.0.1") as any VersionRetriever
         }
 
         KarteApp.setup(appKey: APP_KEY)
@@ -71,7 +71,7 @@ class LifecycleEventSpec: XCTestCase {
 
         Resolver.root = Resolver.submock
         Resolver.root.register(name: "version_service.current_version_retriever") {
-            versionRetriever as VersionRetriever
+            versionRetriever as any VersionRetriever
         }
         defer { Resolver.root = Resolver.mock }
 

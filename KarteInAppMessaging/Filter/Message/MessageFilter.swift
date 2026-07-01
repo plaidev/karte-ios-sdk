@@ -19,12 +19,12 @@ import KarteCore
 
 internal struct MessageFilter {
     class Builder {
-        private var rules: [MessageFilterRule] = []
+        private var rules: [any MessageFilterRule] = []
 
         deinit {
         }
 
-        func add(_ rule: MessageFilterRule) -> Builder {
+        func add(_ rule: any MessageFilterRule) -> Builder {
             rules.append(rule)
             return self
         }
@@ -34,9 +34,9 @@ internal struct MessageFilter {
         }
     }
 
-    private let rules: [MessageFilterRule]
+    private let rules: [any MessageFilterRule]
 
-    private init(_ rules: [MessageFilterRule]) {
+    private init(_ rules: [any MessageFilterRule]) {
         self.rules = rules
     }
 

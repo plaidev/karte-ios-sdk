@@ -20,7 +20,7 @@ import KarteCore
 internal enum LogicalOperator: Codable {
     case and([Condition])
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         var conditions: [Condition] = []
@@ -43,7 +43,7 @@ internal enum LogicalOperator: Codable {
         }
     }
 
-    func encode(to encoder: Encoder) throws {
+    func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         switch self {

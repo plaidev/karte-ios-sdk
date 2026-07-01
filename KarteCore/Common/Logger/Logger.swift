@@ -55,7 +55,7 @@ public struct Logger {
 
     var level: LogLevel = .error
     var isEnabled = true
-    let appenders: [LogAppender] = [ConsoleLogAppender()]
+    let appenders: [any LogAppender] = [ConsoleLogAppender()]
 
     private init() {
     }

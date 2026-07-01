@@ -24,7 +24,7 @@ public class VisualTracking: NSObject {
     @objc public static let shared = VisualTracking()
 
     /// ビジュアルトラッキングで発生するイベント等を委譲するためのデリゲートインスタンスを取得・設定します。
-    @objc public weak var delegate: VisualTrackingDelegate?
+    @objc public weak var delegate: (any VisualTrackingDelegate)?
 
     /// ペアリング状態を取得します。
     ///
@@ -46,7 +46,7 @@ public class VisualTracking: NSObject {
     /// イベント発火条件定義に操作ログがマッチした際にビジュアルイベントが送信されます。
     ///
     /// - Parameter actionProtocol: ActionProtocol
-    public static func handle(actionProtocol: ActionProtocol) {
+    public static func handle(actionProtocol: any ActionProtocol) {
         VisualTrackingManager.shared.dispatch(action: actionProtocol)
     }
 

@@ -29,5 +29,5 @@ internal protocol ReachabilityService: AnyObject {
 }
 
 internal protocol UsesReachabilityService {
-    var reachabilityService: ReachabilityService { get }
+    var reachabilityService: any ReachabilityService { get }
 }

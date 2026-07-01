@@ -107,11 +107,11 @@ public class Configuration: NSObject, NSCopying, Codable {
     public var isOptOut = false
 
     /// ライブラリの設定の取得・設定を行います。
-    public var libraryConfigurations: [LibraryConfiguration] = []
+    public var libraryConfigurations: [any LibraryConfiguration] = []
 
     /// IDFA取得用の委譲先インスタンスの取得・設定を行います。<br>
     /// インスタンスが未設定の場合は、IDFAの情報はイベントに付与されません。
-    public weak var idfaDelegate: IDFADelegate?
+    public weak var idfaDelegate: (any IDFADelegate)?
 
     // for Test
     var isSendInitializationEventEnabled = true
@@ -140,7 +140,7 @@ public class Configuration: NSObject, NSCopying, Codable {
     ///
     /// **SDK内部で利用する初期化関数であるため、通常のSDK利用においてこちらの関数を利用する必要はありません。**
     /// - Parameter decoder: デコーダー
-    public required init(from decoder: Decoder) throws {
+    public required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self._appKey = try container.decode(AppKey.self, forKey: ._appKey)
         // v2では後方互換のためにoptionalとする
