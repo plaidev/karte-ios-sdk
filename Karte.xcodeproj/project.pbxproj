@@ -422,7 +422,6 @@
 		AFC90A712C9C3A7C0018E6FE /* KRTInAppCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC90A702C9C3A7C0018E6FE /* KRTInAppCarousel.swift */; };
 		AFC90A732C9C3A9E0018E6FE /* InAppCarouselViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC90A722C9C3A9E0018E6FE /* InAppCarouselViewModel.swift */; };
 		AFC90A752C9C3AB70018E6FE /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC90A742C9C3AB70018E6FE /* ImageLoader.swift */; };
-		AFC90A7C2C9C77E60018E6FE /* InAppFrameSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC90A7B2C9C77E60018E6FE /* InAppFrameSpec.swift */; };
 		AFC90A7F2C9C7C760018E6FE /* ParserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC90A7E2C9C7C760018E6FE /* ParserSpec.swift */; };
 		AFC90A812C9C916B0018E6FE /* iaf_carousel_without_margin.json in Resources */ = {isa = PBXBuildFile; fileRef = AFC90A802C9C916B0018E6FE /* iaf_carousel_without_margin.json */; };
 		AFCAF2C4299F6809005B4DCC /* FetchMessagesRequestSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */; };
@@ -1043,7 +1042,6 @@
 		AFC90A702C9C3A7C0018E6FE /* KRTInAppCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KRTInAppCarousel.swift; sourceTree = "<group>"; };
 		AFC90A722C9C3A9E0018E6FE /* InAppCarouselViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppCarouselViewModel.swift; sourceTree = "<group>"; };
 		AFC90A742C9C3AB70018E6FE /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		AFC90A7B2C9C77E60018E6FE /* InAppFrameSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppFrameSpec.swift; sourceTree = "<group>"; };
 		AFC90A7E2C9C7C760018E6FE /* ParserSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserSpec.swift; sourceTree = "<group>"; };
 		AFC90A802C9C916B0018E6FE /* iaf_carousel_without_margin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = iaf_carousel_without_margin.json; sourceTree = "<group>"; };
 		AFCAF2C3299F6809005B4DCC /* FetchMessagesRequestSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchMessagesRequestSpec.swift; sourceTree = "<group>"; };
@@ -2442,18 +2440,9 @@
 		AFC90A792C9C74BC0018E6FE /* KarteInAppFrameTests */ = {
 			isa = PBXGroup;
 			children = (
-				AFC90A7A2C9C77AD0018E6FE /* IntegrationTests */,
 				AFC90A7D2C9C78FA0018E6FE /* UnitTests */,
 			);
 			path = KarteInAppFrameTests;
-			sourceTree = "<group>";
-		};
-		AFC90A7A2C9C77AD0018E6FE /* IntegrationTests */ = {
-			isa = PBXGroup;
-			children = (
-				AFC90A7B2C9C77E60018E6FE /* InAppFrameSpec.swift */,
-			);
-			path = IntegrationTests;
 			sourceTree = "<group>";
 		};
 		AFC90A7D2C9C78FA0018E6FE /* UnitTests */ = {
@@ -3426,7 +3415,6 @@
 				735CF6B92E56BA01008F75F3 /* KRTNotificationServiceExtensionSpec.swift in Sources */,
 				0C83930B240824110014C2BF /* FindMyselfSpec.swift in Sources */,
 				36404EBA247D5EB400F35ECB /* DeepLinkEventSpec.swift in Sources */,
-				AFC90A7C2C9C77E60018E6FE /* InAppFrameSpec.swift in Sources */,
 				0C8392FB240810920014C2BF /* UserSyncParameterSpec.swift in Sources */,
 				AFC90A7F2C9C7C760018E6FE /* ParserSpec.swift in Sources */,
 				736C7EF42DFAC30900424237 /* RequestSpec.swift in Sources */,
