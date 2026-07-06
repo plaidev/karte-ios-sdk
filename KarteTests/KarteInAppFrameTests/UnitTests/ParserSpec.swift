@@ -14,211 +14,126 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 
 @testable import KarteInAppFrame
 
-final class ParserSpec: QuickSpec {
-    override class func spec() {
-        describe("VariableParser") {
-            describe("its parse") {
-                context("for carouselWithMargin") {
-                    let url = Bundle(for: self).url(forResource: "iaf_carousel_with_margin", withExtension: "json")!
-                    let data = try! Data(contentsOf: url)
-                    
-                    it("can parse data into rendering arg") {
-                        guard let arg = VariableParser.parse(for: "dummyKey", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        expect(arg.version).to(equal(.v1))
-                        expect(arg.componentType).to(equal(.iafCarousel))
-                        expect(arg.content).to(beAKindOf((any InAppFrameModel).self))
-                    }
-                    
-                    it("can parse data with corresponding properties") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        let config = (arg.content as? InAppCarouselModel)?.config
-                        expect(config?.templateType).to(equal(.carouselWithMargin))
-                        expect(config?.ratio).to(equal(120))
-                        expect(config?.bannerHeight).to(equal(180))
-                        expect(config?.radius).to(equal(8))
-                        expect(config?.spacing).to(equal(24))
-                        expect(config?.paddingTop).to(equal(14))
-                        expect(config?.paddingBottom).to(equal(14))
-                        expect(config?.autoplaySpeed).to(equal(5))
-                        
-                        expect(config?.paddingStart).to(beNil())
-                        expect(config?.paddingEnd).to(beNil())
-                    }
-                    
-                    it("can parse data with various link url") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        let data = (arg.content as? InAppCarouselModel)?.data
-                        let exampleLinkUrl = data?[0].linkUrl
-                        expect(exampleLinkUrl).to(equal("https://example.com"))
-                        let emptyLinkUrl = data?[1].linkUrl
-                        expect(emptyLinkUrl).to(equal(""))
-                        let deeplink = data?[2].linkUrl
-                        expect(deeplink).to(equal("karte-tracker-sample://simplepage"))
-                        let customUrlScheme = data?[3].linkUrl
-                        expect(customUrlScheme).to(equal("instagram://app"))
-                    }
-                }
-
-                context("for carouselWithoutMargin") {
-                    let url = Bundle(for: self).url(forResource: "iaf_carousel_without_margin", withExtension: "json")!
-                    let data = try! Data(contentsOf: url)
-                    
-                    it("can parse data into rendering arg") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        expect(arg.version).to(equal(.v1))
-                        expect(arg.componentType).to(equal(.iafCarousel))
-                        expect(arg.content).to(beAKindOf((any InAppFrameModel).self))
-                    }
-                    
-                    it("can parse data with corresponding properties") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        let config = (arg.content as? InAppCarouselModel)?.config
-                        expect(config?.templateType).to(equal(.carouselWithoutMargin))
-                        expect(config?.ratio).to(equal(120))
-                        expect(config?.radius).to(equal(8))
-                        expect(config?.paddingTop).to(equal(20))
-                        expect(config?.paddingBottom).to(equal(20))
-                        expect(config?.autoplaySpeed).to(equal(5))
-
-                        expect(config?.bannerHeight).to(beNil())
-                        expect(config?.spacing).to(beNil())
-                        expect(config?.paddingStart).to(beNil())
-                        expect(config?.paddingEnd).to(beNil())
-                    }
-                    
-                    it("can parse data with various link url") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        let data = (arg.content as? InAppCarouselModel)?.data
-                        let exampleLinkUrl = data?[0].linkUrl
-                        expect(exampleLinkUrl).to(equal("https://example.com"))
-                        let emptyLinkUrl = data?[1].linkUrl
-                        expect(emptyLinkUrl).to(equal(""))
-                        let deeplink = data?[2].linkUrl
-                        expect(deeplink).to(equal("karte-tracker-sample://simplepage"))
-                        let customUrlScheme = data?[3].linkUrl
-                        expect(customUrlScheme).to(equal("instagram://app"))
-                    }
-                }
-                
-                context("for carouselWithoutPaging") {
-                    let url = Bundle(for: self).url(forResource: "iaf_carousel_without_paging", withExtension: "json")!
-                    let data = try! Data(contentsOf: url)
-                    
-                    it("can parse data into rendering arg") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        expect(arg.version).to(equal(.v1))
-                        expect(arg.componentType).to(equal(.iafCarousel))
-                        expect(arg.content).to(beAKindOf((any InAppFrameModel).self))
-                    }
-                    
-                    it("can parse data with corresponding properties") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        let config = (arg.content as? InAppCarouselModel)?.config
-                        expect(config?.templateType).to(equal(.carouselWithoutPaging))
-                        expect(config?.ratio).to(equal(100))
-                        expect(config?.bannerHeight).to(equal(120))
-                        expect(config?.radius).to(equal(8))
-                        expect(config?.spacing).to(equal(10))
-                        expect(config?.paddingStart).to(equal(10))
-                        expect(config?.paddingEnd).to(equal(10))
-                        expect(config?.paddingTop).to(equal(20))
-                        expect(config?.paddingBottom).to(equal(20))
-
-                        expect(config?.autoplaySpeed).to(beNil())
-                    }
-                    
-                    it("can parse data with various link url") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        let data = (arg.content as? InAppCarouselModel)?.data
-                        let exampleLinkUrl = data?[0].linkUrl
-                        expect(exampleLinkUrl).to(equal("https://example.com"))
-                        let emptyLinkUrl = data?[1].linkUrl
-                        expect(emptyLinkUrl).to(equal(""))
-                        let deeplink = data?[2].linkUrl
-                        expect(deeplink).to(equal("karte-tracker-sample://simplepage"))
-                        let customUrlScheme = data?[3].linkUrl
-                        expect(customUrlScheme).to(equal("instagram://app"))
-                    }
-                }
-                
-                context("for simpleBanner") {
-                    let url = Bundle(for: self).url(forResource: "iaf_simple_banner", withExtension: "json")!
-                    let data = try! Data(contentsOf: url)
-                    
-                    it("can parse data into rendering arg") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        expect(arg.version).to(equal(.v1))
-                        expect(arg.componentType).to(equal(.iafCarousel))
-                        expect(arg.content).to(beAKindOf((any InAppFrameModel).self))
-                    }
-                    
-                    it("can parse data with corresponding properties") {
-                        guard let arg = VariableParser.parse(for: "dummy", data) else {
-                            fail("Failed to parse JSON data")
-                            return
-                        }
-                        
-                        let config = (arg.content as? InAppCarouselModel)?.config
-                        expect(config?.templateType).to(equal(.simpleBanner))
-                        expect(config?.ratio).to(equal(100))
-                        expect(config?.radius).to(equal(8))
-                        expect(config?.paddingStart).to(equal(10))
-                        expect(config?.paddingEnd).to(equal(10))
-                        expect(config?.paddingTop).to(equal(20))
-                        expect(config?.paddingBottom).to(equal(20))
-
-                        expect(config?.bannerHeight).to(beNil())
-                        expect(config?.spacing).to(beNil())
-                        expect(config?.autoplaySpeed).to(beNil())
-                    }
-                }
-
-            }
+final class ParserSpec: XCTestCase {
+    func testParseCarouselWithMargin() throws {
+        let url = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "iaf_carousel_with_margin", withExtension: "json"))
+        let data = try Data(contentsOf: url)
+        guard let arg = VariableParser.parse(for: "dummyKey", data) else {
+            XCTFail("Failed to parse JSON data")
+            return
         }
+
+        XCTAssertEqual(arg.version, .v1, "version")
+        XCTAssertEqual(arg.componentType, .iafCarousel, "componentType")
+        XCTAssertTrue(arg.content is any InAppFrameModel, "content is InAppFrameModel")
+
+        let config = (arg.content as? InAppCarouselModel)?.config
+        XCTAssertEqual(config?.templateType, .carouselWithMargin, "templateType")
+        XCTAssertEqual(config?.ratio, 120, "ratio")
+        XCTAssertEqual(config?.bannerHeight, 180, "bannerHeight")
+        XCTAssertEqual(config?.radius, 8, "radius")
+        XCTAssertEqual(config?.spacing, 24, "spacing")
+        XCTAssertEqual(config?.paddingTop, 14, "paddingTop")
+        XCTAssertEqual(config?.paddingBottom, 14, "paddingBottom")
+        XCTAssertEqual(config?.autoplaySpeed, 5, "autoplaySpeed")
+        XCTAssertNil(config?.paddingStart, "paddingStart")
+        XCTAssertNil(config?.paddingEnd, "paddingEnd")
+
+        let contents = (arg.content as? InAppCarouselModel)?.data
+        XCTAssertEqual(contents?[0].linkUrl, "https://example.com", "linkUrl[0]")
+        XCTAssertEqual(contents?[1].linkUrl, "", "linkUrl[1]")
+        XCTAssertEqual(contents?[2].linkUrl, "karte-tracker-sample://simplepage", "linkUrl[2]")
+        XCTAssertEqual(contents?[3].linkUrl, "instagram://app", "linkUrl[3]")
+    }
+
+    func testParseCarouselWithoutMargin() throws {
+        let url = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "iaf_carousel_without_margin", withExtension: "json"))
+        let data = try Data(contentsOf: url)
+        guard let arg = VariableParser.parse(for: "dummy", data) else {
+            XCTFail("Failed to parse JSON data")
+            return
+        }
+
+        XCTAssertEqual(arg.version, .v1, "version")
+        XCTAssertEqual(arg.componentType, .iafCarousel, "componentType")
+        XCTAssertTrue(arg.content is any InAppFrameModel, "content is InAppFrameModel")
+
+        let config = (arg.content as? InAppCarouselModel)?.config
+        XCTAssertEqual(config?.templateType, .carouselWithoutMargin, "templateType")
+        XCTAssertEqual(config?.ratio, 120, "ratio")
+        XCTAssertEqual(config?.radius, 8, "radius")
+        XCTAssertEqual(config?.paddingTop, 20, "paddingTop")
+        XCTAssertEqual(config?.paddingBottom, 20, "paddingBottom")
+        XCTAssertEqual(config?.autoplaySpeed, 5, "autoplaySpeed")
+        XCTAssertNil(config?.bannerHeight, "bannerHeight")
+        XCTAssertNil(config?.spacing, "spacing")
+        XCTAssertNil(config?.paddingStart, "paddingStart")
+        XCTAssertNil(config?.paddingEnd, "paddingEnd")
+
+        let contents = (arg.content as? InAppCarouselModel)?.data
+        XCTAssertEqual(contents?[0].linkUrl, "https://example.com", "linkUrl[0]")
+        XCTAssertEqual(contents?[1].linkUrl, "", "linkUrl[1]")
+        XCTAssertEqual(contents?[2].linkUrl, "karte-tracker-sample://simplepage", "linkUrl[2]")
+        XCTAssertEqual(contents?[3].linkUrl, "instagram://app", "linkUrl[3]")
+    }
+
+    func testParseCarouselWithoutPaging() throws {
+        let url = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "iaf_carousel_without_paging", withExtension: "json"))
+        let data = try Data(contentsOf: url)
+        guard let arg = VariableParser.parse(for: "dummy", data) else {
+            XCTFail("Failed to parse JSON data")
+            return
+        }
+
+        XCTAssertEqual(arg.version, .v1, "version")
+        XCTAssertEqual(arg.componentType, .iafCarousel, "componentType")
+        XCTAssertTrue(arg.content is any InAppFrameModel, "content is InAppFrameModel")
+
+        let config = (arg.content as? InAppCarouselModel)?.config
+        XCTAssertEqual(config?.templateType, .carouselWithoutPaging, "templateType")
+        XCTAssertEqual(config?.ratio, 100, "ratio")
+        XCTAssertEqual(config?.bannerHeight, 120, "bannerHeight")
+        XCTAssertEqual(config?.radius, 8, "radius")
+        XCTAssertEqual(config?.spacing, 10, "spacing")
+        XCTAssertEqual(config?.paddingStart, 10, "paddingStart")
+        XCTAssertEqual(config?.paddingEnd, 10, "paddingEnd")
+        XCTAssertEqual(config?.paddingTop, 20, "paddingTop")
+        XCTAssertEqual(config?.paddingBottom, 20, "paddingBottom")
+        XCTAssertNil(config?.autoplaySpeed, "autoplaySpeed")
+
+        let contents = (arg.content as? InAppCarouselModel)?.data
+        XCTAssertEqual(contents?[0].linkUrl, "https://example.com", "linkUrl[0]")
+        XCTAssertEqual(contents?[1].linkUrl, "", "linkUrl[1]")
+        XCTAssertEqual(contents?[2].linkUrl, "karte-tracker-sample://simplepage", "linkUrl[2]")
+        XCTAssertEqual(contents?[3].linkUrl, "instagram://app", "linkUrl[3]")
+    }
+
+    func testParseSimpleBanner() throws {
+        let url = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "iaf_simple_banner", withExtension: "json"))
+        let data = try Data(contentsOf: url)
+        guard let arg = VariableParser.parse(for: "dummy", data) else {
+            XCTFail("Failed to parse JSON data")
+            return
+        }
+
+        XCTAssertEqual(arg.version, .v1, "version")
+        XCTAssertEqual(arg.componentType, .iafCarousel, "componentType")
+        XCTAssertTrue(arg.content is any InAppFrameModel, "content is InAppFrameModel")
+
+        let config = (arg.content as? InAppCarouselModel)?.config
+        XCTAssertEqual(config?.templateType, .simpleBanner, "templateType")
+        XCTAssertEqual(config?.ratio, 100, "ratio")
+        XCTAssertEqual(config?.radius, 8, "radius")
+        XCTAssertEqual(config?.paddingStart, 10, "paddingStart")
+        XCTAssertEqual(config?.paddingEnd, 10, "paddingEnd")
+        XCTAssertEqual(config?.paddingTop, 20, "paddingTop")
+        XCTAssertEqual(config?.paddingBottom, 20, "paddingBottom")
+        XCTAssertNil(config?.bannerHeight, "bannerHeight")
+        XCTAssertNil(config?.spacing, "spacing")
+        XCTAssertNil(config?.autoplaySpeed, "autoplaySpeed")
     }
 }
