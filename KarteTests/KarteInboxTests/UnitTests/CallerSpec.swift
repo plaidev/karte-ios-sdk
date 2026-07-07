@@ -14,26 +14,24 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteInbox
 
-final class CallerSpec: QuickSpec {
+final class CallerSpec: XCTestCase {
     func testNativeAsyncCaller_shouldReturnNil_withInvalidUserId() async {
         let caller = NativeAsyncCaller()
         let req = FetchMessagesRequest(visitorId: "Dummy visitorId", config: EvaluationConfig())
         let res = await caller(callee: req)
-        expect(res).to(beNil())
+        XCTAssertNil(res, "invalid userId returns nil")
     }
 
     func testNativeAsyncCaller_shouldReturnNil_withInvalidURL() async {
         let caller = NativeAsyncCaller()
         let res = await caller(callee: DummyRequest())
-        expect(res).to(beNil())
+        XCTAssertNil(res, "invalid URL returns nil")
     }
-
 }
 
 private struct DummyRequest: BaseAPIRequest {
