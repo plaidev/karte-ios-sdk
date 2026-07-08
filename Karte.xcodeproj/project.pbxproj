@@ -47,7 +47,6 @@
 		0C2B3C77238269E2008A2708 /* CrashReportingLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B3C76238269E2008A2708 /* CrashReportingLoader.m */; };
 		0C49FE6C23C82563004B6F2C /* KarteCrashReporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE6B23C82563004B6F2C /* KarteCrashReporting.m */; };
 		0C49FE7323C83F28004B6F2C /* CrashEventConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */; };
-		68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */; };
 		68751C272583692D00C6306A /* CrashReporter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68751C0E258368FF00C6306A /* CrashReporter.xcframework */; };
 		8424E2562AFC653C003AC32E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8424E2552AFC653C003AC32E /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
@@ -274,17 +273,12 @@
 		0C8974572379050600098CD8 /* KarteVisualTracking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteVisualTracking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C89768A237BBA5300098CD8 /* KarteRemoteNotification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteRemoteNotification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE792E323862C9C00F0D932 /* KarteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KarteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A57DE35F7357D0077E4FCF1 /* Pods-Karte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.release.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.release.xcconfig"; sourceTree = "<group>"; };
-		2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KarteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5013526C277AB8E60026E1F9 /* KarteNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68751C0E258368FF00C6306A /* CrashReporter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CrashReporter.xcframework; path = KarteCrashReporting/PLCrashReporter/CrashReporter.xcframework; sourceTree = "<group>"; };
 		8424E2552AFC653C003AC32E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.release.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.release.xcconfig"; sourceTree = "<group>"; };
 		AF0A5F172954674500209D4E /* KarteInbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteInbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF24DA362C994009003F43F5 /* KarteDebugger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteDebugger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC90A5B2C9C2B220018E6FE /* KarteInAppFrame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteInAppFrame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KarteTests.debug.xcconfig"; path = "Target Support Files/Pods-KarteTests/Pods-KarteTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BFF77FFF3DF47D9011A20C08 /* Pods-Karte.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Karte.debug.xcconfig"; path = "Target Support Files/Pods-Karte/Pods-Karte.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -541,7 +535,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68249198C7D1CE13F29644C1 /* Pods_KarteTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,7 +602,6 @@
 				F5277D852FF77B2B006A3FFD /* KarteInbox */,
 				0C6FE21722F3F41C00F2FD28 /* Products */,
 				0C6FE2D222F826CA00F2FD28 /* Frameworks */,
-				707708FD2279E9E9AA8EDDF6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -637,20 +629,8 @@
 			children = (
 				68751C0E258368FF00C6306A /* CrashReporter.xcframework */,
 				0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */,
-				2CA3F8C9ECC803090E8C15C5 /* Pods_KarteTests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		707708FD2279E9E9AA8EDDF6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BFF77FFF3DF47D9011A20C08 /* Pods-Karte.debug.xcconfig */,
-				2A57DE35F7357D0077E4FCF1 /* Pods-Karte.release.xcconfig */,
-				BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */,
-				92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -893,11 +873,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0CE792E823862C9C00F0D932 /* Build configuration list for PBXNativeTarget "KarteTests" */;
 			buildPhases = (
-				E4AB74A5EBBC2C7B7BBFF507 /* [CP] Check Pods Manifest.lock */,
 				0CE792DF23862C9C00F0D932 /* Sources */,
 				0CE792E023862C9C00F0D932 /* Frameworks */,
 				0CE792E123862C9C00F0D932 /* Resources */,
-				6078214C217F9B61451F42BC /* [CP] Embed Pods Frameworks */,
 				0C49FF0423D06460004B6F2C /* CopyFiles */,
 			);
 			buildRules = (
@@ -1227,49 +1205,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "TARGETS=(\"KarteUtilities\" \"KarteCore\" \"KarteInAppMessaging\" \"KarteRemoteNotification\" \"KarteVariables\" \"KarteVisualTracking\" \"KarteCrashReporting\")\nOUTPUT_DIR=${PROJECT_DIR}/frameworks\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\nclean() {\n  if [ -d \"${OUTPUT_DIR}\" ]; then\n    rm -rf \"${OUTPUT_DIR}\"\n  fi\n}\n\nbuild() {\n  TARGET_NAME=$1\n\n  # make sure the output directory exists\n  mkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n  mkdir -p \"${OUTPUT_DIR}\"\n\n  # Step 1. Build Device and Simulator versions\n  xcodebuild -target \"${TARGET_NAME}\" -configuration ${CONFIGURATION} -sdk iphoneos ONLY_ACTIVE_ARCH=NO MACH_O_TYPE=staticlib BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n  xcodebuild -target \"${TARGET_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO MACH_O_TYPE=staticlib BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n\n  # Step 2. Copy the framework structure (from iphoneos build) to the universal folder\n  cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${TARGET_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n  # Step 3. Copy Swift modules from iphonesimulator build (if it exists) to the copied framework directory\n  SIMULATOR_SWIFT_MODULES_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${TARGET_NAME}.framework/Modules/${TARGET_NAME}.swiftmodule/.\"\n  if [ -d \"${SIMULATOR_SWIFT_MODULES_DIR}\" ]; then\n    cp -R \"${SIMULATOR_SWIFT_MODULES_DIR}\" \"${UNIVERSAL_OUTPUTFOLDER}/${TARGET_NAME}.framework/Modules/${TARGET_NAME}.swiftmodule\"\n  fi\n\n  # Step 4. Create universal binary file using lipo and place the combined executable in the copied framework directory\n  lipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${TARGET_NAME}.framework/${TARGET_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${TARGET_NAME}.framework/${TARGET_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${TARGET_NAME}.framework/${TARGET_NAME}\"\n\n  # Step 5. Convenience step to copy the framework to the project's directory\n  cp -R \"${UNIVERSAL_OUTPUTFOLDER}/${TARGET_NAME}.framework\" \"${OUTPUT_DIR}\"\n}\n\nclean\n\nfor TARGET_NAME in ${TARGETS[@]}; do\n  build $TARGET_NAME\ndone\n\n# Step 6. Convenience step to open the project's directory in Finder\nopen \"${OUTPUT_DIR}\"\n";
-		};
-		6078214C217F9B61451F42BC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-KarteTests/Pods-KarteTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-KarteTests/Pods-KarteTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KarteTests/Pods-KarteTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E4AB74A5EBBC2C7B7BBFF507 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-KarteTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2105,17 +2040,12 @@
 		};
 		0CE792E923862C9C00F0D932 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFCBE7E59096A32C44932285 /* Pods-KarteTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Mockingjay\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Nimble\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Quick\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/URITemplate\"",
 				);
 				INFOPLIST_FILE = KarteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2136,17 +2066,12 @@
 		};
 		0CE792EA23862C9C00F0D932 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92F48DFCD76A0CA4C901907E /* Pods-KarteTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Mockingjay\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Nimble\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Quick\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/URITemplate\"",
 				);
 				INFOPLIST_FILE = KarteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
