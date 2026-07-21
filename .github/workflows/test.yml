@@ -39,6 +39,8 @@ jobs:
         with:
           ruby-version: '3.4'
           bundler-cache: true # Runs 'bundle install' and caches installed gems automatically
+      - name: Run bump_version.rb tests
+        run: bundle exec ruby scripts/test/bump_version_test.rb
       - name: Podspec lint
         run: bundle exec pod spec lint *.podspec --quick
       - name: Run tests

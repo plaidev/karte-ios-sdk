@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteInAppFrame'
-  s.version                 = '0.8.0'
+  s.version                 = File.read(File.join(__dir__, 'KarteInAppFrame/Version.xcconfig'))[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
   s.summary                 = 'KARTE InAppFrame SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }

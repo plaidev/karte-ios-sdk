@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteRemoteNotification'
-  s.version                 = '2.15.0'
+  s.version                 = File.read(File.join(__dir__, 'KarteRemoteNotification/Version.xcconfig'))[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
   s.summary                 = 'KARTE Remote notification SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }

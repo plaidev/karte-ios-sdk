@@ -59,7 +59,7 @@ if ($is_develop_pr || $is_hotfix_pr)
         end
         
         next_version = bump_version(last_release_version)
-        current_version = Fastlane::Actions::VersionGetPodspecAction.run(path: "Karte#{module_name}.podspec")
+        current_version = File.read("Karte#{module_name}/Version.xcconfig")[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
         if Gem::Version.new(next_version) > Gem::Version.new(current_version)
             warn format(
                 "Version number should be bumped. Run this command:\n`ruby scripts/bump_version.rb set-version -p Karte.xcodeproj -t %<module>s -n %<version>s`", 

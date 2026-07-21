@@ -369,6 +369,7 @@ DEPENDENCIES
   danger-swiftlint
   fastlane
   jazzy
+  minitest
 
 BUNDLED WITH
    2.4.13

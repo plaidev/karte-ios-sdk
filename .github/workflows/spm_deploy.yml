@@ -54,18 +54,18 @@ jobs:
       - name: Find Release Targets
         id: find-release-targets
         run: |
-          PODSPECS=(`git diff origin/master --name-only | grep podspec`)
-          for PODSPEC in ${PODSPECS[@]}; do
-            SPEC_DIFF=`git diff -U0 origin/master -- ${PODSPEC} | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)'`
-            if echo $SPEC_DIFF | grep -q 's\.version'; then
-              POD_NAME="${PODSPEC%.*} "
-              RELEASE_TARGETS+="${POD_NAME} "
+          XCCONFIGS=(`git diff origin/master --name-only | grep 'Version\.xcconfig$'`)
+          for XCCONFIG in ${XCCONFIGS[@]}; do
+            VERSION_DIFF=`git diff -U0 origin/master -- ${XCCONFIG} | grep '^[+-]' | grep -Ev '^(--- a/|\+\+\+ b/)'`
+            if echo $VERSION_DIFF | grep -q 'MARKETING_VERSION'; then
+              MODULE_NAME="$(dirname ${XCCONFIG}) "
+              RELEASE_TARGETS+="${MODULE_NAME} "
               echo "#########################"
-              echo "# ${POD_NAME}"
+              echo "# ${MODULE_NAME}"
               echo "#########################"
               echo " "
             else
-              echo 'SPEC_DIFF does not contains s.version'
+              echo 'VERSION_DIFF does not contain MARKETING_VERSION'
             fi
           done
           echo "TARGETS=${RELEASE_TARGETS}" >> $GITHUB_OUTPUT

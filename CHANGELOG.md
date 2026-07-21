@@ -18,18 +18,22 @@
 ### Core 2.38.0
 **🔨CHANGED**
 - Swift Evolution proposal SE-0335 (Existential Any) に対応し、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化しました。すべての existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### InAppMessaging 2.28.0
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### RemoteNotification 2.15.0
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### Variables 2.14.0
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### VisualTracking 2.15.0
 **💊FIXED**
@@ -37,14 +41,17 @@
 
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### InAppFrame 0.8.0
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### CrashReporting 2.12.0
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### Utilities 3.15.0
 **💊FIXED**
@@ -52,14 +59,17 @@
 
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### NotificationServiceExtension 1.4.0
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 ### Debugger 1.2.0
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
+- バージョン番号の管理方法の改善を行いました
 
 # Releases - 2026.06.25
 ## Version 2.34.0

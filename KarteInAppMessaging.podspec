@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteInAppMessaging'
-  s.version                 = '2.28.0'
+  s.version                 = File.read(File.join(__dir__, 'KarteInAppMessaging/Version.xcconfig'))[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
   s.summary                 = 'KARTE In-app messaging SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }

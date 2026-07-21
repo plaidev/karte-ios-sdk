@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name                    = 'KarteNotificationServiceExtension'
-    s.version                 = '1.4.0'
+    s.version                 = File.read(File.join(__dir__, 'KarteNotificationServiceExtension/Version.xcconfig'))[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
     s.summary                 = 'KARTE Notification Service Extension'
     s.homepage                = 'https://karte.io/'
     s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
