@@ -46,7 +46,7 @@ jobs:
       - name: Run tests
         run: |
           DESTINATION="platform=iOS Simulator,name=${{ env.DEVICE_NAME }},OS=${{ env.IOS_VERSION }}"
-          xcodebuild test -workspace Karte.xcworkspace \
+          xcodebuild test -project Karte.xcodeproj \
                           -scheme KarteTests \
                           -destination "${DESTINATION}" \
                           -derivedDataPath DerivedData \

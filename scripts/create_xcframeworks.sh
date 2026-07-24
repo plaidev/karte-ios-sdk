@@ -21,7 +21,7 @@ function archive() {
     xcodebuild archive \
         SKIP_INSTALL=NO \
         BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-        -workspace Karte.xcworkspace \
+        -project Karte.xcodeproj \
         -scheme $scheme \
         -destination="generic/platform=iOS" \
         -derivedDataPath DerivedData \
@@ -33,7 +33,7 @@ function archive() {
     xcodebuild archive \
         SKIP_INSTALL=NO \
         BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-        -workspace Karte.xcworkspace \
+        -project Karte.xcodeproj \
         -scheme $scheme \
         -destination="generic/platform=iOS Simulator" \
         -derivedDataPath DerivedData \

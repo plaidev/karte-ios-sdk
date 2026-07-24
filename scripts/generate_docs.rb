@@ -87,7 +87,7 @@ class Documents
       return false
     end
 
-    unless system("bundle exec jazzy -o #{_get_tmpdir} --module #{@podspec.name} --module-version #{@podspec.version} --xcodebuild-arguments -workspace,../Karte.xcworkspace,-scheme,#{@podspec.name} --dash_url \"#{_get_module_docs_url}/docsets/#{@podspec.name}.xml\"")
+    unless system("bundle exec jazzy -o #{_get_tmpdir} --module #{@podspec.name} --module-version #{@podspec.version} --xcodebuild-arguments -project,../Karte.xcodeproj,-scheme,#{@podspec.name} --dash_url \"#{_get_module_docs_url}/docsets/#{@podspec.name}.xml\"")
       $stderr.puts 'Failed to generate documents.'
       exit 1
     end
