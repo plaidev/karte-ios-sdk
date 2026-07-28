@@ -60,6 +60,7 @@
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
 - バージョン番号の管理方法の改善を行いました
+- GzipSwiftを廃止し、内製のライブラリに置き換えました
 
 ### NotificationServiceExtension 1.4.0
 **🔨CHANGED**
