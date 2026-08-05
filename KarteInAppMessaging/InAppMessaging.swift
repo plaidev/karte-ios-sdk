@@ -337,9 +337,9 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
         var response = response
 
         let process = pool.retrieveProcess(sceneId: request.sceneId)
-        let isSuppressedInProcess = process?.isSuppressed ?? false
+        let shouldSuppressHandling = (process?.isSuppressed ?? false) || isSuppressed
         let filter = MessageFilter.Builder()
-            .add(MessageSuppressionFilterRule(isSuppressed: isSuppressedInProcess || isSuppressed))
+            .add(MessageSuppressionFilterRule(isSuppressed: shouldSuppressHandling))
             .add(MessagePvIdFilterRule(request: request, app: app))
             .build()
 
@@ -347,6 +347,10 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
             .filter((response.jsonArray(forKey: "messages") ?? []).dictionaries, exclude: Tracker.trackMessageSuppressed)
             .map(JSONValue.dictionary)
         response["messages"] = .array(messages)
+
+        if shouldSuppressHandling {
+            return
+        }
 
         if pool.canCreateProcess(sceneId: request.sceneId) {
             guard let window = WindowDetector.retrieveRelatedWindows(from: request.sceneId.identifier).first, let app = app else {

@@ -21,6 +21,9 @@
 - バージョン番号の管理方法の改善を行いました
 
 ### InAppMessaging 2.28.0
+**💊FIXED**
+- 新しい配信方式を利用した接客表示において、suppress メソッドによる表示抑制に対応しました。
+
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
 - バージョン番号の管理方法の改善を行いました

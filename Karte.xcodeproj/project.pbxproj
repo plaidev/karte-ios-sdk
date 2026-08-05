@@ -265,7 +265,6 @@
 		0C2B3C74238269CD008A2708 /* CrashReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReporting.swift; sourceTree = "<group>"; };
 		0C2B3C76238269E2008A2708 /* CrashReportingLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrashReportingLoader.m; sourceTree = "<group>"; };
 		0C49FE6B23C82563004B6F2C /* KarteCrashReporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KarteCrashReporting.m; sourceTree = "<group>"; };
-		B8293590204C44E88E9FDF94 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		0C49FE7223C83F28004B6F2C /* CrashEventConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashEventConverter.swift; sourceTree = "<group>"; };
 		0C6FE2D322F826CA00F2FD28 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0C8974302379040700098CD8 /* KarteCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -280,6 +279,7 @@
 		AF0A5F172954674500209D4E /* KarteInbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteInbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF24DA362C994009003F43F5 /* KarteDebugger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteDebugger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC90A5B2C9C2B220018E6FE /* KarteInAppFrame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KarteInAppFrame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8293590204C44E88E9FDF94 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
