@@ -23,6 +23,7 @@
 ### InAppMessaging 2.28.0
 **💊FIXED**
 - 新しい配信方式を利用した接客表示において、suppress メソッドによる表示抑制に対応しました。
+- アプリ内メッセージを最小化した状態で戻るスワイプを行った際、ページが指の移動より大きく動いて見える問題を修正しました。
 
 **🔨CHANGED**
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。

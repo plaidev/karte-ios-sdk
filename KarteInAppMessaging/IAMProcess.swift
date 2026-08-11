@@ -45,8 +45,9 @@ internal class IAMProcess: NSObject {
     }
 
     func terminate() {
-        // NOTE: Hides window to remove IAMWindow from view hierarchy in iOS 26.
-        window?.isHidden = true
+        // NOTE: Explicitly clear rootViewController to prevent IAMWindow from remaining in
+        // the view hierarchy on iOS 26.0.
+        window?.rootViewController = nil
         self.window = nil
         self.webView = nil
     }
@@ -352,9 +353,10 @@ extension IAMProcess: IAMWebViewDelegate {
     }
 
     func hideInAppMessagingWebView(_ webView: IAMWebView) -> Bool {
-        if window != nil {
-            // NOTE: Hides window to remove IAMWindow from view hierarchy in iOS 26.
-            window?.isHidden = true
+        if let window {
+            // NOTE: Explicitly clear rootViewController to prevent IAMWindow from remaining in
+            // the view hierarchy on iOS 26.0.
+            window.rootViewController = nil
             self.window = nil
         }
         return true
