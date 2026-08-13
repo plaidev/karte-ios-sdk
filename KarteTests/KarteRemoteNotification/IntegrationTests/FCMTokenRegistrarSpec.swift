@@ -63,7 +63,10 @@ class FCMTokenRegistrarSpec: XCTestCase {
     // MARK: - second time (token updated)
 
     func testSecondTimeTokenUpdated() throws {
-        let module1 = StubActionModule(metadata: name, builder: builder)
+        let module1 = StubActionModule(
+            metadata: "FCMTokenRegistrarSpec_testSecondTimeTokenUpdated_1",
+            builder: builder
+        )
 
         let provider = NotificationSettingsProviderMock()
         provider.fcmTokenResolver = { "dummy_fcm_token" }
@@ -74,7 +77,10 @@ class FCMTokenRegistrarSpec: XCTestCase {
 
         module1.wait()
 
-        let module2 = StubActionModule(metadata: name, builder: builder)
+        let module2 = StubActionModule(
+            metadata: "FCMTokenRegistrarSpec_testSecondTimeTokenUpdated_2",
+            builder: builder
+        )
 
         provider.fcmTokenResolver = { "dummy_fcm_token_2" }
         provider.availabilityResolver = { true }
