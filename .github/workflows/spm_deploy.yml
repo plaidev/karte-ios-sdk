@@ -69,18 +69,35 @@ jobs:
             fi
           done
           echo "TARGETS=${RELEASE_TARGETS}" >> $GITHUB_OUTPUT
+      - name: Generate Swift-PM artifact ID
+        id: generate-artifact-id
+        run: |
+          echo "ARTIFACT_ID=$(printf '%x' "$(date -u +%s)")" >> "$GITHUB_OUTPUT"
       - name: Create XCFrameworks
         if: steps.find-release-targets.outputs.TARGETS != ''
+        env:
+          ARTIFACT_ID: ${{ steps.generate-artifact-id.outputs.ARTIFACT_ID }}
+          TARGETS: ${{ steps.find-release-targets.outputs.TARGETS }}
         run: |
-          ./scripts/create_xcframeworks.sh ${{ steps.find-release-targets.outputs.TARGETS }}
+          ./scripts/create_xcframeworks.sh "$ARTIFACT_ID" $TARGETS
       - name: Upload xcframeworks to aws s3
         if: inputs.dry_run != true && steps.find-release-targets.outputs.TARGETS != ''
+        env:
+          ARTIFACT_ID: ${{ steps.generate-artifact-id.outputs.ARTIFACT_ID }}
+          TARGETS: ${{ steps.find-release-targets.outputs.TARGETS }}
+        # NOTE: Prevents override using conditional writes.
+        # Ref) https://docs.aws.amazon.com/AmazonS3/latest/userguide/conditional-writes.html
         run: |
-          aws sts get-caller-identity
-          aws s3 ls s3://production-native-sdk/
-          for TARGET in ${{ steps.find-release-targets.outputs.TARGETS }}; do
-            TAG=`ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t ${TARGET}`
-            aws s3 cp ./xcframeworks/${TARGET}.xcframework.zip s3://production-native-sdk/ios/swiftpm/${TAG}/ --acl public-read
+          set -euo pipefail
+          for TARGET in $TARGETS; do
+            TAG=$(ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t "${TARGET}")
+            KEY="ios/swiftpm/${TAG}/${TARGET}-${ARTIFACT_ID}.xcframework.zip"
+            aws s3api put-object \
+              --bucket production-native-sdk \
+              --key "${KEY}" \
+              --body "./xcframeworks/${TARGET}.xcframework.zip" \
+              --acl public-read \
+              --if-none-match "*"
           done
       - name: Backup Swift-PM manifest file
         if: inputs.dry_run != true && steps.find-release-targets.outputs.TARGETS != ''

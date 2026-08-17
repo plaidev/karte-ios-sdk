@@ -64,11 +64,12 @@ function compress() {
 
 function modify_manifest_file() {
     local target=$1
+    local artifact_id=$2
 
     local checksum=$(swift package compute-checksum ./xcframeworks/${target}.xcframework.zip)
 
     local tag=`ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t $target`
-    local url="https:\/\/sdk.karte.io\/ios\/swiftpm\/${tag}\/${target}.xcframework.zip"
+    local url="https:\/\/sdk.karte.io\/ios\/swiftpm\/${tag}\/${target}-${artifact_id}.xcframework.zip"
 
     local target_params="name: \"${target}\""
 
@@ -80,13 +81,15 @@ function modify_manifest_file() {
     fi
 }
 
-targets=($@)
+artifact_id=${1:?"Error: artifact_id is required as the first argument"}
+shift
+targets=("$@")
 
-for target in ${targets[@]}; do
+for target in "${targets[@]}"; do
   archive $target
   create_xcframework $target
   compress $target
-  modify_manifest_file $target
+  modify_manifest_file "$target" "$artifact_id"
 done
 
 # verify manifest file
