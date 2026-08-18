@@ -22,8 +22,8 @@ import KarteVariables
 @objc(KRTInAppFrame)
 public final class InAppFrame: NSObject {
     @objc public static let shared = InAppFrame()
-    @objc public weak var delegate: InAppFrameDelegate?
-    private(set) weak var loadingDelegate: LoadingDelegate?
+    @objc public weak var delegate: (any InAppFrameDelegate)?
+    private(set) weak var loadingDelegate: (any LoadingDelegate)?
 
     override private init() {}
 
@@ -34,7 +34,7 @@ public final class InAppFrame: NSObject {
         KarteApp.register(library: self)
     }
 
-    public static func loadContent(for variableKey: String) async -> InAppFrameView? {
+    public static func loadContent(for variableKey: String) async -> (any InAppFrameView)? {
         guard let arg = VariableParser.parse(for: variableKey) else {
             return nil
         }
@@ -54,7 +54,7 @@ public final class InAppFrame: NSObject {
     }
 
     @MainActor
-    public static func setLoadingDelegate(_ delegate: LoadingDelegate?) {
+    public static func setLoadingDelegate(_ delegate: (any LoadingDelegate)?) {
         Self.shared.loadingDelegate = delegate
     }
 

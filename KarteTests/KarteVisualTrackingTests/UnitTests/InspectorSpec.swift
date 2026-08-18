@@ -14,126 +14,70 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteVisualTracking
 
 @MainActor
-class InspectorSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a inspector") {
-            describe("its inspectView") {
-                var window: UIWindow!
-                var view1: UIView!
-                var view2: UIView!
-                var view3: UIView!
-                var view4: UIView!
+class InspectorSpec: XCTestCase {
 
-                beforeEach {
-                    window = UIWindow()
-                    view1 = UIView()
-                    view2 = UIView()
-                    view3 = UIView()
-                    view4 = UIView()
-                    view1.addSubview(view2)
-                    view2.addSubview(view3)
-                    view2.addSubview(view4)
-                    window.addSubview(view1)
-                }
+    func testInspectView() {
+        let window = UIWindow()
+        let view1 = UIView()
+        let view2 = UIView()
+        let view3 = UIView()
+        let view4 = UIView()
+        view1.addSubview(view2)
+        view2.addSubview(view3)
+        view2.addSubview(view4)
+        window.addSubview(view1)
 
-                context("when passing inWindow nil") {
-                    it("returns nil") {
-                        let actual = Inspector.inspectView(with: [0], inWindow: nil)
-                        expect(actual).to(beNil())
-                    }
-                }
-                context("when passing empty array") {
-                    it("returns nil") {
-                        let actual = Inspector.inspectView(with: [], inWindow: UIWindow())
-                        expect(actual).to(beNil())
-                    }
-                }
-                context("when passing out-of-bounds indices") {
-                    it("returns nil") {
-                        let viewPathIndices = UIKitAction.viewPathIndices(actionId: "Olympic0View11UIView0")
-                        let actual = Inspector.inspectView(with: viewPathIndices, inWindow: window)
-                        expect(actual).to(beNil())
-                    }
-                }
-                context("when passing UIView1UIView0UIView0UIWindow") {
-                    it("returns not nil") {
-                        let actionId = UIKitAction.actionId(view: view4)
-                        let viewPathIndices = UIKitAction.viewPathIndices(actionId: actionId)
-                        let actual = Inspector.inspectView(with: viewPathIndices, inWindow: window)
-                        expect(actual).toNot(beNil())
-                        expect(actionId).to(equal("UIView1UIView0UIView0UIWindow"))
-                    }
-                }
-            }
-            
-            describe("its inspectText") {
-                context("when passing nil") {
-                    it("returns nil") {
-                        let actual = Inspector.inspectText(with: nil)
-                        expect(actual).to(beNil())
-                    }
-                }
-                
-                context("when passing UIButton that has not text") {
-                    it("returns nil") {
-                        let actual = Inspector.inspectText(with: UIButton(type: .infoDark))
-                        expect(actual).to(beNil())
-                    }
-                }
-                
-                context("when passing UIButton that has text") {
-                    it("returns text") {
-                        let button = UIButton(type: .system)
-                        button.titleLabel?.text = "text"
-                        let actual = Inspector.inspectText(with: button)
-                        expect(actual).to(equal("text"))
-                    }
-                }
-                
-                context("when passing superView of UILabel") {
-                    it("returns text") {
-                        let view = UIView()
-                        let label = UILabel()
-                        label.text = "text"
-                        view.addSubview(label)
-                        let actual = Inspector.inspectText(with: view)
-                        expect(actual).to(equal("text"))
-                    }
-                }
-                
-                context("when passing UITabBarItem") {
-                    it("returns text") {
-                        let tabBar = UITabBarItem()
-                        tabBar.title = "text"
-                        let actual = Inspector.inspectText(with: tabBar)
-                        expect(actual).to(equal("text"))
-                    }
-                }
-                
-            }
-            
-            describe("its takeSnapshot") {
-                context("when passing nil") {
-                    it("returns nil") {
-                        let actual = Inspector.takeSnapshot(with: nil)
-                        expect(actual).to(beNil())
-                    }
-                }
-                                
-                context("when passing UIButton") {
-                    it("returns not nil") {
-                        let actual = Inspector.takeSnapshot(with: UIButton(type: .infoDark))
-                        expect(actual).toNot(beNil())
-                    }
-                }
-            }
-        }
+        // when passing inWindow nil
+        XCTAssertNil(Inspector.inspectView(with: [0], inWindow: nil), "passing inWindow nil returns nil")
+
+        // when passing empty array
+        XCTAssertNil(Inspector.inspectView(with: [], inWindow: UIWindow()), "passing empty array returns nil")
+
+        // when passing out-of-bounds indices
+        let outOfBoundsIndices = UIKitAction.viewPathIndices(actionId: "Olympic0View11UIView0")
+        XCTAssertNil(Inspector.inspectView(with: outOfBoundsIndices, inWindow: window), "passing out-of-bounds indices returns nil")
+
+        // when passing UIView1UIView0UIView0UIWindow
+        let actionId = UIKitAction.actionId(view: view4)
+        XCTAssertEqual(actionId, "UIView1UIView0UIView0UIWindow", "actionId")
+        let viewPathIndices = UIKitAction.viewPathIndices(actionId: actionId)
+        XCTAssertNotNil(Inspector.inspectView(with: viewPathIndices, inWindow: window), "passing valid viewPath returns not nil")
     }
-    
+
+    func testInspectText() {
+        // when passing nil
+        XCTAssertNil(Inspector.inspectText(with: nil), "passing nil returns nil")
+
+        // when passing UIButton that has not text
+        XCTAssertNil(Inspector.inspectText(with: UIButton(type: .infoDark)), "passing UIButton that has not text returns nil")
+
+        // when passing UIButton that has text
+        let button = UIButton(type: .system)
+        button.titleLabel?.text = "text"
+        XCTAssertEqual(Inspector.inspectText(with: button), "text", "passing UIButton that has text returns text")
+
+        // when passing superView of UILabel
+        let view = UIView()
+        let label = UILabel()
+        label.text = "text"
+        view.addSubview(label)
+        XCTAssertEqual(Inspector.inspectText(with: view), "text", "passing superView of UILabel returns text")
+
+        // when passing UITabBarItem
+        let tabBar = UITabBarItem()
+        tabBar.title = "text"
+        XCTAssertEqual(Inspector.inspectText(with: tabBar), "text", "passing UITabBarItem returns text")
+    }
+
+    func testTakeSnapshot() {
+        // when passing nil
+        XCTAssertNil(Inspector.takeSnapshot(with: nil), "passing nil returns nil")
+
+        // when passing UIButton
+        XCTAssertNotNil(Inspector.takeSnapshot(with: UIButton(type: .infoDark)), "passing UIButton returns not nil")
+    }
 }

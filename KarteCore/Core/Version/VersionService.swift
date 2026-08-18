@@ -19,10 +19,10 @@ import KarteUtilities
 
 internal class VersionService {
     @Injected(name: "version_service.repository")
-    var repository: Repository
+    var repository: any Repository
 
     @Injected(name: "version_service.current_version_retriever")
-    var currentVersionRetriever: VersionRetriever
+    var currentVersionRetriever: any VersionRetriever
 
     var currentVersion: String?
     var previousVersion: String?
@@ -102,13 +102,13 @@ extension Resolver {
         let fileURL = url.appendingPathComponent("karte.app.json")
 
         register(name: "version_service.current_version_retriever") {
-            DefaultVersionRetriever() as VersionRetriever
+            DefaultVersionRetriever() as any VersionRetriever
         }
         register(name: "version_service.repository") {
-            JSONRepository(dataSource: resolve(name: "version_service.data_source")) as Repository
+            JSONRepository(dataSource: resolve(name: "version_service.data_source")) as any Repository
         }.scope(cached)
         register(name: "version_service.data_source") {
-            FileSource(resolve(name: "version_service.file_url")) as DataSource
+            FileSource(resolve(name: "version_service.file_url")) as any DataSource
         }.scope(cached)
         register(name: "version_service.file_url") {
             fileURL

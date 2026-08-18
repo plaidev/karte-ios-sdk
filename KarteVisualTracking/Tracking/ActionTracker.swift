@@ -89,7 +89,7 @@ internal class ActionTracker {
 }
 
 extension ActionTracker {
-    private func track(action: ActionProtocol) {
+    private func track(action: any ActionProtocol) {
         guard let definitions = definitions, let appInfo = app.appInfo else {
             Logger.verbose(tag: .visualTracking, message: "VT definition is nil.")
             return
@@ -103,7 +103,7 @@ extension ActionTracker {
 }
 
 extension ActionTracker: ActionReceiver {
-    func receive(action: ActionProtocol) {
+    func receive(action: any ActionProtocol) {
         track(action: action)
     }
 }

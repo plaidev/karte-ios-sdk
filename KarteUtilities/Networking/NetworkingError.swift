@@ -19,9 +19,9 @@ import Foundation
 
 public enum NetworkingError: Error {
     case invalidURL(URL)
-    case requestBuildFailed(Error)
-    case requestFailed(Error)
-    case responseError(Error)
+    case requestBuildFailed(any Error)
+    case requestFailed(any Error)
+    case responseError(any Error)
     case noData
     case invalidResponse(URLResponse?)
     case invalidStatusCode(Int)

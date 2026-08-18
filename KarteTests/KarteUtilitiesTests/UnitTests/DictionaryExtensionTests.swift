@@ -23,7 +23,7 @@ class DictionaryExtensionTests: XCTestCase {
     var dictionary: [String: JSONValue]!
     
     override func setUp() {
-        let convertible: [String: JSONConvertible] = [
+        let convertible: [String: any JSONConvertible] = [
             "string": "foo",
             "integer": 100,
             "bool": true,

@@ -14,62 +14,38 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 @testable import KarteVisualTracking
 
 @MainActor
-class DefinitionMatchSpec: QuickSpec {
-    
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
+class DefinitionMatchSpec: XCTestCase {
+
+    func testMatchDefinitionAndTrack() {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
         }
-        
-        describe("match definition and track") {
-            var event: Event!
-            
-            beforeEach { (metadata: ExampleMetadata) in
-                func step1() {
-                    let builder1 = StubBuilder(spec: self, resource: .vt1).build()
-                    let module1 = StubActionModule(metadata: metadata, builder: builder1)
-                    
-                    KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-                    Tracker.track(event: Event(.view(viewName: "dummy", title: "dummy", values: [:])))
-                    
-                    module1.wait()
-                }
-                
-                func step2() {
-                    let builder2 = StubBuilder(spec: self, resource: .empty).build()
-                    let module2 = StubActionModule(metadata: metadata, builder: builder2)
-                    
-                    let action = UIKitAction("dummy", view: UIButton(), viewController: nil, targetText: "購入")
-                    VisualTrackingManager.shared.dispatch(action: action)
-                    
-                    event = module2.wait().event(.view)
-                }
-                
-                step1()
-                step2()
-            }
-            
-            it("eventName is `view`") {
-                expect(event.eventName).to(equal(.view))
-            }
-            
-            it("values._auto_track") {
-                expect(event.values.integer(forKeyPath: "_system.auto_track")).to(equal(1))
-            }
-            
-            it("values.foo is `bar`") {
-                expect(event.values.string(forKey: "foo")).to(equal("bar"))
-            }
+
+        let builder1 = StubBuilder(spec: Self.self, resource: .vt1).build()
+        let module1 = StubActionModule(metadata: name, builder: builder1)
+
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+        Tracker.track(event: Event(.view(viewName: "dummy", title: "dummy", values: [:])))
+
+        module1.wait()
+
+        let builder2 = StubBuilder(spec: Self.self, resource: .empty).build()
+        let module2 = StubActionModule(metadata: name, builder: builder2)
+
+        let action = UIKitAction("dummy", view: UIButton(), viewController: nil, targetText: "購入")
+        VisualTrackingManager.shared.dispatch(action: action)
+
+        guard let event = module2.wait().event(.view) else {
+            XCTFail("view event should not be nil")
+            return
         }
+        XCTAssertEqual(event.eventName, .view, "eventName is view")
+        XCTAssertEqual(event.values.integer(forKeyPath: "_system.auto_track"), 1, "values._system.auto_track")
+        XCTAssertEqual(event.values.string(forKey: "foo"), "bar", "values.foo is bar")
     }
 }

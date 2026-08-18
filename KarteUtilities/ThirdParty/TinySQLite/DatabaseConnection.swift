@@ -182,7 +182,7 @@ extension DatabaseConnection {
         return try resultExists(for: query, withParameters: [viewName])
     }
     
-    private func resultExists(for query: String, withParameters parameters: [SQLiteValue?]) throws -> Bool {
+    private func resultExists(for query: String, withParameters parameters: [(any SQLiteValue)?]) throws -> Bool {
         let statement = try self.statement(for: query).execute(withParameters: parameters)
         
         /* Finalize the statement if necessary */

@@ -14,41 +14,31 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteInbox
 
-final class OpenMessagesRequestSpec: QuickSpec {
+final class OpenMessagesRequestSpec: XCTestCase {
+    private let visitorId = "Dummy"
+    private let config = DummyConfig()
 
-    override class func spec() {
-        let visitorId = "Dummy"
-        let config = DummyConfig()
+    func testHasProperURLWithProductionConfig() {
+        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: ProductionConfig())
+        XCTAssertEqual(req.asURLRequest().url?.absoluteString, "https://api.karte.io/v2native/inbox/openMessages", "production URL")
+    }
 
-        describe("a request") {
-            describe("its init") {
-                context("when initialized with parameters") {
-                    it("has proper URL with ProductionConfig") {
-                        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: ProductionConfig())
-                        expect(req.asURLRequest().url?.absoluteString).to(equal("https://api.karte.io/v2native/inbox/openMessages"))
-                    }
+    func testHasProperURLWithEvaluationConfig() {
+        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: EvaluationConfig())
+        XCTAssertEqual(req.asURLRequest().url?.absoluteString, "https://api-evaluation.dev-karte.com/v2native/inbox/openMessages", "evaluation URL")
+    }
 
-                    it("has proper URL with EvaluationConfig") {
-                        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: EvaluationConfig())
-                        expect(req.asURLRequest().url?.absoluteString).to(equal("https://api-evaluation.dev-karte.com/v2native/inbox/openMessages"))
-                    }
+    func testHasCorrespondVisitorIdInBody() {
+        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: config)
+        XCTAssertEqual(req.bodyParams?["visitorId"] as? String, visitorId, "visitorId in body")
+    }
 
-                    it("has correspond visitorId in body") {
-                        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: [], config: config)
-                        expect(req.bodyParams?["visitorId"] as? String).to(equal(visitorId))
-                    }
-
-                    it("has correspond messageIds in body") {
-                        let targets = ["aaa", "bbb", "ccc"]
-                        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: targets, config: config)
-                        expect(req.bodyParams?["messageIds"] as? [String]).to(equal(targets))
-                    }
-                }
-            }
-        }
+    func testHasCorrespondMessageIdsInBody() {
+        let targets = ["aaa", "bbb", "ccc"]
+        let req = OpenMessagesRequest(visitorId: visitorId, messageIds: targets, config: config)
+        XCTAssertEqual(req.bodyParams?["messageIds"] as? [String], targets, "messageIds in body")
     }
 }

@@ -14,56 +14,44 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteInbox
 
-final class FetchMessagesRequestSpec: QuickSpec {
+final class FetchMessagesRequestSpec: XCTestCase {
+    private let visitorId = "Dummy"
+    private let config = DummyConfig()
 
-    override class func spec() {
-        let visitorId = "Dummy"
-        let config = DummyConfig()
+    func testHasProperURLWithProductionConfig() {
+        let req = FetchMessagesRequest(visitorId: visitorId, config: ProductionConfig())
+        XCTAssertEqual(req.asURLRequest().url?.absoluteString, "https://api.karte.io/v2native/inbox/fetchMessages", "production URL")
+    }
 
-        describe("a request") {
-            describe("its init") {
-                context("when initialized with parameters") {
-                    it("has proper URL with ProductionConfig") {
-                        let req = FetchMessagesRequest(visitorId: visitorId, config: ProductionConfig())
-                        expect(req.asURLRequest().url?.absoluteString).to(equal("https://api.karte.io/v2native/inbox/fetchMessages"))
-                    }
+    func testHasProperURLWithEvaluationConfig() {
+        let req = FetchMessagesRequest(visitorId: visitorId, config: EvaluationConfig())
+        XCTAssertEqual(req.asURLRequest().url?.absoluteString, "https://api-evaluation.dev-karte.com/v2native/inbox/fetchMessages", "evaluation URL")
+    }
 
-                    it("has proper URL with EvaluationConfig") {
-                        let req = FetchMessagesRequest(visitorId: visitorId, config: EvaluationConfig())
-                        expect(req.asURLRequest().url?.absoluteString).to(equal("https://api-evaluation.dev-karte.com/v2native/inbox/fetchMessages"))
-                    }
+    func testHasCorrespondVisitorIdInBody() {
+        let req = FetchMessagesRequest(visitorId: visitorId, config: config)
+        XCTAssertEqual(req.bodyParams?["visitorId"] as? String, visitorId, "visitorId in body")
+    }
 
-                    it("has correspond visitorId in body") {
-                        let req = FetchMessagesRequest(visitorId: visitorId, config: config)
-                        expect(req.bodyParams?["visitorId"] as? String).to(equal(visitorId))
-                    }
+    func testHasCorrespondLimitInBody() {
+        let req = FetchMessagesRequest(visitorId: visitorId, limit: 1, config: config)
+        XCTAssertEqual(req.bodyParams?["limit"] as? UInt, 1, "limit in body")
+    }
 
-                    it("has correspond limit in body") {
-                        let req = FetchMessagesRequest(visitorId: visitorId, limit: 1, config: config)
-                        expect(req.bodyParams?["limit"] as? UInt).to(equal(1))
-                    }
+    func testHasCorrespondLatestMessageIdInBody() {
+        let dummy = "Dummy messageId"
+        let req = FetchMessagesRequest(visitorId: visitorId, latestMessageId: dummy, config: config)
+        XCTAssertEqual(req.bodyParams?["latestMessageId"] as? String, dummy, "latestMessageId in body")
+    }
 
-                    it("has correspond latestMessageId in body") {
-                        let dummy = "Dummy messageId"
-                        let req = FetchMessagesRequest(visitorId: visitorId, latestMessageId: dummy, config: config)
-                        expect(req.bodyParams?["latestMessageId"] as? String).to(equal(dummy))
-                    }
-                }
-
-                context("when initialized without optional parameters") {
-                    it("has nil for optional body parameters") {
-                        let req = FetchMessagesRequest(visitorId: visitorId, config: config)
-                        let limit = req.bodyParams?["limit"]
-                        let latestMessageId = req.bodyParams?["latestMessageId"]
-                        expect(limit).to(beNil())
-                        expect(latestMessageId).to(beNil())
-                    }
-                }
-            }
-        }
+    func testHasNilForOptionalBodyParameters() {
+        let req = FetchMessagesRequest(visitorId: visitorId, config: config)
+        let limit = req.bodyParams?["limit"]
+        let latestMessageId = req.bodyParams?["latestMessageId"]
+        XCTAssertNil(limit, "limit")
+        XCTAssertNil(latestMessageId, "latestMessageId")
     }
 }

@@ -20,6 +20,8 @@ import XCTest
 class StubActionModule {
     typealias TrackResponseData = (request: URLRequest, body: TrackBody, event: Event)
 
+    private let metadataLabel: String
+
     var exp: XCTestExpectation
     var stub: Stub?
 
@@ -27,7 +29,7 @@ class StubActionModule {
     var responses: [String: TrackResponseData] = [:]
 
     init(metadata: Any? = nil, stub: Stub?) {
-        let metadataLabel = metadata.map { String(describing: $0) } ?? "test"
+        self.metadataLabel = metadata.map { String(describing: $0) } ?? "test"
         self.exp = XCTestExpectation(description: "Wait for finish => \(metadataLabel)")
         self.stub = stub
 
@@ -57,7 +59,18 @@ class StubActionModule {
     func wait(timeout: TimeInterval = 10) -> StubActionModule {
         let result = XCTWaiter.wait(for: [self.exp], timeout: timeout)
         if result != .completed {
-            XCTFail("Expectation not fulfilled: \(result)")
+            XCTFail("""
+            Expectation not fulfilled: \(result)
+            metadata=\(metadataLabel)
+            request=\(request?.description ?? "<none>")
+            receivedEvents=\(responses.keys.sorted())
+            isReachable=\(TrackClient.shared.isReachable)
+            state=\(TrackClient.shared.state)
+            isSending=\(TrackClient.shared.isSending)
+            pendingEvents=\(TrackClient.shared.tasks.map { task in
+                task.request.commands.map { $0.event.eventName.rawValue }
+            })
+            """)
         }
         return self
     }
@@ -69,7 +82,18 @@ class StubActionModule {
         }
         let result = XCTWaiter.wait(for: [self.exp], timeout: timeout)
         if result != .completed {
-            XCTFail("Expectation not fulfilled: \(result)")
+            XCTFail("""
+            Expectation not fulfilled: \(result)
+            metadata=\(metadataLabel)
+            request=\(request?.description ?? "<none>")
+            receivedEvents=\(responses.keys.sorted())
+            isReachable=\(TrackClient.shared.isReachable)
+            state=\(TrackClient.shared.state)
+            isSending=\(TrackClient.shared.isSending)
+            pendingEvents=\(TrackClient.shared.tasks.map { task in
+                task.request.commands.map { $0.event.eventName.rawValue }
+            })
+            """)
         }
         return self
     }

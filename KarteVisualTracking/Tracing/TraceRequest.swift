@@ -26,7 +26,7 @@ internal struct TraceRequest: Request {
     let appInfo: AppInfo
     let visitorId: String
     let account: Account
-    let action: ActionProtocol
+    let action: any ActionProtocol
     let image: Data?
 
     var baseURL: URL {
@@ -57,7 +57,7 @@ internal struct TraceRequest: Request {
     init?(
         app: KarteApp,
         account: Account,
-        action: ActionProtocol,
+        action: any ActionProtocol,
         image: Data?
     ) {
         guard let appInfo = app.appInfo else {
@@ -110,7 +110,7 @@ extension TraceRequest {
         var visitorId: String
         var values: Values
 
-        init(action: ActionProtocol, appInfo: AppInfo, visitorId: String) {
+        init(action: any ActionProtocol, appInfo: AppInfo, visitorId: String) {
             self.os = "iOS"
             self.visitorId = visitorId
             self.values = Values(action: action, appInfo: appInfo)
@@ -127,7 +127,7 @@ extension TraceRequest.PartData {
         var targetText: String?
         var appInfo: AppInfo
 
-        init(action: ActionProtocol, appInfo: AppInfo) {
+        init(action: any ActionProtocol, appInfo: AppInfo) {
             self.action = action.action
             self.actionId = action.actionId
             self.view = action.screenName

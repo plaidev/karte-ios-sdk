@@ -28,7 +28,7 @@ internal protocol IAMWebViewDelegate: AnyObject {
 internal class IAMWebView: WKWebView {
     var sceneId: SceneId
     var contentUrl: URL
-    weak var delegate: IAMWebViewDelegate?
+    weak var delegate: (any IAMWebViewDelegate)?
 
     private var responses: [[String: JSONValue]] = []
     private var views: [[String: JSONValue]] = []
@@ -414,12 +414,12 @@ extension IAMWebView: WKNavigationDelegate {
     }
 
     // swiftlint:disable:next implicitly_unwrapped_optional
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: any Error) {
         Logger.error(tag: .inAppMessaging, message: "WebView did fail navigation: \(error.localizedDescription)")
         handleNavigationFailure()
     }
 
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) {
         Logger.error(tag: .inAppMessaging, message: "WebView did fail provisional navigation: \(error.localizedDescription)")
         handleNavigationFailure()
     }

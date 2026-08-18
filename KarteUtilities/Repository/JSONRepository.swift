@@ -17,13 +17,13 @@
 import Foundation
 
 public struct JSONRepository: Repository {
-    var dataSource: DataSource
+    var dataSource: any DataSource
 
     public var isExist: Bool {
         dataSource.isExist
     }
 
-    public init(dataSource: DataSource) {
+    public init(dataSource: any DataSource) {
         self.dataSource = dataSource
     }
 

@@ -28,7 +28,7 @@ internal class SafeTimer {
     private let queue: DispatchQueue
     private var state: State = .suspended
 
-    private lazy var timer: DispatchSourceTimer = {
+    private lazy var timer: any DispatchSourceTimer = {
         let tmr = DispatchSource.makeTimerSource(flags: [], queue: queue)
         tmr.schedule(deadline: .now() + timeInterval, repeating: timeInterval)
         tmr.setEventHandler { [weak self] in

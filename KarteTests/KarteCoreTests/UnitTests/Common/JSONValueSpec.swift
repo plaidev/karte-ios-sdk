@@ -52,7 +52,7 @@ final class JSONValueSpec: XCTestCase {
             ]
         ].mapValues { $0.jsonValue }
 
-        let ext: [String: JSONConvertible] = [
+        let ext: [String: any JSONConvertible] = [
             "f1": [
                 "f1a": [
                     "f1a1": "f1a1v2",
@@ -107,7 +107,7 @@ final class JSONValueSpec: XCTestCase {
             ]
         ].mapValues { $0.jsonValue }
 
-        let ext: [String: JSONConvertible] = [
+        let ext: [String: any JSONConvertible] = [
             "f1": [
                 "f1a": [
                     "f1a1": "f1a1v2",

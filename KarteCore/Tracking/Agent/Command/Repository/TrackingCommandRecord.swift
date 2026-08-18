@@ -25,7 +25,7 @@ internal struct TrackingCommandRecord {
     var createdAt: Date
     var updatedAt: Date
 
-    var parameters: [SQLiteValue] {
+    var parameters: [any SQLiteValue] {
         [
             commandId,
             processId,
@@ -52,7 +52,7 @@ internal struct TrackingCommandRecord {
         return record
     }
 
-    static func from(row: [String: SQLiteValue?]) -> TrackingCommandRecord? {
+    static func from(row: [String: (any SQLiteValue)?]) -> TrackingCommandRecord? {
         guard let commandId = row["command_id"] as? String else {
             return nil
         }

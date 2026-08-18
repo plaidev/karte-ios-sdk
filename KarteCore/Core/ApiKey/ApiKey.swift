@@ -27,13 +27,13 @@ internal struct ApiKey: Codable {
         self.value = value
     }
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         let appkey = try container.decode(String.self)
         self.value = appkey
     }
 
-    func encode(to encoder: Encoder) throws {
+    func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(value)
     }

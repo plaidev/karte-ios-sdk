@@ -27,7 +27,7 @@ internal class RemoteNotificationProxy: NSObject {
     var isEnabled = true
 
     // swiftlint:disable identifier_name
-    private let applicationDidReceiveRemoteNotificationFetchCompletionHandlerSelector = #selector(UIApplicationDelegate.application(_:didReceiveRemoteNotification:fetchCompletionHandler:))
+    private let applicationDidReceiveRemoteNotificationFetchCompletionHandlerSelector = #selector((any UIApplicationDelegate).application(_:didReceiveRemoteNotification:fetchCompletionHandler:))
     private let userNotificationCenterDidReceiveNotificationResponseWithCompletionHandlerSelectorString = "userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:"
     // swiftlint:enable identifier_name
 

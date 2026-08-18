@@ -21,11 +21,11 @@ internal class TrackingAgent {
     static let trackingAgentHasNoCommandsNotification = Notification.Name("io.karte.tracking.agent.commands.empty")
 
     private let queue: DispatchQueue
-    private let repository: TrackingCommandRepository
+    private let repository: any TrackingCommandRepository
     private let circuitBreaker: CircuitBreaker
 
-    private var defaultTrackingCommandExecutor: TrackingCommandExecutor
-    private var retryTrackingCommandExecutor: TrackingCommandExecutor
+    private var defaultTrackingCommandExecutor: any TrackingCommandExecutor
+    private var retryTrackingCommandExecutor: any TrackingCommandExecutor
     private var backgroundTask: BackgroundTask
 
     init(app: KarteApp) {
@@ -35,7 +35,7 @@ internal class TrackingAgent {
         )
         TrackClient.shared.configure(app: app, callbackQueue: queue)
 
-        let repository: TrackingCommandRepository = Resolver.resolve()
+        let repository: any TrackingCommandRepository = Resolver.resolve()
 
         self.queue = queue
         self.repository = repository
@@ -96,12 +96,12 @@ private extension TrackingAgent {
 }
 
 extension TrackingAgent: TrackingCommandExecutorDelegate {
-    func trackingCommandExecutor(_ executor: TrackingCommandExecutor, didCompleteCommand command: TrackingCommand) {
+    func trackingCommandExecutor(_ executor: any TrackingCommandExecutor, didCompleteCommand command: TrackingCommand) {
         command.task?.resolve()
         circuitBreaker.reset()
     }
 
-    func trackingCommandExecutor(_ executor: TrackingCommandExecutor, didFailCommand command: TrackingCommand) {
+    func trackingCommandExecutor(_ executor: any TrackingCommandExecutor, didFailCommand command: TrackingCommand) {
         circuitBreaker.countFailure()
         var command = command
         command.task?.reject()
@@ -120,7 +120,7 @@ extension TrackingAgent: TrackingCommandExecutorDelegate {
         }
     }
 
-    func trackingCommandExecutorDidExecuteCommands(_ executor: TrackingCommandExecutor) {
+    func trackingCommandExecutorDidExecuteCommands(_ executor: any TrackingCommandExecutor) {
         guard repository.unprocessedCommandCount == 0 else {
             return
         }
@@ -153,7 +153,7 @@ extension Resolver {
     static func registerTrackingCommandRepository() {
         register {
             let database = SQLiteDatabase(name: "karte.sqlite")
-            return DefaultTrackingCommandRepository(database) as TrackingCommandRepository
+            return DefaultTrackingCommandRepository(database) as any TrackingCommandRepository
         }
     }
 }

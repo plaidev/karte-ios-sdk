@@ -23,7 +23,7 @@ public enum JSONConvertibleConverter {
     ///
     /// - Parameter value: 変換対象の配列
     /// - Returns: 変換済みの配列を返します。
-    public static func convert(_ value: [Any]) -> [JSONConvertible] {
+    public static func convert(_ value: [Any]) -> [any JSONConvertible] {
         value.map { convert($0) }
     }
 
@@ -32,7 +32,7 @@ public enum JSONConvertibleConverter {
     ///
     /// - Parameter value: 変換対象の辞書
     /// - Returns: 変換済みの辞書を返します。
-    public static func convert(_ value: [String: Any]) -> [String: JSONConvertible] {
+    public static func convert(_ value: [String: Any]) -> [String: any JSONConvertible] {
         value.mapValues { convert($0) }
     }
 
@@ -41,7 +41,7 @@ public enum JSONConvertibleConverter {
     ///
     /// - Parameter value: 変換対象の辞書
     /// - Returns: 変換済みの辞書を返します。
-    public static func convert(_ value: [AnyHashable: Any]) -> [String: JSONConvertible] {
+    public static func convert(_ value: [AnyHashable: Any]) -> [String: any JSONConvertible] {
         value
             .keys
             .compactMap { $0 as? String }
@@ -60,7 +60,7 @@ public enum JSONConvertibleConverter {
     ///
     /// - Parameter value: 変換対象の値
     /// - Returns: 変換済みの値を返します。
-    public static func convert(_ value: Any) -> JSONConvertible {
+    public static func convert(_ value: Any) -> any JSONConvertible {
         switch value {
         case let string as String:
             return string
@@ -82,7 +82,7 @@ public enum JSONConvertibleConverter {
         }
     }
 
-    private static func convert(_ number: NSNumber) -> JSONConvertible {
+    private static func convert(_ number: NSNumber) -> any JSONConvertible {
         // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html
         let objCType = String(cString: number.objCType)
         switch objCType {

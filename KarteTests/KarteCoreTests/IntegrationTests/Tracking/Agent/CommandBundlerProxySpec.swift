@@ -42,7 +42,7 @@ final class CommandBundlerProxySpec: XCTestCase {
         Resolver.root = Resolver.submock
         let currentProvider = provider!
         Resolver.root.register {
-            currentProvider as CommandBundlerApplicationStateProvider
+            currentProvider as any CommandBundlerApplicationStateProvider
         }
     }
 

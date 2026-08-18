@@ -80,7 +80,7 @@ final class JSONConvertibleConverterSpec: XCTestCase {
 
     func testConvertNSArray() {
         let array = NSArray(objects: "foo", true, 1, UInt.max, 1.1, Date(timeIntervalSince1970: 1), [1], ["foo": "bar"], Data())
-        let v = JSONConvertibleConverter.convert(array) as! [JSONConvertible]
+        let v = JSONConvertibleConverter.convert(array) as! [any JSONConvertible]
         XCTAssertEqual(v[0] as? String, "foo", "nsarray[0] string")
         XCTAssertEqual(v[1] as? Bool, true, "nsarray[1] bool")
         XCTAssertEqual(v[2] as? Int, 1, "nsarray[2] int")
@@ -157,7 +157,7 @@ final class JSONConvertibleConverterSpec: XCTestCase {
             ],
             "null": NSNull()
         ])
-        let v = JSONConvertibleConverter.convert(dictionary) as! [String: JSONConvertible]
+        let v = JSONConvertibleConverter.convert(dictionary) as! [String: any JSONConvertible]
         XCTAssertEqual(v["string"] as? String, "foo", "nsdict string")
         XCTAssertEqual(v["bool"] as? Bool, true, "nsdict bool")
         XCTAssertEqual(v["int"] as? Int, 1, "nsdict int")

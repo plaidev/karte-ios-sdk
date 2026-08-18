@@ -50,7 +50,7 @@ internal class ActionTracer {
 }
 
 extension ActionTracer {
-    internal func trace(account: Account, action: ActionProtocol, image: UIImage?) {
+    internal func trace(account: Account, action: any ActionProtocol, image: UIImage?) {
         let data = image?.jpegData(compressionQuality: 0.7)
         guard let request = TraceRequest(app: app, account: account, action: action, image: data) else {
             return
@@ -68,7 +68,7 @@ extension ActionTracer {
 }
 
 extension ActionTracer: ActionReceiver {
-    func receive(action: ActionProtocol) {
+    func receive(action: any ActionProtocol) {
         guard let pairingClient = pairingClient, pairingClient.isPaired else {
             Logger.verbose(tag: .visualTracking, message: "Not paired.")
             return

@@ -17,14 +17,14 @@
 import Foundation
 
 internal protocol TrackingCommandExecutorDelegate: AnyObject {
-    func trackingCommandExecutor(_ executor: TrackingCommandExecutor, didCompleteCommand command: TrackingCommand)
-    func trackingCommandExecutor(_ executor: TrackingCommandExecutor, didFailCommand command: TrackingCommand)
-    func trackingCommandExecutorDidExecuteCommands(_ executor: TrackingCommandExecutor)
+    func trackingCommandExecutor(_ executor: any TrackingCommandExecutor, didCompleteCommand command: TrackingCommand)
+    func trackingCommandExecutor(_ executor: any TrackingCommandExecutor, didFailCommand command: TrackingCommand)
+    func trackingCommandExecutorDidExecuteCommands(_ executor: any TrackingCommandExecutor)
 }
 
 internal protocol TrackingCommandExecutor {
-    var delegate: TrackingCommandExecutorDelegate? { get set }
-    var repository: TrackingCommandRepository { get }
+    var delegate: (any TrackingCommandExecutorDelegate)? { get set }
+    var repository: any TrackingCommandRepository { get }
 
     func addCommand(_ command: TrackingCommand)
 }

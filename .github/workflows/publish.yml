@@ -40,21 +40,12 @@ jobs:
         with:
           ruby-version: '3.4'
           bundler-cache: true # Runs 'bundle install' and caches installed gems automatically
-      - name: Cache CocoaPods
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-        with:
-          path: Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-      - name: Install CocoaPods dependencies
-        run: bundle exec pod install --verbose
       - name: Podspec lint
         run: bundle exec pod spec lint *.podspec --quick
       - name: Run tests
         run: |
           DESTINATION="platform=iOS Simulator,name=${{ env.DEVICE_NAME }},OS=${{ env.IOS_VERSION }}"
-          xcodebuild test -workspace Karte.xcworkspace \
+          xcodebuild test -project Karte.xcodeproj \
                           -scheme KarteTests \
                           -destination "${DESTINATION}" \
                           -derivedDataPath DerivedData \
@@ -105,9 +96,6 @@ jobs:
           # NOTE: bundler-cache is disabled for clean builds on release
       - name: Install gems
         run: bundle install
-      - name: Install CocoaPods dependencies
-        # NOTE: Caching is disabled for clean builds on release
-        run: bundle exec pod install --verbose
       - name: Configure Git
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}

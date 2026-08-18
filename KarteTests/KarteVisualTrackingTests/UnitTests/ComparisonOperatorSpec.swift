@@ -14,143 +14,43 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteVisualTracking
 
-class ComparisonOperatorSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a comparison operator") {
-            describe("its eq") {
-                var op: ComparisonOperator!
-                
-                beforeEach {
-                    op = .eq("test")
-                }
-                
-                context("when passing `test`") {
-                    it("return true") {
-                        expect(op.match(value: "test")).to(beTrue())
-                    }
-                }
-                
-                context("when passing `TEST`") {
-                    it("return false") {
-                        expect(op.match(value: "TEST")).to(beFalse())
-                    }
-                }
-                
-                context("when passing `foo`") {
-                    it("return false") {
-                        expect(op.match(value: "foo")).to(beFalse())
-                    }
-                }
-            }
-            
-            describe("its ne") {
-                var op: ComparisonOperator!
-                
-                beforeEach {
-                    op = .ne("test")
-                }
-                
-                context("when passing `test`") {
-                    it("return false") {
-                        expect(op.match(value: "test")).to(beFalse())
-                    }
-                }
-                
-                context("when passing `TEST`") {
-                    it("return true") {
-                        expect(op.match(value: "TEST")).to(beTrue())
-                    }
-                }
-                
-                context("when passing `foo`") {
-                    it("return true") {
-                        expect(op.match(value: "foo")).to(beTrue())
-                    }
-                }
-            }
-            
-            describe("its startsWith") {
-                var op: ComparisonOperator!
-                
-                beforeEach {
-                    op = .startsWith("te")
-                }
-                
-                context("when passing `test`") {
-                    it("return true") {
-                        expect(op.match(value: "test")).to(beTrue())
-                    }
-                }
-                
-                context("when passing `TEST`") {
-                    it("return false") {
-                        expect(op.match(value: "TEST")).to(beFalse())
-                    }
-                }
-                
-                context("when passing `foo`") {
-                    it("return false") {
-                        expect(op.match(value: "foo")).to(beFalse())
-                    }
-                }
-            }
-            
-            describe("its endsWith") {
-                var op: ComparisonOperator!
-                
-                beforeEach {
-                    op = .endsWith("st")
-                }
-                
-                context("when passing `test`") {
-                    it("return true") {
-                        expect(op.match(value: "test")).to(beTrue())
-                    }
-                }
-                
-                context("when passing `TEST`") {
-                    it("return false") {
-                        expect(op.match(value: "TEST")).to(beFalse())
-                    }
-                }
-                
-                context("when passing `foo`") {
-                    it("return false") {
-                        expect(op.match(value: "foo")).to(beFalse())
-                    }
-                }
-            }
-            
-            describe("its contains") {
-                var op: ComparisonOperator!
-                
-                beforeEach {
-                    op = .contains("es")
-                }
-                
-                context("when passing `test`") {
-                    it("return true") {
-                        expect(op.match(value: "test")).to(beTrue())
-                    }
-                }
-                
-                context("when passing `TEST`") {
-                    it("return false") {
-                        expect(op.match(value: "TEST")).to(beFalse())
-                    }
-                }
-                
-                context("when passing `foo`") {
-                    it("return false") {
-                        expect(op.match(value: "foo")).to(beFalse())
-                    }
-                }
-            }
-        }
+class ComparisonOperatorSpec: XCTestCase {
+
+    func testEq() {
+        let op: ComparisonOperator = .eq("test")
+        XCTAssertTrue(op.match(value: "test"), "return true when passing `test`")
+        XCTAssertFalse(op.match(value: "TEST"), "return false when passing `TEST`")
+        XCTAssertFalse(op.match(value: "foo"), "return false when passing `foo`")
+    }
+
+    func testNe() {
+        let op: ComparisonOperator = .ne("test")
+        XCTAssertFalse(op.match(value: "test"), "return false when passing `test`")
+        XCTAssertTrue(op.match(value: "TEST"), "return true when passing `TEST`")
+        XCTAssertTrue(op.match(value: "foo"), "return true when passing `foo`")
+    }
+
+    func testStartsWith() {
+        let op: ComparisonOperator = .startsWith("te")
+        XCTAssertTrue(op.match(value: "test"), "return true when passing `test`")
+        XCTAssertFalse(op.match(value: "TEST"), "return false when passing `TEST`")
+        XCTAssertFalse(op.match(value: "foo"), "return false when passing `foo`")
+    }
+
+    func testEndsWith() {
+        let op: ComparisonOperator = .endsWith("st")
+        XCTAssertTrue(op.match(value: "test"), "return true when passing `test`")
+        XCTAssertFalse(op.match(value: "TEST"), "return false when passing `TEST`")
+        XCTAssertFalse(op.match(value: "foo"), "return false when passing `foo`")
+    }
+
+    func testContains() {
+        let op: ComparisonOperator = .contains("es")
+        XCTAssertTrue(op.match(value: "test"), "return true when passing `test`")
+        XCTAssertFalse(op.match(value: "TEST"), "return false when passing `TEST`")
+        XCTAssertFalse(op.match(value: "foo"), "return false when passing `foo`")
     }
 }

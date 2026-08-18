@@ -14,12 +14,10 @@
 //  limitations under the License.
 //
 import XCTest
-import Quick
-import Nimble
 @testable import KarteInbox
 
 final class InboxSpec: XCTestCase {
-    func test_fetchMessagesShouldBeParsedWithoutError() async throws {
+    func testFetchMessagesShouldBeParsedWithoutError() async throws {
         let successResponse = StubBuilder(test: self, resource: .inbox_success).build()
         stub(http(.post, path: "/v2native/inbox/fetchMessages"), successResponse)
         guard let res = await Inbox.fetchMessages() else {
@@ -27,53 +25,51 @@ final class InboxSpec: XCTestCase {
             return
         }
 
-        expect(res.count).to(equal(2))
-        expect(res[0].title).to(equal("title1"))
-        expect(res[0].body).to(equal("body1"))
-        expect(res[0].campaignId).to(equal("dummy_campaignId_1"))
-        expect(res[0].messageId).to(equal("dummy_messageId_1"))
-        expect(res[0].timestamp).notTo(beNil())
-        expect(res[0].attachmentUrl).to(beEmpty())
-        expect(res[0].linkUrl).to(beEmpty())
-        expect(res[0].isRead).to(beTrue())
+        XCTAssertEqual(res.count, 2, "message count")
+        XCTAssertEqual(res[0].title, "title1", "res[0].title")
+        XCTAssertEqual(res[0].body, "body1", "res[0].body")
+        XCTAssertEqual(res[0].campaignId, "dummy_campaignId_1", "res[0].campaignId")
+        XCTAssertEqual(res[0].messageId, "dummy_messageId_1", "res[0].messageId")
+        XCTAssertTrue(res[0].attachmentUrl.isEmpty, "res[0].attachmentUrl")
+        XCTAssertTrue(res[0].linkUrl.isEmpty, "res[0].linkUrl")
+        XCTAssertTrue(res[0].isRead, "res[0].isRead")
 
-        expect(res[1].title).to(equal("title2"))
-        expect(res[1].body).to(equal("body2"))
-        expect(res[1].campaignId).to(equal("dummy_campaignId_2"))
-        expect(res[1].messageId).to(equal("dummy_messageId_2"))
-        expect(res[1].timestamp).notTo(beNil())
-        expect(res[1].attachmentUrl).to(beEmpty())
-        expect(res[1].linkUrl).to(beEmpty())
-        expect(res[1].isRead).to(beFalse())
+        XCTAssertEqual(res[1].title, "title2", "res[1].title")
+        XCTAssertEqual(res[1].body, "body2", "res[1].body")
+        XCTAssertEqual(res[1].campaignId, "dummy_campaignId_2", "res[1].campaignId")
+        XCTAssertEqual(res[1].messageId, "dummy_messageId_2", "res[1].messageId")
+        XCTAssertTrue(res[1].attachmentUrl.isEmpty, "res[1].attachmentUrl")
+        XCTAssertTrue(res[1].linkUrl.isEmpty, "res[1].linkUrl")
+        XCTAssertFalse(res[1].isRead, "res[1].isRead")
     }
 
-    func test_customPayloadShouldBeParsedProperly() async throws {
+    func testCustomPayloadShouldBeParsedProperly() async throws {
         let successResponse = StubBuilder(test: self, resource: .inbox_success).build()
         stub(http(.post, path: "/v2native/inbox/fetchMessages"), successResponse)
         guard let res = await Inbox.fetchMessages(), res.count == 2 else {
             XCTFail("Should never be executed")
             return
         }
-        
-        let m1 = res[0]
-        expect(m1.customPayload["keyStr"] as? String).to(equal("Dummy"))
-        expect(m1.customPayload["keyInt"] as? Int).to(equal(10))
-        expect(m1.customPayload["keyDouble"] as? Double).to(equal(1.11))
-        expect(m1.customPayload["keyArray"] as? Array).to(equal([1, 2, 3]))
-        expect(m1.customPayload["keyNull"]).to(beNil())
-        
-        guard let nestedMap = res[0].customPayload["keyMap"] as? Dictionary<String, Any> else {
-            XCTFail("Should never be executed: nestedMap in customPayload must be parsed: \(m1.customPayload)")
+
+        let msg1 = res[0]
+        XCTAssertEqual(msg1.customPayload["keyStr"] as? String, "Dummy", "keyStr")
+        XCTAssertEqual(msg1.customPayload["keyInt"] as? Int, 10, "keyInt")
+        XCTAssertEqual(msg1.customPayload["keyDouble"] as? Double, 1.11, "keyDouble")
+        XCTAssertEqual(msg1.customPayload["keyArray"] as? [Int], [1, 2, 3], "keyArray")
+        XCTAssertNil(msg1.customPayload["keyNull"] ?? nil, "keyNull")
+
+        guard let nestedMap = res[0].customPayload["keyMap"] as? [String: Any] else {
+            XCTFail("Should never be executed: nestedMap in customPayload must be parsed: \(msg1.customPayload)")
             return
         }
-        expect(nestedMap["prop1"] as? String).to(equal("hoge"))
-        expect(nestedMap["prop2"] as? Int).to(equal(0))
+        XCTAssertEqual(nestedMap["prop1"] as? String, "hoge", "keyMap.prop1")
+        XCTAssertEqual(nestedMap["prop2"] as? Int, 0, "keyMap.prop2")
 
-        let m2 = res[1]
-        expect(m2.customPayload.count).to(equal(0))
+        let msg2 = res[1]
+        XCTAssertEqual(msg2.customPayload.count, 0, "msg2.customPayload count")
     }
 
-    func test_fetchMessagesShouldReturnNilWith400Errors() async throws {
+    func testFetchMessagesShouldReturnNilWith400Errors() async throws {
         let badResponse400 = StubBuilder(test: self, resource: .failure_invalid_request).build(status: 400)
         let badResponse401 = StubBuilder(test: self, resource: .failure_invalid_request).build(status: 401)
         let badResponse403 = StubBuilder(test: self, resource: .failure_invalid_request).build(status: 403)
@@ -81,52 +77,52 @@ final class InboxSpec: XCTestCase {
 
         stub(http(.post, path: "/v2native/inbox/fetchMessages"), badResponse400)
         let res1 = await Inbox.fetchMessages()
-        expect(res1).to(beNil())
+        XCTAssertNil(res1, "400 returns nil")
 
         stub(http(.post, path: "/v2native/inbox/fetchMessages"), badResponse401)
         let res2 = await Inbox.fetchMessages()
-        expect(res2).to(beNil())
+        XCTAssertNil(res2, "401 returns nil")
 
         stub(http(.post, path: "/v2native/inbox/fetchMessages"), badResponse403)
         let res3 = await Inbox.fetchMessages()
-        expect(res3).to(beNil())
+        XCTAssertNil(res3, "403 returns nil")
 
         stub(http(.post, path: "/v2native/inbox/fetchMessages"), badResponse404)
         let res4 = await Inbox.fetchMessages()
-        expect(res4).to(beNil())
+        XCTAssertNil(res4, "404 returns nil")
     }
 
-    func test_fetchMessagesShouldReturnNilwith500Error() async throws {
+    func testFetchMessagesShouldReturnNilWith500Error() async throws {
         let badResponse500 = StubBuilder(test: self, resource: .failure_server_error).build()
         stub(http(.post, path: "/v2native/inbox/fetchMessages"), badResponse500)
         let res = await Inbox.fetchMessages()
-        expect(res).to(beNil())
+        XCTAssertNil(res, "500 returns nil")
     }
 
-    func test_fetchMessagesShouldReturnNilWithInvalidData() async {
-        let badResponse = """
+    func testFetchMessagesShouldReturnNilWithInvalidData() async {
+        let badResponse = Data("""
         {
             "messages": [
                 { "wrong_key": "invalid value" }
             ]
         }
-        """.data(using: .utf8)!
+        """.utf8)
         stub(http(.post, path: "/v2native/inbox/fetchMessages"), jsonData(badResponse))
         let res = await Inbox.fetchMessages()
-        expect(res).to(beNil())
+        XCTAssertNil(res, "invalid data returns nil")
     }
 
-    func test_openMessagesShouldReturnTrueIfResponseIsSuccess() async throws {
+    func testOpenMessagesShouldReturnTrueIfResponseIsSuccess() async throws {
         let successResponse = StubBuilder(test: self, resource: .inbox_success_empty).build()
         stub(http(.post, path: "/v2native/inbox/openMessages"), successResponse)
         let res = await Inbox.openMessages(messageIds: [])
-        expect(res).to(beTrue())
+        XCTAssertTrue(res, "openMessages returns true on success")
     }
 
-    func test_openMessagesShouldReturnFalseIfResponseIsError() async throws {
+    func testOpenMessagesShouldReturnFalseIfResponseIsError() async throws {
         let badResponse = StubBuilder(test: self, resource: .failure_server_error).build()
         stub(http(.post, path: "/v2native/inbox/openMessages"), badResponse)
         let res = await Inbox.openMessages(messageIds: [])
-        expect(res).to(beFalse())
+        XCTAssertFalse(res, "openMessages returns false on error")
     }
 }

@@ -17,7 +17,7 @@
 import Foundation
 
 internal struct TrackEventRejectionFilter {
-    var ruleContainer: [String: [String: [TrackEventRejectionFilterRule]]] = [:]
+    var ruleContainer: [String: [String: [any TrackEventRejectionFilterRule]]] = [:]
 
     func reject(event: Event) -> Bool {
         guard let libraryName = event.libraryName else {
@@ -32,7 +32,7 @@ internal struct TrackEventRejectionFilter {
         return rules.contains { $0.reject(event: event) }
     }
 
-    mutating func add(rule: TrackEventRejectionFilterRule) {
+    mutating func add(rule: any TrackEventRejectionFilterRule) {
         var subRuleContainer = ruleContainer[rule.libraryName] ?? [:]
         var rules = subRuleContainer[rule.eventName.rawValue] ?? []
         rules.append(rule)

@@ -28,7 +28,7 @@ public class BackgroundTask {
     private var backgroundTaskID = UIBackgroundTaskIdentifier.invalid
 
     /// `BackgroundTaskDelegate` インスタンスを保持します。
-    public weak var delegate: BackgroundTaskDelegate?
+    public weak var delegate: (any BackgroundTaskDelegate)?
 
     /// イニシャライザ
     public init() {

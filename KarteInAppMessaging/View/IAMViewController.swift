@@ -35,7 +35,7 @@ internal class IAMViewController: UIViewController {
         }
 
         let windowMask: UIInterfaceOrientationMask
-        if delegate.responds(to: #selector(UIApplicationDelegate.application(_:supportedInterfaceOrientationsFor:))) {
+        if delegate.responds(to: #selector((any UIApplicationDelegate).application(_:supportedInterfaceOrientationsFor:))) {
             // swiftlint:disable:next force_unwrapping
             windowMask = delegate.application!(
                 UIApplication.shared,

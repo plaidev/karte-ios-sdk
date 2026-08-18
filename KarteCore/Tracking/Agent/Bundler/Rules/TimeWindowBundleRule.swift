@@ -34,7 +34,7 @@ internal class DispatchQueueScheduler: AsyncScheduler {
 
 internal class TimeWindowBundleRule: AsyncCommandBundleRule {
     let interval: DispatchTimeInterval
-    let scheduler: AsyncScheduler
+    let scheduler: any AsyncScheduler
     var isImmediatelyBundlable = true
 
     init(queue: DispatchQueue, interval: DispatchTimeInterval) {
@@ -42,7 +42,7 @@ internal class TimeWindowBundleRule: AsyncCommandBundleRule {
         self.scheduler = DispatchQueueScheduler(queue: queue)
     }
 
-    init(scheduler: AsyncScheduler, interval: DispatchTimeInterval) {
+    init(scheduler: any AsyncScheduler, interval: DispatchTimeInterval) {
         self.interval = interval
         self.scheduler = scheduler
     }

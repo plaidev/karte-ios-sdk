@@ -60,7 +60,7 @@ extension CommandHandler: DeepLinkModule {
     }
 
     public func handle(app: UIApplication, open url: URL) -> Bool {
-        let commands: [Command] = [
+        let commands: [any Command] = [
             RequestReviewCommand(),
             OpenSettingsCommand(),
             RequestATTCommand()

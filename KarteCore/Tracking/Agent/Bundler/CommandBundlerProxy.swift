@@ -41,7 +41,7 @@ internal class StateCommandBundlerProxy: CommandBundlerProxy {
     var bundler: CommandBundler?
 
     @Injected
-    var provider: CommandBundlerApplicationStateProvider
+    var provider: any CommandBundlerApplicationStateProvider
 
     private let queue: DispatchQueue
 
@@ -66,7 +66,7 @@ internal class StateCommandBundlerProxy: CommandBundlerProxy {
 }
 
 extension StateCommandBundlerProxy: CommandBundlerApplicationStateProviderDelegate {
-    func commandBundlerApplicationStateProvider(_ provider: CommandBundlerApplicationStateProvider, didChangeApplicationState applicationState: UIApplication.State) {
+    func commandBundlerApplicationStateProvider(_ provider: any CommandBundlerApplicationStateProvider, didChangeApplicationState applicationState: UIApplication.State) {
         queue.async { [weak self] in
             self?.handleApplicationStateChange(applicationState)
         }
@@ -90,6 +90,6 @@ private extension StateCommandBundlerProxy {
 
 extension Resolver {
     static func registerApplicationStateProvider() {
-        register { DefaultCommandBundlerApplicationStateProvider() as CommandBundlerApplicationStateProvider }
+        register { DefaultCommandBundlerApplicationStateProvider() as any CommandBundlerApplicationStateProvider }
     }
 }

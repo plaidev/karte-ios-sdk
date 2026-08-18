@@ -14,144 +14,91 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 import KarteUtilities
 @testable import KarteCore
 @testable import KarteVisualTracking
 
 @MainActor
-class DefinitionsRequestForDynamicFieldSpec: AsyncSpec {
+class DefinitionsRequestForDynamicFieldSpec: XCTestCase {
 
-    override class func spec() {
-        var configuration: KarteCore.Configuration!
-        var builder: Builder!
+    private func loadDefinitions() -> (definitions: AutoTrackDefinition?, request: URLRequest?) {
+        let configuration = Configuration { configuration in
+            configuration.isSendInitializationEventEnabled = false
+        }
+        let builder = StubBuilder(spec: Self.self, resource: .vt_definitions_with_dynamic_fields).build()
 
-        beforeSuite {
-            configuration = Configuration { (configuration) in
-                configuration.isSendInitializationEventEnabled = false
-            }
-            builder = StubBuilder(spec: self, resource: .vt_definitions_with_dynamic_fields).build()
+        nonisolated(unsafe) var capturedRequest: URLRequest?
+        let mockStub = HTTPStubProtocol.addStub(matcher: uri("/v0/native/auto-track/definitions"), builder: { r in
+            capturedRequest = r
+            return builder(r)
+        })
+        defer {
+            HTTPStubProtocol.removeStub(mockStub)
         }
 
-        describe("a definition get") {
-            var request: URLRequest!
-            var mockStub: Stub!
-            nonisolated(unsafe) var definitions: AutoTrackDefinition?
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
-            beforeEach {
-                mockStub = HTTPStubProtocol.addStub(matcher: uri("/v0/native/auto-track/definitions"), builder: {r in
-                    request = r
-                    return builder(request)
-                })
-                KarteApp.setup(appKey: APP_KEY, configuration: configuration)
-
-                await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-                    VisualTrackingManager.shared.tracker?.refreshDefinitions {
-                        continuation.resume()
-                    }
-                }
-                definitions = VisualTrackingManager.shared.tracker?.definitions
-            }
-
-            afterEach {
-                if mockStub != nil {
-                    HTTPStubProtocol.removeStub(mockStub)
-                }
-            }
-
-            describe("its request") {
-                it("has `X-KARTE-Auto-Track-OS` header") {
-                    expect(request.allHTTPHeaderFields?.keys.contains("X-KARTE-Auto-Track-OS")).to(beTrue())
-                }
-
-                it("`X-KARTE-Auto-Track-OS` header value is `iOS`") {
-                    expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-OS"]).to(equal("iOS"))
-                }
-
-                it("has `X-KARTE-Auto-Track-If-Modified-Since` header") {
-                    expect(request.allHTTPHeaderFields?.keys.contains("X-KARTE-Auto-Track-If-Modified-Since")).to(beTrue())
-                }
-
-                it("`has X-KARTE-Auto-Track-If-Modified-Since` header that value is `0`") {
-                    expect(request.allHTTPHeaderFields?["X-KARTE-Auto-Track-If-Modified-Since"]).to(equal("0"))
-                }
-            }
-
-            describe("its definitions") {
-                it("is not nil") {
-                    expect(definitions).toNot(beNil())
-                }
-
-                it("only has valid trigger") {
-                    expect(definitions?.definitions?.first?.triggers.count).to(equal(4))
-                }
-
-                it("only has valid conditions") {
-                    if case let .and(c) = definitions?.definitions?.first?.triggers.first?.condition {
-                        expect(c.count).to(equal(2))
-                    } else {
-                        fail()
-                    }
-                }
-            }
-
-            describe("its definitions with dynamic fields") {
-                nonisolated(unsafe) var window: UIWindow!
-                nonisolated(unsafe) var view1: UIView!
-                nonisolated(unsafe) var view2: UIView!
-                nonisolated(unsafe) var view3: UIView!
-                nonisolated(unsafe) var label: UILabel!
-
-                beforeEach {
-                    await MainActor.run {
-                        window = UIWindow()
-                        view1 = UIView()
-                        view2 = UIView()
-                        view3 = UIView()
-                        label = UILabel()
-                        label.text = "test"
-                        view1.addSubview(view2)
-                        view1.addSubview(view3)
-                        view1.addSubview(label)
-                        window.addSubview(view1)
-                    }
-                }
-
-                it("returns valid dynamic fields") {
-                    let dynamicFieldsCount = definitions?.definitions?.first?.triggers.first?.dynamicFields?.count
-                    expect(dynamicFieldsCount).to(equal(4))
-                }
-
-                it("returns valid dynamic values") {
-                    await MainActor.run {
-                        let dynamicValues = definitions?.definitions?.first?.triggers.first?.dynamicValues(window: window)
-                        expect(dynamicValues?.count).to(equal(4))
-                        expect(dynamicValues! as? [String: String]).to(equal(["foo":"test","bar":"test","baz":"test","has_unknown_key":"test"]))
-                    }
-                }
-
-                it("returns invalid dynamic values for trigger 1") {
-                    await MainActor.run {
-                        let dynamicValues = definitions?.definitions?.first?.triggers[1].dynamicValues(window: window)
-                        expect(dynamicValues).to(beNil())
-                    }
-                }
-
-                it("returns invalid dynamic values for trigger 2") {
-                    await MainActor.run {
-                        let dynamicValues = definitions?.definitions?.first?.triggers[2].dynamicValues(window: window)
-                        expect(dynamicValues).to(beNil())
-                    }
-                }
-
-                it("returns invalid dynamic values for trigger 3") {
-                    await MainActor.run {
-                        let dynamicValues = definitions?.definitions?.first?.triggers[3].dynamicValues(window: window)
-                        expect(dynamicValues).to(beNil())
-                    }
-                }
-            }
+        let exp = expectation(description: "refreshDefinitions")
+        VisualTrackingManager.shared.tracker?.refreshDefinitions {
+            exp.fulfill()
         }
+        wait(for: [exp], timeout: 10)
+
+        return (VisualTrackingManager.shared.tracker?.definitions, capturedRequest)
+    }
+
+    func testRequestHeaders() {
+        guard let request = loadDefinitions().request else {
+            XCTFail("request should not be nil")
+            return
+        }
+        let headers = request.allHTTPHeaderFields
+        XCTAssertTrue(headers?.keys.contains("X-KARTE-Auto-Track-OS") ?? false, "has `X-KARTE-Auto-Track-OS` header")
+        XCTAssertEqual(headers?["X-KARTE-Auto-Track-OS"], "iOS", "`X-KARTE-Auto-Track-OS` header value is `iOS`")
+        XCTAssertTrue(headers?.keys.contains("X-KARTE-Auto-Track-If-Modified-Since") ?? false, "has `X-KARTE-Auto-Track-If-Modified-Since` header")
+        XCTAssertEqual(headers?["X-KARTE-Auto-Track-If-Modified-Since"], "0", "`X-KARTE-Auto-Track-If-Modified-Since` header value is `0`")
+    }
+
+    func testDefinitionsRequestAndDefinitions() {
+        guard let definitions = loadDefinitions().definitions else {
+            XCTFail("definitions should not be nil")
+            return
+        }
+        XCTAssertEqual(definitions.definitions?.first?.triggers.count, 4, "only has valid trigger")
+        if case let .and(c) = definitions.definitions?.first?.triggers.first?.condition {
+            XCTAssertEqual(c.count, 2, "only has valid conditions")
+        } else {
+            XCTFail("condition should be .and")
+        }
+    }
+
+    func testDefinitionsWithDynamicFields() {
+        guard let definitions = loadDefinitions().definitions else {
+            XCTFail("definitions should not be nil")
+            return
+        }
+
+        let window = UIWindow()
+        let view1 = UIView()
+        let view2 = UIView()
+        let view3 = UIView()
+        let label = UILabel()
+        label.text = "test"
+        view1.addSubview(view2)
+        view1.addSubview(view3)
+        view1.addSubview(label)
+        window.addSubview(view1)
+
+        let dynamicFieldsCount = definitions.definitions?.first?.triggers.first?.dynamicFields?.count
+        XCTAssertEqual(dynamicFieldsCount, 4, "returns valid dynamic fields")
+
+        let dynamicValues = definitions.definitions?.first?.triggers.first?.dynamicValues(window: window)
+        XCTAssertEqual(dynamicValues?.count, 4, "returns valid dynamic values count")
+        XCTAssertEqual(dynamicValues as? [String: String], ["foo": "test", "bar": "test", "baz": "test", "has_unknown_key": "test"], "returns valid dynamic values")
+
+        XCTAssertNil(definitions.definitions?.first?.triggers[1].dynamicValues(window: window), "returns invalid dynamic values for trigger 1")
+        XCTAssertNil(definitions.definitions?.first?.triggers[2].dynamicValues(window: window), "returns invalid dynamic values for trigger 2")
+        XCTAssertNil(definitions.definitions?.first?.triggers[3].dynamicValues(window: window), "returns invalid dynamic values for trigger 3")
     }
 }

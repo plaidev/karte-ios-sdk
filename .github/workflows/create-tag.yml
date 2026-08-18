@@ -64,12 +64,12 @@ jobs:
         env:
           MODULE: ${{ github.event.inputs.module }}
         run: |
-          PODSPEC="${MODULE}.podspec"
-          VERSION=$(grep -E "s\.version\s*=" "$PODSPEC" | sed -E "s/.*'([^']+)'.*/\1/")
+          XCCONFIG="${MODULE}/Version.xcconfig"
+          VERSION=$(grep -E '^[[:space:]]*MARKETING_VERSION[[:space:]]*=' "$XCCONFIG" | head -1 | sed -E 's/^[^=]*=[[:space:]]*//' | tr -d '[:space:]')
           PREFIX=$(echo "$MODULE" | sed 's/Karte//')
           TAG_NAME="${PREFIX}-${VERSION}"
           echo "name=${TAG_NAME}" >> $GITHUB_OUTPUT
-          echo "Generated tag: ${TAG_NAME} (from ${PODSPEC} version ${VERSION})"
+          echo "Generated tag: ${TAG_NAME} (from ${XCCONFIG} version ${VERSION})"
       - name: Check if tag exists
         env:
           TAG: ${{ steps.tag.outputs.name }}

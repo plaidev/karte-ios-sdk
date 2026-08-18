@@ -36,17 +36,17 @@ public struct PvId: Codable {
         Logger.debug(tag: .core, message: "Generate PvId: \(identifier)")
     }
 
-    public init(from decoder: Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         self.identifier = try container.decode(String.self)
     }
 
     public static func generate() -> PvId {
-        let generator = Resolver.resolve(IdGenerator.self, name: "pv_service.generator")
+        let generator = Resolver.resolve((any IdGenerator).self, name: "pv_service.generator")
         return PvId(generator.generate())
     }
 
-    public func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(identifier)
     }

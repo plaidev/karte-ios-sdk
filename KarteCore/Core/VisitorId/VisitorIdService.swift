@@ -19,10 +19,10 @@ import KarteUtilities
 
 internal class VisitorIdService {
     @Injected(name: "visitor_id_service.generator")
-    var generator: IdGenerator
+    var generator: any IdGenerator
 
     @Injected(name: "visitor_id_service.repository")
-    var repository: Repository
+    var repository: any Repository
 
     @Injected(name: "visitor_id_service.file_url")
     var fileURL: URL
@@ -113,13 +113,13 @@ extension Resolver {
         let fileURL = url.appendingPathComponent("karte.user.json")
 
         register(name: "visitor_id_service.generator") {
-            VisitorIdGenerator() as IdGenerator
+            VisitorIdGenerator() as any IdGenerator
         }
         register(name: "visitor_id_service.repository") {
-            JSONRepository(dataSource: resolve(name: "visitor_id_service.data_source")) as Repository
+            JSONRepository(dataSource: resolve(name: "visitor_id_service.data_source")) as any Repository
         }.scope(cached)
         register(name: "visitor_id_service.data_source") {
-            FileSource(resolve(name: "visitor_id_service.file_url")) as DataSource
+            FileSource(resolve(name: "visitor_id_service.file_url")) as any DataSource
         }.scope(cached)
         register(name: "visitor_id_service.file_url") {
             fileURL

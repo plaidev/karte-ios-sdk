@@ -33,7 +33,7 @@ class SetupSpec: XCTestCase {
         super.setUp()
         session = TrackClientSessionMock()
         Resolver.root = Resolver.submock
-        Resolver.root.register { self.session as TrackClientSession }
+        Resolver.root.register { self.session as any TrackClientSession }
         builder = StubBuilder(spec: Self.self, resource: .empty).build()
     }
 

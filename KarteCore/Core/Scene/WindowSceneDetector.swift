@@ -24,7 +24,7 @@ public struct WindowSceneDetector {
     /// - Parameter application: 通常はUIApplication.sharedが入ります。
     /// - Returns: 永続化識別子の配列
     public static func retrievePersistentIdentifiers(
-        application: UIApplicationProtocol? = UIApplication.shared
+        application: (any UIApplicationProtocol)? = UIApplication.shared
     ) -> [String]? {
         guard let application else {
             return nil
@@ -43,7 +43,7 @@ public struct WindowSceneDetector {
     /// - Returns: 永続化識別子
     public static func retrievePersistentIdentifier(
         view: UIView?,
-        application: UIApplicationProtocol? = UIApplication.shared
+        application: (any UIApplicationProtocol)? = UIApplication.shared
     ) -> String? {
         guard let application else {
             return nil
@@ -62,7 +62,7 @@ public struct WindowSceneDetector {
     /// - Returns: `UIWindowScene`
     public static func retrieveWindowScene(
         from persistentIdentifier: String? = nil,
-        application: UIApplicationProtocol? = UIApplication.shared
+        application: (any UIApplicationProtocol)? = UIApplication.shared
     ) -> UIWindowScene? {
         guard let application else {
             return nil

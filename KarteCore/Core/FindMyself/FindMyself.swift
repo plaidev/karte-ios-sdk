@@ -68,7 +68,7 @@ extension FindMyself: DeepLinkModule {
             return false
         }
 
-        let values = queryItems.reduce(into: [String: JSONConvertible]()) { values, queryItem in
+        let values = queryItems.reduce(into: [String: any JSONConvertible]()) { values, queryItem in
             if let value = queryItem.value {
                 values[queryItem.name] = value
             }

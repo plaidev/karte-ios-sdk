@@ -23,7 +23,7 @@ internal struct Definition: Codable {
     var eventName: EventName
     var triggers: [Trigger]
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         eventName = try container.decode(EventName.self, forKey: .eventName)
         var nestedUnkeyedContainer = try container.nestedUnkeyedContainer(forKey: .triggers)
@@ -43,12 +43,12 @@ internal struct Definition: Codable {
         triggers.filter { trigger -> Bool in
             trigger.match(data: data)
         }.map { trigger -> Event in
-            var values: [String: JSONConvertible] = trigger.fields
+            var values: [String: any JSONConvertible] = trigger.fields
             let window = WindowDetector.retrieveRelatedWindows().first
             if let dynamicValues = trigger.dynamicValues(window: window) {
                 values.mergeRecursive(dynamicValues)
             }
-            let other: [String: JSONConvertible] = [
+            let other: [String: any JSONConvertible] = [
                 "_system": [
                     "auto_track": 1
                 ]

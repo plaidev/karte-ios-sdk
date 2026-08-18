@@ -92,7 +92,7 @@ public class Statement {
      
      - returns:          `self`
      */
-    @discardableResult public func executeUpdate(withParameters parameters: [SQLiteValue?] = []) throws -> Statement {
+    @discardableResult public func executeUpdate(withParameters parameters: [(any SQLiteValue)?] = []) throws -> Statement {
         _ = try execute(withParameters: parameters)
         _ = try step()
         
@@ -106,7 +106,7 @@ public class Statement {
      
      - returns:              `self`
      */
-    @discardableResult public func executeUpdate(withParameterMapping parameterMapping: [String: SQLiteValue?]) throws -> Statement {
+    @discardableResult public func executeUpdate(withParameterMapping parameterMapping: [String: (any SQLiteValue)?]) throws -> Statement {
         _ = try execute(withParameterMapping: parameterMapping)
         _ = try step()
         
@@ -121,7 +121,7 @@ public class Statement {
      
     - returns:              `self`
     */
-    public func execute(withParameterMapping parameterMapping: [String: SQLiteValue?]) throws -> Statement {
+    public func execute(withParameterMapping parameterMapping: [String: (any SQLiteValue)?]) throws -> Statement {
         try bind(parameterMapping: parameterMapping)
         
         return self
@@ -135,7 +135,7 @@ public class Statement {
      
     - returns:          `self`
     */
-    public func execute(withParameters parameters: [SQLiteValue?] = []) throws -> Statement {
+    public func execute(withParameters parameters: [(any SQLiteValue)?] = []) throws -> Statement {
         try bind(parameters)
         
         return self
@@ -159,11 +159,11 @@ public class Statement {
         try ResultHandler.verifyResult(code: sqlite3_prepare_v2(databaseHandle, query, -1, &statementHandle, nil))
     }
     
-    fileprivate func bind(parameterMapping: [String: SQLiteValue?]) throws {
+    fileprivate func bind(parameterMapping: [String: (any SQLiteValue)?]) throws {
         
         let totalBindCount = sqlite3_bind_parameter_count(statementHandle)
         
-        var parameters: [SQLiteValue?] = Array(repeating: nil, count: Int(totalBindCount))
+        var parameters: [(any SQLiteValue)?] = Array(repeating: nil, count: Int(totalBindCount))
         
         for (name, value) in parameterMapping {
             let index = sqlite3_bind_parameter_index(statementHandle, ":\(name)")
@@ -174,7 +174,7 @@ public class Statement {
         try bind(parameters)
     }
     
-    fileprivate func bind(_ parameters: [SQLiteValue?]) throws {
+    fileprivate func bind(_ parameters: [(any SQLiteValue)?]) throws {
         try reset()
         try clearBindings()
         
@@ -195,7 +195,7 @@ public class Statement {
     
     // MARK: - Private methods
     
-    fileprivate func bind(value: SQLiteValue?, to index: Int32) throws {
+    fileprivate func bind(value: (any SQLiteValue)?, to index: Int32) throws {
         if value == nil {
             try ResultHandler.verifyResult(code: sqlite3_bind_null(statementHandle, index))
             return
@@ -334,7 +334,7 @@ extension Statement {
     }
     
     /** Returns a value for the column given by the index based on the columns datatype */
-    public func valueForColumn(at index: Int32) -> SQLiteValue? {
+    public func valueForColumn(at index: Int32) -> (any SQLiteValue)? {
         let columnType = sqlite3_column_type(statementHandle, index)
         
         switch columnType {
@@ -523,8 +523,8 @@ extension Statement {
 extension Statement {
     
     /** A dictionary representation of the data contained in the row */
-    public var dictionary: [String: SQLiteValue?] {
-        var dictionary: [String: SQLiteValue?] = [:]
+    public var dictionary: [String: (any SQLiteValue)?] {
+        var dictionary: [String: (any SQLiteValue)?] = [:]
         
         for i in 0..<sqlite3_column_count(statementHandle) {
             dictionary[indexToNameMapping[i]!] = valueForColumn(at: i)
@@ -547,7 +547,7 @@ extension Statement {
     }
     
     /** Returns a value for the column given by the column name, based on the SQLite datatype of the column */
-    public func valueForColumn(_ name: String) -> SQLiteValue? {
+    public func valueForColumn(_ name: String) -> (any SQLiteValue)? {
         return valueForColumn(at: nameToIndexMapping[name]!)
     }
     

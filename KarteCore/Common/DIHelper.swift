@@ -36,12 +36,12 @@ public struct CodableInjectedForObjcCompatibility<Service: Codable>: Codable {
     public init(name: String? = nil, container: Resolver? = nil) {
         self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     }
-    public init(from decoder: Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         self.service = try container.decode(Service.self)
     }
 
-    public func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(service)
     }
@@ -66,7 +66,7 @@ public struct OptionalCodableInjectedForObjcCompatibility<Service: Codable>: Cod
     public init(name: String? = nil, container: Resolver? = nil) {
         self.service = container?.optional(Service.self, name: name) ?? Resolver.optional(Service.self, name: name)
     }
-    public init(from decoder: Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         if container.decodeNil() {
             self.service = nil
@@ -75,7 +75,7 @@ public struct OptionalCodableInjectedForObjcCompatibility<Service: Codable>: Cod
         }
     }
 
-    public func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(service)
     }

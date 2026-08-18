@@ -44,15 +44,15 @@ jobs:
       - name: Find Release Targets
         id: find-release-targets
         run: |
-          PODSPEC_CHANGES=$(git diff remotes/origin/master..HEAD --name-only | grep '\.podspec$' || true)
-          if [ -n "$PODSPEC_CHANGES" ]; then
+          XCCONFIG_CHANGES=$(git diff remotes/origin/master..HEAD --name-only | grep 'Version\.xcconfig$' || true)
+          if [ -n "$XCCONFIG_CHANGES" ]; then
             echo "Module release detected"
-            echo "Changed podspecs:"
-            echo "$PODSPEC_CHANGES" | sed 's/^/  - /'
+            echo "Changed Version.xcconfig files:"
+            echo "$XCCONFIG_CHANGES" | sed 's/^/  - /'
             echo "RELEASE_TYPE=module" >> "$GITHUB_OUTPUT"
             TARGETS=""
-            for podspec in $PODSPEC_CHANGES; do
-              TARGETS+="${podspec%.*}, "
+            for xcconfig in $XCCONFIG_CHANGES; do
+              TARGETS+="$(dirname $xcconfig), "
             done
             echo "TARGETS=${TARGETS%, }" >> "$GITHUB_OUTPUT"
           else
@@ -80,11 +80,11 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_BODY: |
             ### 以下の項目を確認してください
-            - [ ] Podspecのバージョンが正しく更新されていること
+            - [ ] Version.xcconfig のバージョンが正しく更新されていること
             - [ ] 配信されたサンプルアプリでの動作確認
             - [ ] spm-versionが更新されていること
             - [ ] CHANGELOG.md のリリース日付が正しく設定されていること
-            - [ ] CHANGELOG.md のバージョンがPodspecのバージョンと一致していること
+            - [ ] CHANGELOG.md のバージョンが Version.xcconfig のバージョンと一致していること
             - [ ] 全てのチェックボックスを埋めると自動的にマージ作業を開始します
 
             ### Update

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteUtilities'
-  s.version                 = '3.14.0'
+  s.version                 = File.read(File.join(__dir__, 'KarteUtilities/Version.xcconfig'))[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
   s.summary                 = 'KARTE Utilities SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -27,7 +27,8 @@ Pod::Spec.new do |s|
   s.requires_arc            = true
   s.pod_target_xcconfig     = {
     'OTHER_SWIFT_FLAGS' => '$(inherited) -suppress-warnings',
-    'GCC_PREPROCESSOR_DEFINITIONS' => 'UTILITIES_VERSION=' + s.version.to_s
+    'GCC_PREPROCESSOR_DEFINITIONS' => 'UTILITIES_VERSION=' + s.version.to_s,
+    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
   }
   
   s.subspec 'standard' do |ss|

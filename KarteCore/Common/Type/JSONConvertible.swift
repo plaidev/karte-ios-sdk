@@ -136,13 +136,13 @@ extension Date: JSONConvertible {
     }
 }
 
-extension Array: JSONConvertible where Element == JSONConvertible {
+extension Array: JSONConvertible where Element == any JSONConvertible {
     public var jsonValue: JSONValue {
         .array(self.map { $0.jsonValue })
     }
 }
 
-extension Dictionary: JSONConvertible where Key == String, Value == JSONConvertible {
+extension Dictionary: JSONConvertible where Key == String, Value == any JSONConvertible {
     public var jsonValue: JSONValue {
         .dictionary(self.mapValues { $0.jsonValue })
     }

@@ -54,7 +54,7 @@ public final class Resolver {
     /// Default registry used by the static Resolution functions and by the Resolving protocol.
     public static var root: Resolver = main
     /// Default scope applied when registering new objects.
-    public static var defaultScope: ResolverScope = Resolver.graph
+    public static var defaultScope: any ResolverScope = Resolver.graph
 
     // MARK: - Lifecycle
 
@@ -71,7 +71,7 @@ public final class Resolver {
     public static var registerServices: (() -> Void)? = { () in
         pthread_mutex_lock(&Resolver.registrationMutex)
         defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
-        if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? ResolverRegistering {
+        if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? any ResolverRegistering {
             type(of: registering).registerAllServices()
         }
         Resolver.registerServices = nil
@@ -271,7 +271,7 @@ public class ResolverOptions<Service> {
 
     // MARK: - Parameters
 
-    public var scope: ResolverScope
+    public var scope: any ResolverScope
 
     fileprivate var factory: ResolverFactoryArguments<Service>
     fileprivate var mutator: ResolverFactoryMutatorArguments<Service>?
@@ -332,7 +332,7 @@ public class ResolverOptions<Service> {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func scope(_ scope: ResolverScope) -> ResolverOptions<Service> {
+    public final func scope(_ scope: any ResolverScope) -> ResolverOptions<Service> {
         self.scope = scope
         return self
     }
@@ -603,11 +603,11 @@ public struct CodableInjected<Service: Codable>: Codable {
     public init(name: String? = nil, container: Resolver? = nil) {
         self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     }
-    public init(from decoder: Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         self.service = try container.decode(Service.self)
     }
-    public func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(service)
     }
@@ -630,7 +630,7 @@ public struct OptionalCodableInjected<Service: Codable>: Codable {
     public init(name: String? = nil, container: Resolver? = nil) {
         self.service = container?.optional(Service.self, name: name) ?? Resolver.optional(Service.self, name: name)
     }
-    public init(from decoder: Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         if container.decodeNil() {
             self.service = nil
@@ -638,7 +638,7 @@ public struct OptionalCodableInjected<Service: Codable>: Codable {
             self.service = try container.decode(Service.self)
         }
     }
-    public func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(service)
     }

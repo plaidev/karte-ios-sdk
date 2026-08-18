@@ -14,193 +14,178 @@
 //  limitations under the License.
 //
 
-import Quick
-import Nimble
+import XCTest
 @testable import KarteCore
 @testable import KarteVisualTracking
 
 @MainActor
-class ActionSpec: QuickSpec {
-    
-    override class func spec() {
-        describe("a action") {
-            describe("its init") {
-                describe("property") {
-                    context("when a simple view structure") {
-                        var viewController: UIViewController!
-                        var button: UIButton!
-                        var action: UIKitAction!
-                        
-                        beforeEach {
-                            viewController = UIViewController()
-                            button = UIButton(type: .system)
-                            action = UIKitAction(
-                                "dummy_action",
-                                view: button,
-                                viewController: viewController,
-                                targetText: "dummy_target_text",
-                                actionId: UIKitAction.actionId(view: button)
-                            )
-                        }
-                        
-                        it("action is `dummy_action`") {
-                            expect(action.action).to(equal("dummy_action"))
-                        }
-                        
-                        it("view is UIButton") {
-                            expect(action.view).to(equal(button))
-                        }
-                        
-                        it("viewController is UIViewController") {
-                            expect(action.viewController).to(equal(viewController))
-                        }
-                        
-                        it("targetText is `dummy_target_text`") {
-                            expect(action.targetText).to(equal("dummy_target_text"))
-                        }
-                        
-                        it("actionId is `UIButton`") {
-                            expect(action.actionId).to(equal("UIButton"))
-                        }
-                    }
-                    context("when a complex view structure") {
-                        var viewController: UIViewController!
-                        var firstView: UIView!
-                        var secondView: UIView!
-                        var button0: UIButton!
-                        var button1: UIButton!
-                        
-                        beforeEach {
-                            viewController = UIViewController()
-                            firstView = UIView()
-                            secondView = UIView()
-                            button0 = UIButton(type: .infoDark)
-                            button1 = UIButton(type: .infoLight)
-                            firstView.addSubview(secondView)
-                            secondView.addSubview(button0)
-                            secondView.addSubview(button1)
-                        }
-                        
-                        it("button index of actionId is 0") {
-                            let action = UIKitAction(
-                                "dummy_action",
-                                view: button0,
-                                viewController: viewController,
-                                targetText: "dummy_target_text",
-                                actionId: UIKitAction.actionId(view: button0)
-                            )
-                            expect(action!.actionId!).to(equal("UIButton0UIView0UIView"))
-                        }
-                        it("button index of actionId is 1") {
-                            let action = UIKitAction(
-                                "dummy_action",
-                                view: button1,
-                                viewController: viewController,
-                                targetText: "dummy_target_text",
-                                actionId: UIKitAction.actionId(view: button1)
-                            )
-                            expect(action!.actionId!).to(equal("UIButton1UIView0UIView"))
-                        }
-                        
-                        it("actionId is overridden by argument") {
-                            let action = UIKitAction(
-                                "dummy_action",
-                                view: button1,
-                                viewController: viewController,
-                                targetText: "dummy_target_text",
-                                actionId: "dummy_action_id"
-                            )
-                            expect(action!.actionId!).to(equal("dummy_action_id"))
-                        }
+class ActionSpec: XCTestCase {
 
-                        it("actionId is nil") {
-                            let action = UIKitAction(
-                                "dummy_action",
-                                view: nil,
-                                viewController: viewController,
-                                targetText: "dummy_target_text"
-                            )
-                            expect(action!.actionId).to(beNil())
-                        }
-                    }
-                    
-                    context("when pass an ignore action name") {
-                        it("returns nil") {
-                            let action = UIKitAction(
-                                "handlePan:",
-                                view: UIView(),
-                                viewController: UIViewController(),
-                                targetText: "dummy_target_text"
-                            )
-                            expect(action).to(beNil())
-                        }
-                    }
-                    
-                    context("when pass nil for view / viewController") {
-                        it("screenName / hostName return nil") {
-                            let action = UIKitAction(
-                                "test_action",
-                                view: nil,
-                                viewController: nil,
-                                targetText: "dummy_target_text"
-                            )
-                            expect(action?.screenName).to(beNil())
-                            expect(action?.screenHostName).to(beNil())
-                        }
-                    }
-                    
-                    context("when pass nil for view / viewController / targetText") {
-                        it("returns nil") {
-                            let action = UIKitAction(
-                                "test_action",
-                                view: nil,
-                                viewController: nil,
-                                targetText: nil
-                            )
-                            expect(action).to(beNil())
-                        }
-                    }
-                }
-            }
-            describe("its viewPathIndices") {
-                context("when passing nil") {
-                    it("returns empty array") {
-                        let actual = UIKitAction.viewPathIndices(actionId: nil)
-                        expect(actual).to(equal([]))
-                    }
-                }
-                context("when passing empty string") {
-                    it("returns empty array") {
-                        let actual = UIKitAction.viewPathIndices(actionId: "")
-                        expect(actual).to(equal([]))
-                    }
-                }
-                context("when passing UIView") {
-                    it("returns empty array") {
-                        let actual = UIKitAction.viewPathIndices(actionId: "UIView")
-                        expect(actual).to(equal([]))
-                    }
-                }
-                context("when passing UIView0") {
-                    it("returns array with 0") {
-                        let actual = UIKitAction.viewPathIndices(actionId: "UIView0")
-                        expect(actual).to(equal([0]))
-                    }
-                }
-                context("when passing complexView") {
-                    it("returns array with 0,0,0,0,0,0,0,11") {
-                        let actual = UIKitAction.viewPathIndices(actionId:  "UIView11UITableView0UIView0UIViewControllerWrapperView0UINavigationTransitionView0UILayoutContainerView0UIDropShadowView0UITransitionView0SimpleUIWindow")
-                        expect(actual).toNot(beNil())
-                        expect(actual).to(equal([0,0,0,0,0,0,0,11]))
-                    }
-                }
-                context("when passing UIView999UIView2000UIView3000") {
-                    it("returns array with 3000,2000,999") {
-                        let actual = UIKitAction.viewPathIndices(actionId: "UIView999UIView2000UIView3000")
-                        expect(actual).to(equal([3000,2000,999]))
-                    }
-                }
-            }
-        }
+    // MARK: - init property
+
+    // when a simple view structure
+    func testInitSimpleViewStructure() throws {
+        let viewController = UIViewController()
+        let button = UIButton(type: .system)
+        let action = try XCTUnwrap(
+            UIKitAction(
+                "dummy_action",
+                view: button,
+                viewController: viewController,
+                targetText: "dummy_target_text",
+                actionId: UIKitAction.actionId(view: button)
+            )
+        )
+
+        XCTAssertEqual(action.action, "dummy_action", "action is `dummy_action`")
+        XCTAssertIdentical(action.view, button, "view is UIButton")
+        XCTAssertIdentical(action.viewController, viewController, "viewController is UIViewController")
+        XCTAssertEqual(action.targetText, "dummy_target_text", "targetText is `dummy_target_text`")
+        XCTAssertEqual(action.actionId, "UIButton", "actionId is `UIButton`")
+    }
+
+    // when a complex view structure: button index of actionId is 0
+    func testInitComplexViewStructureButtonIndex0() throws {
+        let viewController = UIViewController()
+        let firstView = UIView()
+        let secondView = UIView()
+        let button0 = UIButton(type: .infoDark)
+        let button1 = UIButton(type: .infoLight)
+        firstView.addSubview(secondView)
+        secondView.addSubview(button0)
+        secondView.addSubview(button1)
+
+        let action = try XCTUnwrap(
+            UIKitAction(
+                "dummy_action",
+                view: button0,
+                viewController: viewController,
+                targetText: "dummy_target_text",
+                actionId: UIKitAction.actionId(view: button0)
+            )
+        )
+        XCTAssertEqual(action.actionId, "UIButton0UIView0UIView", "button index of actionId is 0")
+    }
+
+    // when a complex view structure: button index of actionId is 1
+    func testInitComplexViewStructureButtonIndex1() throws {
+        let viewController = UIViewController()
+        let firstView = UIView()
+        let secondView = UIView()
+        let button0 = UIButton(type: .infoDark)
+        let button1 = UIButton(type: .infoLight)
+        firstView.addSubview(secondView)
+        secondView.addSubview(button0)
+        secondView.addSubview(button1)
+
+        let action = try XCTUnwrap(
+            UIKitAction(
+                "dummy_action",
+                view: button1,
+                viewController: viewController,
+                targetText: "dummy_target_text",
+                actionId: UIKitAction.actionId(view: button1)
+            )
+        )
+        XCTAssertEqual(action.actionId, "UIButton1UIView0UIView", "button index of actionId is 1")
+    }
+
+    // when a complex view structure: actionId is overridden by argument
+    func testInitActionIdOverriddenByArgument() throws {
+        let viewController = UIViewController()
+        let button = UIButton(type: .infoLight)
+        let action = try XCTUnwrap(
+            UIKitAction(
+                "dummy_action",
+                view: button,
+                viewController: viewController,
+                targetText: "dummy_target_text",
+                actionId: "dummy_action_id"
+            )
+        )
+        XCTAssertEqual(action.actionId, "dummy_action_id", "actionId is overridden by argument")
+    }
+
+    // when view is nil: actionId is nil
+    func testInitActionIdIsNil() throws {
+        let viewController = UIViewController()
+        let action = try XCTUnwrap(
+            UIKitAction(
+                "dummy_action",
+                view: nil,
+                viewController: viewController,
+                targetText: "dummy_target_text"
+            )
+        )
+        XCTAssertNil(action.actionId, "actionId is nil")
+    }
+
+    // when pass an ignore action name
+    func testInitIgnoreActionName() {
+        let action = UIKitAction(
+            "handlePan:",
+            view: UIView(),
+            viewController: UIViewController(),
+            targetText: "dummy_target_text"
+        )
+        XCTAssertNil(action, "ignore action name returns nil")
+    }
+
+    // when pass nil for view / viewController
+    func testInitNilViewAndViewController() throws {
+        let action = try XCTUnwrap(
+            UIKitAction(
+                "test_action",
+                view: nil,
+                viewController: nil,
+                targetText: "dummy_target_text"
+            )
+        )
+        XCTAssertNil(action.screenName, "screenName returns nil")
+        XCTAssertNil(action.screenHostName, "screenHostName returns nil")
+    }
+
+    // when pass nil for view / viewController / targetText
+    func testInitAllNil() {
+        let action = UIKitAction(
+            "test_action",
+            view: nil,
+            viewController: nil,
+            targetText: nil
+        )
+        XCTAssertNil(action, "passing nil for view / viewController / targetText returns nil")
+    }
+
+    // MARK: - viewPathIndices
+
+    // when passing nil
+    func testViewPathIndicesWithNil() {
+        XCTAssertEqual(UIKitAction.viewPathIndices(actionId: nil), [], "passing nil returns empty array")
+    }
+
+    // when passing empty string
+    func testViewPathIndicesWithEmptyString() {
+        XCTAssertEqual(UIKitAction.viewPathIndices(actionId: ""), [], "passing empty string returns empty array")
+    }
+
+    // when passing UIView
+    func testViewPathIndicesWithUIView() {
+        XCTAssertEqual(UIKitAction.viewPathIndices(actionId: "UIView"), [], "passing UIView returns empty array")
+    }
+
+    // when passing UIView0
+    func testViewPathIndicesWithUIView0() {
+        XCTAssertEqual(UIKitAction.viewPathIndices(actionId: "UIView0"), [0], "passing UIView0 returns array with 0")
+    }
+
+    // when passing complexView
+    func testViewPathIndicesWithComplexView() {
+        let actual = UIKitAction.viewPathIndices(actionId: "UIView11UITableView0UIView0UIViewControllerWrapperView0UINavigationTransitionView0UILayoutContainerView0UIDropShadowView0UITransitionView0SimpleUIWindow")
+        XCTAssertEqual(actual, [0, 0, 0, 0, 0, 0, 0, 11], "passing complexView returns array with 0,0,0,0,0,0,0,11")
+    }
+
+    // when passing UIView999UIView2000UIView3000
+    func testViewPathIndicesWithMultipleIndices() {
+        XCTAssertEqual(UIKitAction.viewPathIndices(actionId: "UIView999UIView2000UIView3000"), [3000, 2000, 999], "passing UIView999UIView2000UIView3000 returns array with 3000,2000,999")
     }
 }

@@ -22,7 +22,7 @@ import XCTest
 let APP_KEY = "dummy_application_key_from_code_"
 
 let EMPTY_RESPONSE = {
-    let emptyResponse: [String: JSONConvertible] = ["status": 200, "events": [], "messages": [], "options": [:]]
+    let emptyResponse: [String: any JSONConvertible] = ["status": 200, "events": [], "messages": [], "options": [:]]
     return emptyResponse.mapValues { $0.jsonValue }
 }()
 
@@ -134,7 +134,7 @@ class IDFA: IDFADelegate {
 class CommandCountObserver {
     private var expectedCommandCount: Int
     private var commandCount = 0
-    private var token: NSObjectProtocol?
+    private var token: (any NSObjectProtocol)?
     private var exp: XCTestExpectation
 
     init(expectedCommandCount: Int = 2) {

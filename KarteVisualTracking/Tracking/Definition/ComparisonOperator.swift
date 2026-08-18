@@ -23,7 +23,7 @@ internal enum ComparisonOperator: Codable {
     case endsWith(String)
     case contains(String)
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         if let value = try container.decodeIfPresent(String.self, forKey: .eq) {
@@ -42,7 +42,7 @@ internal enum ComparisonOperator: Codable {
         }
     }
 
-    func encode(to encoder: Encoder) throws {
+    func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         switch self {

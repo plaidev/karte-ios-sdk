@@ -40,12 +40,12 @@ public protocol TrackModule: ModuleBase {
     ///
     /// ここで返したルールリストに基づきイベントの送信を拒絶することが可能です。
     /// - Returns: フィルタリスト
-    func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule]
+    func provideEventRejectionFilterRules() -> [any TrackEventRejectionFilterRule]
 }
 
 public extension TrackModule {
     // backward compatibility
-    func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
+    func provideEventRejectionFilterRules() -> [any TrackEventRejectionFilterRule] {
         return []
     }
     // backward compatibility

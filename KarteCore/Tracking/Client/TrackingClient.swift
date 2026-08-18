@@ -17,14 +17,14 @@
 import Foundation
 
 internal class TrackingClient {
-    weak var delegate: TrackerDelegate?
+    weak var delegate: (any TrackerDelegate)?
 
     private var coreService: CoreService
     private var agent: TrackingAgent
     private var lifecycleObserver: ApplicationLifecycleObserver
     lazy var eventRejectionFilter: TrackEventRejectionFilter = {
         var filter = TrackEventRejectionFilter()
-        KarteApp.shared.modules.flatMap { module -> [TrackEventRejectionFilterRule] in
+        KarteApp.shared.modules.flatMap { module -> [any TrackEventRejectionFilterRule] in
             guard case let .track(module) = module else {
                 return []
             }

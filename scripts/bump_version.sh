@@ -49,9 +49,8 @@ EOS
 }
 
 function check_released_version() {
-  PODNAME=$1
-  PODSPEC=`curl -s https://raw.githubusercontent.com/plaidev/karte-ios-sdk/master/${PODNAME}.podspec | grep -E "\.version.+="`
-  VERSION=`echo ${PODSPEC##*=} | tr -d "'" | tr -d '"'`
+  MODULENAME=$1
+  VERSION=`curl -s https://raw.githubusercontent.com/plaidev/karte-ios-sdk/master/${MODULENAME}/Version.xcconfig | grep -E '^[[:space:]]*MARKETING_VERSION[[:space:]]*=' | head -1 | sed -E 's/^[^=]*=[[:space:]]*//' | tr -d '[:space:]'`
 
   echo " "
   echo "#########################"
@@ -84,23 +83,66 @@ function compare_versions() {
 }
 
 function bump_version() {
-  PODNAME=$1
+  MODULENAME=$1
   echo " "
   echo "#########################"
-  echo "# LOCAL PODSPEC VERSION"
+  echo "# LOCAL VERSION"
   echo "#########################"
-  ruby scripts/bump_version.rb current-version -p Karte.xcodeproj -t $PODNAME
+  ruby scripts/bump_version.rb current-version -p Karte.xcodeproj -t $MODULENAME
   echo " "
 
   PS3="Please select a number for the update method: "
   select METHOD in major minor patch
   do
-    ruby scripts/bump_version.rb $METHOD -p Karte.xcodeproj -t $PODNAME
+    ruby scripts/bump_version.rb $METHOD -p Karte.xcodeproj -t $MODULENAME
     break
   done
   echo ""
   echo "The module version update has been completed."
   echo ""
+}
+
+# TODO: This is a fallback for master/develop branches that predate the
+# Version.xcconfig migration. Remove this function and its call sites in
+# display_versions() once Version.xcconfig has landed on both master and develop.
+function get_pbxproj_marketing_version() {
+  local PBXPROJ_CONTENT=$1
+  local MODULE=$2
+
+  [ -z "$PBXPROJ_CONTENT" ] && return
+
+  # Pass 1: resolve the module's Debug XCBuildConfiguration UUID from its
+  # XCConfigurationList definition (this appears after the XCBuildConfiguration
+  # blocks in the file, so it must be resolved before we can locate them).
+  local TARGET_UUID=$(printf '%s\n' "$PBXPROJ_CONTENT" | awk -v mod="$MODULE" '
+    !found && /\{$/ && index($0, "Build configuration list for PBXNativeTarget \"" mod "\"") { in_list = 1; next }
+    in_list && $2 == "/*" && $3 == "Debug" { print $1; found = 1; exit }
+  ')
+
+  [ -z "$TARGET_UUID" ] && return
+
+  # Pass 2: locate that UUID's XCBuildConfiguration block and read MARKETING_VERSION.
+  printf '%s\n' "$PBXPROJ_CONTENT" | awk -v uuid="$TARGET_UUID" '
+    !in_config && $1 == uuid && $3 == "Debug" && $5 == "=" { in_config = 1; next }
+    in_config && $1 == "MARKETING_VERSION" && $2 == "=" {
+      val = $3
+      gsub(/;/, "", val)
+      print val
+      exit
+    }
+    in_config && /^\t\t\};/ { exit }
+  '
+}
+
+function pad_field() {
+  # printf's %-Ns pads by byte length, which under-pads values containing
+  # multi-byte characters (e.g. the emoji fallback marker). Pad manually
+  # using character count instead so columns stay aligned with the header.
+  local STR="$1"
+  local WIDTH="$2"
+  local PAD=$((WIDTH - ${#STR}))
+  [ "$PAD" -lt 0 ] && PAD=0
+  printf '%s%*s' "$STR" "$PAD" ""
 }
 
 function display_versions() {
@@ -120,17 +162,50 @@ function display_versions() {
   fi
 
   if [ "$SPM_ONLY_MODE" != "true" ]; then
-    echo "====================================================================="
-    printf "%-36s %-10s %-10s %-10s\n" "Module" "Master" "Develop" "Current"
-    echo "---------------------------------------------------------------------"
+    # Version.xcconfig may not exist yet on master/develop (pre-migration).
+    # Cache each branch's project.pbxproj once so we can fall back to its
+    # directly-configured MARKETING_VERSION for those branches.
+    local MASTER_PBXPROJ=$(git show origin/master:Karte.xcodeproj/project.pbxproj 2>/dev/null)
+    local DEVELOP_PBXPROJ=$(git show origin/develop:Karte.xcodeproj/project.pbxproj 2>/dev/null)
+
+    local PROJECT_FALLBACK_FLAG="⚠️"
+    local ANY_PROJECT_FALLBACK=false
+
+    echo "============================================================================="
+    printf "%-36s %-14s %-14s %-10s\n" "Module" "Master" "Develop" "Current"
+    echo "-----------------------------------------------------------------------------"
 
     for MODULE in "${MODULES[@]}"; do
       # Get versions from each branch
-      local MASTER_VER=$(git show origin/master:${MODULE}.podspec 2>/dev/null | grep -E "\.version.+=" | sed -E "s/.*version.*= *['\"]([^'\"]+)['\"].*/\1/" || echo "N/A")
-      local DEVELOP_VER=$(git show origin/develop:${MODULE}.podspec 2>/dev/null | grep -E "\.version.+=" | sed -E "s/.*version.*= *['\"]([^'\"]+)['\"].*/\1/" || echo "N/A")
-      local CURRENT_VER=$(cat ${MODULE}.podspec 2>/dev/null | grep -E "\.version.+=" | sed -E "s/.*version.*= *['\"]([^'\"]+)['\"].*/\1/" || echo "N/A")
+      local MASTER_VER=$(git show origin/master:${MODULE}/Version.xcconfig 2>/dev/null | grep -E '^[[:space:]]*MARKETING_VERSION[[:space:]]*=' | head -1 | sed -E 's/^[^=]*=[[:space:]]*//' | tr -d '[:space:]')
+      local MASTER_DISPLAY="$MASTER_VER"
+      if [ -z "$MASTER_VER" ]; then
+        MASTER_VER=$(get_pbxproj_marketing_version "$MASTER_PBXPROJ" "$MODULE")
+        if [ -n "$MASTER_VER" ]; then
+          MASTER_DISPLAY="${MASTER_VER} ${PROJECT_FALLBACK_FLAG}"
+          ANY_PROJECT_FALLBACK=true
+        else
+          MASTER_VER="N/A"
+          MASTER_DISPLAY="N/A"
+        fi
+      fi
 
-      # Determine colors
+      local DEVELOP_VER=$(git show origin/develop:${MODULE}/Version.xcconfig 2>/dev/null | grep -E '^[[:space:]]*MARKETING_VERSION[[:space:]]*=' | head -1 | sed -E 's/^[^=]*=[[:space:]]*//' | tr -d '[:space:]')
+      local DEVELOP_DISPLAY="$DEVELOP_VER"
+      if [ -z "$DEVELOP_VER" ]; then
+        DEVELOP_VER=$(get_pbxproj_marketing_version "$DEVELOP_PBXPROJ" "$MODULE")
+        if [ -n "$DEVELOP_VER" ]; then
+          DEVELOP_DISPLAY="${DEVELOP_VER} ${PROJECT_FALLBACK_FLAG}"
+          ANY_PROJECT_FALLBACK=true
+        else
+          DEVELOP_VER="N/A"
+          DEVELOP_DISPLAY="N/A"
+        fi
+      fi
+
+      local CURRENT_VER=$(grep -E '^[[:space:]]*MARKETING_VERSION[[:space:]]*=' ${MODULE}/Version.xcconfig 2>/dev/null | head -1 | sed -E 's/^[^=]*=[[:space:]]*//' | tr -d '[:space:]' || echo "N/A")
+
+      # Determine colors (based on the plain version numbers, not the display strings)
       local DEVELOP_COLOR=""
       local CURRENT_COLOR=""
 
@@ -148,14 +223,22 @@ function display_versions() {
         CURRENT_COLOR="$YELLOW"
       fi
 
-      printf "%-36s %-10s ${DEVELOP_COLOR}%-10s${RESET} ${CURRENT_COLOR}%-10s${RESET}\n" \
-        "$MODULE" "$MASTER_VER" "$DEVELOP_VER" "$CURRENT_VER"
+      local MASTER_PADDED=$(pad_field "$MASTER_DISPLAY" 14)
+      local DEVELOP_PADDED=$(pad_field "$DEVELOP_DISPLAY" 14)
+
+      printf "%-36s %s ${DEVELOP_COLOR}%s${RESET} ${CURRENT_COLOR}%-10s${RESET}\n" \
+        "$MODULE" "$MASTER_PADDED" "$DEVELOP_PADDED" "$CURRENT_VER"
     done
+
+    if [ "$ANY_PROJECT_FALLBACK" = true ]; then
+      echo " "
+      echo "${PROJECT_FALLBACK_FLAG} Version.xcconfig not found on that branch yet; showing the MARKETING_VERSION configured directly in the project instead."
+    fi
   fi
 
-  echo "====================================================================="
-  printf "%-36s %-10s %-10s %-10s\n" "SPM Version" "Master" "Develop" "Current"
-  echo "---------------------------------------------------------------------"
+  echo "============================================================================="
+  printf "%-36s %-14s %-14s %-10s\n" "SPM Version" "Master" "Develop" "Current"
+  echo "-----------------------------------------------------------------------------"
   # Display .spm-version
   local SPM_MASTER=$(git show origin/master:.spm-version 2>/dev/null | tr -d '[:space:]' || echo "N/A")
   local SPM_DEVELOP=$(git show origin/develop:.spm-version 2>/dev/null | tr -d '[:space:]' || echo "N/A")
@@ -175,7 +258,7 @@ function display_versions() {
     SPM_CURRENT_COLOR="$YELLOW"
   fi
 
-  printf "%-36s %-10s ${SPM_DEVELOP_COLOR}%-10s${RESET} ${SPM_CURRENT_COLOR}%-10s${RESET}\n" \
+  printf "%-36s %-14s ${SPM_DEVELOP_COLOR}%-14s${RESET} ${SPM_CURRENT_COLOR}%-10s${RESET}\n" \
     ".spm-version" "$SPM_MASTER" "$SPM_DEVELOP" "$SPM_CURRENT"
 
   echo " "

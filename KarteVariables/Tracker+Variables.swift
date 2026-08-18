@@ -23,7 +23,7 @@ public extension Tracker {
     /// - Parameters:
     ///   - variables: 設定値の配列
     ///   - values: イベントに紐付けるカスタムオブジェクト
-    class func trackOpen(variables: [Variable], values: [String: JSONConvertible] = [:]) {
+    class func trackOpen(variables: [Variable], values: [String: any JSONConvertible] = [:]) {
         track(variables: variables, type: .open, values: values)
     }
 
@@ -32,13 +32,13 @@ public extension Tracker {
     /// - Parameters:
     ///   - variables: 設定値の配列
     ///   - values: イベントに紐付けるカスタムオブジェクト
-    class func trackClick(variables: [Variable], values: [String: JSONConvertible] = [:]) {
+    class func trackClick(variables: [Variable], values: [String: any JSONConvertible] = [:]) {
         track(variables: variables, type: .click, values: values)
     }
 }
 
 internal extension Tracker {
-    class func track(variables: [Variable], type: Event.MessageType, values: [String: JSONConvertible]) {
+    class func track(variables: [Variable], type: Event.MessageType, values: [String: any JSONConvertible]) {
         var alreadySentCampaignIds = Set<String>()
         variables.forEach { variable in
             guard let campaignId = variable.campaignId, let shortenId = variable.shortenId else {
@@ -67,7 +67,7 @@ internal extension Tracker {
             }
 
             let noAction = message.action.noAction ?? false
-            var values: [String: JSONConvertible] = [
+            var values: [String: any JSONConvertible] = [
                 "no_action": noAction
             ]
 
@@ -91,7 +91,7 @@ internal extension Tracker {
         type: Event.MessageType,
         campaignId: String,
         shortenId: String,
-        values: [String: JSONConvertible],
+        values: [String: any JSONConvertible],
         timestamp: String?,
         eventHash: String?
     ) {

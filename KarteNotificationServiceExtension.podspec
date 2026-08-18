@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name                    = 'KarteNotificationServiceExtension'
-    s.version                 = '1.3.0'
+    s.version                 = File.read(File.join(__dir__, 'KarteNotificationServiceExtension/Version.xcconfig'))[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
     s.summary                 = 'KARTE Notification Service Extension'
     s.homepage                = 'https://karte.io/'
     s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -23,4 +23,7 @@ Pod::Spec.new do |s|
     s.source_files            = 'KarteNotificationServiceExtension/**/*.{swift,h,m}'
     
     s.requires_arc            = true
+    s.pod_target_xcconfig     = {
+      'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
+    }
 end

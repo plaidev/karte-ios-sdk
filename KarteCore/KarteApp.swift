@@ -29,7 +29,7 @@ import AppTrackingTransparency
 @objc(KRTApp)
 public class KarteApp: NSObject {
     static let shared = KarteApp()
-    static var libraries: [Library.Type] = []
+    static var libraries: [any Library.Type] = []
 
     private var moduleContainer = ModuleContainer()
     private var coreService: CoreService?
@@ -202,7 +202,7 @@ public extension KarteApp {
     /// なお登録処理は `KarteApp.setup(appKey:)` を呼び出す前に行う必要があります。
     ///
     /// - Parameter library: `Library` プロトコルに適合したクラスのタイプ
-    class func register(library: Library.Type) {
+    class func register(library: any Library.Type) {
         if !libraries.contains(where: { $0.name == library.name }) {
             libraries.append(library)
         }
@@ -211,7 +211,7 @@ public extension KarteApp {
     /// ライブラリの登録を解除します。
     ///
     /// - Parameter library: `Library` プロトコルに適合したクラスのタイプ
-    class func unregister(library: Library.Type) {
+    class func unregister(library: any Library.Type) {
         libraries.removeAll { $0.name == library.name }
     }
 

@@ -19,26 +19,26 @@ import Foundation
 /// SQLiteのテーブルを表現するためのタイプ
 public protocol SQLiteTable {
     /// テーブルのスキーマ情報
-    var schema: SQLiteTableSchema { get }
+    var schema: any SQLiteTableSchema { get }
 
     /// テーブルに対して副作用のないステートメントを実行します。
     /// - Parameters:
     ///   - statement: 実行するステートメント
     ///   - parameters: ステートメントにバインドするパラメータの配列
     /// - Returns: ステートメントの実行結果を返します。
-    func query(_ statement: String, parameters: [SQLiteValue]) throws -> [[String: SQLiteValue?]]
+    func query(_ statement: String, parameters: [any SQLiteValue]) throws -> [[String: (any SQLiteValue)?]]
 
     /// テーブルに対して副作用のあるステートメントを実行します。
     /// - Parameters:
     ///   - statement: 実行するステートメント
     ///   - parameters: ステートメントにバインドするパラメータの配列
-    func queryUpdate(_ statement: String, parameters: [SQLiteValue]) throws
+    func queryUpdate(_ statement: String, parameters: [any SQLiteValue]) throws
 }
 
 public extension SQLiteTable {
     // swiftlint:disable:next missing_docs
-    func query(_ statement: String, parameters: [SQLiteValue]) throws -> [[String: SQLiteValue?]] {
-        var rows: [[String: SQLiteValue?]] = []
+    func query(_ statement: String, parameters: [any SQLiteValue]) throws -> [[String: (any SQLiteValue)?]] {
+        var rows: [[String: (any SQLiteValue)?]] = []
         try schema.database.open { conn in
             let statement = try conn.statement(for: statement)
             if parameters.isEmpty {
@@ -47,7 +47,7 @@ public extension SQLiteTable {
                 _ = try statement.execute(withParameters: parameters)
             }
 
-            rows = statement.map { row -> [String: SQLiteValue?] in
+            rows = statement.map { row -> [String: (any SQLiteValue)?] in
                 row.dictionary
             }
             try statement.finalize()
@@ -56,7 +56,7 @@ public extension SQLiteTable {
     }
 
     // swiftlint:disable:next missing_docs
-    func queryUpdate(_ statement: String, parameters: [SQLiteValue]) throws {
+    func queryUpdate(_ statement: String, parameters: [any SQLiteValue]) throws {
         try schema.database.open { conn in
             let statement = try conn.statement(for: statement)
             if parameters.isEmpty {

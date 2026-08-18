@@ -13,14 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'bundler/setup'
-require 'fastlane'
 require 'xcodeproj'
 require 'optparse'
 
 class BaseCommand
   attr_reader :name, :parser
-  
+
   def initialize(name)
     @name = name
     @parser = OptionParser.new do |opt|
@@ -100,7 +98,7 @@ class Command < BaseCommand
   end
 
   def register_subcommands(subcommands)
-    subcommands.each do |subcommand| 
+    subcommands.each do |subcommand|
       register_subcommand(subcommand)
     end
   end
@@ -164,11 +162,13 @@ class VersionCommand < BaseCommand
 
   def get_targets
     if @target.nil?
-      Xcodeproj::Project.open(@project).targets.map { |target|
+      Xcodeproj::Project.open(@project).targets.reject { |target|
+        target.is_a?(Xcodeproj::Project::Object::PBXAggregateTarget)
+      }.map { |target|
         target.name
-      }.select { |name| 
+      }.select { |name|
         /Tests$/.match(name).nil?
-      }.select { |name| 
+      }.select { |name|
         /^Karte$/.match(name).nil?
       }
     else
@@ -176,13 +176,33 @@ class VersionCommand < BaseCommand
     end
   end
 
-  def get_podspec_paths(targets)
-    path = File.dirname(@project)
-    targets.map { |target|
-      File.join(path, "#{target}.podspec")
-    }.select { |podspec|
-      File.exist?(podspec)
-    }
+  # Returns the path to a module's Version.xcconfig relative to the project directory
+  def xcconfig_path(target_name)
+    File.join(File.dirname(@project), target_name, 'Version.xcconfig')
+  end
+
+  # Reads MARKETING_VERSION from a module's Version.xcconfig
+  def read_xcconfig_version(target_name)
+    path = xcconfig_path(target_name)
+    unless File.exist?(path)
+      $stderr.puts "Version.xcconfig not found: #{path}"
+      exit 1
+    end
+    content = File.read(path)
+    match = content.match(/^\s*MARKETING_VERSION\s*=\s*(.+)$/)
+    unless match
+      $stderr.puts "MARKETING_VERSION not found in #{path}"
+      exit 1
+    end
+    match[1].strip
+  end
+
+  # Writes a new MARKETING_VERSION to a module's Version.xcconfig
+  def write_xcconfig_version(target_name, new_version)
+    path = xcconfig_path(target_name)
+    content = File.read(path)
+    updated = content.gsub(/^(\s*MARKETING_VERSION\s*=\s*)(.+)$/) { "#{$1}#{new_version}" }
+    File.write(path, updated)
   end
 
   def run(argv = ARGV)
@@ -193,40 +213,34 @@ end
 class UpdateVersionCommand < VersionCommand
   def run(argv = ARGV)
     super(argv)
-    targets = get_targets
-    podspecs = get_podspec_paths(targets)
-
-    if targets.length != podspecs.length
-      $stderr.puts "The number of build targets differs from the number of podspec files."
-      exit 1
-    end
-
-    Fastlane.load_actions
-    targets.zip(podspecs).each do |pack|
-      version = update_podspec_version(pack[1])
-      update_xcode_build_settings_version(pack[0], version)
+    get_targets.each do |target_name|
+      version = compute_new_version(target_name)
+      write_xcconfig_version(target_name, version)
+      puts "   [VERSION.XCCONFIG] Bump #{@name} version for #{target_name}: #{version}"
     end
   end
 
-  def update_xcode_build_settings_version(target_name, version)
-    project = Xcodeproj::Project.open(@project)
-    project.targets.each do |target|
-      if target_name == target.name
-        target.build_configurations.each do |config|
-          puts "[XCODE_BUILD_SETTINGS] Bump #{@name} version for #{target.name}(#{config.name}): #{version}"
-          config.build_settings['MARKETING_VERSION'] = version
-        end
-      end
-    end
-    project.save
+  def compute_new_version(target_name)
+    raise NotImplementedError
   end
 end
 
 class BumpVersionCommand < UpdateVersionCommand
-  def update_podspec_version(podspec)
-    version = Fastlane::Actions::VersionBumpPodspecAction.run(path: podspec, bump_type: @name)
-    puts "   [COCOAPODS_PODSPEC] Bump #{@name} version for #{File.basename(podspec)}: #{version}"
-    version
+  def compute_new_version(target_name)
+    current = read_xcconfig_version(target_name)
+    parts = current.split('.').map(&:to_i)
+    parts[0] ||= 0
+    parts[1] ||= 0
+    parts[2] ||= 0
+    case @name
+    when 'major'
+      parts[0] += 1; parts[1] = 0; parts[2] = 0
+    when 'minor'
+      parts[1] += 1; parts[2] = 0
+    when 'patch'
+      parts[2] += 1
+    end
+    parts.join('.')
   end
 end
 
@@ -250,63 +264,30 @@ class SetVersionCommand < UpdateVersionCommand
     end
   end
 
-  def update_podspec_version(podspec)
-    version = Fastlane::Actions::VersionBumpPodspecAction.run(path: podspec, version_number: @version)
-    puts "   [COCOAPODS_PODSPEC] Bump #{@name} version for #{File.basename(podspec)}: #{version}"
-    version
+  def compute_new_version(target_name)
+    @version
   end
 end
 
 class CurrentVersionCommand < VersionCommand
   def initialize
     super('current-version')
-    @cocoapods_version = false
+    @quiet = false
   end
 
   def define_specific_options(opt)
     super(opt)
-    opt.on('-c', '--cocoapods-version', 'Output only cocoapods podspec version') { |v| @cocoapods_version = true }
+    opt.on('-q', '--quiet', 'Output only the version, without labels') { |v| @quiet = true }
   end
 
   def run(argv = ARGV)
     super(argv)
-    targets = get_targets
-    podspecs = get_podspec_paths(targets)
-
-    if targets.length != podspecs.length
-      $stderr.puts "The number of build targets differs from the number of podspec files."
-      exit 1
-    end
-
-    Fastlane.load_actions
-    if @cocoapods_version
-      podspecs.each do |podspec|
-        current_podspec_version(podspec, true)
-      end
-      return
-    end
-    targets.zip(podspecs).each do |pack|
-      current_podspec_version(pack[1])
-      current_xcode_build_settings_version(pack[0])
-    end
-  end
-
-  def current_podspec_version(podspec, version_only=false)
-    version = Fastlane::Actions::VersionGetPodspecAction.run(path: podspec)
-    if version_only
-      puts version
-      return
-    end
-    puts "   [COCOAPODS_PODSPEC] Current version for #{File.basename(podspec)}: #{version}"
-  end
-
-  def current_xcode_build_settings_version(target_name)
-    project = Xcodeproj::Project.open(@project)
-    project.targets.each do |target|
-      if target_name == target.name
-        target.build_configurations.each do |config|
-          puts "[XCODE_BUILD_SETTINGS] Current version for #{target.name}(#{config.name}): #{config.build_settings['MARKETING_VERSION']}"
-        end
+    get_targets.each do |target_name|
+      version = read_xcconfig_version(target_name)
+      if @quiet
+        puts version
+      else
+        puts "   [VERSION.XCCONFIG] Current version for #{target_name}: #{version}"
       end
     end
   end
@@ -319,33 +300,22 @@ class CurrentTagVersionCommand < VersionCommand
 
   def run(argv = ARGV)
     super(argv)
-    targets = get_targets
-    podspecs = get_podspec_paths(targets)
-
-    if targets.length != podspecs.length
-      $stderr.puts "The number of build targets differs from the number of podspec files."
-      exit 1
+    get_targets.each do |target_name|
+      version = read_xcconfig_version(target_name)
+      puts "#{target_name.sub(/Karte/, '')}-#{version}"
     end
-
-    Fastlane.load_actions
-    targets.zip(podspecs).each do |pack|
-      current_podspec_tag(pack[0], pack[1])
-    end
-  end
-
-  def current_podspec_tag(target_name, podspec)
-    version = Fastlane::Actions::VersionGetPodspecAction.run(path: podspec)
-    puts "#{target_name.sub(/Karte/, '')}-#{version}"
   end
 end
 
-command = Command.new
-command.register_subcommands [
-  BumpVersionCommand.new('major'),
-  BumpVersionCommand.new('minor'),
-  BumpVersionCommand.new('patch'),
-  SetVersionCommand.new,
-  CurrentVersionCommand.new,
-  CurrentTagVersionCommand.new
-]
-command.run
+if __FILE__ == $PROGRAM_NAME
+  command = Command.new
+  command.register_subcommands [
+    BumpVersionCommand.new('major'),
+    BumpVersionCommand.new('minor'),
+    BumpVersionCommand.new('patch'),
+    SetVersionCommand.new,
+    CurrentVersionCommand.new,
+    CurrentTagVersionCommand.new
+  ]
+  command.run
+end

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                    = 'KarteInAppMessaging'
-  s.version                 = '2.27.0'
+  s.version                 = File.read(File.join(__dir__, 'KarteInAppMessaging/Version.xcconfig'))[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
   s.summary                 = 'KARTE In-app messaging SDK'
   s.homepage                = 'https://karte.io'
   s.author                  = { 'PLAID' => 'dev.share@plaid.co.jp' }
@@ -27,7 +27,8 @@ Pod::Spec.new do |s|
 
   s.requires_arc            = true
   s.pod_target_xcconfig     = {
-    'GCC_PREPROCESSOR_DEFINITIONS' => 'IN_APP_MESSAGING_VERSION=' + s.version.to_s
+    'GCC_PREPROCESSOR_DEFINITIONS' => 'IN_APP_MESSAGING_VERSION=' + s.version.to_s,
+    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
   }
 
   s.dependency 'KarteCore', '~> 2.32'

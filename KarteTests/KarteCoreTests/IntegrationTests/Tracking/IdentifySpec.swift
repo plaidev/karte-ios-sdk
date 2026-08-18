@@ -28,9 +28,9 @@ class IdentifySpec: XCTestCase {
     private let arrValue1 = "value1"
     private let arrValue2 = "value2"
 
-    private var values: [String: JSONConvertible] {
-        let dict: [String: JSONConvertible] = ["key": dictValue]
-        let arr: [JSONConvertible] = [arrValue1, arrValue2]
+    private var values: [String: any JSONConvertible] {
+        let dict: [String: any JSONConvertible] = ["key": dictValue]
+        let arr: [any JSONConvertible] = [arrValue1, arrValue2]
         return [
             "num": num,
             "str": str,

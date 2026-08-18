@@ -46,7 +46,7 @@ function has_tag() {
 }
 
 # tag用文字列の取得
-function get_tag_version_from_podspec() {
+function get_tag_version_from_xcconfig() {
   if echo $1 | grep -q .podspec; then
     local TARGET=${1/.podspec/}
     echo $(ruby scripts/bump_version.rb current-tag -p Karte.xcodeproj -t $TARGET)
@@ -54,10 +54,10 @@ function get_tag_version_from_podspec() {
 }
 
 # versionのみ取得
-function get_version_from_podspec() {
+function get_version_from_xcconfig() {
   if echo $1 | grep -q .podspec; then
     local TARGET=${1/.podspec/}
-    echo $(ruby scripts/bump_version.rb current-version -p Karte.xcodeproj -t $TARGET -c)
+    echo $(ruby scripts/bump_version.rb current-version -p Karte.xcodeproj -t $TARGET -q)
   fi
 }
 
@@ -78,7 +78,7 @@ function sync_repository() {
 function publish() {
   local SORTED_PODSPECS=()
   for PODSPEC in ${PODSPECS[@]}; do
-    local POD_VERSION=$(get_version_from_podspec $PODSPEC)
+    local POD_VERSION=$(get_version_from_xcconfig $PODSPEC)
     # 未リリースのpodのみPublish対象に加える
     is_pod_already_released $PODSPEC $POD_VERSION
     if [ $? -eq 1 ]; then
@@ -94,7 +94,7 @@ function publish() {
   # Set tag and publish pods
   for PODSPEC in ${SORTED_PODSPECS[@]}; do
     # tagを付与. pod trunk前にtagをつける必要がある
-    local TAG_VERSION=$(get_tag_version_from_podspec $PODSPEC)
+    local TAG_VERSION=$(get_tag_version_from_xcconfig $PODSPEC)
     has_tag $TAG_VERSION
     if [ $? -eq 1 ]; then
       # タグが付与済みなら中止する

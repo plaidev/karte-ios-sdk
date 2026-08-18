@@ -18,9 +18,9 @@ import Foundation
 import KarteUtilities
 
 internal struct TrackingCommandTable: SQLiteTable {
-    var schema: SQLiteTableSchema
+    var schema: any SQLiteTableSchema
 
-    init(_ schema: SQLiteTableSchema) {
+    init(_ schema: any SQLiteTableSchema) {
         self.schema = schema
     }
 }

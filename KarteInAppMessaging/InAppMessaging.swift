@@ -25,7 +25,7 @@ public class InAppMessaging: NSObject {
     @objc public static let shared = InAppMessaging()
 
     /// アプリ内メッセージで発生するイベント等を委譲するためのデリゲートインスタンスを取得・設定します。
-    @objc public weak var delegate: InAppMessagingDelegate?
+    @objc public weak var delegate: (any InAppMessagingDelegate)?
 
     /// アプリ内メッセージ表示用のWebViewが利用するプロセスプールを保持します。
     ///
@@ -226,7 +226,7 @@ extension InAppMessaging {
         }
 
         if window.isKind(of: IAMWindow.self), let delegate = delegate {
-            let selector = #selector(InAppMessagingDelegate.inAppMessagingWindowIsPresented(_:onScene:))
+            let selector = #selector((any InAppMessagingDelegate).inAppMessagingWindowIsPresented(_:onScene:))
             if (delegate as AnyObject).responds(to: selector), let scene = window.windowScene {
                 delegate.inAppMessagingWindowIsPresented?(self, onScene: scene)
             } else {
@@ -254,7 +254,7 @@ extension InAppMessaging {
         }
 
         if window.isKind(of: IAMWindow.self), let delegate = delegate {
-            let selector = #selector(InAppMessagingDelegate.inAppMessagingWindowIsDismissed(_:onScene:))
+            let selector = #selector((any InAppMessagingDelegate).inAppMessagingWindowIsDismissed(_:onScene:))
             if (delegate as AnyObject).responds(to: selector), let scene = window.windowScene {
                 delegate.inAppMessagingWindowIsDismissed?(self, onScene: scene)
             } else {
@@ -337,9 +337,9 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
         var response = response
 
         let process = pool.retrieveProcess(sceneId: request.sceneId)
-        let isSuppressedInProcess = process?.isSuppressed ?? false
+        let shouldSuppressHandling = (process?.isSuppressed ?? false) || isSuppressed
         let filter = MessageFilter.Builder()
-            .add(MessageSuppressionFilterRule(isSuppressed: isSuppressedInProcess || isSuppressed))
+            .add(MessageSuppressionFilterRule(isSuppressed: shouldSuppressHandling))
             .add(MessagePvIdFilterRule(request: request, app: app))
             .build()
 
@@ -347,6 +347,10 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
             .filter((response.jsonArray(forKey: "messages") ?? []).dictionaries, exclude: Tracker.trackMessageSuppressed)
             .map(JSONValue.dictionary)
         response["messages"] = .array(messages)
+
+        if shouldSuppressHandling {
+            return
+        }
 
         if pool.canCreateProcess(sceneId: request.sceneId) {
             guard let window = WindowDetector.retrieveRelatedWindows(from: request.sceneId.identifier).first, let app = app else {
@@ -397,7 +401,7 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
         return urlRequest
     }
 
-    public func provideEventRejectionFilterRules() -> [TrackEventRejectionFilterRule] {
+    public func provideEventRejectionFilterRules() -> [any TrackEventRejectionFilterRule] {
         return [ExpiredMessageOpenEventRejectionFilterRule()]
     }
 }

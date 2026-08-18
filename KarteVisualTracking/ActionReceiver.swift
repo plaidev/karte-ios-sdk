@@ -17,5 +17,5 @@
 import Foundation
 
 internal protocol ActionReceiver {
-    func receive(action: ActionProtocol)
+    func receive(action: any ActionProtocol)
 }

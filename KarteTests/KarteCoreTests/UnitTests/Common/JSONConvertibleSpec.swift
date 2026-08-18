@@ -22,8 +22,8 @@ final class JSONConvertibleSpec: XCTestCase {
     // MARK: - mergeRecursive
 
     func testMergeRecursiveNoConflict() {
-        var data: [String: JSONConvertible] = ["f1": "f1v"]
-        let ext: [String: JSONConvertible] = ["f2": "f2v"]
+        var data: [String: any JSONConvertible] = ["f1": "f1v"]
+        let ext: [String: any JSONConvertible] = ["f2": "f2v"]
         data.mergeRecursive(ext)
 
         XCTAssertEqual(data["f1"] as? String, "f1v", "f1 should remain f1v")
@@ -31,15 +31,15 @@ final class JSONConvertibleSpec: XCTestCase {
     }
 
     func testMergeRecursiveConflictPrimitiveValue() {
-        var data: [String: JSONConvertible] = ["f1": "f1v1"]
-        let ext: [String: JSONConvertible] = ["f1": "f1v2"]
+        var data: [String: any JSONConvertible] = ["f1": "f1v1"]
+        let ext: [String: any JSONConvertible] = ["f1": "f1v2"]
         data.mergeRecursive(ext)
 
         XCTAssertEqual(data["f1"] as? String, "f1v2", "f1 should be overwritten to f1v2")
     }
 
     func testMergeRecursiveConflictDictionaryValue() {
-        var data: [String: JSONConvertible] = [
+        var data: [String: any JSONConvertible] = [
             "f1": [
                 "f1a": [
                     "f1a1": "f1a1v1",
@@ -51,7 +51,7 @@ final class JSONConvertibleSpec: XCTestCase {
                 "f2a": "f2av"
             ]
         ]
-        let ext: [String: JSONConvertible] = [
+        let ext: [String: any JSONConvertible] = [
             "f1": [
                 "f1a": [
                     "f1a1": "f1a1v2",
@@ -75,8 +75,8 @@ final class JSONConvertibleSpec: XCTestCase {
     // MARK: - mergingRecursive
 
     func testMergingRecursiveNoConflict() {
-        let base: [String: JSONConvertible] = ["f1": "f1v"]
-        let ext: [String: JSONConvertible] = ["f2": "f2v"]
+        let base: [String: any JSONConvertible] = ["f1": "f1v"]
+        let ext: [String: any JSONConvertible] = ["f2": "f2v"]
         let data = base.mergingRecursive(ext)
 
         XCTAssertEqual(data["f1"] as? String, "f1v", "f1 should be f1v")
@@ -85,8 +85,8 @@ final class JSONConvertibleSpec: XCTestCase {
     }
 
     func testMergingRecursiveConflictPrimitiveValue() {
-        let base: [String: JSONConvertible] = ["f1": "f1v1"]
-        let ext: [String: JSONConvertible] = ["f1": "f1v2"]
+        let base: [String: any JSONConvertible] = ["f1": "f1v1"]
+        let ext: [String: any JSONConvertible] = ["f1": "f1v2"]
         let data = base.mergingRecursive(ext)
 
         XCTAssertEqual(data["f1"] as? String, "f1v2", "f1 should be overwritten to f1v2")
@@ -94,7 +94,7 @@ final class JSONConvertibleSpec: XCTestCase {
     }
 
     func testMergingRecursiveConflictDictionaryValue() {
-        let base: [String: JSONConvertible] = [
+        let base: [String: any JSONConvertible] = [
             "f1": [
                 "f1a": [
                     "f1a1": "f1a1v1",
@@ -106,7 +106,7 @@ final class JSONConvertibleSpec: XCTestCase {
                 "f2a": "f2av"
             ]
         ]
-        let ext: [String: JSONConvertible] = [
+        let ext: [String: any JSONConvertible] = [
             "f1": [
                 "f1a": [
                     "f1a1": "f1a1v2",

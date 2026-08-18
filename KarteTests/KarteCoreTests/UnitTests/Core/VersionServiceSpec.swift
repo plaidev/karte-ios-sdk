@@ -28,7 +28,7 @@ class VersionServiceSpec: XCTestCase {
         versionRetriever = VersionRetrieverMock()
         Resolver.root = Resolver.submock
         Resolver.root.register(name: "version_service.current_version_retriever") { [unowned self] in
-            self.versionRetriever as VersionRetriever
+            self.versionRetriever as any VersionRetriever
         }
     }
 
