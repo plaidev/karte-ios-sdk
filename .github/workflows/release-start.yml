@@ -65,6 +65,8 @@ jobs:
           git checkout -b release/${{ steps.date.outputs.date }}
       - name: Update CHANGELOG.md
         if: steps.find-release-targets.outputs.RELEASE_TYPE == 'module'
+        env:
+          TZ: Asia/Tokyo
         run: |
           echo "Updating CHANGELOG.md for module release"
           sed -i "0,/# Releases - xxxx.xx.xx/ s/# Releases - xxxx.xx.xx/# Releases - $(date '+%Y.%m.%d')\n## Version $(cat .spm-version)/g" ./CHANGELOG.md
