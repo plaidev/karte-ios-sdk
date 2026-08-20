@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import UIKit
+public import UIKit
 
 /// deep link イベントを処理するためのクラスです。
 ///

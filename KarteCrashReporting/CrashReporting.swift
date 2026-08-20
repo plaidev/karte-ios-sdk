@@ -16,7 +16,7 @@
 
 import CrashReporter
 import Foundation
-import KarteCore
+public import KarteCore
 
 /// CrashReportingモジュールクラスです。
 @objc(KRTCrashReporting)

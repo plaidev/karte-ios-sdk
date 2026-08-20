@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import KarteCore
+public import KarteCore
 
 /// VisualTrackingモジュールの設定を保持するクラスです。
 @objc(KRTVisualTrackingConfiguration)

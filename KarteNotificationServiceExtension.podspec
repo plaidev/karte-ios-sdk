@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
     
     s.requires_arc            = true
     s.pod_target_xcconfig     = {
-      'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
+      'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES',
+      'SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT' => 'YES'
     }
 end

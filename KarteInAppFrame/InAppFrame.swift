@@ -15,8 +15,8 @@
 //
 
 import Foundation
-import UIKit
-import KarteCore
+public import UIKit
+public import KarteCore
 import KarteVariables
 
 @objc(KRTInAppFrame)

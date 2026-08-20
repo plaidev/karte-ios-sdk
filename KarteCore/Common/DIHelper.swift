@@ -14,8 +14,7 @@
 //  limitations under the License.
 //
 
-import Foundation
-import KarteUtilities
+public import KarteUtilities
 
 @propertyWrapper
 public struct CodableInjectedForObjcCompatibility<Service: Codable>: Codable {

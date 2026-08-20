@@ -16,7 +16,7 @@
 
 import Foundation
 import KarteUtilities
-import WebKit
+public import WebKit
 
 /// WebView 連携するためのクラスです。
 ///

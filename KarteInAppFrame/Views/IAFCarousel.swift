@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import SwiftUI
+public import SwiftUI
 
 public struct IAFCarousel: View {
     private let variableKey: String

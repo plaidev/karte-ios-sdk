@@ -34,7 +34,8 @@ Pod::Spec.new do |s|
     # NOTE: CLANG_WARN_DOCUMENTATION_COMMENTS is disabled to avoid the following lint error:
     # warning: empty paragraph passed to '@par' command [-Wdocumentation]
     'CLANG_WARN_DOCUMENTATION_COMMENTS' => 'NO',
-    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
+    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES',
+    'SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT' => 'YES'
   }
 
   s.dependency 'KarteCore', '~> 2.32'

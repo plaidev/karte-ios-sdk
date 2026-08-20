@@ -28,7 +28,8 @@ Pod::Spec.new do |s|
   s.requires_arc            = true
   s.pod_target_xcconfig     = {
     'GCC_PREPROCESSOR_DEFINITIONS' => 'IN_APP_FRAME_VERSION=' + s.version.to_s,
-    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
+    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES',
+    'SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT' => 'YES'
   }
 
   s.dependency 'KarteCore', '~> 2.32'

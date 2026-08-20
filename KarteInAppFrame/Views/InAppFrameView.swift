@@ -15,7 +15,7 @@
 //
 
 import Foundation
-import UIKit
+public import UIKit
 
 @MainActor
 public protocol InAppFrameView: UIView {

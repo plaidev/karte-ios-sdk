@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import UIKit
+public import UIKit
 
 /// ディープリンク処理をフックするためのモジュールタイプです。
 ///

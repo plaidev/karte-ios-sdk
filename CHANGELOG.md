@@ -2,16 +2,58 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.38.0 |
-| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.28.0 |
-| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.15.0 |
-| KarteVariables | 設定値配信機能を提供します。 | 2.14.0 |
-| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.15.0 |
-| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.8.0 |
-| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.12.0 |
-| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.15.0 |
-| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.4.0 |
-| KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.2.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.39.0 |
+| KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.29.0 |
+| KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.16.0 |
+| KarteVariables | 設定値配信機能を提供します。 | 2.15.0 |
+| KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.16.0 |
+| KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.9.0 |
+| KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.13.0 |
+| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.16.0 |
+| KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.5.0 |
+| KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.3.0 |
+
+# Releases - xxxx.xx.xx
+
+### Core 2.39.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### InAppMessaging 2.29.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### RemoteNotification 2.16.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### Variables 2.15.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### VisualTracking 2.16.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### InAppFrame 0.9.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### CrashReporting 2.13.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### Utilities 3.16.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### NotificationServiceExtension 1.5.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+
+### Debugger 1.3.0
+**🔨CHANGED**
+- SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
 
 # Releases - 2026.08.18
 ## Version 2.35.0

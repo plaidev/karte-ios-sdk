@@ -5,7 +5,7 @@
 //  Created by Tomoki Koga on 2023/11/27.
 //
 
-import KarteCore
+public import KarteCore
 
 /// InAppMessagingモジュールの設定を保持するクラスです。
 @objc(KRTInAppMessagingConfiguration)

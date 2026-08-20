@@ -15,7 +15,7 @@
 //
 
 import Foundation
-import UIKit
+public import UIKit
 
 /// シーンIDを保持する構造体です。
 ///

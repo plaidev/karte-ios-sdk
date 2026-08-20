@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import UIKit
+public import UIKit
 
 @objc
 public protocol UIApplicationProtocol: NSObjectProtocol {

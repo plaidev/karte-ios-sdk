@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import KarteCore
+public import KarteCore
 import UIKit
 
 /// VisualTrackingモジュールクラスです。
