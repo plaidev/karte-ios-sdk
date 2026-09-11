@@ -21,6 +21,7 @@
 
 ### InAppMessaging 2.29.0
 **🔨CHANGED**
+- `isSkipSystemUIDetectionInWebView`オプションを非推奨にしました。また、`isSkipSystemUIDetectionInWebView`に関するドキュメンテーションコメントに不備があったため、修正しました。
 - SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
 
 ### RemoteNotification 2.16.0
