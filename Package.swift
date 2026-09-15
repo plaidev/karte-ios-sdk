@@ -59,31 +59,31 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .binaryTarget(
-            name: "KarteUtilities", url: "https://sdk.karte.io/ios/swiftpm/Utilities-3.15.0/KarteUtilities-6a83b84d.xcframework.zip", checksum: "95b17c4ce40f8579f355ef185b5f353e06e46d5bfd401328823f01773b156596"
+            name: "KarteUtilities", url: "https://sdk.karte.io/ios/swiftpm/Utilities-3.16.0/KarteUtilities-6aa9d244.xcframework.zip", checksum: "bf2bb62807bbe95a7c31e7ca818b83e17b2c2ba077f4c40ab6aad2827fe0be2c"
         ),
         .binaryTarget(
-            name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.38.0/KarteCore-6a83b84d.xcframework.zip", checksum: "951a6c6e10fc5277a04f9a613798f7af7a1b4006f7622c062199b41c71509ded"
+            name: "KarteCore", url: "https://sdk.karte.io/ios/swiftpm/Core-2.39.0/KarteCore-6aa9d244.xcframework.zip", checksum: "022a97fab95379da5d295db02b29f402b0445d7104715399d0b24d3e2324dc11"
         ),
         .binaryTarget(
-            name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.28.0/KarteInAppMessaging-6a83b84d.xcframework.zip", checksum: "597b381a615aa3b4b7a1d834ca04209372b183719b8474753eacdfa281e39c1e"
+            name: "KarteInAppMessaging", url: "https://sdk.karte.io/ios/swiftpm/InAppMessaging-2.29.0/KarteInAppMessaging-6aa9d244.xcframework.zip", checksum: "4deff9e61fe7956902ec370966f38d769bd6fd779f144de8d8dcae3c72fb4b2e"
         ),
         .binaryTarget(
-            name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.14.0/KarteVariables-6a83b84d.xcframework.zip", checksum: "4f5d5f3a947247d473bd20843a7208351e3743102e302caccd032e643ead2054"
+            name: "KarteVariables", url: "https://sdk.karte.io/ios/swiftpm/Variables-2.15.0/KarteVariables-6aa9d244.xcframework.zip", checksum: "deb043932b322eb3c9d2311d244abf3317ed9c7499ae8ce77aabb46c0a08aac4"
         ),
         .binaryTarget(
-            name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.15.0/KarteVisualTracking-6a83b84d.xcframework.zip", checksum: "9f6dbccbe3744e0b10d96b9f0478237218c1585aa926e2761827563de083c0bd"
+            name: "KarteVisualTracking", url: "https://sdk.karte.io/ios/swiftpm/VisualTracking-2.16.0/KarteVisualTracking-6aa9d244.xcframework.zip", checksum: "42e570528dcc3227a162b709f6e38e035b69299552728fe8acb6e8c89775b25f"
         ),
         .binaryTarget(
             name: "KarteInbox", url: "https://sdk.karte.io/ios/swiftpm/Inbox-0.5.0/KarteInbox-6a83b84d.xcframework.zip", checksum: "c8f81a833925b019c1e9c1b5bc10c5e85d085202e8df8eb2aee22cf5d17dca7c"
         ),
         .binaryTarget(
-            name: "KarteInAppFrame", url: "https://sdk.karte.io/ios/swiftpm/InAppFrame-0.8.0/KarteInAppFrame-6a83b84d.xcframework.zip", checksum: "c9f0a99c7eb829054e142e34698062c4c112c5d8a6b827143cf55e4396f2e81d"
+            name: "KarteInAppFrame", url: "https://sdk.karte.io/ios/swiftpm/InAppFrame-0.9.0/KarteInAppFrame-6aa9d244.xcframework.zip", checksum: "009188bb104d5a98c944f702df683524b2e81a60a8a6c340c009a45d1bb0b9aa"
         ),
         .binaryTarget(
-            name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.15.0/KarteRemoteNotification-6a83b84d.xcframework.zip", checksum: "64c7704dd896cbce205bd3c9a1b3072ce0919e6d580961d4ca743b3fc7628386"
+            name: "KarteRemoteNotification", url: "https://sdk.karte.io/ios/swiftpm/RemoteNotification-2.16.0/KarteRemoteNotification-6aa9d244.xcframework.zip", checksum: "1ac456bc6b75b72562db30e128b19cdd82ede90e24f3e2ee5981ca02429a2f5a"
         ),
         .binaryTarget(
-            name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.12.0/KarteCrashReporting-6a83b84d.xcframework.zip", checksum: "99306c03fc5d70efd87ae3d8a60b8a3125ab6cc39f7c489677cb18c1f7714384"
+            name: "KarteCrashReporting", url: "https://sdk.karte.io/ios/swiftpm/CrashReporting-2.13.0/KarteCrashReporting-6aa9d244.xcframework.zip", checksum: "1549e7fddc4e5c067cf4c1f774de7047cb932121d49b6520eb34c984b5c7ca29"
         ),
         .target(
             name: "KarteCrashReportingTarget", 
@@ -91,10 +91,10 @@ let package = Package(
             path: "KarteCrashReporting/SwiftPM"
         ),
         .binaryTarget(
-            name: "KarteNotificationServiceExtension", url: "https://sdk.karte.io/ios/swiftpm/NotificationServiceExtension-1.4.0/KarteNotificationServiceExtension-6a83b84d.xcframework.zip", checksum: "6151894a8a55909dab9036e8b4499afcc1be0e1f162b5b345a060747add4f658"
+            name: "KarteNotificationServiceExtension", url: "https://sdk.karte.io/ios/swiftpm/NotificationServiceExtension-1.5.0/KarteNotificationServiceExtension-6aa9d244.xcframework.zip", checksum: "ee39d31915f8035165a83b1e493f7063ea95e17371de590eed5780af80d86ef8"
         ),
         .binaryTarget(
-            name: "KarteDebugger", url: "https://sdk.karte.io/ios/swiftpm/Debugger-1.2.0/KarteDebugger-6a83b84d.xcframework.zip", checksum: "487b6c747a31cfaa61600c8924b1d61b025f84d4c1bf13f6768c4cefd8fda71d"
+            name: "KarteDebugger", url: "https://sdk.karte.io/ios/swiftpm/Debugger-1.3.0/KarteDebugger-6aa9d244.xcframework.zip", checksum: "3bb92d13a6fe2d6538917c5f069db833bbd9f06fe2e0150c41c4f5930de0548a"
         ),
     ]
 )
