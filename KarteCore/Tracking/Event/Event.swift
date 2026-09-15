@@ -205,7 +205,7 @@ public extension Event {
     }
 
     /// message_xxx イベントのタイプを定義した列挙型です。
-    enum MessageType {
+    enum MessageType: Sendable {
         /// `_message_ready` イベント
         case ready
         /// `message_open` イベント
@@ -267,3 +267,6 @@ private extension Event {
         case libraryName
     }
 }
+
+// MARK: - Sendable
+extension Event: Sendable {}

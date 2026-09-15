@@ -18,6 +18,7 @@
 ### Core 2.39.0
 **🔨CHANGED**
 - SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+- Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
 
 ### InAppMessaging 2.29.0
 **🔨CHANGED**
@@ -47,6 +48,7 @@
 ### Utilities 3.16.0
 **🔨CHANGED**
 - SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
+- Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
 
 ### NotificationServiceExtension 1.5.0
 **🔨CHANGED**

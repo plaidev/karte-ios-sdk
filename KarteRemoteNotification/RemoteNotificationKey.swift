@@ -16,7 +16,7 @@
 
 import Foundation
 
-internal struct RemoteNotificationKey {
+internal struct RemoteNotificationKey: Sendable {
     let rawValue: String
 
     init(_ rawValue: String) {
