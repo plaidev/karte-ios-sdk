@@ -26,6 +26,7 @@
 
 **🔨CHANGED**
 - `isSkipSystemUIDetectionInWebView`オプションを非推奨にしました。また、`isSkipSystemUIDetectionInWebView`に関するドキュメンテーションコメントに不備があったため、修正しました。
+- アプリ内メッセージの透明領域におけるタッチイベントの透過判定を改善しました。
 - SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
 
 ### RemoteNotification 2.16.0
@@ -75,7 +76,6 @@
 - アプリ内メッセージを最小化した状態で戻るスワイプを行った際、ページが指の移動より大きく動いて見える問題を修正しました。
 
 **🔨CHANGED**
-- アプリ内メッセージの透明領域におけるタッチイベント透過判定の処理を見直しました。
 - Existential Any (SE-0335) 対応に伴い、`SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY` コンパイラフラグを有効化し、existential type 宣言に `any` キーワードを追加しました。
 - バージョン番号の管理方法の改善を行いました
 
