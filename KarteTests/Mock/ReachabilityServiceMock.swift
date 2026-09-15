@@ -21,13 +21,16 @@ class ReachabilityServiceMock: ReachabilityService {
     var whenReachable: Reachable?
     
     var whenUnreachable: Unrachable?
+
+    private(set) var startNotifierCallCount = 0
+    private(set) var stopNotifierCallCount = 0
     
     func startNotifier() {
-        // NOP
+        startNotifierCallCount += 1
     }
     
     func stopNotifier() {
-        // NOP
+        stopNotifierCallCount += 1
     }
     
     func notify(_ isReachable: Bool) {
