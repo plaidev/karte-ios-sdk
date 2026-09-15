@@ -21,6 +21,9 @@
 - Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
 
 ### InAppMessaging 2.29.0
+**💊FIXED**
+- iOS 27で、画面境界の自動判定が有効な場合に、UIKitの`present`、またはSwiftUIの`sheet`／`fullScreenCover`によるモーダルプレゼンテーションで表示したSwiftUIの`NavigationStack`のルート画面で、ナビゲーションバーの高さが通常の54ptから106ptになり、増加した52pt分がコンテンツ上部に重なる問題（[Issue #31](https://github.com/plaidev/karte-ios-sdk/issues/31)）を修正しました。
+
 **🔨CHANGED**
 - `isSkipSystemUIDetectionInWebView`オプションを非推奨にしました。また、`isSkipSystemUIDetectionInWebView`に関するドキュメンテーションコメントに不備があったため、修正しました。
 - SE-0409 (Access-level on imports) 対応に伴い、`SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT` コンパイラフラグを有効化し、公開 API で使用する import に `public import` を追加しました。
