@@ -13,7 +13,8 @@
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.5.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.3.0 |
 
-# Releases - xxxx.xx.xx
+# Releases - 2026.09.16
+## Version 2.36.0
 
 ### Core 2.39.0
 **🔨CHANGED**
