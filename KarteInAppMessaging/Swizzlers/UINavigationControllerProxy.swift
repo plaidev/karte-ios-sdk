@@ -97,7 +97,9 @@ extension UINavigationControllerProxy {
             return
         }
 
-        if let window = receiver.view.window {
+        // Must not read `view` here: it forces loadView before the original implementation runs,
+        // which inflates UINavigationBar height on iOS 27 for modally presented navigation stacks.
+        if let window = receiver.viewIfLoaded?.window {
             let process = InAppMessaging.shared.retrieveProcess(window: window)
             process?.pushViewController(viewControllers.last, to: receiver, in: window)
         }
@@ -120,7 +122,7 @@ extension UINavigationControllerProxy {
             return
         }
 
-        if let window = receiver.view.window {
+        if let window = receiver.viewIfLoaded?.window {
             let process = InAppMessaging.shared.retrieveProcess(window: window)
             process?.pushViewController(viewController, to: receiver, in: window)
         }
@@ -143,7 +145,7 @@ extension UINavigationControllerProxy {
             return nil
         }
 
-        if let window = receiver.view.window {
+        if let window = receiver.viewIfLoaded?.window {
             let process = InAppMessaging.shared.retrieveProcess(window: window)
             process?.popViewController(receiver.visibleViewController, from: receiver, in: window)
         }
@@ -166,7 +168,7 @@ extension UINavigationControllerProxy {
             return nil
         }
 
-        if let window = receiver.view.window {
+        if let window = receiver.viewIfLoaded?.window {
             let process = InAppMessaging.shared.retrieveProcess(window: window)
             process?.popViewController(receiver.visibleViewController, from: receiver, in: window)
         }
@@ -189,7 +191,7 @@ extension UINavigationControllerProxy {
             return nil
         }
 
-        if let window = receiver.view.window {
+        if let window = receiver.viewIfLoaded?.window {
             let process = InAppMessaging.shared.retrieveProcess(window: window)
             process?.popViewController(receiver.visibleViewController, from: receiver, in: window)
         }

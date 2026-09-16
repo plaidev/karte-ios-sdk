@@ -17,10 +17,6 @@
 import Foundation
 
 internal struct ClassLoader {
-    static var compositingViewClass: AnyClass? {
-        load("V0tDb21wb3NpdGluZ1ZpZXc=")
-    }
-
     static var remoteViewClass: AnyClass? {
         load("X1VJUmVtb3RlVmlldw==")
     }

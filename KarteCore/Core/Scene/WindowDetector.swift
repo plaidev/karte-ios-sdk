@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import UIKit
+public import UIKit
 
 /// Windowの検出処理を実装した構造体です。
 ///

@@ -14,8 +14,8 @@
 //  limitations under the License.
 //
 
-import KarteCore
-import UIKit
+public import KarteCore
+public import UIKit
 
 /// アプリ内メッセージのプレビュー処理を行うクラスです。
 @objc(KRTPreview)

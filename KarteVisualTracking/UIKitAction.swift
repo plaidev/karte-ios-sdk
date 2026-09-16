@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import UIKit
+public import UIKit
 
 /// 画像を生成して返す関数を表す型です。
 public typealias ImageProvider = () -> UIImage?

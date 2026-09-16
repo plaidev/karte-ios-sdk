@@ -17,7 +17,7 @@
 import Foundation
 
 /// イベント名を表現する構造体です。
-public struct EventName: Codable {
+public struct EventName: Codable, Sendable {
     /// イベント名
     public let rawValue: String
 

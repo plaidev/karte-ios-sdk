@@ -99,6 +99,50 @@ class TrackClientTests: XCTestCase {
         wait(for: [exp], timeout: 20)
     }
 
+    func testTeardown() throws {
+        let configuration = Configuration { configuration in
+            // setup時に自動送信される初期イベントを無効化する
+            configuration.isSendInitializationEventEnabled = false
+        }
+        KarteApp.setup(appKey: APP_KEY, configuration: configuration)
+
+        // teardownで、isReachableがtrueからfalseに戻ることを検証するためのセットアップ
+        let reachable = expectation(description: "Reachability state updated")
+        reachabilityService.notify(true)
+        TrackClient.shared.callbackQueue.async {
+            reachable.fulfill()
+        }
+        wait(for: [reachable], timeout: 1)
+
+        // isSending、tasks、stateを送信中の状態にし、teardownで初期化されることを検証するためのセットアップ
+        session.isAutoFlush = false
+        let request = try XCTUnwrap(
+            TrackRequest(app: KarteApp.shared, commands: [buildCommand()])
+        )
+        TrackClient.shared.enqueue(request: request) { _ in }
+
+        XCTAssertNotNil(TrackClient.shared.reachability)
+        XCTAssertTrue(TrackClient.shared.isReachable)
+        XCTAssertTrue(TrackClient.shared.isSending)
+        XCTAssertNotEqual(TrackClient.shared.callbackQueue.label, DispatchQueue.main.label)
+        XCTAssertEqual(TrackClient.shared.state, .running)
+        XCTAssertFalse(TrackClient.shared.tasks.isEmpty)
+        XCTAssertFalse(TrackClient.shared.observers.isEmpty)
+        XCTAssertEqual(reachabilityService.startNotifierCallCount, 1)
+        XCTAssertEqual(reachabilityService.stopNotifierCallCount, 0)
+
+        KarteApp.shared.teardown()
+
+        XCTAssertNil(TrackClient.shared.reachability)
+        XCTAssertFalse(TrackClient.shared.isReachable)
+        XCTAssertFalse(TrackClient.shared.isSending)
+        XCTAssertEqual(TrackClient.shared.callbackQueue.label, DispatchQueue.main.label)
+        XCTAssertEqual(TrackClient.shared.state, .waiting)
+        XCTAssertTrue(TrackClient.shared.tasks.isEmpty)
+        XCTAssertTrue(TrackClient.shared.observers.isEmpty)
+        XCTAssertEqual(reachabilityService.stopNotifierCallCount, 1)
+    }
+
     func testTrackClient() throws {
         self.stub = stub(uri("/v0/native/track"), StubBuilder(test: self, resource: .empty).build())
         

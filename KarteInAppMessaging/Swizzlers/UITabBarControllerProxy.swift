@@ -73,7 +73,7 @@ extension UITabBarControllerProxy {
             return
         }
 
-        if let window = receiver.view.window, let viewControllers = receiver.viewControllers {
+        if let window = receiver.viewIfLoaded?.window, let viewControllers = receiver.viewControllers {
             let process = InAppMessaging.shared.retrieveProcess(window: window)
             process?.setSelectedViewController(viewControllers[index], in: window)
         }
@@ -96,7 +96,7 @@ extension UITabBarControllerProxy {
             return
         }
 
-        if let window = receiver.view.window, let viewControllers = receiver.viewControllers, viewControllers.contains(viewController) {
+        if let window = receiver.viewIfLoaded?.window, let viewControllers = receiver.viewControllers, viewControllers.contains(viewController) {
             let process = InAppMessaging.shared.retrieveProcess(window: window)
             process?.setSelectedViewController(viewController, in: window)
         }

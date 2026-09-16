@@ -14,9 +14,9 @@
 //  limitations under the License.
 //
 
-import KarteCore
-import UIKit
-import WebKit
+public import KarteCore
+public import UIKit
+public import WebKit
 
 /// アプリ内メッセージの管理を行うクラスです。
 @objc(KRTInAppMessaging)

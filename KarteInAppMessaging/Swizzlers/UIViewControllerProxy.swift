@@ -81,7 +81,7 @@ extension UIViewControllerProxy {
             return
         }
 
-        let window = receiver.view.window
+        let window = receiver.viewIfLoaded?.window
         let process = InAppMessaging.shared.retrieveProcess(window: window)
         process?.presentViewController(viewController, in: window)
 
@@ -108,7 +108,7 @@ extension UIViewControllerProxy {
             viewController = tempViewController
         }
 
-        let window = receiver.view.window
+        let window = receiver.viewIfLoaded?.window
         let process = InAppMessaging.shared.retrieveProcess(window: window)
         process?.dismissViewController(viewController, in: window)
 
@@ -140,8 +140,8 @@ extension UIViewControllerProxy {
         )
         originalFunction(receiver, viewDidAppearSelector, animated)
 
-        guard let window = receiver.view?.window else {
-            Logger.warn(tag: .inAppMessaging, message: "The view is nil and the window not found")
+        guard let window = receiver.viewIfLoaded?.window else {
+            Logger.warn(tag: .inAppMessaging, message: "The view controller is not in a window")
             return
         }
         let process = InAppMessaging.shared.retrieveProcess(window: window)

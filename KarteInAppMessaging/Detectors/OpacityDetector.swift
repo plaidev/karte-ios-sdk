@@ -41,23 +41,6 @@ internal struct OpacityDetector {
                 }
             }
 
-            // Render the root view and check if it is opaque.
-            if let cls = ClassLoader.compositingViewClass, var root = leafs.first {
-                while root.isKind(of: cls) {
-                    if let superview = root.superview {
-                        root = superview
-                    } else {
-                        break
-                    }
-                }
-
-                let rootPoint = root.convert(point, from: view)
-                let isOpacity = detectAtPoint(rootPoint, view: root)
-                if isOpacity {
-                    return true
-                }
-            }
-
             return detectAtPoint(point, view: view)
         }
 

@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import Foundation
+public import Foundation
 @testable import KarteCore
 @testable import KarteUtilities
 

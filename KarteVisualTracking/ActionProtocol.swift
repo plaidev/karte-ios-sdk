@@ -15,7 +15,7 @@
 //
 
 import Foundation
-import UIKit
+public import UIKit
 
 /// 基本となるアクション（操作ログ）の性質を表現する型です。
 public protocol ActionProtocol {

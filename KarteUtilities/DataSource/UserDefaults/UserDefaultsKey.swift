@@ -17,7 +17,7 @@
 import Foundation
 
 /// この構造体は、UserDefaultsのキーを表します。
-public struct UserDefaultsKey {
+public struct UserDefaultsKey: Sendable {
     /// ネームスペース
     public let namespace: UserDefaultsNamespace
 

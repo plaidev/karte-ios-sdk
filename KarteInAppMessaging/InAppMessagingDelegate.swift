@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 
-import UIKit
+public import UIKit
 
 /// アプリ内メッセージで発生するイベントを委譲するためのタイプです。
 @preconcurrency @MainActor @objc(KRTInAppMessagingDelegate)

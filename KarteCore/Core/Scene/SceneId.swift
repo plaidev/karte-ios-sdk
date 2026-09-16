@@ -15,12 +15,12 @@
 //
 
 import Foundation
-import UIKit
+public import UIKit
 
 /// シーンIDを保持する構造体です。
 ///
 /// **SDK内部で利用するタイプであり、通常のSDK利用でこちらのタイプを利用することはありません。**
-public struct SceneId: Codable, Hashable {
+public struct SceneId: Codable, Hashable, Sendable {
     private static let identifierForDefault = "DEFAULT"
 
     /// デフォルトのシーンIDを返します。
@@ -32,13 +32,15 @@ public struct SceneId: Codable, Hashable {
     public var identifier: String
 
     /// シーンに関連するWindowの配列を返します。
+    /// UIKit へのアクセスを伴うため、メインスレッドから呼び出してください。
     public var windows: [UIWindow] {
         WindowDetector.retrieveRelatedWindows(from: identifier)
     }
 
     /// シーンIDを生成します。
     ///
-    /// - Parameter view: `UIVew`
+    /// - Parameter view: `UIView`
+    /// UIKit へのアクセスを伴うため、メインスレッドから呼び出してください。
     public init(view: UIView?) {
         let identifier = WindowSceneDetector.retrievePersistentIdentifier(view: view) ?? SceneId.default.identifier
         self.identifier = identifier

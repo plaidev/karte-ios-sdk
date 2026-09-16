@@ -17,7 +17,7 @@
 import Foundation
 
 /// イベントのフィールド名を扱うための構造体です。
-public struct EventFieldName {
+public struct EventFieldName: Sendable {
     /// フィールド名
     public let rawValue: String
 

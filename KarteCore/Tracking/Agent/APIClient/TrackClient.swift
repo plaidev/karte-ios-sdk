@@ -92,6 +92,7 @@ internal class TrackClient {
         self.reachability?.stopNotifier()
         self.reachability = nil
         self.isReachable = false
+        self.isSending = false
         self.callbackQueue = DispatchQueue.main
         self.state = .waiting
         self.tasks.removeAll()

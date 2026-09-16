@@ -25,8 +25,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 */
 
-import SystemConfiguration
-import Foundation
+public import SystemConfiguration
+public import Foundation
 
 public enum ReachabilityError: Error {
     case failedToCreateWithAddress(sockaddr, Int32)

@@ -17,7 +17,7 @@
 import CoreGraphics
 import Foundation
 /// JSON値を表す列挙型です。
-public indirect enum JSONValue {
+public indirect enum JSONValue: Sendable {
     /// nil
     case none
     /// 文字列型

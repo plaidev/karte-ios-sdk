@@ -14,9 +14,9 @@
 //  limitations under the License.
 //
 
-import KarteUtilities
-import UIKit
-import AppTrackingTransparency
+public import KarteUtilities
+public import UIKit
+public import AppTrackingTransparency
 
 /// KARTE SDKのエントリポイントであると共に、SDKの構成および依存ライブラリ等の管理を行うクラスです。
 ///

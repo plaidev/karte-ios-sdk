@@ -28,7 +28,8 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig     = {
     'OTHER_SWIFT_FLAGS' => '$(inherited) -suppress-warnings',
     'GCC_PREPROCESSOR_DEFINITIONS' => 'UTILITIES_VERSION=' + s.version.to_s,
-    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES'
+    'SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY' => 'YES',
+    'SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT' => 'YES'
   }
   
   s.subspec 'standard' do |ss|

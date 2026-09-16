@@ -14,8 +14,8 @@
 //  limitations under the License.
 //
 
-import Foundation
-import KarteUtilities
+public import Foundation
+public import KarteUtilities
 
 /// Track API のリクエスト情報を保持する構造体です。
 ///

@@ -16,7 +16,7 @@
 
 import Foundation
 
-public enum UserDefaultsNamespace: String {
+public enum UserDefaultsNamespace: String, Sendable {
     case `default`
     case variables
     case config
