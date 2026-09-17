@@ -17,7 +17,8 @@
 
 import Foundation
 
-public enum NetworkingError: Error {
+// @unchecked Sendable: `any Error` / `Any` associated values are not Sendable.
+public enum NetworkingError: Error, @unchecked Sendable {
     case invalidURL(URL)
     case requestBuildFailed(any Error)
     case requestFailed(any Error)

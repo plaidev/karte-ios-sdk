@@ -16,7 +16,7 @@
 
 import Foundation
 
-public struct JSONRepository: Repository {
+public struct JSONRepository: Repository, Sendable {
     var dataSource: any DataSource
 
     public var isExist: Bool {

@@ -18,7 +18,7 @@
 import Foundation
 import MobileCoreServices
 
-public struct MultipartFormDataBody {
+public struct MultipartFormDataBody: Sendable {
     public let parts: [Part]
     public let boundary: String
 
@@ -61,11 +61,11 @@ public struct MultipartFormDataBody {
 }
 
 public extension MultipartFormDataBody {
-    enum MimeType: String {
+    enum MimeType: String, Sendable {
         case textPlain = "text/plain"
         case imageJpeg = "image/jpeg"
     }
-    struct Part {
+    struct Part: Sendable {
         public let data: Data
         public let name: String
         public let mimeType: MimeType

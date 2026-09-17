@@ -17,7 +17,7 @@
 import Foundation
 
 /// リポジトリに対するデータの読み書き等の操作を表現するタイプです。
-public protocol Repository {
+public protocol Repository: Sendable {
     /// リポジトリにデータが存在するかどうかを返します。
     var isExist: Bool { get }
 
