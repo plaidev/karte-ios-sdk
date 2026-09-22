@@ -57,3 +57,7 @@ extension PvId: Equatable {
         lhs.identifier == rhs.identifier
     }
 }
+
+// MARK: - Sendable
+
+extension PvId: Sendable {}

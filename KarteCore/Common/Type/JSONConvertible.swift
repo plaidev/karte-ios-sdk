@@ -29,7 +29,7 @@ import Foundation
 /// - Date
 /// - Array
 /// - Dictionary
-public protocol JSONConvertible {
+public protocol JSONConvertible: Sendable {
     /// `JSONValue` を返します。
     var jsonValue: JSONValue { get }
 }

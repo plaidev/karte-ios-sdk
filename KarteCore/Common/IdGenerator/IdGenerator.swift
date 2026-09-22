@@ -17,7 +17,7 @@
 import Foundation
 
 /// ID生成者を表現するタイプです。
-public protocol IdGenerator {
+public protocol IdGenerator: Sendable {
     /// IDを生成します。
     ///
     /// - Returns: 生成したIDを返します。

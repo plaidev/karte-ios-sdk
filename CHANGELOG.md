@@ -2,7 +2,7 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.39.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.40.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.29.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.16.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.15.0 |
@@ -12,6 +12,12 @@
 | KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.16.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.5.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.3.0 |
+
+# Releases - xxxx.xx.xx
+
+### Core 2.40.0
+**🔨CHANGED**
+- Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
 
 # Releases - 2026.09.16
 ## Version 2.36.0

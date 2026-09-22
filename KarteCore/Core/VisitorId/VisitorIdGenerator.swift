@@ -16,5 +16,5 @@
 
 import Foundation
 
-internal struct VisitorIdGenerator: IdGenerator {
+internal struct VisitorIdGenerator: IdGenerator, Sendable {
 }

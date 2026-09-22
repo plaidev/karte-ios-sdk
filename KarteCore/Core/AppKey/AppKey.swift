@@ -16,7 +16,7 @@
 
 import Foundation
 
-internal struct AppKey: Codable {
+internal struct AppKey: Codable, Sendable {
     var value: String
 
     var isValid: Bool {

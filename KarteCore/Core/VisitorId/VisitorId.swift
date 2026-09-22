@@ -16,7 +16,7 @@
 
 import Foundation
 
-internal struct VisitorId: Codable {
+internal struct VisitorId: Codable, Sendable {
     var visitorId: String
 
     init(_ visitorId: String) {
