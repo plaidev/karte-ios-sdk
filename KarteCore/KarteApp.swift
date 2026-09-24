@@ -35,6 +35,7 @@ public class KarteApp: NSObject {
     private var coreService: CoreService?
 
     var trackingClient: TrackingClient?
+    private var nativeSDKConfigService: NativeSDKConfigService?
 
     deinit {
     }
@@ -68,6 +69,18 @@ public extension KarteApp {
     /// また初期化が行われていない場合は `false` を返します。
     @objc class var isOptOut: Bool {
         shared.isOptOut
+    }
+
+    /// SDK内部の設定の有効・無効を返します。
+    ///
+    /// **SDK内部で利用するAPIであり、通常のアプリ開発では利用しません。**
+    /// 初期化前、または該当フラグが未取得の場合は `default` を返します。
+    ///
+    /// - Parameters:
+    ///   - name: フラグ名
+    ///   - defaultValue: フラグが未定義の場合に返すデフォルト値
+    static func isSDKConfigEnabled(_ name: String, default defaultValue: Bool) -> Bool {
+        shared.nativeSDKConfigService?.isEnabled(name, default: defaultValue) ?? defaultValue
     }
 
     /// SDKの初期化を行います。
@@ -301,6 +314,13 @@ extension KarteApp {
         self.trackingClient?.delegate = Tracker.delegate
         self.trackingClient?.trackInitialEvents()
 
+        let nativeSDKConfig = NativeSDKConfigService(
+            appKey: configuration._appKey.value,
+            cdnURL: configuration.nativeSDKConfigCDNBaseURL
+        )
+        nativeSDKConfig.startObserving()
+        self.nativeSDKConfigService = nativeSDKConfig
+
         Logger.info(tag: .core, message: "KARTE SDK initialize. appKey=\(appKey)")
 
         KarteApp.libraries.forEach { library in
@@ -314,6 +334,8 @@ extension KarteApp {
             library.unconfigure(app: self)
         }
 
+        nativeSDKConfigService?.stopObserving()
+        nativeSDKConfigService = nil
         self.trackingClient?.teardown()
         self.trackingClient = nil
         self.coreService?.teardown()

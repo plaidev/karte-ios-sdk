@@ -17,6 +17,7 @@
 
 ### Core 2.40.0
 **🔨CHANGED**
+- SDK内部向けのFeature Flagを追加しました。これはSDKの内部的な仕組みであり、SDKの利用者様向けの機能ではありません。詳細は[SDK内部のFeature Flagについて](https://app.developers.karte.io/common-concepts/internal-feature-flags)をご覧ください。
 - Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
 
 # Releases - 2026.09.16

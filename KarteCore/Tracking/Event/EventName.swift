@@ -51,6 +51,7 @@ public struct EventName: Codable, Sendable {
              .massPushClick,
              .pluginNativeAppIdentify,
              .fetchVariables,
+             .fetchNativeSDKConfig,
              .attStatusUpdated:
             return false
         default:
@@ -123,6 +124,8 @@ public extension EventName {
     static let pluginNativeAppIdentify   = EventName("plugin_native_app_identify")
     /// _fetch_variables イベント
     static let fetchVariables            = EventName("_fetch_variables")
+    /// _fetch_native_sdk_config イベント
+    static let fetchNativeSDKConfig      = EventName("_fetch_native_sdk_config")
     /// att_status_updated イベント
     static let attStatusUpdated            = EventName("att_status_updated")
 }

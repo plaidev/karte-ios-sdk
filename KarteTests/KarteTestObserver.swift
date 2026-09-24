@@ -25,6 +25,23 @@ class KarteTestObserver: NSObject, XCTestObservation {
         XCTestObservationCenter.shared.addTestObserver(self)
     }
 
+    func testCaseWillStart(_ testCase: XCTestCase) {
+        // NOTE: 有効なNativeSDKConfigCacheが存在しない場合、_fetch_native_sdk_configイベントが送られてしまい、
+        // テストと干渉するため、予めNativeSDKConfigCacheをセットする。
+        let data = try! JSONEncoder().encode(NativeSDKConfigCache(flags: [:], fetchedAt: .distantFuture, ttl: 300))
+        UserDefaults.standard.set(data, forKey: .nativeSDKConfig)
+
+        // NOTE: KarteApp.setup()内でNativeSDKConfigService.startObserving()が呼ばれると
+        // didBecomeActiveNotification発火時に/v0/native/sdk-configへのリクエストが発生するため、スタブする。
+        HTTPStubProtocol.addStub(matcher: uri("/v0/native/sdk-config")) { _ in
+            HTTPStubProtocol.StubResponse(
+                statusCode: 200,
+                headers: ["Content-Type": "application/json"],
+                data: "{}".data(using: .utf8)!
+            )
+        }
+    }
+
     func testBundleWillStart(_ testBundle: Bundle) {
         KarteApp.setLogLevel(.off)
         KarteApp.shared.teardown()
@@ -34,5 +51,6 @@ class KarteTestObserver: NSObject, XCTestObservation {
 
     func testCaseDidFinish(_ testCase: XCTestCase) {
         KarteApp.shared.teardown()
+        UserDefaults.standard.removeObject(forKey: .nativeSDKConfig)
     }
 }

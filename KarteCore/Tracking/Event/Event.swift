@@ -106,6 +106,8 @@ public extension Event {
         case pluginNativeAppIdentify(subscribe: Bool, fcmToken: String?)
         /// `_fetch_variables` イベント
         case fetchVariables
+        /// `_fetch_native_sdk_config` イベント
+        case fetchNativeSDKConfig(flags: [String: Bool])
         /// `att_status_updated`イベント
         case attStatusUpdated(attStatus: String)
 
@@ -198,6 +200,14 @@ public extension Event {
             case .fetchVariables:
                 name = .fetchVariables
                 vals = [:]
+
+            case let .fetchNativeSDKConfig(flags: flags):
+                var flagValues = [String: any JSONConvertible]()
+                for (flag, value) in flags {
+                    flagValues[flag] = value
+                }
+                name = .fetchNativeSDKConfig
+                vals = [field(.flags): flagValues]
             }
 
             return (name, vals.mapValues { $0.jsonValue })

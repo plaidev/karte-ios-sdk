@@ -90,6 +90,12 @@ public class Configuration: NSObject, NSCopying, Codable {
     public var overlayBaseURL = URL(string: "https://cf-native.karte.io")!
     // swiftlint:disable:previous force_unwrapping
 
+    /// SDK内部の設定の取得に使用するベースURLの取得・設定を行います。
+    ///
+    /// **SDK内部で利用するプロパティであり、通常のSDK利用でこちらのプロパティを利用することはありません。**
+    public var nativeSDKConfigCDNBaseURL = URL(string: "https://cdn-native-sdk-config.karte.io")!
+    // swiftlint:disable:previous force_unwrapping
+
     /// ドライランの利用有無の取得・設定を行います。<br>
     /// ドライランを有効にした場合、`Tracker.track(...)` 等のメソッドを呼び出してもイベントの送信が行われなくなります。
     ///
@@ -200,6 +206,7 @@ public class Configuration: NSObject, NSCopying, Codable {
         configuration.baseURL = baseURL
         configuration.dataLocation = dataLocation
         configuration.overlayBaseURL = overlayBaseURL
+        configuration.nativeSDKConfigCDNBaseURL = nativeSDKConfigCDNBaseURL
         configuration.isDryRun = isDryRun
         configuration.isOptOut = isOptOut
         configuration.isSendInitializationEventEnabled = isSendInitializationEventEnabled

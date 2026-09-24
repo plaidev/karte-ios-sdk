@@ -48,6 +48,7 @@ class EventNameSpec: XCTestCase {
         XCTAssertFalse(EventName.massPushClick.isUserDefinedEvent, "massPushClick")
         XCTAssertFalse(EventName.pluginNativeAppIdentify.isUserDefinedEvent, "pluginNativeAppIdentify")
         XCTAssertFalse(EventName.fetchVariables.isUserDefinedEvent, "fetchVariables")
+        XCTAssertFalse(EventName.fetchNativeSDKConfig.isUserDefinedEvent, "fetchNativeSDKConfig")
         XCTAssertTrue(EventName("foo").isUserDefinedEvent, "foo should be user defined event")
     }
 
@@ -70,6 +71,7 @@ class EventNameSpec: XCTestCase {
         XCTAssertEqual(EventName.massPushClick.rawValue, "mass_push_click", "massPushClick")
         XCTAssertEqual(EventName.pluginNativeAppIdentify.rawValue, "plugin_native_app_identify", "pluginNativeAppIdentify")
         XCTAssertEqual(EventName.fetchVariables.rawValue, "_fetch_variables", "fetchVariables")
+        XCTAssertEqual(EventName.fetchNativeSDKConfig.rawValue, "_fetch_native_sdk_config", "fetchNativeSDKConfig")
     }
 
     func testEventNameEquality() {
