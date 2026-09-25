@@ -79,3 +79,8 @@ public struct OptionalCodableInjectedForObjcCompatibility<Service: Codable>: Cod
         try container.encode(service)
     }
 }
+
+// MARK: - Sendable
+
+extension CodableInjectedForObjcCompatibility: Sendable where Service: Sendable {}
+extension OptionalCodableInjectedForObjcCompatibility: Sendable where Service: Sendable {}

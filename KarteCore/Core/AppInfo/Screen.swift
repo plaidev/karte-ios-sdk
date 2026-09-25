@@ -30,6 +30,10 @@ public struct Screen: Codable {
     }
 }
 
+// MARK: - Sendable
+
+extension Screen: Sendable {}
+
 extension Resolver {
     static func registerScreen() {
         register(CGFloat.self, name: "screen.width") {
