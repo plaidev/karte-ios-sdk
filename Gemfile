@@ -11,8 +11,9 @@ end
 
 group :development, :ci do
   gem 'jazzy'
+  # mustache 1.1.3 breaks jazzy on Ruby 3.4 (Pathname passed to template_path=)
+  gem 'mustache', '~> 1.1.1', '< 1.1.2'
   gem 'danger'
   gem 'danger-swiftlint'
   gem 'minitest'
 end
-
