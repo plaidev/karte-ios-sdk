@@ -9,7 +9,7 @@
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.16.0 |
 | KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.9.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.13.0 |
-| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.16.0 |
+| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.17.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.5.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.3.0 |
 
@@ -18,6 +18,10 @@
 ### Core 2.40.0
 **🔨CHANGED**
 - SDK内部向けのFeature Flagを追加しました。これはSDKの内部的な仕組みであり、SDKの利用者様向けの機能ではありません。詳細は[SDK内部のFeature Flagについて](https://app.developers.karte.io/common-concepts/internal-feature-flags)をご覧ください。
+- Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
+
+### Utilities 3.17.0
+**🔨CHANGED**
 - Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
 
 # Releases - 2026.09.16
