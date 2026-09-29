@@ -17,7 +17,7 @@
 import Foundation
 
 /// データソースに対する操作を表現するタイプです。
-public protocol DataSource {
+public protocol DataSource: Sendable {
     /// データソースにデータが存在するか返します。
     var isExist: Bool { get }
 

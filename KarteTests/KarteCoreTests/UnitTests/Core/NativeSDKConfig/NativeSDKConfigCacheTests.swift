@@ -1,5 +1,5 @@
 //
-//  Copyright 2020 PLAID, Inc.
+//  Copyright 2026 PLAID, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -14,12 +14,18 @@
 //  limitations under the License.
 //
 
-import Foundation
+import XCTest
+@testable import KarteCore
 
-internal struct VisitorId: Codable, Sendable {
-    var visitorId: String
+class NativeSDKConfigCacheTests: XCTestCase {
 
-    init(_ visitorId: String) {
-        self.visitorId = visitorId
+    func testIsExpired() {
+        let fetchedAt = Date(timeIntervalSince1970: 10_000)
+        let ttl: TimeInterval = 3600
+        let cache = NativeSDKConfigCache(flags: [:], fetchedAt: fetchedAt, ttl: ttl)
+
+        XCTAssertFalse(cache.isExpired(now: fetchedAt.addingTimeInterval(ttl - 1)))
+        XCTAssertFalse(cache.isExpired(now: fetchedAt.addingTimeInterval(ttl)))
+        XCTAssertTrue(cache.isExpired(now: fetchedAt.addingTimeInterval(ttl + 1)))
     }
 }

@@ -16,7 +16,7 @@
 
 import Foundation
 
-internal struct ApiKey: Codable {
+internal struct ApiKey: Codable, Sendable {
     var value: String
 
     var isValid: Bool {

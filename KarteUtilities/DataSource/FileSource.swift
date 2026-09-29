@@ -16,7 +16,7 @@
 
 import Foundation
 
-public struct FileSource: DataSource {
+public struct FileSource: DataSource, Sendable {
     var fileURL: URL
 
     public var isExist: Bool {

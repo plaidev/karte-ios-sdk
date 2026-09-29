@@ -31,21 +31,32 @@ class TrackClientSessionMock: TrackClientSession {
     }
     
     var isAutoFlush = true
-    var tasks = [Task]()
+    private let tasksLock = NSLock()
+    private var storedTasks = [Task]()
+    var tasks: [Task] {
+        tasksLock.lock()
+        defer { tasksLock.unlock() }
+        return storedTasks
+    }
     
     func send(_ request: TrackRequest, handler: @escaping (Result<TrackRequest.Response, NetworkingError>) -> Void) -> URLSessionTask? {
         let task = Task(request: request, handler: handler)
         if isAutoFlush {
             return send(task: task)
         } else {
-            tasks.append(task)
+            tasksLock.lock()
+            storedTasks.append(task)
+            tasksLock.unlock()
             return nil
         }
     }
     
     func flush() {
-        while !tasks.isEmpty {
-            let task = tasks.removeFirst()
+        tasksLock.lock()
+        let pending = storedTasks
+        storedTasks.removeAll()
+        tasksLock.unlock()
+        for task in pending {
             send(task: task)
         }
     }

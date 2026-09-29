@@ -18,7 +18,7 @@ import Foundation
 
 /// ログレベルを表す列挙型です。
 @objc(KRTLogLevel)
-public enum LogLevel: Int, Comparable {
+public enum LogLevel: Int, Comparable, Sendable {
     /// Off
     case off
     /// Error

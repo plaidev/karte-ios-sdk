@@ -101,6 +101,10 @@ public struct SystemInfo: Codable {
     }
 }
 
+// MARK: - Sendable
+
+extension SystemInfo: Sendable {}
+
 extension Resolver {
     static func registerSystemInfo() {
         register(String.self, name: "system_info.os") {

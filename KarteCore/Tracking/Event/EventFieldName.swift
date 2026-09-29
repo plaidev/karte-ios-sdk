@@ -61,6 +61,8 @@ public extension EventFieldName {
     static let title        = EventFieldName("title")
     // attStatusフィールド
     static let attStatus    = EventFieldName("att_status")
+    /// flags フィールド
+    static let flags        = EventFieldName("flags")
 }
 
 extension EventFieldName {

@@ -2,16 +2,28 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.39.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.40.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.29.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.16.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.15.0 |
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.16.0 |
 | KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.9.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.13.0 |
-| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.16.0 |
+| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.17.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.5.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.3.0 |
+
+# Releases - 2026.09.29
+## Version 2.37.0
+
+### Core 2.40.0
+**🔨CHANGED**
+- SDK内部向けのFeature Flagを追加しました。これはSDKの内部的な仕組みであり、SDKの利用者様向けの機能ではありません。詳細は[SDK内部のFeature Flagについて](https://app.developers.karte.io/common-concepts/internal-feature-flags)をご覧ください。
+- Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
+
+### Utilities 3.17.0
+**🔨CHANGED**
+- Swift 6におけるSwift Concurrency対応の準備として、一部の public 型に `Sendable` への準拠を追加しました。
 
 # Releases - 2026.09.16
 ## Version 2.36.0
@@ -795,6 +807,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 **🔨CHANGED**
 - identifyイベントの第一引数「user_id」パラメータの付与を必須にしました。
+  - userId引数を取らない[`Tracker.identify(values)`](https://github.com/plaidev/karte-ios-sdk/blob/Core-2.19.0/KarteCore/Tracking/Tracker.swift#L90-L94)は非推奨となりました。[イベント送信するためのコードを追加](https://app.developers.karte.io/ios-sdk/tracking-ios-sdk#2-%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E9%80%81%E4%BF%A1%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AE%E3%82%B3%E3%83%BC%E3%83%89%E3%82%92%E8%BF%BD%E5%8A%A0)を参考に新しいメソッドに移行してください。
 - identifyイベントの第一引数「user_id」パラメータに空文字が指定された場合に、イベントが送信されないようにしました。
 - viewイベントの第一引数「view_name」パラメータに空文字が指定された場合に、イベントが送信されないようにしました。
 - イベント名とフィールド名に非推奨な名前が使われていた場合に、warningログを出力するようにしました。
@@ -968,7 +981,8 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 # Releases - 2020.09.17
 ### InAppMessaging 2.8.0
 **🎉FEATURE**
-- App-Bound Domains を有効にしたアプリケーションでアプリ内メッセージが動作するようにしました。（InAppMessaging 2.8.0 を利用するには Xcode 12以上 が必要です。）
+- App-Bound Domains を有効にしたアプリケーションでアプリ内メッセージが動作するようにしました。
+  - App-Bound Domains を有効にしている場合は、設定が必要になります。設定方法については、[App-Bound Domains を有効にした場合はどうなりますか？](https://app.developers.karte.io/app-faq/app-faq-support-for-app-bound-domains) をご覧ください。
 
 # Releases - 2020.09.12
 ### InAppMessaging 2.7.0
@@ -1168,7 +1182,7 @@ iOS16上で接客内の動画再生時に接客が閉じてしまう問題に対
 
 **🔨CHANGED**
 - インターフェースを全面的に見直しました。
-  詳細は [SDK v1からv2のアップグレード方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-fields-ios-sdk) をご覧ください。
+  詳細は [SDK v1からv2のアップグレード方法](https://app.developers.karte.io/ios-sdk-appendix/appendix-upgrade-ios-sdk-v2) をご覧ください。
 - 複数アプリケーションキーへの対応を廃止しました。
 
 ### InAppMessaging 2.0.0

@@ -17,7 +17,7 @@
 import Foundation
 import KarteUtilities
 
-internal struct OptOutSettings {
+internal struct OptOutSettings: Sendable {
     var isEnabled: Bool {
         get {
             UserDefaults.standard.object(forKey: .optout) as? Bool ?? false

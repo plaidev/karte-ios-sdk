@@ -146,3 +146,7 @@ extension Logger {
         }
     }
 }
+
+// MARK: - Sendable
+
+extension Logger.Tag: Sendable {}

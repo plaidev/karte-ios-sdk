@@ -85,6 +85,7 @@ public class ExperimentalConfiguration: Configuration {
         configuration.baseURL = baseURL
         configuration.dataLocation = dataLocation
         configuration.overlayBaseURL = overlayBaseURL
+        configuration.nativeSDKConfigCDNBaseURL = nativeSDKConfigCDNBaseURL
         configuration.isDryRun = isDryRun
         configuration.isOptOut = isOptOut
         configuration.isSendInitializationEventEnabled = isSendInitializationEventEnabled

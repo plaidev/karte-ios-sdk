@@ -67,6 +67,10 @@ public struct AppInfo: Codable {
     }
 }
 
+// MARK: - Sendable
+
+extension AppInfo: Sendable {}
+
 extension Resolver {
     static func registerAppInfo() {
         register(String.self, name: "app_info.version_name") {

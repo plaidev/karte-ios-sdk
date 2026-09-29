@@ -17,7 +17,7 @@
 import Foundation
 
 /// この構造体はSQLiteカラムの情報を保持します。
-public struct SQLiteColumn {
+public struct SQLiteColumn: Sendable {
     /// カラム名
     public var name: String
     /// カラム型

@@ -27,6 +27,7 @@ class ExperimentalConfigurationTestsSpec: XCTestCase {
         XCTAssertEqual(configuration.baseURL.absoluteString, "https://b.karte.io", "baseURL should be https://b.karte.io")
         XCTAssertEqual(configuration.dataLocation, "tw", "dataLocation should be tw")
         XCTAssertEqual(configuration.overlayBaseURL.absoluteString, "https://cf-native.karte.io", "overlayBaseURL should be https://cf-native.karte.io")
+        XCTAssertEqual(configuration.nativeSDKConfigCDNBaseURL.absoluteString, "https://cdn-native-sdk-config.karte.io", "nativeSDKConfigCDNBaseURL should be https://cdn-native-sdk-config.karte.io")
         XCTAssertFalse(configuration.isDryRun, "isDryRun should be false")
         XCTAssertFalse(configuration.isOptOut, "isOptOut should be false")
         XCTAssertEqual(configuration.operationMode, .default, "operationMode should be default")
@@ -43,6 +44,7 @@ class ExperimentalConfigurationTestsSpec: XCTestCase {
             configuration.baseURL = URL(string: "https://example.com")!
             configuration.dataLocation = "jp"
             configuration.overlayBaseURL = URL(string: "https://example.com")!
+            configuration.nativeSDKConfigCDNBaseURL = URL(string: "https://cdn.example.com")!
             configuration.isDryRun = true
             configuration.isOptOut = true
             configuration.operationMode = .ingest
@@ -56,6 +58,7 @@ class ExperimentalConfigurationTestsSpec: XCTestCase {
         XCTAssertEqual(configuration.baseURL.absoluteString, "https://example.com", "baseURL should be https://example.com")
         XCTAssertEqual(configuration.dataLocation, "jp", "dataLocation should be jp")
         XCTAssertEqual(configuration.overlayBaseURL.absoluteString, "https://example.com", "overlayBaseURL should be https://example.com")
+        XCTAssertEqual(configuration.nativeSDKConfigCDNBaseURL.absoluteString, "https://cdn.example.com", "nativeSDKConfigCDNBaseURL should be https://cdn.example.com")
         XCTAssertTrue(configuration.isDryRun, "isDryRun should be true")
         XCTAssertTrue(configuration.isOptOut, "isOptOut should be true")
         XCTAssertEqual(configuration.operationMode, .ingest, "operationMode should be ingest")
@@ -81,6 +84,7 @@ class ExperimentalConfigurationTestsSpec: XCTestCase {
         XCTAssertEqual(configuration.baseURL.absoluteString, "https://b-jp.karte.io", "baseURL should be https://b-jp.karte.io")
         XCTAssertEqual(configuration.dataLocation, "jp", "dataLocation should be jp")
         XCTAssertEqual(configuration.overlayBaseURL.absoluteString, "https://cf-native.karte.io", "overlayBaseURL should be https://cf-native.karte.io")
+        XCTAssertEqual(configuration.nativeSDKConfigCDNBaseURL.absoluteString, "https://cdn-native-sdk-config.karte.io", "nativeSDKConfigCDNBaseURL should be https://cdn-native-sdk-config.karte.io")
         XCTAssertFalse(configuration.isDryRun, "isDryRun should be false")
         XCTAssertFalse(configuration.isOptOut, "isOptOut should be false")
         XCTAssertEqual(configuration.operationMode, .default, "operationMode should be default")
