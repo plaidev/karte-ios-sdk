@@ -99,6 +99,51 @@ class TrackClientTests: XCTestCase {
         wait(for: [exp], timeout: 20)
     }
 
+    private final class CallbackQueuePoll {
+        let lock = NSLock()
+        var stop = false
+    }
+
+    private func waitOnCallbackQueue(
+        timeout: TimeInterval = 10,
+        file: StaticString = #filePath,
+        line: UInt = #line,
+        until ready: @escaping () -> Bool,
+        then action: (() -> Void)? = nil
+    ) {
+        let finished = expectation(description: "callbackQueue")
+        finished.assertForOverFulfill = false
+        let poll = CallbackQueuePoll()
+
+        func check() {
+            poll.lock.lock()
+            let shouldStop = poll.stop
+            poll.lock.unlock()
+            if shouldStop {
+                return
+            }
+            if ready() {
+                finished.fulfill()
+                return
+            }
+            TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .milliseconds(20), execute: check)
+        }
+
+        TrackClient.shared.callbackQueue.async(execute: check)
+        let result = XCTWaiter.wait(for: [finished], timeout: timeout)
+        poll.lock.lock()
+        poll.stop = true
+        poll.lock.unlock()
+        if result != .completed {
+            continueAfterFailure = false
+            XCTFail("timed out waiting on callbackQueue", file: file, line: line)
+            return
+        }
+        if let action {
+            TrackClient.shared.callbackQueue.sync(execute: action)
+        }
+    }
+
     func testTeardown() throws {
         let configuration = Configuration { configuration in
             // setup時に自動送信される初期イベントを無効化する
@@ -107,19 +152,21 @@ class TrackClientTests: XCTestCase {
         KarteApp.setup(appKey: APP_KEY, configuration: configuration)
 
         // teardownで、isReachableがtrueからfalseに戻ることを検証するためのセットアップ
-        let reachable = expectation(description: "Reachability state updated")
         reachabilityService.notify(true)
-        TrackClient.shared.callbackQueue.async {
-            reachable.fulfill()
-        }
-        wait(for: [reachable], timeout: 1)
+        waitOnCallbackQueue(until: {
+            TrackClient.shared.isReachable
+        })
 
         // isSending、tasks、stateを送信中の状態にし、teardownで初期化されることを検証するためのセットアップ
+        // session.send は clientQueue に積まれる。次のテストがモックを差し替える前に、このセッションが受け取るまで待つ。
         session.isAutoFlush = false
         let request = try XCTUnwrap(
             TrackRequest(app: KarteApp.shared, commands: [buildCommand()])
         )
         TrackClient.shared.enqueue(request: request) { _ in }
+        waitOnCallbackQueue(until: {
+            self.session.tasks.count == 1
+        })
 
         XCTAssertNotNil(TrackClient.shared.reachability)
         XCTAssertTrue(TrackClient.shared.isReachable)
@@ -154,60 +201,70 @@ class TrackClientTests: XCTestCase {
         session.isAutoFlush = false
         reachabilityService.notify(true)
         
+        let noCommandsNotificationExpectation = expectation(forNotification: TrackingAgent.trackingAgentHasNoCommandsNotification, object: nil)
+
         Tracker.view("test1")
         Tracker.view("test2")
         Tracker.view("test3")
         Tracker.view("test4")
 
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(1)) {
-            XCTAssertEqual(self.session.tasks.count, 1)
-            XCTAssertEqual(TrackClient.shared.tasks.count, 3)
-            XCTAssertEqual(TrackClient.shared.state, .running)
+        waitOnCallbackQueue(until: {
+            self.session.tasks.count == 1
+                && TrackClient.shared.tasks.count == 3
+                && TrackClient.shared.state == .running
+        }, then: {
             self.session.flush()
-        }
-        
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(3)) {
-            XCTAssertEqual(self.session.tasks.count, 1)
-            XCTAssertEqual(TrackClient.shared.tasks.count, 2)
-            XCTAssertEqual(TrackClient.shared.state, .running)
+        })
+
+        waitOnCallbackQueue(until: {
+            self.session.tasks.count == 1
+                && TrackClient.shared.tasks.count == 2
+                && TrackClient.shared.state == .running
+        }, then: {
             self.reachabilityService.notify(false)
-        }
-        
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(5)) {
-            XCTAssertEqual(self.session.tasks.count, 1)
-            XCTAssertEqual(TrackClient.shared.tasks.count, 2)
-            XCTAssertEqual(TrackClient.shared.state, .running)
-            self.session.flush()
-        }
+        })
 
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(7)) {
-            XCTAssertEqual(self.session.tasks.count, 0)
-            XCTAssertEqual(TrackClient.shared.tasks.count, 1)
-            XCTAssertEqual(TrackClient.shared.state, .running)
+        waitOnCallbackQueue(until: {
+            self.session.tasks.count == 1
+                && TrackClient.shared.tasks.count == 2
+                && TrackClient.shared.state == .running
+                && !TrackClient.shared.isReachable
+        }, then: {
+            self.session.flush()
+        })
+
+        waitOnCallbackQueue(until: {
+            self.session.tasks.count == 0
+                && TrackClient.shared.tasks.count == 1
+                && TrackClient.shared.state == .running
+        }, then: {
             self.reachabilityService.notify(true)
-        }
-        
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(9)) {
-            XCTAssertEqual(self.session.tasks.count, 1)
-            XCTAssertEqual(TrackClient.shared.tasks.count, 1)
-            XCTAssertEqual(TrackClient.shared.state, .running)
-            self.session.flush()
-        }
-        
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(11)) {
-            XCTAssertEqual(self.session.tasks.count, 1)
-            XCTAssertEqual(TrackClient.shared.tasks.count, 1)
-            XCTAssertEqual(TrackClient.shared.state, .running)
-            self.session.flush()
-        }
+        })
 
-        TrackClient.shared.callbackQueue.asyncAfter(deadline: .now() + .seconds(13)) {
-            XCTAssertEqual(self.session.tasks.count, 0)
-            XCTAssertEqual(TrackClient.shared.tasks.count, 0)
-            XCTAssertEqual(TrackClient.shared.state, .waiting)
-        }
-        
-        waitTrackingAgentHasNoCommandsNotification()
+        waitOnCallbackQueue(until: {
+            self.session.tasks.count == 1
+                && TrackClient.shared.tasks.count == 1
+                && TrackClient.shared.state == .running
+                && TrackClient.shared.isReachable
+        }, then: {
+            self.session.flush()
+        })
+
+        waitOnCallbackQueue(until: {
+            self.session.tasks.count == 1
+                && TrackClient.shared.tasks.count == 1
+                && TrackClient.shared.state == .running
+        }, then: {
+            self.session.flush()
+        })
+
+        waitOnCallbackQueue(until: {
+            self.session.tasks.count == 0
+                && TrackClient.shared.tasks.count == 0
+                && TrackClient.shared.state == .waiting
+        })
+
+        wait(for: [noCommandsNotificationExpectation], timeout: 5)
         self.removeStub(self.stub)
     }
     
@@ -258,16 +315,16 @@ class TrackClientTests: XCTestCase {
         // circuitBreakerが無効の時はmaxまでリトライする
         circuitBreaker.disable = true
         self.maxRetryCount = 5
-        Tracker.view("test1")
         self.exp = keyValueObservingExpectation(for: circuitBreaker.counter, keyPath: "count", expectedValue: maxRetryCount + 1)
+        Tracker.view("test1")
         wait(for: [self.exp], timeout: 20)
         XCTAssertTrue(self.circuitBreaker.canRequest)
         
         // circuitBreakerが有効の時は域値まで制限される
         circuitBreaker.reset()
         circuitBreaker.disable = false
-        Tracker.view("test2")
         self.exp = keyValueObservingExpectation(for: circuitBreaker.counter, keyPath: "count", expectedValue: circuitBreaker.threshold)
+        Tracker.view("test2")
         wait(for: [self.exp], timeout: 20)
         XCTAssertFalse(self.circuitBreaker.canRequest)
         
