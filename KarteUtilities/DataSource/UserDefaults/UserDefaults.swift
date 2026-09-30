@@ -16,6 +16,24 @@
 
 import Foundation
 
+// ネームスペースキー単位で、ロックにより操作を直列化することで、UserDefaultsの拡張メソッドをスレッドセーフにする。
+private enum UserDefaultsNamespaceLocks {
+    private static let defaultLock = NSLock()
+    private static let variablesLock = NSLock()
+    private static let configLock = NSLock()
+
+    static func lock(for namespace: UserDefaultsNamespace) -> NSLock {
+        switch namespace {
+        case .default:
+            defaultLock
+        case .variables:
+            variablesLock
+        case .config:
+            configLock
+        }
+    }
+}
+
 public enum UserDefaultsNamespace: String, Sendable {
     case `default`
     case variables
@@ -28,6 +46,10 @@ extension UserDefaults {
     ///   - value: キーに関連付けて保存する値
     ///   - key: `UserDefaults` にアクセスするためのキー
     public func set(_ value: Any?, forKey key: UserDefaultsKey) {
+        let lock = UserDefaultsNamespaceLocks.lock(for: key.namespace)
+        lock.lock()
+        defer { lock.unlock() }
+
         var root = loadRootObject(forNamespace: key.namespace)
         if let value = value {
             root[key.key] = value
@@ -42,6 +64,10 @@ extension UserDefaults {
     ///   - keyValue: 保存するキーと値を持った `Dictionary`
     ///   - namespace: 保存先のネームスペースキー
     public func bulkSet(_ keyValue: [String: Any?], forNameSpace namespace: UserDefaultsNamespace) {
+        let lock = UserDefaultsNamespaceLocks.lock(for: namespace)
+        lock.lock()
+        defer { lock.unlock() }
+
         var root = loadRootObject(forNamespace: namespace)
         for (key, value) in keyValue {
             if let value = value {
@@ -88,6 +114,10 @@ extension UserDefaults {
     /// 指定されたネームスペースに関連付けられた全ての値を削除します。
     /// - Parameter namespace: `UserDefaults` を検索するためのネームスペースキー
     public func removeObject(forNamespace namespace: UserDefaultsNamespace) {
+        let lock = UserDefaultsNamespaceLocks.lock(for: namespace)
+        lock.lock()
+        defer { lock.unlock() }
+
         let rootKey = makeRootKey(forNamespace: namespace)
         removeObject(forKey: rootKey)
     }

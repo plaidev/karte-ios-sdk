@@ -9,9 +9,15 @@
 | KarteVisualTracking | ビジュアルトラッキング機能を提供します。 | 2.16.0 |
 | KarteInAppFrame | アプリ内埋め込みコンポーネント機能を提供します。 | 0.9.0 |
 | KarteCrashReporting | クラッシュイベントのトラッキング機能を提供します。 | 2.13.0 |
-| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.17.0 |
+| KarteUtilities | KarteCore モジュール等が利用するUtility機能を提供します。通常直接参照する必要はありません。 | 3.18.0 |
 | KarteNotificationServiceExtension | リッチプッシュ通知機能を提供します。 | 1.5.0 |
 | KarteDebugger | KARTE for Appのデバッグ機能を提供します。 | 1.3.0 |
+
+# Releases - xxxx.xx.xx
+
+### Utilities 3.18.0
+**🔨CHANGED**
+- `UserDefaults`の拡張メソッドをスレッドセーフにしました。
 
 # Releases - 2026.09.29
 ## Version 2.37.0
