@@ -1,4 +1,4 @@
-<a href="https://karte.io"><img src="https://karte.io/assets/images/common/logo_black.svg" width="270" height="80"></img></a>
+<a href="https://karte.io"><img src="https://karte.io/assets/images/common/logo-black.svg" width="270" height="80"></img></a>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/plaidev/karte-ios-sdk/blob/master/LICENSE)
 
