@@ -21,10 +21,6 @@ internal struct ClassLoader {
         load("X1VJUmVtb3RlVmlldw==")
     }
 
-    static var remoteKeyboardWindowClass: AnyClass? {
-        load("VUlSZW1vdGVLZXlib2FyZFdpbmRvdw==")
-    }
-
     static var printPanelViewControllerClass: AnyClass? {
         load("VUlQcmludFBhbmVsVmlld0NvbnRyb2xsZXI=")
     }

@@ -238,8 +238,8 @@ extension InAppMessaging {
             return
         }
 
-        if let cls = ClassLoader.remoteKeyboardWindowClass,
-           window.isKind(of: cls) {
+        // NOTE: キーボードや写真ピッカーなど、rootViewControllerを持たないシステムUIのWindow表示時にはreturn
+        guard window.rootViewController != nil else {
             return
         }
 
