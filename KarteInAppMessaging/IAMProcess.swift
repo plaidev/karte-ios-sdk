@@ -57,8 +57,8 @@ internal class IAMProcess: NSObject {
         webView?.handle(response: response)
     }
 
-    func handleChangePv() {
-        webView?.handleChangePv()
+    func handleChangePv(pvId: String) {
+        webView?.handleChangePv(pvId: pvId)
     }
 
     func handleView(values: [String: JSONValue]) {

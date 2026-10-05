@@ -369,7 +369,12 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
 
     public func reset(sceneId: SceneId) {
         if let process = pool.retrieveProcess(sceneId: sceneId) {
-            process.handleChangePv()
+            guard let pvService = app?.pvService else {
+                Logger.warn(tag: .inAppMessaging, message: "PvService is not available.")
+                return
+            }
+            let pvId = pvService.pvId(forSceneId: sceneId).identifier
+            process.handleChangePv(pvId: pvId)
             process.dismiss(mode: .soft)
         }
     }

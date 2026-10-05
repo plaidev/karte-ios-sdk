@@ -2,7 +2,7 @@
 
 | モジュール名 | Description | 最新のバージョン |
 | :-- | :-- | :-- |
-| KarteCore | イベントトラッキング機能を提供します。 | 2.40.0 |
+| KarteCore | イベントトラッキング機能を提供します。 | 2.41.0 |
 | KarteInAppMessaging | アプリ内メッセージ機能を提供します。 | 2.30.0 |
 | KarteRemoteNotification | プッシュ通知の受信および効果測定機能を提供します。 | 2.16.0 |
 | KarteVariables | 設定値配信機能を提供します。 | 2.15.0 |
@@ -15,7 +15,14 @@
 
 # Releases - xxxx.xx.xx
 
+### Core 2.41.0
+**💊FIXED**
+- 新しい配信方式を利用した接客表示において、[接客表示制御](https://support.karte.io/post/3JaA3BlXQea59AaPGxD3bb)が正しく機能するよう対応しました。
+
 ### InAppMessaging 2.30.0
+**💊FIXED**
+- 新しい配信方式を利用した接客表示において、[接客表示制御](https://support.karte.io/post/3JaA3BlXQea59AaPGxD3bb)が正しく機能するよう対応しました。
+
 **🔨CHANGED**
 - システム UI 等、rootViewController を持たない Window 表示時に、接客用 WebView が不要に作成されないよう改善しました。
 

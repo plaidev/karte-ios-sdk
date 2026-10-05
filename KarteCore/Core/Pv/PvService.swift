@@ -70,16 +70,19 @@ public class PvService {
     ///
     /// - Parameter sceneId: `SceneId`
     public func changePv(_ sceneId: SceneId) {
-        resetIfNeeded(forSceneId: sceneId)
+        // NOTE: クライアントアプリの実装によっては、画面遷移前の初期画面表示時に view イベントが送信される。
+        // 現在の PvId と originalPvId が一致している場合は画面遷移に伴う変更ではないため、モジュールのリセットをスキップする。
+        let shouldResetModules = pvId(forSceneId: sceneId) != originalPvId(forSceneId: sceneId)
+        // NOTE: InAppMessaging の `reset` で、現在の PvId が edge.js の `handleChangePv` の引数として渡される。
+        // 更新後の PvId を渡す必要があるため、`resetModules` より先に `renewPvId` を呼ぶ必要がある。
         renewPvId(forSceneId: sceneId)
-    }
-
-    private func resetIfNeeded(forSceneId sceneId: SceneId) {
-        let pvId = self.pvId(forSceneId: sceneId)
-        let originalPvId = self.originalPvId(forSceneId: sceneId)
-        guard pvId != originalPvId else {
+        guard shouldResetModules else {
             return
         }
+        resetModules(forSceneId: sceneId)
+    }
+
+    private func resetModules(forSceneId sceneId: SceneId) {
         KarteApp.shared.modules.forEach { module in
             if case let .action(module) = module {
                 module.reset(sceneId: sceneId)
