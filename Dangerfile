@@ -5,9 +5,6 @@ $diff_files = (git.added_files + git.modified_files + git.deleted_files)
 $modules = ["Utilities", "Core", "InAppMessaging", "RemoteNotification", "Variables", "VisualTracking", "CrashReporting", "NotificationServiceExtension"]
 $formatted_tags = git.tags.map { |tag| tag.strip }
 
-$is_develop_pr = github.branch_for_base == "develop" && github.branch_for_head.start_with?("feature/")
-$is_hotfix_pr = (github.branch_for_base == "master" || github.branch_for_base == "develop") && github.branch_for_head.start_with?("hotfix/")
-
 #
 # Swiftlint
 #
@@ -34,52 +31,37 @@ end
 def get_lastest_release_spm_version()
     get_lastest_release_version("")
 end
-# バージョン文字列をバンプアップする
-def bump_version(base_version)
+def next_patch_version(base_version)
     versions = base_version.split('.')
-    if $is_develop_pr
-        versions[1] = (versions[1].to_i + 1).to_s
-        versions[2] = "0"
-    elsif $is_hotfix_pr
-        versions[2] = (versions[2].to_i + 1).to_s
-    end
+    versions[2] = (versions[2].to_i + 1).to_s
     versions.join('.')
 end
 
-if ($is_develop_pr || $is_hotfix_pr)
-    $modules.each { |module_name|
-        if !$diff_files.include?("Karte#{module_name}/**")
-            next
-        end
-    
-        last_release_version = get_lastest_release_module_version(module_name)
-        if last_release_version.nil?
-            warn "#{module_name} release history not found.\nIgnore this warning if you add a new module."
-            next
-        end
-        
-        next_version = bump_version(last_release_version)
-        current_version = File.read("Karte#{module_name}/Version.xcconfig")[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
-        if Gem::Version.new(next_version) > Gem::Version.new(current_version)
-            warn format(
-                "Version number should be bumped. Run this command:\n`ruby scripts/bump_version.rb set-version -p Karte.xcodeproj -t %<module>s -n %<version>s`", 
-                module: "Karte#{module_name}",
-                version: next_version
-            )
-        end
-    }
-    
-    spm_last_release_version = get_lastest_release_spm_version()
-    spm_next_version = bump_version(spm_last_release_version)
-    spm_current_version = File.read(".spm-version")
-    if Gem::Version.new(spm_next_version) > Gem::Version.new(spm_current_version)
-        warn "Version number should be bumped. Run this command:\n`echo -n #{spm_next_version} > .spm-version`"
+$modules.each { |module_name|
+    if !$diff_files.any? { |file| file.start_with?("Karte#{module_name}/") }
+        next
     end
+
+    last_release_version = get_lastest_release_module_version(module_name)
+    if last_release_version.nil?
+        warn "#{module_name} release history not found.\nIgnore this warning if you add a new module."
+        next
+    end
+
+    minimum_required_version = next_patch_version(last_release_version)
+    current_version = File.read("Karte#{module_name}/Version.xcconfig")[/^\s*MARKETING_VERSION\s*=\s*(.+)$/, 1].strip
+    if Gem::Version.new(minimum_required_version) > Gem::Version.new(current_version)
+        warn "Karte#{module_name} version should be greater than the latest release (#{last_release_version})."
+    end
+}
+
+spm_last_release_version = get_lastest_release_spm_version()
+spm_minimum_required_version = next_patch_version(spm_last_release_version)
+spm_current_version = File.read(".spm-version")
+if Gem::Version.new(spm_minimum_required_version) > Gem::Version.new(spm_current_version)
+    warn ".spm-version should be greater than the latest release (#{spm_last_release_version})."
 end
 
-if ($is_develop_pr || $is_hotfix_pr)
-    if git.modified_files.include?("CHANGELOG.md")
-        return
-    end
+if !git.modified_files.include?("CHANGELOG.md")
     warn "Please update CHANGELOG.md"
 end

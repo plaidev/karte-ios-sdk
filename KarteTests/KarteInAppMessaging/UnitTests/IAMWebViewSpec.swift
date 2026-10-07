@@ -20,12 +20,22 @@ import WebKit
 @testable import KarteCore
 @testable import KarteInAppMessaging
 
+@MainActor
 fileprivate class SpyIAMWebView: IAMWebView {
     var loadCallCount = 0
+    var evaluatedScripts: [String] = []
 
     override func load(_ request: URLRequest) -> WKNavigation? {
         loadCallCount += 1
         return nil
+    }
+
+    override func evaluateJavaScript(
+        _ javaScriptString: String,
+        completionHandler: (@MainActor @Sendable (Any?, (any Error)?) -> Void)? = nil
+    ) {
+        evaluatedScripts.append(javaScriptString)
+        completionHandler?(nil, nil)
     }
 }
 
@@ -41,6 +51,7 @@ class IAMWebViewSpec: XCTestCase {
     let overlayURL = URL(string: "https://cf-native.karte.io/v0/native/overlay")!
     // swiftlint:disable:next force_unwrapping
     let dummyURL = URL(string: "https://example.com")!
+    let pvId = "test-pv-id"
     let networkError = NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet)
     let emptyViewValues: [String: JSONValue] = [:]
 
@@ -122,5 +133,12 @@ class IAMWebViewSpec: XCTestCase {
 
         nonOverlayWebView.handle(response: EMPTY_RESPONSE)
         XCTAssertEqual(nonOverlayWebView.loadCallCount, countAfterInitial)
+    }
+
+    // MARK: - handleChangePv
+
+    func test_handleChangePv_evaluatesJavaScriptWithPvId() {
+        webView.handleChangePv(pvId: pvId)
+        XCTAssertEqual(webView.evaluatedScripts, ["tracker.handleChangePv('test-pv-id')"])
     }
 }

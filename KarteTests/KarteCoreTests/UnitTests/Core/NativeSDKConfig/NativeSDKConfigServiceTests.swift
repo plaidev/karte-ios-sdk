@@ -69,10 +69,8 @@ class NativeSDKConfigServiceTests: XCTestCase {
         let trackBuilder = StubBuilder(spec: Self.self, resource: .empty).build()
         let module = StubActionModule(metadata: name, builder: trackBuilder)
 
-        let fetchCompletedExp = expectation(description: "fetch completed")
         let fetcher = StubNativeSDKConfigFetcher(
-            result: .success(NativeSDKConfigResponse(flags: ["feature_a": true, "feature_b": false], ttl: 1800)),
-            onFetch: { fetchCompletedExp.fulfill() }
+            result: .success(NativeSDKConfigResponse(flags: ["feature_a": true, "feature_b": false], ttl: 1800))
         )
         let service = NativeSDKConfigService(
             appKey: APP_KEY,
@@ -82,7 +80,8 @@ class NativeSDKConfigServiceTests: XCTestCase {
         )
 
         service.fetchIfNeeded()
-        wait(for: [fetchCompletedExp], timeout: 5.0)
+        // NOTE: 最後に`_fetch_native_sdk_config`イベントが送信されるので、それが完了するまで待機する。
+        module.wait(timeout: 5.0)
 
         XCTAssertEqual(fetcher.requests.count, 1)
         XCTAssertEqual(fetcher.requests[0].baseURL, Self.cdnURL)
@@ -96,7 +95,6 @@ class NativeSDKConfigServiceTests: XCTestCase {
         XCTAssertFalse(service.isEnabled("feature_b", default: true))
 
         // NOTE: _fetch_native_sdk_configイベントが送信される。
-        module.wait(timeout: 5.0)
         let event = try XCTUnwrap(module.event(.fetchNativeSDKConfig))
         XCTAssertEqual(event.eventName, .fetchNativeSDKConfig)
         XCTAssertTrue(try XCTUnwrap(event.values.bool(forKeyPath: "flags.feature_a")))

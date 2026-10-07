@@ -120,9 +120,10 @@ internal class IAMWebView: WKWebView {
         }
     }
 
-    func handleChangePv() {
-        evaluateJavaScript("tracker.handleChangePv()", completionHandler: nil)
-        Logger.verbose(tag: .inAppMessaging, message: "Evaluate handleChangePv()")
+    func handleChangePv(pvId: String) {
+        let quotedPvId = quotedString(pvId)
+        evaluateJavaScript("tracker.handleChangePv(\(quotedPvId))", completionHandler: nil)
+        Logger.verbose(tag: .inAppMessaging, message: "Evaluate handleChangePv(\(pvId))")
     }
 
     func handleView(values: [String: JSONValue]) {
@@ -246,6 +247,10 @@ extension IAMWebView {
             return nil
         }
         return data.base64EncodedString(options: .endLineWithLineFeed)
+    }
+
+    private func quotedString(_ string: String) -> String {
+        return "'\(string)'"
     }
 
     private func convertStringOrUndefined(_ string: String?) -> String {

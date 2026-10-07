@@ -238,8 +238,8 @@ extension InAppMessaging {
             return
         }
 
-        if let cls = ClassLoader.remoteKeyboardWindowClass,
-           window.isKind(of: cls) {
+        // NOTE: キーボードや写真ピッカーなど、rootViewControllerを持たないシステムUIのWindow表示時にはreturn
+        guard window.rootViewController != nil else {
             return
         }
 
@@ -369,7 +369,12 @@ extension InAppMessaging: ActionModule, UserModule, TrackModule {
 
     public func reset(sceneId: SceneId) {
         if let process = pool.retrieveProcess(sceneId: sceneId) {
-            process.handleChangePv()
+            guard let pvService = app?.pvService else {
+                Logger.warn(tag: .inAppMessaging, message: "PvService is not available.")
+                return
+            }
+            let pvId = pvService.pvId(forSceneId: sceneId).identifier
+            process.handleChangePv(pvId: pvId)
             process.dismiss(mode: .soft)
         }
     }
